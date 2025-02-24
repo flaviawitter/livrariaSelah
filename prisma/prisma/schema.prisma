@@ -7,115 +7,120 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model bandeiracartao {
-  id        Int    @id @default(autoincrement())
-  descricao String @db.VarChar(50)
+model TipoTelefone {
+  id       Int    @id @default(autoincrement())
+  nome     String @unique
+  telefones Telefones[]
 }
 
-model cartao {
-  id               Int     @id @default(autoincrement())
-  apelidoCartao    String  @db.VarChar(100)
-  numero           String  @db.VarChar(19)
-  nomeTitular      String  @db.VarChar(100)
-  codSeguranca     String  @db.VarChar(4)
+model Telefones {
+  id         Int    @id @default(autoincrement())
+  ddd        String @db.Char(3)
+  numero     String @db.VarChar(20)
+  tipoTelefoneId Int
+  tipoTelefone   TipoTelefone @relation(fields: [tipoTelefoneId], references: [id])
+  clienteId   Int?  // ✅ Relacionamento com Cliente
+  cliente     Cliente? @relation(fields: [clienteId], references: [id])}
+
+model Cliente {
+  id             Int      @id @default(autoincrement())
+  nome           String   @db.VarChar(100)
+  cpf            String   @unique @db.VarChar(14)
+  email          String   @db.VarChar(100)
+  senha          String   @db.VarChar(64)
+  genero         Genero
+  dataNascimento DateTime?
+  telefones   Telefones[]  // ✅ Um cliente pode ter vários telefones
+  statusAtivo    Boolean  @default(true)
+  enderecos      Endereco[]
+  cartoes        Cartao[]
+}
+
+model BandeiraCartao {
+  id         Int    @id @default(autoincrement())
+  descricao  String @db.VarChar(50)
+  cartoes    Cartao[]
+}
+
+model Cartao {
+  id               Int    @id @default(autoincrement())
+  apelidoCartao    String @db.VarChar(100)
+  numero           String @db.VarChar(19)
+  nomeTitular      String @db.VarChar(100)
+  codSeguranca     String @db.VarChar(4)
   preferencial     Boolean @default(false)
   clienteId        Int
   bandeiraCartaoId Int
-
-  @@index([bandeiraCartaoId], map: "Cartao_bandeiraCartaoId_fkey")
-  @@index([clienteId], map: "Cartao_clienteId_fkey")
+  cliente          Cliente @relation(fields: [clienteId], references: [id])
+  bandeiraCartao   BandeiraCartao @relation(fields: [bandeiraCartaoId], references: [id])
 }
 
-model cidades {
+model Pais {
+  id    Int    @id @default(autoincrement())
+  nome  String @db.VarChar(255)
+  estados Estados[]
+}
+
+model Estados {
+  id      Int    @id @default(autoincrement())
+  nome    String @db.VarChar(100)
+  paisId  Int
+  pais    Pais   @relation(fields: [paisId], references: [id])
+  cidades Cidades[]
+}
+
+model Cidades {
+  id         Int    @id @default(autoincrement())
+  nome       String @db.VarChar(100)
+  estadoId   Int
+  estado     Estados @relation(fields: [estadoId], references: [id])
+  enderecos  Endereco[]
+}
+
+model TipoEndereco {
   id       Int    @id @default(autoincrement())
-  nome     String @db.VarChar(100)
-  estadoId Int
-
-  @@index([estadoId], map: "Cidades_estadoId_fkey")
+  descricao String @db.VarChar(50)
+  enderecos Endereco[]
 }
 
-model cliente {
-  id             Int            @id @default(autoincrement())
-  nome           String         @db.VarChar(100)
-  cpf            String         @unique(map: "Cliente_cpf_key") @db.VarChar(14)
-  email          String         @db.VarChar(100)
-  senha          String         @db.VarChar(64)
-  genero         cliente_genero
-  dataNascimento DateTime?
-  statusAtivo    Boolean        @default(true)
+model TipoLogradouro {
+  id       Int    @id @default(autoincrement())
+  descricao String @db.VarChar(50)
+  enderecos Endereco[]
 }
 
-model endereco {
-  id               Int     @id @default(autoincrement())
-  cep              String? @db.VarChar(10)
-  logradouro       String? @db.VarChar(100)
-  numero           Int?
-  bairro           String? @db.VarChar(50)
-  clienteId        Int
-  tipoEnderecoId   Int
+model TipoResidencia {
+  id       Int    @id @default(autoincrement())
+  descricao String @db.VarChar(50)
+  enderecos Endereco[]
+}
+
+model Endereco {
+  id              Int    @id @default(autoincrement())
+  cep            String? @db.VarChar(10)
+  logradouro     String? @db.VarChar(100)
+  numero         Int?
+  bairro         String? @db.VarChar(50)
+  clienteId      Int
+  tipoEnderecoId Int
   tipoLogradouroId Int
   tipoResidenciaId Int
-  cidadeId         Int
-  observacao       String?
-
-  @@index([cidadeId], map: "Endereco_cidadeId_fkey")
-  @@index([clienteId], map: "Endereco_clienteId_fkey")
-  @@index([tipoEnderecoId], map: "Endereco_tipoEnderecoId_fkey")
-  @@index([tipoLogradouroId], map: "Endereco_tipoLogradouroId_fkey")
-  @@index([tipoResidenciaId], map: "Endereco_tipoResidenciaId_fkey")
+  cidadeId       Int
+  observacao     String?
+  cliente        Cliente @relation(fields: [clienteId], references: [id])
+  tipoEndereco   TipoEndereco @relation(fields: [tipoEnderecoId], references: [id])
+  tipoLogradouro TipoLogradouro @relation(fields: [tipoLogradouroId], references: [id])
+  tipoResidencia TipoResidencia @relation(fields: [tipoResidenciaId], references: [id])
+  cidade        Cidades @relation(fields: [cidadeId], references: [id])
 }
 
-model estados {
-  id     Int    @id @default(autoincrement())
-  nome   String @db.VarChar(100)
-  paisId Int
-
-  @@index([paisId], map: "Estados_paisId_fkey")
-}
-
-model log {
+model Log {
   id       Int      @id @default(autoincrement())
   entidade String   @db.VarChar(255)
   data     DateTime @default(now())
 }
 
-model pais {
-  id   Int    @id @default(autoincrement())
-  nome String @db.VarChar(255)
-}
-
-model telefones {
-  id             Int    @id @default(autoincrement())
-  ddd            String @db.Char(3)
-  numero         String @db.VarChar(20)
-  tipoTelefoneId Int
-  clienteId      Int?
-
-  @@index([clienteId], map: "Telefones_clienteId_fkey")
-  @@index([tipoTelefoneId], map: "Telefones_tipoTelefoneId_fkey")
-}
-
-model tipoendereco {
-  id        Int    @id @default(autoincrement())
-  descricao String @db.VarChar(50)
-}
-
-model tipologradouro {
-  id        Int    @id @default(autoincrement())
-  descricao String @db.VarChar(50)
-}
-
-model tiporesidencia {
-  id        Int    @id @default(autoincrement())
-  descricao String @db.VarChar(50)
-}
-
-model tipotelefone {
-  id   Int    @id @default(autoincrement())
-  nome String @unique(map: "TipoTelefone_nome_key")
-}
-
-enum cliente_genero {
+enum Genero {
   MASCULINO
   FEMININO
   OUTRO

@@ -1,7 +1,7 @@
 const express = require('express');
-const clienteRoutes = require('./src/routes/clienteRoutes'); 
-const tipoTelefoneRoutes = require('./src/routes/tipoTelefoneRoutes'); 
-const bandeiraCartaoRoutes = require('./src/routes/bandeiraCartaoRoutes'); 
+const clienteRoutes = require('./src/routes/clienteRoutes');
+const tipoTelefoneRoutes = require('./src/routes/tipoTelefoneRoutes');
+const bandeiraCartaoRoutes = require('./src/routes/bandeiraCartaoRoutes');
 const cartaoRoutes = require('./src/routes/cartaoRoutes');
 const cidadeRoutes = require('./src/routes/cidadeRoutes');
 const estadoRoutes = require('./src/routes/estadoRoutes');
@@ -12,9 +12,6 @@ const telefoneRoutes = require('./src/routes/telefoneRoutes');
 const tipoEnderecoRoutes = require('./src/routes/tipoEnderecoRoutes');
 const tipoLogradouroRoutes = require('./src/routes/tipoLogradouroRoutes');
 const tipoResidenciaRoutes = require('./src/routes/tipoResidenciaRoutes');
-
-
-
 
 const app = express();
 app.use(express.json());
@@ -32,8 +29,6 @@ app.use('/api/telefones', telefoneRoutes);
 app.use('/api/tipos-endereco', tipoEnderecoRoutes);
 app.use('/api/tipos-logradouro', tipoLogradouroRoutes);
 app.use('/api/tipos-residencia', tipoResidenciaRoutes);
-
-
 
 app.listen(5000, () => {
     console.log('Servidor rodando na porta 5000');
