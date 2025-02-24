@@ -19,7 +19,7 @@ model Telefones {
   numero     String @db.VarChar(20)
   tipoTelefoneId Int
   tipoTelefone   TipoTelefone @relation(fields: [tipoTelefoneId], references: [id])
-  clienteId   Int?  // ✅ Relacionamento com Cliente
+  clienteId   Int? 
   cliente     Cliente? @relation(fields: [clienteId], references: [id])}
 
 model Cliente {
@@ -30,7 +30,7 @@ model Cliente {
   senha          String   @db.VarChar(64)
   genero         Genero
   dataNascimento DateTime?
-  telefones   Telefones[]  // ✅ Um cliente pode ter vários telefones
+  telefones   Telefones[]  
   statusAtivo    Boolean  @default(true)
   enderecos      Endereco[]
   cartoes        Cartao[]
