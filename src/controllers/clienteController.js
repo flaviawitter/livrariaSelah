@@ -1,0 +1,90 @@
+const prisma = require('../config/prismaClient');
+
+async function criarCliente(req, res) {
+    const { nome, cpf, email, senha, genero, dataNascimento } = req.body;
+
+    try {
+        const novoCliente = await prisma.cliente.create({
+            data: {
+                nome,
+                cpf,
+                email,
+                senha, // ⚠️ Idealmente, encripta a senha antes de salvar!
+                genero,
+                dataNascimento: new Date(dataNascimento)
+            }
+        });
+        res.status(201).json(novoCliente);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+}
+
+async function listarClientes(req, res) {
+    try {
+        const clientes = await prisma.cliente.findMany({
+            include: {
+                telefones: true, // Inclui telefones relacionados
+                enderecos: true  // Inclui endereços relacionados
+            }
+        });
+        res.json(clientes);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+async function obterCliente(req, res) {
+    const { id } = req.params;
+
+    try {
+        const cliente = await prisma.cliente.findUnique({
+            where: { id: parseInt(id) },
+            include: { telefones: true, enderecos: true }
+        });
+
+        if (!cliente) {
+            return res.status(404).json({ message: "Cliente não encontrado" });
+        }
+
+        res.json(cliente);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+async function atualizarCliente(req, res) {
+    const { id } = req.params;
+    const { nome, email, senha, genero, dataNascimento } = req.body;
+
+    try {
+        const clienteAtualizado = await prisma.cliente.update({
+            where: { id: parseInt(id) },
+            data: { nome, email, senha, genero, dataNascimento: new Date(dataNascimento) }
+        });
+
+        res.json(clienteAtualizado);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+}
+
+async function deletarCliente(req, res) {
+    const { id } = req.params;
+
+    try {
+        await prisma.cliente.delete({ where: { id: parseInt(id) } });
+        res.json({ message: "Cliente deletado com sucesso!" });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+}
+
+
+module.exports = { 
+    criarCliente, 
+    listarClientes, 
+    obterCliente, 
+    atualizarCliente, 
+    deletarCliente 
+};

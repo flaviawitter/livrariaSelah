@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom/client';
 import Home from './rotas/Home';
 import Favoritos from './rotas/Favoritos';
 import Dados from './rotas/Dados';
-import { createGlobalStyle } from 'styled-components'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { createGlobalStyle } from 'styled-components';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -24,9 +24,7 @@ const GlobalStyle = createGlobalStyle`
   li {
     list-style: none;    
   }
-
-
-`
+`;
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -34,9 +32,9 @@ root.render(
     <GlobalStyle />
     <BrowserRouter>
       <Routes>
-        <Route path='/' element = {<Home />} />
-        <Route path='/favoritos' element = {<Favoritos />} />
-        <Route path='/dados' element = {<Dados />} />
+        <Route path='/' element={<Home />} />
+        <Route path='/favoritos' element={<Favoritos />} />
+        <Route path='/dados' element={<Dados />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
