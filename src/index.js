@@ -3,12 +3,16 @@ import ReactDOM from 'react-dom/client';
 import Home from './rotas/Home';
 import Favoritos from './rotas/Favoritos';
 import Dados from './rotas/Dados';
-import { createGlobalStyle } from 'styled-components';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { createGlobalStyle } from 'styled-components'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Login from './rotas/Login';
+import Cadastrar from './rotas/Cadastrar';
 
 const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
+    width: 100vw;
+    max-width: 100%;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
       'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
       sans-serif;
@@ -24,7 +28,9 @@ const GlobalStyle = createGlobalStyle`
   li {
     list-style: none;    
   }
-`;
+
+
+`
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -32,9 +38,11 @@ root.render(
     <GlobalStyle />
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/favoritos' element={<Favoritos />} />
-        <Route path='/dados' element={<Dados />} />
+        <Route path='/' element = {<Home />} />
+        <Route path='/favoritos' element = {<Favoritos />} />
+        <Route path='/dados' element = {<Dados />} />
+        <Route path='/login' element = {<Login/>} />
+        <Route path='/cadastrar' element = {<Cadastrar/>} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

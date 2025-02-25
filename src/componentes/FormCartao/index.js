@@ -6,13 +6,14 @@ const FormContainer = styled.section`
     text-align: center;
     height: 470px;
     width: 100%;
-    margin: 25px;
+    margin: 15px;
 `
 const Titulo = styled.h2`
     color: #095F54;
     font-size: 32px;
     text-align: left;
     width: 100%;
+    margin-bottom: 5px;
 `
 
 const Opcao = styled.li`
@@ -35,6 +36,7 @@ const Opcoes = styled.ul`
     justify-content: space-between;
     padding: 0;
     list-style-type: none;
+    margin-top: 0;
 `
 
 const textoPlaceHolders = ['Número do Cartão', 'CVV', 'Validade', 'Nome do Titular']

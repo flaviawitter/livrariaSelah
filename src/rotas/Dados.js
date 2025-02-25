@@ -6,18 +6,26 @@ import FormEndereco from '../componentes/FormEndereco';
 import FormCartao from '../componentes/FormCartao';
 
 const AppContainer = styled.div`
-    width: 100vw;
+    width: 100%;
     height: 100vh;
     background-color: #ffff; 
+    margin: 0;
 `
-
+const DadosContainer = styled.div`
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+`
 function App() {
   return (
     <AppContainer>
       <Header />
-      <FormCliente />
-      <FormEndereco />
-      <FormCartao />
+      <DadosContainer>
+        <FormCliente />
+        <FormEndereco />
+        <FormCartao />
+      </DadosContainer>
     </AppContainer>
   );
 }
