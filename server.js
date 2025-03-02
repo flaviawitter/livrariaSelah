@@ -12,6 +12,11 @@ const telefoneRoutes = require('./src/routes/telefoneRoutes');
 const tipoEnderecoRoutes = require('./src/routes/tipoEnderecoRoutes');
 const tipoLogradouroRoutes = require('./src/routes/tipoLogradouroRoutes');
 const tipoResidenciaRoutes = require('./src/routes/tipoResidenciaRoutes');
+const autoresRoutes = require('./src/routes/autoresRoutes');
+const editorasRoutes = require('./src/routes/editorasRoutes');
+const categoriasRoutes = require('./src/routes/categoriasRoutes');
+
+
 
 const app = express();
 app.use(express.json());
@@ -29,6 +34,11 @@ app.use('/api/telefones', telefoneRoutes);
 app.use('/api/tipos-endereco', tipoEnderecoRoutes);
 app.use('/api/tipos-logradouro', tipoLogradouroRoutes);
 app.use('/api/tipos-residencia', tipoResidenciaRoutes);
+app.use('/api/autores', autoresRoutes);
+app.use('/api/editoras', editorasRoutes);
+app.use('/api/categorias', categoriasRoutes);
+
+
 
 app.listen(5000, () => {
     console.log('Servidor rodando na porta 5000');

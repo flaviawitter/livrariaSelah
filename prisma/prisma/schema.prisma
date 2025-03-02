@@ -7,120 +7,275 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model TipoTelefone {
-  id       Int    @id @default(autoincrement())
-  nome     String @unique
-  telefones Telefones[]
-}
-
-model Telefones {
-  id         Int    @id @default(autoincrement())
-  ddd        String @db.Char(3)
-  numero     String @db.VarChar(20)
-  tipoTelefoneId Int
-  tipoTelefone   TipoTelefone @relation(fields: [tipoTelefoneId], references: [id])
-  clienteId   Int? 
-  cliente     Cliente? @relation(fields: [clienteId], references: [id])}
-
-model Cliente {
-  id             Int      @id @default(autoincrement())
-  nome           String   @db.VarChar(100)
-  cpf            String   @unique @db.VarChar(14)
-  email          String   @db.VarChar(100)
-  senha          String   @db.VarChar(64)
-  genero         Genero
+model autores {
+  id             Int       @id @default(autoincrement())
+  nome           String
   dataNascimento DateTime?
-  telefones   Telefones[]  
-  statusAtivo    Boolean  @default(true)
-  enderecos      Endereco[]
-  cartoes        Cartao[]
+  nacionalidade  String?
 }
 
-model BandeiraCartao {
-  id         Int    @id @default(autoincrement())
-  descricao  String @db.VarChar(50)
-  cartoes    Cartao[]
+model bandeiracartao {
+  id        Int    @id @default(autoincrement())
+  descricao String @db.VarChar(50)
 }
 
-model Cartao {
-  id               Int    @id @default(autoincrement())
-  apelidoCartao    String @db.VarChar(100)
-  numero           String @db.VarChar(19)
-  nomeTitular      String @db.VarChar(100)
-  codSeguranca     String @db.VarChar(4)
+model carrinho {
+  id           Int     @id @default(autoincrement())
+  livroId      Int
+  quantidade   Int
+  precoUnidade Decimal
+
+  @@index([livroId], map: "Carrinho_livroId_fkey")
+}
+
+model cartao {
+  id               Int     @id @default(autoincrement())
+  apelidoCartao    String  @db.VarChar(100)
+  numero           String  @db.VarChar(19)
+  nomeTitular      String  @db.VarChar(100)
+  codSeguranca     String  @db.VarChar(4)
   preferencial     Boolean @default(false)
   clienteId        Int
   bandeiraCartaoId Int
-  cliente          Cliente @relation(fields: [clienteId], references: [id])
-  bandeiraCartao   BandeiraCartao @relation(fields: [bandeiraCartaoId], references: [id])
+
+  @@index([bandeiraCartaoId], map: "Cartao_bandeiraCartaoId_fkey")
+  @@index([clienteId], map: "Cartao_clienteId_fkey")
 }
 
-model Pais {
-  id    Int    @id @default(autoincrement())
-  nome  String @db.VarChar(255)
-  estados Estados[]
+model categorias {
+  id   Int    @id @default(autoincrement())
+  nome String @unique(map: "Categorias_nome_key")
 }
 
-model Estados {
-  id      Int    @id @default(autoincrement())
-  nome    String @db.VarChar(100)
-  paisId  Int
-  pais    Pais   @relation(fields: [paisId], references: [id])
-  cidades Cidades[]
-}
-
-model Cidades {
-  id         Int    @id @default(autoincrement())
-  nome       String @db.VarChar(100)
-  estadoId   Int
-  estado     Estados @relation(fields: [estadoId], references: [id])
-  enderecos  Endereco[]
-}
-
-model TipoEndereco {
+model cidades {
   id       Int    @id @default(autoincrement())
-  descricao String @db.VarChar(50)
-  enderecos Endereco[]
+  nome     String @db.VarChar(100)
+  estadoId Int
+
+  @@index([estadoId], map: "Cidades_estadoId_fkey")
 }
 
-model TipoLogradouro {
-  id       Int    @id @default(autoincrement())
-  descricao String @db.VarChar(50)
-  enderecos Endereco[]
+model classificacaoia {
+  id        Int    @id @default(autoincrement())
+  descricao String
+  livroId   Int
+  clienteId Int
 }
 
-model TipoResidencia {
-  id       Int    @id @default(autoincrement())
-  descricao String @db.VarChar(50)
-  enderecos Endereco[]
+model cliente {
+  id             Int            @id @default(autoincrement())
+  nome           String         @db.VarChar(100)
+  cpf            String         @unique(map: "Cliente_cpf_key") @db.VarChar(14)
+  email          String         @db.VarChar(100)
+  senha          String         @db.VarChar(64)
+  genero         cliente_genero
+  dataNascimento DateTime?
+  ranking        Int
+  statusAtivo    Boolean        @default(true)
 }
 
-model Endereco {
-  id              Int    @id @default(autoincrement())
-  cep            String? @db.VarChar(10)
-  logradouro     String? @db.VarChar(100)
-  numero         Int?
-  bairro         String? @db.VarChar(50)
-  clienteId      Int
-  tipoEnderecoId Int
+model cupom {
+  id        Int     @id @default(autoincrement())
+  descricao String
+  clienteId Int
+  validade  Boolean
+}
+
+model editoras {
+  id          Int     @id @default(autoincrement())
+  nome        String
+  pais        String?
+  anoFundacao Int?
+}
+
+model endereco {
+  id               Int     @id @default(autoincrement())
+  cep              String? @db.VarChar(10)
+  logradouro       String? @db.VarChar(100)
+  numero           Int?
+  bairro           String? @db.VarChar(50)
+  clienteId        Int
+  tipoEnderecoId   Int
   tipoLogradouroId Int
   tipoResidenciaId Int
-  cidadeId       Int
-  observacao     String?
-  cliente        Cliente @relation(fields: [clienteId], references: [id])
-  tipoEndereco   TipoEndereco @relation(fields: [tipoEnderecoId], references: [id])
-  tipoLogradouro TipoLogradouro @relation(fields: [tipoLogradouroId], references: [id])
-  tipoResidencia TipoResidencia @relation(fields: [tipoResidenciaId], references: [id])
-  cidade        Cidades @relation(fields: [cidadeId], references: [id])
+  cidadeId         Int
+  observacao       String?
+
+  @@index([cidadeId], map: "Endereco_cidadeId_fkey")
+  @@index([clienteId], map: "Endereco_clienteId_fkey")
+  @@index([tipoEnderecoId], map: "Endereco_tipoEnderecoId_fkey")
+  @@index([tipoLogradouroId], map: "Endereco_tipoLogradouroId_fkey")
+  @@index([tipoResidenciaId], map: "Endereco_tipoResidenciaId_fkey")
 }
 
-model Log {
+model estados {
+  id     Int    @id @default(autoincrement())
+  nome   String @db.VarChar(100)
+  paisId Int
+
+  @@index([paisId], map: "Estados_paisId_fkey")
+}
+
+model estoque {
+  id                Int       @id @default(autoincrement())
+  livroId           Int       @unique(map: "Estoque_livroId_key")
+  quantidade        Int       @default(0)
+  ultimaAtualizacao DateTime?
+  dataEntrada       DateTime?
+}
+
+model fornecedor {
+  id   Int    @id @default(autoincrement())
+  nome String
+}
+
+model frete {
+  id         Int     @id @default(autoincrement())
+  pedidoId   Int
+  enderecoId Int
+  valor      Decimal
+}
+
+model grupoprecificacao {
+  id          Int     @id @default(autoincrement())
+  descricao   String
+  margemLucro Decimal
+}
+
+model itempedido {
+  id           Int     @id @default(autoincrement())
+  pedidoId     Int
+  livroId      Int
+  quantidade   Int
+  precoUnidade Decimal
+  status       String
+}
+
+model livros {
+  id                  Int       @id @default(autoincrement())
+  titulo              String
+  autorId             Int
+  editoraId           Int
+  fornecedorId        Int
+  ano                 Int?
+  edicao              String?
+  isbn                String    @unique(map: "Livros_isbn_key")
+  precoCusto          Decimal
+  precoVenda          Decimal
+  dataPublicacao      DateTime?
+  paginas             Int?
+  sinopse             String?
+  quantidadeEstoque   Int       @default(0)
+  status              String
+  altura              Decimal
+  largura             Decimal
+  peso                Decimal
+  profundidade        Decimal
+  grupoPrecificacaoId Int
+  codigoBarras        String    @unique(map: "Livros_codigoBarras_key")
+
+  @@index([autorId], map: "Livros_autorId_fkey")
+  @@index([editoraId], map: "Livros_editoraId_fkey")
+  @@index([fornecedorId], map: "Livros_fornecedorId_fkey")
+  @@index([grupoPrecificacaoId], map: "Livros_grupoPrecificacaoId_fkey")
+}
+
+model livrosativacao {
+  id       Int @id @default(autoincrement())
+  livroId  Int
+  motivoId Int
+
+  @@index([livroId], map: "LivrosAtivacao_livroId_fkey")
+  @@index([motivoId], map: "LivrosAtivacao_motivoId_fkey")
+}
+
+model livroscategorias {
+  livroId     Int
+  categoriaId Int
+
+  @@id([livroId, categoriaId])
+  @@index([categoriaId], map: "LivrosCategorias_categoriaId_fkey")
+}
+
+model livrosinativacao {
+  id       Int @id @default(autoincrement())
+  livroId  Int
+  motivoId Int
+
+  @@index([livroId], map: "LivrosInativacao_livroId_fkey")
+  @@index([motivoId], map: "LivrosInativacao_motivoId_fkey")
+}
+
+model log {
   id       Int      @id @default(autoincrement())
   entidade String   @db.VarChar(255)
   data     DateTime @default(now())
 }
 
-enum Genero {
+model motivoativacao {
+  id        Int    @id @default(autoincrement())
+  descricao String
+}
+
+model motivoinativacao {
+  id        Int    @id @default(autoincrement())
+  descricao String
+}
+
+model pagamentos {
+  id              Int      @id @default(autoincrement())
+  pedidoId        Int
+  dataPagamento   DateTime
+  valor           Decimal
+  metodoPagamento String
+  status          String
+}
+
+model pais {
+  id   Int    @id @default(autoincrement())
+  nome String @db.VarChar(255)
+}
+
+model pedidos {
+  id         Int       @id @default(autoincrement())
+  clienteId  Int
+  dataPedido DateTime?
+  totalPreco Decimal   @default(0.000000000000000000000000000000)
+  status     String
+}
+
+model telefones {
+  id             Int    @id @default(autoincrement())
+  ddd            String @db.Char(3)
+  numero         String @db.VarChar(20)
+  tipoTelefoneId Int
+  clienteId      Int?
+
+  @@index([clienteId], map: "Telefones_clienteId_fkey")
+  @@index([tipoTelefoneId], map: "Telefones_tipoTelefoneId_fkey")
+}
+
+model tipoendereco {
+  id        Int    @id @default(autoincrement())
+  descricao String @db.VarChar(50)
+}
+
+model tipologradouro {
+  id        Int    @id @default(autoincrement())
+  descricao String @db.VarChar(50)
+}
+
+model tiporesidencia {
+  id        Int    @id @default(autoincrement())
+  descricao String @db.VarChar(50)
+}
+
+model tipotelefone {
+  id   Int    @id @default(autoincrement())
+  nome String @unique(map: "TipoTelefone_nome_key")
+}
+
+enum cliente_genero {
   MASCULINO
   FEMININO
   OUTRO
