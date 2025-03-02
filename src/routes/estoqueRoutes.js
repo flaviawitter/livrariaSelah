@@ -1,16 +1,11 @@
 const express = require('express');
-const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
 const router = express.Router();
+const estoqueController = require('../controllers/estoqueController');
 
-router.get('/estoque', async (req, res) => {
-    const estoque = await prisma.estoque.findMany();
-    res.json(estoque);
-  });
-  
-  router.post('/estoque', async (req, res) => {
-    const item = await prisma.estoque.create({ data: req.body });
-    res.json(item);
-  });
-  
-  module.exports = router;
+router.get('/estoque', estoqueController.listarEstoque);
+router.get('/estoque/:id', estoqueController.buscarEstoquePorId);
+router.post('/estoque', estoqueController.adicionarEstoque);
+router.put('/estoque/:id', estoqueController.atualizarEstoque);
+router.delete('/estoque/:id', estoqueController.excluirEstoque);
+
+module.exports = router;

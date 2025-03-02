@@ -1,16 +1,11 @@
 const express = require('express');
-const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
 const router = express.Router();
+const grupoPrecificacaoController = require('../controllers/grupoPrecificacaoController');
 
-router.get('/grupo-precificacao', async (req, res) => {
-    const grupos = await prisma.grupoPrecificacao.findMany();
-    res.json(grupos);
-  });
-  
-  router.post('/grupo-precificacao', async (req, res) => {
-    const grupo = await prisma.grupoPrecificacao.create({ data: req.body });
-    res.json(grupo);
-  });
+router.get('/grupo-precificacao', grupoPrecificacaoController.listarGruposPrecificacao);
+router.get('/grupo-precificacao/:id', grupoPrecificacaoController.buscarGrupoPrecificacaoPorId);
+router.post('/grupo-precificacao', grupoPrecificacaoController.criarGrupoPrecificacao);
+router.put('/grupo-precificacao/:id', grupoPrecificacaoController.atualizarGrupoPrecificacao);
+router.delete('/grupo-precificacao/:id', grupoPrecificacaoController.excluirGrupoPrecificacao);
 
-  module.exports = router;
+module.exports = router;

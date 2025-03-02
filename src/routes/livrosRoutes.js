@@ -1,16 +1,11 @@
 const express = require('express');
-const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
 const router = express.Router();
+const livrosController = require('../controllers/livrosController');
 
-router.get('/livros', async (req, res) => {
-    const livros = await prisma.livros.findMany();
-    res.json(livros);
-  });
-  
-  router.post('/livros', async (req, res) => {
-    const livro = await prisma.livros.create({ data: req.body });
-    res.json(livro);
-  });
+router.get('/livros', livrosController.listarLivros);
+router.get('/livros/:id', livrosController.buscarLivroPorId);
+router.post('/livros', livrosController.criarLivro);
+router.put('/livros/:id', livrosController.atualizarLivro);
+router.delete('/livros/:id', livrosController.excluirLivro);
 
-  module.exports = router;
+module.exports = router;

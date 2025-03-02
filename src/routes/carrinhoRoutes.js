@@ -1,16 +1,11 @@
 const express = require('express');
-const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
 const router = express.Router();
+const carrinhoController = require('../controllers/carrinhoController');
 
-router.get('/carrinho', async (req, res) => {
-    const carrinho = await prisma.carrinho.findMany();
-    res.json(carrinho);
-  });
-  
-  router.post('/carrinho', async (req, res) => {
-    const item = await prisma.carrinho.create({ data: req.body });
-    res.json(item);
-  });
-  
-  module.exports = router;
+router.get('/carrinho', carrinhoController.listarCarrinho);
+router.get('/carrinho/:id', carrinhoController.buscarItemCarrinhoPorId);
+router.post('/carrinho', carrinhoController.adicionarItemCarrinho);
+router.put('/carrinho/:id', carrinhoController.atualizarItemCarrinho);
+router.delete('/carrinho/:id', carrinhoController.excluirItemCarrinho);
+
+module.exports = router;

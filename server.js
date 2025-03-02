@@ -15,8 +15,22 @@ const tipoResidenciaRoutes = require('./src/routes/tipoResidenciaRoutes');
 const autoresRoutes = require('./src/routes/autoresRoutes');
 const editorasRoutes = require('./src/routes/editorasRoutes');
 const categoriasRoutes = require('./src/routes/categoriasRoutes');
-
-
+const livrosRoutes = require('./src/routes/livrosRoutes');
+const livrosCategoriasRoutes = require('./src/routes/livrosCategoriasRoutes');
+const grupoPrecificacaoRoutes = require('./src/routes/grupoPrecificacaoRoutes');
+const motivoInativacaoRoutes = require('./src/routes/motivoInativacaoRoutes');
+const motivoAtivacaoRoutes = require('./src/routes/motivoAtivacaoRoutes');
+const livrosInativacaoRoutes = require('./src/routes/livrosInativacaoRoutes');
+const livrosAtivacaoRoutes = require('./src/routes/livrosAtivacaoRoutes');
+const carrinhoRoutes = require('./src/routes/carrinhoRoutes');
+const pedidosRoutes = require('./src/routes/pedidosRoutes');
+const itemPedidoRoutes = require('./src/routes/itemPedidoRoutes');
+const fornecedorRoutes = require('./src/routes/fornecedorRoutes');
+const estoqueRoutes = require('./src/routes/estoqueRoutes');
+const pagamentoRoutes = require('./src/routes/pagamentoRoutes');
+const cupomRoutes = require('./src/routes/cupomRoutes');
+const freteRoutes = require('./src/routes/freteRoutes');
+const classificacaoIARoutes = require('./src/routes/classificacaoIARoutes');
 
 const app = express();
 app.use(express.json());
@@ -37,7 +51,22 @@ app.use('/api/tipos-residencia', tipoResidenciaRoutes);
 app.use('/api/autores', autoresRoutes);
 app.use('/api/editoras', editorasRoutes);
 app.use('/api/categorias', categoriasRoutes);
-
+app.use('/api/livros', livrosRoutes);
+app.use('/api/livros-categorias', livrosCategoriasRoutes);
+app.use('/api/grupo-precificacao', grupoPrecificacaoRoutes);
+app.use('/api/motivos-inativacao', motivoInativacaoRoutes);
+app.use('/api/motivos-ativacao', motivoAtivacaoRoutes);
+app.use('/api/livros-inativacao', livrosInativacaoRoutes);
+app.use('/api/livros-ativacao', livrosAtivacaoRoutes);
+app.use('/api/carrinho', carrinhoRoutes);
+app.use('/api/pedidos', pedidosRoutes);
+app.use('/api/itens-pedido', itemPedidoRoutes);
+app.use('/api/fornecedor', fornecedorRoutes);
+app.use('/api/estoque', estoqueRoutes);
+app.use('/api/pagamentos', pagamentoRoutes);
+app.use('/api/cupons', cupomRoutes);
+app.use('/api/fretes', freteRoutes);
+app.use('/api/classificacoesIA', classificacaoIARoutes);
 
 
 app.listen(5000, () => {

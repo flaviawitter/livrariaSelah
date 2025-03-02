@@ -1,16 +1,11 @@
 const express = require('express');
-const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
 const router = express.Router();
+const pedidosController = require('../controllers/pedidosController');
 
-router.get('/pedidos', async (req, res) => {
-    const pedidos = await prisma.pedidos.findMany();
-    res.json(pedidos);
-  });
-  
-  router.post('/pedidos', async (req, res) => {
-    const pedido = await prisma.pedidos.create({ data: req.body });
-    res.json(pedido);
-  });
+router.get('/pedidos', pedidosController.listarPedidos);
+router.get('/pedidos/:id', pedidosController.buscarPedidoPorId);
+router.post('/pedidos', pedidosController.criarPedido);
+router.put('/pedidos/:id', pedidosController.atualizarPedido);
+router.delete('/pedidos/:id', pedidosController.excluirPedido);
 
-  module.exports = router;
+module.exports = router;
