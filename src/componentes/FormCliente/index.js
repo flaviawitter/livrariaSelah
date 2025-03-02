@@ -1,10 +1,10 @@
-import Input from '../Input'  // Certifique-se de importar o componente corretamente
+import Input from '../Input' 
 import styled from 'styled-components'
 
 const FormContainer = styled.section`
     color: #FFF;
     text-align: center;
-    height: 470px;
+    height: auto;
     width: 100vw;
     max-width: 100%;
     margin: 15px;

@@ -1,4 +1,4 @@
-import Input from '../Input'
+import Input from '../Input'  
 import styled from 'styled-components'
 
 const FormContainer = styled.section`
@@ -32,6 +32,7 @@ const Opcao = styled.li`
 
 const Opcoes = styled.ul`
     display: flex;
+    flex-direction: collumn;
     flex-wrap: wrap;
     justify-content: space-between;
     padding: 0;
@@ -39,12 +40,12 @@ const Opcoes = styled.ul`
     margin-top: 0;
 `
 
-const textoPlaceHolders = ['Número do Cartão', 'CVV', 'Validade', 'Nome do Titular']
+const textoPlaceHolders = ['Senha Atual', 'Senha Nova', 'Repita a Senha Nova']
 
-function FormCartao() {
+function FormSenha() {
     return (
         <FormContainer>
-            <Titulo style={{ fontFamily: "Bookochi", letterSpacing: "0.22em" }}>Cartões Cadastrados</Titulo>
+            <Titulo style={{ fontFamily: "Bookochi", letterSpacing: "0.22em" }}>Senha</Titulo>
             <Opcoes>
                 {textoPlaceHolders.map((placeholder, index) => (
                     <li key={index} style={{ width: '48%' }}>
@@ -56,4 +57,4 @@ function FormCartao() {
     )
 }
 
-export default FormCartao;
+export default FormSenha;

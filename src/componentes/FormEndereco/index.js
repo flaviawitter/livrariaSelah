@@ -1,10 +1,10 @@
-import Input from '../Input'  // Certifique-se de importar o componente corretamente
+import Input from '../Input' 
 import styled from 'styled-components'
 
 const FormContainer = styled.section`
     color: #FFF;
     text-align: center;
-    height: 470px;
+    height: auto;
     width: 100%;
     margin: 15px;
     margin-bottom: 50px;
@@ -16,7 +16,6 @@ const Titulo = styled.h2`
     width: 100%;
     margin-bottom: 5px;
 `
-
 const Opcao = styled.li`
     font-size: 16px;
     display: flex;
@@ -30,7 +29,6 @@ const Opcao = styled.li`
     min-width: 80px;
     color: #C7511B;
 `
-
 const Opcoes = styled.ul`
     display: flex;
     flex-wrap: wrap;
@@ -40,20 +38,27 @@ const Opcoes = styled.ul`
     margin-top: 0;
 `
 
+const titulos = ['Endereço Residencial','Endereço de Entrega', 'Endereço de Cobrança']
 const textoPlaceHolders = ['País', 'Estado', 'Cidade', 'Tipo Residência', 'Tipo Logradouro', 'Logradouro', 'Número', 'Complemento', 'Bairro', 'CEP', 'Ponto de Referência']
 
 function FormEndereco() {
     return (
         <FormContainer>
-            <Titulo style={{ fontFamily: "Bookochi", letterSpacing: "0.22em" }}>Endereço de Entrega</Titulo>
-            <Opcoes>
-                {textoPlaceHolders.map((placeholder, index) => (
-                    <li key={index} style={{ width: '48%' }}>
-                        <Input placeholder={placeholder} />
-                    </li>
-                ))}
-            </Opcoes>
-        </FormContainer>
+        {titulos.map((titulo, indexTitulo) => (
+            <div key={indexTitulo}>
+                <Titulo style={{ fontFamily: "Bookochi", letterSpacing: "0.22em" }}>
+                    {titulo}
+                </Titulo>
+                <Opcoes>
+                    {textoPlaceHolders.map((placeholder, indexPlaceholder) => (
+                        <li key={`${indexTitulo}-${indexPlaceholder}`} style={{ width: '48%' }}>
+                            <Input placeholder={placeholder} />
+                        </li>
+                    ))}
+                </Opcoes>
+            </div>
+        ))}
+    </FormContainer>
     )
 }
 
