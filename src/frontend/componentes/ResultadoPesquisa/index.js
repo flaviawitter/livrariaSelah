@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import dadosPesquisa from './dadosPesquisa'
-import DadosLivro from '../DadosLivro'
+import DadosLivro from '../../../componentes/DadosLivro'
 
 const NovidadesContainer = styled.section`
     color: #FFF;

@@ -9,10 +9,10 @@ const BotaoAmarelo = styled.button`
     font-size: 16px;
     cursor: pointer;
     margin-top: 20px;
-    
+
     &:hover {
         background: #FDC818;
-        color: #095F54;
+        color: #fff;
     }
 `;
 
