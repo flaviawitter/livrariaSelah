@@ -61,6 +61,41 @@ const OpcaoFrete = styled.label`
         margin-right: 8px;
     }
 `;
+const RemoverCarrinho = styled.a`
+  font-size: 12px;
+  fontFamily: "Bookochi";
+  letterSpacing: "0.22em";
+  color: #2b6149;
+  text-decoration: none;
+  font-weight: bold;
+  display: block;
+  margin-top: 5px;
+  
+  &:hover {
+    text-decoration: underline;
+  }
+`
+const LivroItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 15px;
+  position: relative;
+
+  & > div {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+`
+const LivrosContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap; /* Permite que os livros quebrem para a linha de baixo */
+  gap: 20px; /* Espaço entre os livros */
+  justify-content: flex-start; /* Alinhamento à esquerda */
+  margin-top: 20px;
+`;
+
 
 const CarrinhoCompras = () => {
     const livrosSelecionados = dadosLivrosCarrinho.slice();
@@ -76,32 +111,40 @@ const CarrinhoCompras = () => {
 
     return (
         <ContainerCarrinho>
-            <Titulo>CARRINHO DE COMPRAS</Titulo>
-            <DadosLivro livros={livrosSelecionados} />
-            <ResumoPedido>
-               
-                <OpcoesFrete>
-                <TituloFrete>OPÇÕES DE FRETE</TituloFrete>
-                    {opcoesFrete.map((opcao, index) => (
-                        <OpcaoFrete key={index}>
-                            <input
-                                type="radio"
-                                name="frete"
-                                value={opcao.valor}
-                                checked={frete === opcao.valor}
-                                onChange={() => setFrete(opcao.valor)}
-                            />
-                            {opcao.label}
-                        </OpcaoFrete>
-                    ))}
-                </OpcoesFrete>
-                <TextoResumo>Sub-total: R${subTotal.toFixed(2)}</TextoResumo>
-                <TextoResumo>Frete: R${frete.toFixed(2)}</TextoResumo>
-                <TextoResumo><strong>Total: R${total.toFixed(2)}</strong></TextoResumo>
-                <BotaoVermelho>Ir para entrega</BotaoVermelho>
-            </ResumoPedido>
+          <Titulo>CARRINHO DE COMPRAS</Titulo>
+      
+          <LivrosContainer>
+            {livrosSelecionados.map((livro, index) => (
+              <LivroItem key={index}>
+                <DadosLivro livros={[livro]} />
+                <RemoverCarrinho href="#">Remover do Carrinho</RemoverCarrinho>
+              </LivroItem>
+            ))}
+          </LivrosContainer>
+      
+          <ResumoPedido>
+            <OpcoesFrete>
+              <TituloFrete>OPÇÕES DE FRETE</TituloFrete>
+              {opcoesFrete.map((opcao, index) => (
+                <OpcaoFrete key={index}>
+                  <input
+                    type="radio"
+                    name="frete"
+                    value={opcao.valor}
+                    checked={frete === opcao.valor}
+                    onChange={() => setFrete(opcao.valor)}
+                  />
+                  {opcao.label}
+                </OpcaoFrete>
+              ))}
+            </OpcoesFrete>
+            <TextoResumo>Sub-total: R${subTotal.toFixed(2)}</TextoResumo>
+            <TextoResumo>Frete: R${frete.toFixed(2)}</TextoResumo>
+            <TextoResumo><strong>Total: R${total.toFixed(2)}</strong></TextoResumo>
+            <BotaoVermelho>Ir para entrega</BotaoVermelho>
+          </ResumoPedido>
         </ContainerCarrinho>
-    );
-};
+      );
+    }
 
 export default CarrinhoCompras;
