@@ -9,14 +9,12 @@ const NovidadesContainer = styled.section`
     width: 100%;
     margin: 25px;
 `
-
 const Titulo = styled.h2`
     color: #095F54;
     font-size: 32px;
     text-align: left;
     width: 100%;
 `
-
 const Resultado = styled.div`
     display: flex;
     justify-content: center;

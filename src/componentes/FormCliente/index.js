@@ -18,7 +18,7 @@ const Titulo = styled.h2`
 `
 
 const Opcao = styled.li`
-    font-size: 16px;
+    font-size: 20px;
     display: flex;
     justify-content: center;
     align-items: center;

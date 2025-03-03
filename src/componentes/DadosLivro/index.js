@@ -24,26 +24,26 @@ const ContainerTexto = styled.div`
 `;
 
 const Titulo = styled.p`
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
   color: #000;
   margin: 0;
 `;
 
 const Autor = styled.p`
-  font-size: 12px;
+  font-size: 14px;
   color: #999;
   margin: 4px 0;
 `;
 
 const TipoCapa = styled.p`
-  font-size: 12px;
+  font-size: 14px;
   color: #666;
   margin: 4px 0;
 `;
 
 const Preco = styled.p`
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
   color: #000;
   margin: 4px 0;
@@ -52,7 +52,7 @@ const Preco = styled.p`
 const AvaliacaoContainer = styled.div`
   display: flex;
   align-items: center;
-  font-size: 14px;
+  font-size: 16px;
   color: #000;
 `;
 

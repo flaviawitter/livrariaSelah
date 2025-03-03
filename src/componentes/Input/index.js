@@ -9,7 +9,7 @@ const Input = styled.input`
     width: 100%;
     height: 15px;
     color: #004A33;
-    font-size: 16px;
+    font-size: 20px;
     margin-bottom: 10px;
     margin-top: 30px;
     display: flex;
@@ -17,7 +17,7 @@ const Input = styled.input`
     
     &::placeholder {
         color: #004A33;
-        font-size: 10px;
+        font-size: 16px;
     }
     
     &:focus {
