@@ -1,16 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import Home from './rotas/Home';
-import Favoritos from './rotas/Favoritos';
-import Dados from './rotas/Dados';
+import Home from './frontend/rotas/Home';
+import Favoritos from './frontend/rotas/Favoritos';
+import Dados from './frontend/rotas/Dados';
 import { createGlobalStyle } from 'styled-components'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Login from './rotas/Login';
-import Cadastrar from './rotas/Cadastrar';
-import Pedidos from './rotas/Pedidos';
-import Pesquisa from './rotas/Pesquisa';
-import Livro from './rotas/Livro';
-import Carrinho from './rotas/Carrinho';
+import Login from './frontend/rotas/Login';
+import Cadastrar from './frontend/rotas/Cadastrar';
+import Pedidos from './frontend/rotas/Pedidos';
+import Pesquisa from './frontend/rotas/Pesquisa';
+import Livro from './frontend/rotas/Livro';
+import Carrinho from './frontend/rotas/Carrinho';
 
 const GlobalStyle = createGlobalStyle`
   body {
