@@ -9,6 +9,7 @@ import Login from './rotas/Login';
 import Cadastrar from './rotas/Cadastrar';
 import Pedidos from './rotas/Pedidos';
 import Pesquisa from './rotas/Pesquisa';
+import Livro from './rotas/Livro';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -47,6 +48,7 @@ root.render(
         <Route path='/cadastrar' element = {<Cadastrar/>} />
         <Route path='/pedidos' element = {<Pedidos/>} />
         <Route path='/pesquisa' element = {<Pesquisa/>} />
+        <Route path='/livro' element = {<Livro/>} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
