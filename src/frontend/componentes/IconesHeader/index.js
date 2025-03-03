@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import perfil from '../../imagens/perfil.png'
 import carrinho from '../../imagens/carrinho.png'
 import styled from 'styled-components'
@@ -16,16 +17,24 @@ const Icones = styled.ul`
     align-items: center;
 `
 
-const icones = [carrinho, perfil]
+const icones = [
+    { imagem: carrinho, rota: "/carrinho" },
+    { imagem: perfil, rota: "/dados" }
+  ];
 
 function IconesHeader() {
     return (
         <Icones>
-            { icones.map( (icone) => (
-              <Icone><img src={icone}></img></Icone>
-            )) }
-        </Icones>
+        {icones.map((icone, index) => (
+          <Link key={index} to={icone.rota} style={{ textDecoration: "none" }}>
+            <Icone>
+              <img src={icone.imagem} alt="" />
+            </Icone>
+          </Link>
+        ))}
+      </Icones>
     )
 }
 
 export default IconesHeader
+

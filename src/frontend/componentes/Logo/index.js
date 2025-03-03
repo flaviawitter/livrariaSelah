@@ -1,5 +1,6 @@
 import logo from '../../imagens/logo.png'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 const LogoImage = styled.img`
     margin-right: 10px;
@@ -11,10 +12,9 @@ const LogoImage = styled.img`
 
 function Logo() {
     return (
-            <LogoImage
-                src={logo}
-                alt='logo' 
-            />
+        <Link to="/" style={{ textDecoration: "none" }}>
+            <LogoImage src={logo} alt="Logo" />
+        </Link>
     )
 }
 

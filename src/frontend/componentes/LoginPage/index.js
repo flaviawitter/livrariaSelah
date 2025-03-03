@@ -1,4 +1,4 @@
-import Input from '../Input'  // Certifique-se de importar o componente corretamente
+import Input from '../Input' 
 import styled from 'styled-components'
 import Logo from '../Logo'
 import BotaoVerde from '../BotaoVerde'

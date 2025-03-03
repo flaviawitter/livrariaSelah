@@ -19,15 +19,20 @@ const Opcoes = styled.ul`
     display: flex;
 `
 
-const textoOpcoes = ['Início', 'Favoritos']
+const textoOpcoes = [
+    { nome: "Início", rota: "/" }, 
+    { nome: "Favoritos", rota: "/favoritos" }
+  ];
 
 function OpcoesHeader() {
     return (
-        <Opcoes>
-            { textoOpcoes.map( (texto) => (
-                <Opcao><p>{texto}</p></Opcao>
-            ) ) }
-      </Opcoes>
+    <Opcoes>
+        {textoOpcoes.map((opcao, index) => (
+            <Link key={index} to={opcao.rota} style={{ textDecoration: "none" }}>
+            <Opcao>{opcao.nome}</Opcao>
+            </Link>
+      ))}
+    </Opcoes>
     )
 }
 
