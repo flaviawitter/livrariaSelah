@@ -13,7 +13,7 @@ const dadosLivro = [
         categoria: "Ficção", 
         ano: "2023",
         editora: "Faro Editorial", 
-        edição: "1ª edição", 
+        edicao: "1ª edição", 
         ISBN: "6559574458", 
         nPaginas: "320",
         altura: "23",

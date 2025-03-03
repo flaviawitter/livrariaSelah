@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import Header from '../componentes/Header';
 import PainelInicial from '../componentes/PainelInicial';
 import Novidades from '../componentes/Novidades';
+import Chatbot from '../componentes/ChatBot';
 
 const AppContainer = styled.div`
     width: 100vw;
@@ -15,6 +16,7 @@ function App() {
     <AppContainer>
       <Header />
       <PainelInicial />
+      <Chatbot />
       <Novidades />
 
     </AppContainer>
