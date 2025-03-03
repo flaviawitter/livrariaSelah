@@ -8,6 +8,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Login from './rotas/Login';
 import Cadastrar from './rotas/Cadastrar';
 import Pedidos from './rotas/Pedidos';
+import Pesquisa from './rotas/Pesquisa';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -45,6 +46,7 @@ root.render(
         <Route path='/login' element = {<Login/>} />
         <Route path='/cadastrar' element = {<Cadastrar/>} />
         <Route path='/pedidos' element = {<Pedidos/>} />
+        <Route path='/pesquisa' element = {<Pesquisa/>} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
