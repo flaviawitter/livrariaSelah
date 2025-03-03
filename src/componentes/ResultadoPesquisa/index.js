@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import dadosFavoritos from './dadosFavoritos'
+import dadosPesquisa from './dadosPesquisa'
 import DadosLivro from '../DadosLivro'
 
 const NovidadesContainer = styled.section`
@@ -18,7 +18,7 @@ const Titulo = styled.h2`
 
 
 function ResultadoPesquisa() {
-    const livros = dadosFavoritos; 
+    const livros = dadosPesquisa; 
     const tituloPesquisado = ['Olhos Vazios'];
 
     return (

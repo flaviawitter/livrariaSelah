@@ -8,7 +8,7 @@ import pes7 from '../../imagens/pes7.png'
 import pes8 from '../../imagens/pes8.png'
 import pes9 from '../../imagens/pes9.png'
 
-const dadosFavoritos = [
+const dadosPesquisa = [
     { titulo: 'Olhos Vazios', id: 1, autor: 'Charlie Donlea', tipoCapa: "Capa comum", preco: "R$48,24", src: pes1, avaliacao: 4.6 },
     { titulo: 'Olhos Vazios', id: 2, autor: 'T. M. Bilderback', tipoCapa: "Kindle", preco: "R$19,70", src: pes2, avaliacao: 3.0 },
     { titulo: 'Nada Fica no Passado', id: 4, autor: 'Jennifer Hiller', tipoCapa: "Capa comum", preco: "R$38,90", src: pes4, avaliacao: 4.7 },
@@ -20,4 +20,4 @@ const dadosFavoritos = [
     { titulo: 'Uma Família Feliz', id: 9, autor: 'Raphael Montes', tipoCapa: "Capa dura", preco: "R$50,51", src: pes9, avaliacao: 4.6 } 
 ];
 
-export default dadosFavoritos;
+export default dadosPesquisa;
