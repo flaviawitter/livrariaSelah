@@ -1,4 +1,5 @@
 import Input from '../Input' 
+import Select from "../Select"
 import styled from 'styled-components'
 
 const FormContainer = styled.section`
@@ -33,14 +34,18 @@ const Opcao = styled.li`
 
 const Opcoes = styled.ul`
     display: flex;
-    flex-wrap: wrap; /* Permite que os itens quebrem para a próxima linha */
-    justify-content: space-between; /* Espaço entre os itens */
+    flex-wrap: wrap;
+    justify-content: space-between; 
     padding: 0;
     list-style-type: none;
     margin-top: 0;
 `
 
-const textoPlaceHolders = ['Nome', 'Sobrenome', 'E-mail', 'CPF', 'Data de Nascimento', 'Gênero', 'Tipo Telefone', 'DDD', 'Número']
+const textoPlaceHolders = ["Nome", "Sobrenome", "E-mail", "CPF", "Data de Nascimento", "Gênero", "Tipo Telefone", "DDD", "Número"];
+
+const generos = ["Masculino", "Feminino", "Não binário", "Outro"];
+const tiposTelefone = ["Celular", "Residencial", "Comercial"];
+
 
 function FormCliente() {
     return (
@@ -48,8 +53,14 @@ function FormCliente() {
             <Titulo style={{ fontFamily: "Bookochi", letterSpacing: "0.22em" }}>Dados Cadastrados</Titulo>
             <Opcoes>
                 {textoPlaceHolders.map((placeholder, index) => (
-                    <li key={index} style={{ width: '48%' }}>
-                        <Input placeholder={placeholder} />
+                    <li key={index} style={{ width: "48%" }}>
+                        {placeholder === "Gênero" ? (
+                            <Select options={generos} placeholder="Selecione o gênero" />
+                        ) : placeholder === "Tipo Telefone" ? (
+                            <Select options={tiposTelefone} placeholder="Selecione o tipo de telefone" />
+                        ) : (
+                            <Input placeholder={placeholder} />
+                        )}
                     </li>
                 ))}
             </Opcoes>
