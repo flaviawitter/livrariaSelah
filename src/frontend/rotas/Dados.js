@@ -41,8 +41,8 @@ function App() {
         <FormSenha />
       </DadosContainer>
       <BotaoContainer>
-        <BotaoVermelho type="button">Salvar Dados</BotaoVermelho>
-        <BotaoCinza type="button">Excluir Conta</BotaoCinza>
+      <BotaoVermelho type="submit">Salvar Dados</BotaoVermelho>
+      <BotaoCinza type="button">Excluir Conta</BotaoCinza>
       </BotaoContainer>
     </AppContainer>
   );

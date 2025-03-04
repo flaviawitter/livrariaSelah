@@ -1,11 +1,11 @@
 import axios from "axios";
 
-const livrosAPI = axios.create({baseURL: "http://localhost:5555/dados"})
+const enderecoAPI = axios.create({ baseURL: "http://localhost:5000/endereco" });
 
-async function postFavorito(id) {
-    await favoritosAPI.post(`/${id}`)
+async function insereEndereco(id, endereco) {
+    await enderecoAPI.post(`/${id}`, endereco);
 }
 
 export {
-    getLivros
+    insereEndereco
 }
