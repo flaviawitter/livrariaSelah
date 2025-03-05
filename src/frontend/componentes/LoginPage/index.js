@@ -1,4 +1,5 @@
 import Input from '../Input' 
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Logo from '../Logo'
 import BotaoVerde from '../BotaoVerde'
@@ -22,7 +23,6 @@ const LeftContainer = styled.section`
     width: 40%;
     color: #FDC818;
 `
-
 const RightContainer = styled.section`
     background-color: #FDC818;
     display: flex;
@@ -33,7 +33,6 @@ const RightContainer = styled.section`
     width: 60%;
     color: #095F54;
 `
-
 const Titulo = styled.h2`
     font-size: 30px;
     text-align: center;
@@ -41,7 +40,6 @@ const Titulo = styled.h2`
     letter-spacing: 0.22em;
     margin-bottom: 15px;
 `
-
 const Opcao = styled.li`
     display: flex;
     flex-direction: column;
@@ -51,7 +49,6 @@ const Opcao = styled.li`
     list-style-type: none;
     margin-top: 20px;
 `
-
 const InputContainer = styled.li`
     width: 100%;
     display: flex;
@@ -60,7 +57,6 @@ const InputContainer = styled.li`
     justify-content: center;
     margin-bottom: 15px;
 `;
-
 const TextoPequeno = styled.p`
     font-size: 14px;
     color: #095F54;
@@ -75,7 +71,11 @@ function LoginPage() {
         <PageContainer>
             <LeftContainer>
                 <Titulo style={{fontsize: "40px"}}>BEM VINDO</Titulo> 
-                <BotaoAmarelo type="button">Cadastre-se</BotaoAmarelo>   
+                <Link to="/cadastrar" style={{ textDecoration: 'none' }}>
+                    <BotaoAmarelo type="button">
+                        Cadastre-se
+                    </BotaoAmarelo>
+                </Link>   
             </LeftContainer>
             <RightContainer>
                 <Logo />
@@ -87,7 +87,11 @@ function LoginPage() {
                         </li>
                     ))}
                     <TextoPequeno>Esqueci a senha</TextoPequeno>
-                    <BotaoVerde type="button">Entrar</BotaoVerde>
+                    <Link to="/" style={{ textDecoration: 'none' }}>
+                        <BotaoVerde type="button">
+                            Entrar
+                        </BotaoVerde>
+                    </Link>
                 </InputContainer>
             </RightContainer>
         </PageContainer>

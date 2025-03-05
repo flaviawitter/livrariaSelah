@@ -11,12 +11,10 @@ const Icone = styled.li`
         height: 25px;
     }
 `
-
 const Icones = styled.ul`
     display: flex;
     align-items: center;
 `
-
 const icones = [
     { imagem: carrinho, rota: "/carrinho" },
     { imagem: perfil, rota: "/dados" }

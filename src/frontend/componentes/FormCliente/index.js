@@ -17,7 +17,6 @@ const Titulo = styled.h2`
     width: 100%;
     margin-bottom: 5px;
 `
-
 const Opcao = styled.li`
     font-size: 20px;
     display: flex;
@@ -31,7 +30,6 @@ const Opcao = styled.li`
     min-width: 80px;
     color: #C7511B;
 `
-
 const Opcoes = styled.ul`
     display: flex;
     flex-wrap: wrap;
@@ -41,10 +39,10 @@ const Opcoes = styled.ul`
     margin-top: 0;
 `
 
-const textoPlaceHolders = ["Nome", "Sobrenome", "E-mail", "CPF", "Data de Nascimento", "Gênero", "Tipo Telefone", "DDD", "Número"];
+const textoPlaceHolders = ["Nome", "Sobrenome", "E-mail", "CPF", "Data de Nascimento", "Gênero", "Tipo Telefone", "DDD", "Número"]
 
-const generos = ["Masculino", "Feminino", "Não binário", "Outro"];
-const tiposTelefone = ["Celular", "Residencial", "Comercial"];
+const generos = ["Masculino", "Feminino", "Outro"]
+const tiposTelefone = ["Celular", "Residencial", "Comercial", "Outro"]
 
 
 function FormCliente() {

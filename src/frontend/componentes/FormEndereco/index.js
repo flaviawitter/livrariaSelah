@@ -1,6 +1,7 @@
 import Input from '../Input'
 import { useState } from 'react' 
 import styled from 'styled-components'
+import Select from "../Select"
 
 const FormContainer = styled.section`
     color: #FFF;
@@ -40,7 +41,11 @@ const Opcoes = styled.ul`
 `
 
 const titulos = ['Endereço Residencial','Endereço de Entrega', 'Endereço de Cobrança']
-const textoPlaceHolders = ['País', 'Estado', 'Cidade', 'Tipo Residência', 'Tipo Logradouro', 'Logradouro', 'Número', 'Complemento', 'Bairro', 'CEP', 'Ponto de Referência']
+const textoPlaceHolders = ['País', 'Estado', 'Cidade', 'Tipo Residência', 'Tipo Logradouro', 'Logradouro', 'Número', 'Complemento', 'Bairro', 'CEP', 'Tipo Endereço', 'Ponto de Referência']
+
+const tipoResidendia = ["Casa", "Apartamento", "Sobreloja ", "Outro"]
+const tiposLogradouro = ["Avenida", "Rua", "Alameda", "Rodovia", "Outro"]
+const tiposEndereco = ["Casa", "Trabalho", "Comercio", "Outro"]
 
 function FormEndereco() {
 
@@ -95,9 +100,17 @@ function FormEndereco() {
                 </Titulo>
                 <Opcoes>
                     {textoPlaceHolders.map((placeholder, indexPlaceholder) => (
-                        <li key={`${indexTitulo}-${indexPlaceholder}`} style={{ width: '48%' }}>
+                        <li style={{ width: "48%" }}>
+                        {placeholder === "Tipo Residência" ? (
+                            <Select options={tipoResidendia} placeholder="Selecione o tipo de residência" />
+                        ) : placeholder === "Tipo Logradouro" ? (
+                            <Select options={tiposLogradouro} placeholder="Selecione o tipo de logradouro" />
+                        ) : placeholder === "Tipo Endereço" ? (
+                          <Select options={tiposEndereco} placeholder="Selecione o tipo de endereço" />
+                        ) : (
                             <Input placeholder={placeholder} />
-                        </li>
+                        )}
+                    </li>
                     ))}
                 </Opcoes>
             </div>
