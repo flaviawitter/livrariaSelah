@@ -1,4 +1,5 @@
-import Input from '../Input'  // Certifique-se de importar o componente corretamente
+import Input from '../Input' 
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Logo from '../Logo'
 import BotaoVerde from '../BotaoVerde'
@@ -22,7 +23,6 @@ const LeftContainer = styled.section`
     width: 60%;
     color: #FDC818;
 `
-
 const RightContainer = styled.section`
     background-color: #FDC818;
     display: flex;
@@ -33,7 +33,6 @@ const RightContainer = styled.section`
     width: 40%;
     color: #095F54;
 `
-
 const Titulo = styled.h2`
     font-size: 30px;
     text-align: center;
@@ -41,7 +40,6 @@ const Titulo = styled.h2`
     letter-spacing: 0.22em;
     margin-bottom: 15px;
 `
-
 const Opcao = styled.li`
     display: flex;
     flex-direction: column;
@@ -51,7 +49,6 @@ const Opcao = styled.li`
     list-style-type: none;
     margin-top: 20px;
 `
-
 const InputContainer = styled.li`
     width: 100%;
     display: flex;
@@ -75,12 +72,20 @@ function LoginPage() {
                             <Input placeholder={placeholder} />
                         </li>
                     ))}
-                    <BotaoAmarelo type="button">Entrar</BotaoAmarelo>
+                    <Link to="/" style={{ textDecoration: 'none' }}>
+                        <BotaoAmarelo type="button">
+                            Entrar
+                        </BotaoAmarelo>
+                    </Link>
                 </InputContainer>   
             </LeftContainer>
             <RightContainer>
                 <Titulo style={{fontsize: "40px"}}>BEM VINDO</Titulo> 
-                <BotaoVerde type="button">Faça Login</BotaoVerde>
+                <Link to="/login" style={{ textDecoration: 'none' }}>
+                    <BotaoVerde type="button">
+                        Faça Login
+                    </BotaoVerde>
+                </Link>
             </RightContainer>
         </PageContainer>
     )
