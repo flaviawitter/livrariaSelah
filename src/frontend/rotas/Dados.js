@@ -8,7 +8,6 @@ import FormSenha from '../componentes/FormSenha';
 import BotaoVermelho from '../componentes/BotaoVermelho';
 import BotaoCinza from '../componentes/BotaoCinza';
 
-import dados from '../serviços/dados'
 
 import { useForm } from "react-hook-form"
 
@@ -47,10 +46,7 @@ function App() {
 
   const onSubmit = (data) => {
     console.log(data)
-    const cliente = {
-      nome: data.nome,
-      cpf: data.cpf,
-    }
+ 
 
   }
 

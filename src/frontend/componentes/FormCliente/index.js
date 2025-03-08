@@ -38,7 +38,7 @@ const Opcoes = styled.ul`
     list-style-type: none;
     margin-top: 0;
 `
-const generos = ["Masculino", "Feminino", "Outro"]
+const generos = ["Masculino", "Femininoaa", "Outro"]
 const tiposTelefone = ["Celular", "Residencial", "Comercial", "Outro"]
 
 
@@ -59,17 +59,17 @@ function FormCliente({ register }) {
                 <li key={"nascimento"} style={{ width: "48%" }}>
                     <Input placeholder={"Nascimento"} {...register("nascimento")} />
                 </li>
-                <li key={"genero"} style={{ width: "48%" }}>
-                    <Select options={generos} placeholder="Selecione o gênero" {...register("genero")} />
-                </li>
-                <li key={"tipo"} style={{ width: "48%" }}>
-                    <Select options={tiposTelefone} placeholder="Selecione o tipo de telefone" {...register("tipo")} />
-                </li>
                 <li key={"ddd"} style={{ width: "48%" }}>
                     <Input placeholder={"DDD"} {...register("ddd")} />
                 </li>
                 <li key={"numero"} style={{ width: "48%" }}>
                     <Input placeholder={"Número"} {...register("numero")} />
+                </li>
+                <li key={"genero"} style={{ width: "48%" }}>
+                    <Select options={generos} placeholder="Selecione o gênero" registro={"genero"} register={register} />
+                </li>
+                <li key={"tipo"} style={{ width: "48%" }}>
+                    <Select options={tiposTelefone} placeholder="Selecione o tipo de telefone" registro={"tipoTelefone"} register={register} />
                 </li>
             </Opcoes>
         </FormContainer>
