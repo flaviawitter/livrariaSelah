@@ -68,7 +68,7 @@ function FormCliente({ register }) {
                 <li key={"genero"} style={{ width: "48%" }}>
                     <Select options={generos} placeholder="Selecione o gênero" registro={"genero"} register={register} />
                 </li>
-                <li key={"tipo"} style={{ width: "48%" }}>
+                <li key={"tipoTelefone"} style={{ width: "48%" }}>
                     <Select options={tiposTelefone} placeholder="Selecione o tipo de telefone" registro={"tipoTelefone"} register={register} />
                 </li>
             </Opcoes>

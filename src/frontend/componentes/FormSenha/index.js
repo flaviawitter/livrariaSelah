@@ -40,18 +40,20 @@ const Opcoes = styled.ul`
     margin-top: 0;
 `
 
-const textoPlaceHolders = ['Senha Atual', 'Senha Nova', 'Repita a Senha Nova']
-
-function FormSenha() {
+function FormSenha({register}) {
     return (
         <FormContainer>
             <Titulo style={{ fontFamily: "Bookochi", letterSpacing: "0.22em" }}>Senha</Titulo>
             <Opcoes>
-                {textoPlaceHolders.map((placeholder, index) => (
-                    <li key={index} style={{ width: '48%' }}>
-                        <Input placeholder={placeholder} />
-                    </li>
-                ))}
+            <li key={"senhaAtual"} style={{ width: "48%" }}>
+                    <Input placeholder={"Senha Atual"} {...register("senhaAtual")} />
+            </li>
+            <li key={"senhaNova"} style={{ width: "48%" }}>
+                    <Input placeholder={"Senha Nova"} {...register("senhaNova")} />
+            </li>
+            <li key={"repitaSenhaNova"} style={{ width: "48%" }}>
+                    <Input placeholder={"Repita a Senha Nova"} {...register("repitaSenhaNova")} />
+            </li>
             </Opcoes>
         </FormContainer>
     )

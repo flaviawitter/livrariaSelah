@@ -46,10 +46,57 @@ function App() {
 
   const onSubmit = (data) => {
     console.log(data)
- 
+    const cliente = {
+      nome: data.nome,
+      email: data.email,
+      cpf: data.cpf,
+      genero: data.genero,
+      nascimento: data.nascimento,
+      tipoTelefone: data.tipoTelefone,
+      ddd: data.ddd,
+      numero: data.numero
+    }
 
+    const enderecoEntrega = {
+      estadoEntrega: data.estadoEntrega,
+      cidadeEntrega: data.cidadeEntrega,
+      logradouroEntrega: data.logradouroEntrega,
+      numeroEnderecoEntrega: data.numeroEnderecoEntrega,
+      complementoEntrega: data.complementoEntrega,
+      bairroEntrega: data.bairroEntrega,
+      cepEntrega: data.cepEntrega,
+      ptReferenciaEntrega: data.ptReferenciaEntrega,
+      tpResidenciaEntrega: data.tpResidenciaEntrega,
+      tpLogradouroEntrega: data.tpLogradouroEntrega,
+      tpEnderecoEntrega: data.tpEnderecoEntrega
+    }
+
+    const enderecoCobranca = {
+      estadoCobranca: data.estadoCobranca,
+      cidadeCobranca: data.cidadeCobranca,
+      logradouroCobranca: data.logradouroCobranca,
+      numeroEnderecoCobranca: data.numeroEnderecoCobranca,
+      complementoCobranca: data.complementoCobranca,
+      bairroCobranca: data.bairroCobranca,
+      cepCobranca: data.cepCobranca,
+      ptReferenciaCobranca: data.ptReferenciaCobranca,
+      tpResidenciaCobranca: data.tpResidenciaCobranca,
+      tpLogradouroCobranca: data.tpLogradouroCobranca,
+      tpEnderecoCobranca: data.tpEnderecoCobranca
+    }
+
+    const cartao = {
+      nomeTitular: data.nomeTitular,
+      numeroCartao: data.numeroCartao,
+      validade: data.validade,
+      cvv: data.cvv
+    }
+
+    const senha = {
+      senhaAtual: data.senhaAtual,
+      senhaNova: data.senhaNova
+    }
   }
-
 
   return (
     <AppContainer>

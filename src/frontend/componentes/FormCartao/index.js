@@ -38,19 +38,24 @@ const Opcoes = styled.ul`
     list-style-type: none;
     margin-top: 0;
 `
-
-const textoPlaceHolders = ['Número do Cartão', 'CVV', 'Validade', 'Nome do Titular']
-
-function FormCartao() {
+function FormCartao({ register }) {
     return (
         <FormContainer>
             <Titulo style={{ fontFamily: "Bookochi", letterSpacing: "0.22em" }}>Cartões Cadastrados</Titulo>
             <Opcoes>
-                {textoPlaceHolders.map((placeholder, index) => (
-                    <li key={index} style={{ width: '48%' }}>
-                        <Input placeholder={placeholder} />
-                    </li>
-                ))}
+            <li key={"numeroCartao"} style={{ width: "48%" }}>
+                    <Input placeholder={"Número do Cartão"} {...register("numeroCartao")} />
+            </li>
+            <li key={"cvv"} style={{ width: "48%" }}>
+                    <Input placeholder={"CVV"} {...register("cvv")} />
+            </li>
+            <li key={"validade"} style={{ width: "48%" }}>
+                    <Input placeholder={"Validade"} {...register("validade")} />
+            </li>
+            <li key={"nomeTitular"} style={{ width: "48%" }}>
+                    <Input placeholder={"Nome do Titular"} {...register("nomeTitular")} />
+            </li>
+
             </Opcoes>
         </FormContainer>
     )
