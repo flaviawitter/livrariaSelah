@@ -1,4 +1,4 @@
-import Input from '../Input' 
+import Input from '../Input'
 import Select from "../Select"
 import styled from 'styled-components'
 
@@ -38,29 +38,39 @@ const Opcoes = styled.ul`
     list-style-type: none;
     margin-top: 0;
 `
-
-const textoPlaceHolders = ["Nome", "Sobrenome", "E-mail", "CPF", "Data de Nascimento", "Gênero", "Tipo Telefone", "DDD", "Número"]
-
 const generos = ["Masculino", "Feminino", "Outro"]
 const tiposTelefone = ["Celular", "Residencial", "Comercial", "Outro"]
 
 
-function FormCliente() {
+function FormCliente({ register }) {
     return (
         <FormContainer>
             <Titulo style={{ fontFamily: "Bookochi", letterSpacing: "0.22em" }}>Dados Cadastrados</Titulo>
             <Opcoes>
-                {textoPlaceHolders.map((placeholder, index) => (
-                    <li key={index} style={{ width: "48%" }}>
-                        {placeholder === "Gênero" ? (
-                            <Select options={generos} placeholder="Selecione o gênero" />
-                        ) : placeholder === "Tipo Telefone" ? (
-                            <Select options={tiposTelefone} placeholder="Selecione o tipo de telefone" />
-                        ) : (
-                            <Input placeholder={placeholder} />
-                        )}
-                    </li>
-                ))}
+                <li key={"nome"} style={{ width: "48%" }}>
+                    <Input placeholder={"Nome"} {...register("nome")} />
+                </li>
+                <li key={"email"} style={{ width: "48%" }}>
+                    <Input placeholder={"E-mail"} {...register("email")} />
+                </li>
+                <li key={"cpf"} style={{ width: "48%" }}>
+                    <Input placeholder={"CPF"} {...register("cpf")} />
+                </li>
+                <li key={"nascimento"} style={{ width: "48%" }}>
+                    <Input placeholder={"Nascimento"} {...register("nascimento")} />
+                </li>
+                <li key={"genero"} style={{ width: "48%" }}>
+                    <Select options={generos} placeholder="Selecione o gênero" {...register("genero")} />
+                </li>
+                <li key={"tipo"} style={{ width: "48%" }}>
+                    <Select options={tiposTelefone} placeholder="Selecione o tipo de telefone" {...register("tipo")} />
+                </li>
+                <li key={"ddd"} style={{ width: "48%" }}>
+                    <Input placeholder={"DDD"} {...register("ddd")} />
+                </li>
+                <li key={"numero"} style={{ width: "48%" }}>
+                    <Input placeholder={"Número"} {...register("numero")} />
+                </li>
             </Opcoes>
         </FormContainer>
     )

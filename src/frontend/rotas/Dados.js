@@ -8,6 +8,10 @@ import FormSenha from '../componentes/FormSenha';
 import BotaoVermelho from '../componentes/BotaoVermelho';
 import BotaoCinza from '../componentes/BotaoCinza';
 
+import dados from '../serviços/dados'
+
+import { useForm } from "react-hook-form"
+
 const AppContainer = styled.div`
     width: 100%;
     height: 100vh;
@@ -30,19 +34,39 @@ const BotaoContainer = styled.div`
     padding: 10px;
 `
 
+
 function App() {
+  const {
+    register,
+    handleSubmit,
+  } = useForm(
+    {
+      mode: "onBlur"
+    }
+  )
+
+  const onSubmit = (data) => {
+    console.log(data)
+    const cliente = {
+      nome: data.nome,
+      cpf: data.cpf,
+    }
+
+  }
+
+
   return (
     <AppContainer>
       <Header />
       <DadosContainer>
-        <FormCliente />
-        <FormEndereco />
-        <FormCartao />
-        <FormSenha />
+        <FormCliente register={register} />
+        <FormEndereco register={register}/>
+        <FormCartao register={register}/>
+        <FormSenha register={register}/>
       </DadosContainer>
       <BotaoContainer>
-      <BotaoVermelho type="submit">Salvar Dados</BotaoVermelho>
-      <BotaoCinza type="button">Excluir Conta</BotaoCinza>
+        <BotaoVermelho type="submit" onClick={handleSubmit(onSubmit)}>Salvar Dados</BotaoVermelho>
+        <BotaoCinza type="button">Excluir Conta</BotaoCinza>
       </BotaoContainer>
     </AppContainer>
   );

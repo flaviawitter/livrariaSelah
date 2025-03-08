@@ -2,7 +2,9 @@ const prisma = require('../config/prismaClient');
 
 async function criarEndereco(req, res) {
     try {
+        console.log(req.body)
         const endereco = await prisma.endereco.create({ data: req.body });
+        console.log(endereco)
         res.status(201).json(endereco);
     } catch (error) {
         res.status(400).json({ error: error.message });
