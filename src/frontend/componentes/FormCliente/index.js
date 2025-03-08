@@ -38,7 +38,7 @@ const Opcoes = styled.ul`
     list-style-type: none;
     margin-top: 0;
 `
-const generos = ["Masculino", "Femininoaa", "Outro"]
+const generos = ["Masculino", "Feminino", "Outro"]
 const tiposTelefone = ["Celular", "Residencial", "Comercial", "Outro"]
 
 

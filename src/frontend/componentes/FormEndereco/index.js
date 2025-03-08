@@ -40,84 +40,100 @@ const Opcoes = styled.ul`
     margin-top: 0;
 `
 
-const titulos = ['Endereço Residencial', 'Endereço de Entrega', 'Endereço de Cobrança']
-const textoPlaceHolders = ['País', 'Estado', 'Cidade', 'Tipo Residência', 'Tipo Logradouro', 'Logradouro', 'Número', 'Complemento', 'Bairro', 'CEP', 'Tipo Endereço', 'Ponto de Referência']
+//const titulos = ['Endereço Residencial', 'Endereço de Entrega', 'Endereço de Cobrança']
+//const textoPlaceHolders = ['País', 'Estado', 'Cidade', 'Tipo Residência', 'Tipo Logradouro', 'Logradouro', 'Número', 'Complemento', 'Bairro', 'CEP', 'Tipo Endereço', 'Ponto de Referência']
 
 const tipoResidendia = ["Casa", "Apartamento", "Sobreloja ", "Outro"]
 const tiposLogradouro = ["Avenida", "Rua", "Alameda", "Rodovia", "Outro"]
 const tiposEndereco = ["Casa", "Trabalho", "Comercio", "Outro"]
 
-function FormEndereco() {
-
-  const [formData, setFormData] = useState({});
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const enderecoFormatado = {
-      cep: formData['CEP'],
-      logradouro: formData['Logradouro'],
-      numero: formData['Número'],
-      bairro: formData['Bairro'],
-      clienteId: 1, // Defina o ID real do cliente
-      tipoEnderecoId: 1, // Ajuste conforme necessário
-      tipoLogradouroId: 1,
-      tipoResidenciaId: 1,
-      cidadeId: 1,
-      observacao: formData['Ponto de Referência'] || '',
-    };
-
-    try {
-      const response = await fetch('http://localhost:5000/endereco', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(enderecoFormatado),
-      });
-
-      if (response.ok) {
-        alert('Endereço cadastrado com sucesso!');
-      } else {
-        alert('Erro ao cadastrar o endereço');
-      }
-    } catch (error) {
-      console.error('Erro ao enviar o formulário:', error);
-    }
-  };
-
-
-  const register = () => { }
-
+function FormEndereco({register}) {
   return (
     <FormContainer>
-      {titulos.map((titulo, indexTitulo) => (
-        <div key={indexTitulo}>
+      
           <Titulo style={{ fontFamily: "Bookochi", letterSpacing: "0.22em" }}>
-            {titulo}
+            Endereço de Entrega
           </Titulo>
-          <Opcoes>
-            {textoPlaceHolders.map((placeholder, indexPlaceholder) => (
-              <li style={{ width: "48%" }}>
-                {placeholder === "Tipo Residência" ? (
-                  <Select options={tipoResidendia} placeholder="Selecione o tipo de residência" registro={"tipoResidencia"} register={register} />
-                ) : placeholder === "Tipo Logradouro" ? (
-                  <Select options={tiposLogradouro} placeholder="Selecione o tipo de logradouro" registro={"tipoLogradouro"} register={register} />
-                ) : placeholder === "Tipo Endereço" ? (
-                  <Select options={tiposEndereco} placeholder="Selecione o tipo de endereço" registro={"tipoEndereço"} register={register} />
-                ) : (
-                  <Input placeholder={placeholder} />
-                )}
-              </li>
-            ))}
+
+                <Opcoes>
+                <li key={"pais"} style={{ width: "48%" }}>
+                    <Input placeholder={"País"} {...register("pais")} />
+                </li>
+                <li key={"estadoEntrega"} style={{ width: "48%" }}>
+                    <Input placeholder={"Estado"} {...register("estadoEntrega")} />
+                </li>
+                <li key={"cidadeEntrega"} style={{ width: "48%" }}>
+                    <Input placeholder={"Cidade"} {...register("cidadeEntrega")} />
+                </li>
+                <li key={"logradouroEntrega"} style={{ width: "48%" }}>
+                    <Input placeholder={"Logradouro"} {...register("logradouroEntrega")} />
+                </li>
+                <li key={"numeroEnderecoEntrega"} style={{ width: "48%" }}>
+                    <Input placeholder={"Número"} {...register("numeroEnderecoEntrega")} />
+                </li>
+                <li key={"complementoEntrega"} style={{ width: "48%" }}>
+                    <Input placeholder={"Complemento"} {...register("complementoEntrega")} />
+                </li>
+                <li key={"bairroEntrega"} style={{ width: "48%" }}>
+                    <Input placeholder={"Bairro"} {...register("bairroEntrega")} />
+                </li>
+                <li key={"cepEntrega"} style={{ width: "48%" }}>
+                    <Input placeholder={"CEP"} {...register("cepEntrega")} />
+                </li>
+                <li key={"ptReferenciaEntrega"} style={{ width: "48%" }}>
+                    <Input placeholder={"Ponto de Referência"} {...register("ptReferenciaEntrega")} />
+                </li>
+                <li key={"tpResidenciaEntrega"} style={{ width: "48%" }}>
+                    <Select options={tipoResidendia} placeholder="Selecione o tipo de residência" registro={"tpResidenciaEntrega"} register={register} />
+                </li>
+                <li key={"tpLogradouroEntrega"} style={{ width: "48%" }}>
+                    <Select options={tiposLogradouro} placeholder="Selecione o tipo de logradouro" registro={"tpLogradouroEntrega"} register={register}/>
+                </li>
+                <li key={"tpEnderecoEntrega"} style={{ width: "48%" }}>
+                    <Select options={tiposEndereco} placeholder="Selecione o tipo de endereco" registro={"tpEnderecoEntrega"} register={register} />
+                </li>
+
+                <Titulo style={{ fontFamily: "Bookochi", letterSpacing: "0.22em" }}>
+                Endereço de Cobrança
+                </Titulo>
+
+                <li key={"paisCobranca"} style={{ width: "48%" }}>
+                    <Input placeholder={"País"} {...register("paisCobranca")} />
+                </li>
+                <li key={"estadoCobranca"} style={{ width: "48%" }}>
+                    <Input placeholder={"Estado"} {...register("estadoCobranca")} />
+                </li>
+                <li key={"cidadeCobranca"} style={{ width: "48%" }}>
+                    <Input placeholder={"Cidade"} {...register("cidadeCobranca")} />
+                </li>
+                <li key={"logradouroCobranca"} style={{ width: "48%" }}>
+                    <Input placeholder={"Logradouro"} {...register("logradouroCobranca")} />
+                </li>
+                <li key={"numeroEnderecoCobranca"} style={{ width: "48%" }}>
+                    <Input placeholder={"Número"} {...register("numeroEnderecoCobranca")} />
+                </li>
+                <li key={"complementoCobranca"} style={{ width: "48%" }}>
+                    <Input placeholder={"Complemento"} {...register("complementoCobranca")} />
+                </li>
+                <li key={"bairroCobranca"} style={{ width: "48%" }}>
+                    <Input placeholder={"Bairro"} {...register("bairroCobranca")} />
+                </li>
+                <li key={"cepCobranca"} style={{ width: "48%" }}>
+                    <Input placeholder={"CEP"} {...register("cepCobranca")} />
+                </li>
+                <li key={"ptReferenciaCobranca"} style={{ width: "48%" }}>
+                    <Input placeholder={"Ponto de Referência"} {...register("ptReferenciaCobranca")} />
+                </li>
+                <li key={"tpResidenciaCobranca"} style={{ width: "48%" }}>
+                    <Select options={tipoResidendia} placeholder="Selecione o tipo de residência" registro={"tpResidenciaCobranca"} register={register} />
+                </li>
+                <li key={"tpLogradouroCobranca"} style={{ width: "48%" }}>
+                    <Select options={tiposLogradouro} placeholder="Selecione o tipo de logradouro" registro={"tpLogradouroCobranca"} register={register} />
+                </li>
+                <li key={"tpEnderecoCobranca"} style={{ width: "48%" }}>
+                    <Select options={tiposEndereco} placeholder="Selecione o tipo de endereco" registro={"tpEnderecoCobranca"} register={register} />
+                </li>
           </Opcoes>
-        </div>
-      ))}
     </FormContainer>
   )
 }
