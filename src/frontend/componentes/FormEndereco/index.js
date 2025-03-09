@@ -43,7 +43,7 @@ const Opcoes = styled.ul`
 //const titulos = ['Endereço Residencial', 'Endereço de Entrega', 'Endereço de Cobrança']
 //const textoPlaceHolders = ['País', 'Estado', 'Cidade', 'Tipo Residência', 'Tipo Logradouro', 'Logradouro', 'Número', 'Complemento', 'Bairro', 'CEP', 'Tipo Endereço', 'Ponto de Referência']
 
-const tipoResidendia = ["Casa", "Apartamento", "Sobreloja ", "Outro"]
+const tipoResidencia = ["Casa", "Apartamento", "Sobreloja ", "Outro"]
 const tiposLogradouro = ["Avenida", "Rua", "Alameda", "Rodovia", "Outro"]
 const tiposEndereco = ["Casa", "Trabalho", "Comercio", "Outro"]
 
@@ -84,7 +84,7 @@ function FormEndereco({register}) {
                     <Input placeholder={"Ponto de Referência"} {...register("ptReferenciaEntrega")} />
                 </li>
                 <li key={"tpResidenciaEntrega"} style={{ width: "48%" }}>
-                    <Select options={tipoResidendia} placeholder="Selecione o tipo de residência" registro={"tpResidenciaEntrega"} register={register} />
+                    <Select options={tipoResidencia} placeholder="Selecione o tipo de residência" registro={"tpResidenciaEntrega"} register={register} />
                 </li>
                 <li key={"tpLogradouroEntrega"} style={{ width: "48%" }}>
                     <Select options={tiposLogradouro} placeholder="Selecione o tipo de logradouro" registro={"tpLogradouroEntrega"} register={register}/>
@@ -125,7 +125,7 @@ function FormEndereco({register}) {
                     <Input placeholder={"Ponto de Referência"} {...register("ptReferenciaCobranca")} />
                 </li>
                 <li key={"tpResidenciaCobranca"} style={{ width: "48%" }}>
-                    <Select options={tipoResidendia} placeholder="Selecione o tipo de residência" registro={"tpResidenciaCobranca"} register={register} />
+                    <Select options={tipoResidencia} placeholder="Selecione o tipo de residência" registro={"tpResidenciaCobranca"} register={register} />
                 </li>
                 <li key={"tpLogradouroCobranca"} style={{ width: "48%" }}>
                     <Select options={tiposLogradouro} placeholder="Selecione o tipo de logradouro" registro={"tpLogradouroCobranca"} register={register} />

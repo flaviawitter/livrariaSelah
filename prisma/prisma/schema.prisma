@@ -72,6 +72,7 @@ model cliente {
   dataNascimento DateTime?
   ranking        Int
   statusAtivo    Boolean        @default(true)
+  enderecos      endereco[]
 }
 
 model cupom {
@@ -94,26 +95,19 @@ model endereco {
   logradouro       String? @db.VarChar(100)
   numero           Int?
   bairro           String? @db.VarChar(50)
-  clienteId        Int
-  tipoEnderecoId   Int
-  tipoLogradouroId Int
-  tipoResidenciaId Int
-  cidadeId         Int
+  tipoEndereco     String
+  tipoLogradouro   String
+  tipoResidencia   String
+  cidade           String
   observacao       String?
 
-  @@index([cidadeId], map: "Endereco_cidadeId_fkey")
-  @@index([clienteId], map: "Endereco_clienteId_fkey")
-  @@index([tipoEnderecoId], map: "Endereco_tipoEnderecoId_fkey")
-  @@index([tipoLogradouroId], map: "Endereco_tipoLogradouroId_fkey")
-  @@index([tipoResidenciaId], map: "Endereco_tipoResidenciaId_fkey")
+  clienteId        Int
+  cliente          cliente @relation(fields: [clienteId], references: [id])
 }
 
 model estados {
   id     Int    @id @default(autoincrement())
   nome   String @db.VarChar(100)
-  paisId Int
-
-  @@index([paisId], map: "Estados_paisId_fkey")
 }
 
 model estoque {
@@ -231,11 +225,6 @@ model pagamentos {
   status          String
 }
 
-model pais {
-  id   Int    @id @default(autoincrement())
-  nome String @db.VarChar(255)
-}
-
 model pedidos {
   id         Int       @id @default(autoincrement())
   clienteId  Int
@@ -248,31 +237,11 @@ model telefones {
   id             Int    @id @default(autoincrement())
   ddd            String @db.Char(3)
   numero         String @db.VarChar(20)
-  tipoTelefoneId Int
+  tipoTelefone   String
   clienteId      Int?
 
   @@index([clienteId], map: "Telefones_clienteId_fkey")
-  @@index([tipoTelefoneId], map: "Telefones_tipoTelefoneId_fkey")
-}
-
-model tipoendereco {
-  id        Int    @id @default(autoincrement())
-  descricao String @db.VarChar(50)
-}
-
-model tipologradouro {
-  id        Int    @id @default(autoincrement())
-  descricao String @db.VarChar(50)
-}
-
-model tiporesidencia {
-  id        Int    @id @default(autoincrement())
-  descricao String @db.VarChar(50)
-}
-
-model tipotelefone {
-  id   Int    @id @default(autoincrement())
-  nome String @unique(map: "TipoTelefone_nome_key")
+ 
 }
 
 enum cliente_genero {

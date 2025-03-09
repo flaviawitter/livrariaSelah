@@ -10,6 +10,7 @@ import BotaoCinza from '../componentes/BotaoCinza';
 
 
 import { useForm } from "react-hook-form"
+import { criarEndereco } from '../serviços/endereco';
 
 const AppContainer = styled.div`
     width: 100%;
@@ -44,8 +45,7 @@ function App() {
     }
   )
 
-  const onSubmit = (data) => {
-    console.log(data)
+  const onSubmit = async (data) => {
     const cliente = {
       nome: data.nome,
       email: data.email,
@@ -56,8 +56,8 @@ function App() {
       ddd: data.ddd,
       numero: data.numero
     }
-
     const enderecoEntrega = {
+      clienteId: 1,
       estadoEntrega: data.estadoEntrega,
       cidadeEntrega: data.cidadeEntrega,
       logradouroEntrega: data.logradouroEntrega,
@@ -72,17 +72,18 @@ function App() {
     }
 
     const enderecoCobranca = {
-      estadoCobranca: data.estadoCobranca,
-      cidadeCobranca: data.cidadeCobranca,
-      logradouroCobranca: data.logradouroCobranca,
-      numeroEnderecoCobranca: data.numeroEnderecoCobranca,
-      complementoCobranca: data.complementoCobranca,
-      bairroCobranca: data.bairroCobranca,
-      cepCobranca: data.cepCobranca,
-      ptReferenciaCobranca: data.ptReferenciaCobranca,
-      tpResidenciaCobranca: data.tpResidenciaCobranca,
-      tpLogradouroCobranca: data.tpLogradouroCobranca,
-      tpEnderecoCobranca: data.tpEnderecoCobranca
+      clienteId: 1,
+      estado: data.estadoCobranca,
+      cidade: data.cidadeCobranca,
+      logradouro: data.logradouroCobranca,
+      numero: parseInt(data.numeroEnderecoCobranca),
+      complemento: data.complementoCobranca,
+      bairro: data.bairroCobranca,
+      cep: data.cepCobranca,
+      pontoReferencia: data.ptReferenciaCobranca,
+      tipoResidencia: data.tpResidenciaCobranca,
+      tipoLogradouro: data.tpLogradouroCobranca,
+      tipoEndereco: data.tpEnderecoCobranca
     }
 
     const cartao = {
@@ -96,6 +97,15 @@ function App() {
       senhaAtual: data.senhaAtual,
       senhaNova: data.senhaNova
     }
+
+
+    await criarEndereco(enderecoCobranca)
+    // console.log(cliente)
+    console.log(enderecoCobranca)
+    console.log(enderecoEntrega)
+    // console.log(cartao)
+    // console.log(senha)
+
   }
 
   return (

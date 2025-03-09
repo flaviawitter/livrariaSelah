@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors')
 const clienteRoutes = require('./src/backend/routes/clienteRoutes');
 const tipoTelefoneRoutes = require('./src/backend/routes/tipoTelefoneRoutes');
 const bandeiraCartaoRoutes = require('./src/backend/routes/bandeiraCartaoRoutes');
@@ -33,6 +34,7 @@ const freteRoutes = require('./src/backend/routes/freteRoutes');
 const classificacaoIARoutes = require('./src/backend/routes/classificacaoIARoutes');
 
 const app = express();
+app.use(cors({origin: "*"}));
 app.use(express.json());
 
 app.use('/api/clientes', clienteRoutes);

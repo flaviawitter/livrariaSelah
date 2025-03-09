@@ -2,9 +2,22 @@ const prisma = require('../config/prismaClient');
 
 async function criarEndereco(req, res) {
     try {
-        console.log(req.body)
-        const endereco = await prisma.endereco.create({ data: req.body });
-        console.log(endereco)
+        const enderecoReq = req.body
+        const data = {
+            cep: enderecoReq.cep,
+            logradouro: enderecoReq.logradouro,
+            numero: enderecoReq.numero,
+            bairro: enderecoReq.bairro,
+            clienteId: enderecoReq.clienteId,
+            tipoEndereco: enderecoReq.tipoEndereco,
+            tipoLogradouro: enderecoReq.tipoLogradouro,
+            tipoResidencia: enderecoReq.tipoResidencia,
+            cidade: enderecoReq.cidade,
+            observacao: enderecoReq.observacao
+        }
+        console.log("Dados recebidos:", enderecoReq);
+
+        const endereco = await prisma.endereco.create({ data });
         res.status(201).json(endereco);
     } catch (error) {
         res.status(400).json({ error: error.message });
