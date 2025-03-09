@@ -58,17 +58,15 @@ function App() {
     }
     const enderecoEntrega = {
       clienteId: 1,
-      estadoEntrega: data.estadoEntrega,
-      cidadeEntrega: data.cidadeEntrega,
-      logradouroEntrega: data.logradouroEntrega,
-      numeroEnderecoEntrega: data.numeroEnderecoEntrega,
-      complementoEntrega: data.complementoEntrega,
-      bairroEntrega: data.bairroEntrega,
-      cepEntrega: data.cepEntrega,
-      ptReferenciaEntrega: data.ptReferenciaEntrega,
-      tpResidenciaEntrega: data.tpResidenciaEntrega,
-      tpLogradouroEntrega: data.tpLogradouroEntrega,
-      tpEnderecoEntrega: data.tpEnderecoEntrega
+      estado: data.estadoEntrega,
+      cidade: data.cidadeEntrega,
+      logradouro: data.logradouroEntrega,
+      numero: parseInt(data.numeroEnderecoEntrega),
+      bairro: data.bairroEntrega,
+      cep: data.cepEntrega,
+      tpResidencia: data.tpResidenciaEntrega,
+      tpLogradouro: data.tpLogradouroEntrega,
+      tpEndereco: data.tpEnderecoEntrega
     }
 
     const enderecoCobranca = {

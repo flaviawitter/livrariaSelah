@@ -26,14 +26,7 @@ async function criarEndereco(req, res) {
 
 async function listarEnderecos(req, res) {
     try {
-        const enderecos = await prisma.endereco.findMany({
-            include: {
-                cidade: { select: { nome: true } },
-                tipoEndereco: { select: { descricao: true } },
-                tipoLogradouro: { select: { descricao: true } },
-                tipoResidencia: { select: { descricao: true } }
-            }
-        });
+        const enderecos = await prisma.endereco.findMany();
         res.json(enderecos);
     } catch (error) {
         res.status(500).json({ error: error.message });
