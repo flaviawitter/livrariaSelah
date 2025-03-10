@@ -44,7 +44,7 @@ function FormCartao({ register }) {
             <Titulo style={{ fontFamily: "Bookochi", letterSpacing: "0.22em" }}>Cartões Cadastrados</Titulo>
             <Opcoes>
             <li key={"numeroCartao"} style={{ width: "48%" }}>
-                    <Input placeholder={"Número do Cartão"} {...register("numeroCartao")} />
+                    <Input  placeholder={"Número do Cartão"} {...register("numeroCartao")} />
             </li>
             <li key={"cvv"} style={{ width: "48%" }}>
                     <Input placeholder={"CVV"} {...register("cvv")} />

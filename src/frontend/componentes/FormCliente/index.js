@@ -54,7 +54,7 @@ function FormCliente({ register }) {
                     <Input placeholder={"E-mail"} {...register("email")} />
                 </li>
                 <li key={"cpf"} style={{ width: "48%" }}>
-                    <Input placeholder={"CPF"} {...register("cpf")} />
+                    <Input  placeholder={"CPF"} {...register("cpf")} />
                 </li>
                 <li key={"nascimento"} style={{ width: "48%" }}>
                     <Input placeholder={"Nascimento"} {...register("nascimento")} />
