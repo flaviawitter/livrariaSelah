@@ -2,6 +2,7 @@ import Input from '../Input'
 import { useState } from 'react'
 import Select from "../Select"
 import styled from 'styled-components'
+import InputMask from "react-input-mask"
 
 const FormContainer = styled.section`
     color: #FFF;

@@ -60,10 +60,10 @@ function FormEndereco({register}) {
 
                 <Opcoes>
                 <li key={"pais"} style={{ width: "48%" }}>
-                    <Input placeholder={"País"} {...register("pais")} />
+                    <Input placeholder={"Brasil"} {...register("pais")} readOnly />
                 </li>
                 <li key={"estadoEntrega"} style={{ width: "48%" }}>
-                    <Input placeholder={"Estado"} {...register("estadoEntrega")} />
+                    <Input placeholder={"São Paulo"} {...register("estadoEntrega")} readOnly />
                 </li>
                 <li key={"cidadeEntrega"} style={{ width: "48%" }}>
                 <Select options={cidades} placeholder="Selecione a cidade" registro={"cidadeEntrega"} register={register} />
@@ -96,10 +96,10 @@ function FormEndereco({register}) {
                 Endereço de Cobrança
                 </Titulo>
                 <li key={"pais"} style={{ width: "48%" }}>
-                    <Input placeholder={"País"} {...register("pais")} />
+                    <Input placeholder={"Brasil"} {...register("pais")} readOnly/>
                 </li>
                 <li key={"estadoEntrega"} style={{ width: "48%" }}>
-                    <Input placeholder={"Estado"} {...register("estadoEntrega")} />
+                    <Input placeholder={"São Paulo"} {...register("estadoEntrega")} readOnly />
                 </li>
                 <li key={"cidadeCobranca"} style={{ width: "48%" }}>
                 <Select options={cidades} placeholder="Selecione a cidade" registro={"cidadeCobranca"} register={register} />

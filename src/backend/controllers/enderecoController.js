@@ -13,7 +13,9 @@ async function criarEndereco(req, res) {
             tipoLogradouro: enderecoReq.tipoLogradouro,
             tipoResidencia: enderecoReq.tipoResidencia,
             cidade: enderecoReq.cidade,
-            observacao: enderecoReq.observacao
+            observacao: enderecoReq.observacao,
+            pais: "Brasil",
+            estado: "São Paulo"
         }
         console.log("Dados endereço:", enderecoReq);
 
