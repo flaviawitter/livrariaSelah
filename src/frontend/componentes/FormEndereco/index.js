@@ -76,7 +76,7 @@ function FormEndereco({register}) {
                     <Input placeholder={"Bairro"} {...register("bairroEntrega")} />
                 </li>
                 <li key={"cepEntrega"} style={{ width: "48%" }}>
-                    <Input mask="99999-999" placeholder={"CEP"} {...register("cepEntrega")} />
+                    <Input placeholder={"CEP"} {...register("cepEntrega")} />
                 </li>
 
                 <li key={"tpResidenciaEntrega"} style={{ width: "48%" }}>
@@ -112,7 +112,7 @@ function FormEndereco({register}) {
                     <Input placeholder={"Bairro"} {...register("bairroCobranca")} />
                 </li>
                 <li key={"cepCobranca"} style={{ width: "48%" }}>
-                    <Input mask="99999-999" placeholder={"CEP"} {...register("cepCobranca")} />
+                    <Input placeholder={"CEP"} {...register("cepCobranca")} />
                 </li>
                 <li key={"tpResidenciaCobranca"} style={{ width: "48%" }}>
                     <Select options={tipoResidencia} placeholder="Selecione o tipo de residência" registro={"tpResidenciaCobranca"} register={register} />
