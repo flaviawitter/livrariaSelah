@@ -46,6 +46,9 @@ const Opcoes = styled.ul`
 const tipoResidencia = ["Casa", "Apartamento", "Sobreloja ", "Outro"]
 const tiposLogradouro = ["Avenida", "Rua", "Alameda", "Rodovia", "Outro"]
 const tiposEndereco = ["Casa", "Trabalho", "Comercio", "Outro"]
+const cidades = ["Aruja", "Barueri", "Biritiba-Mirim", "Boituva", "Campinas", "Cajamar", "Caieiras", "Carapicuiba", "Cotia", "Cubatao", "Diadema", "Embu", "Embu-Guacu", "Ferraz De Vasconcelos", "Francisco Morato", "Guararema", "Guarulhos", "Itapevi", "Itaquaquecetuba", "Itapecerica Da Serra", "Jandira", "Juquitiba", "Jundiai", "Mairipora", "Maua", "Miracatu", "Mogi Das Cruzes", "Osasco", "Poa", "Pirapora Bom Jesus", "Quetuz", "Registro", "Ribeirao Pires", "Rio Grande Da Serra", "Santana De Parnaiba", "Salesopolis", "Santo Andre", "Sao Bernardo Do Campo", "Sao Caetano Do Sul", "Sao Paulo", "Suzano", "S.Isabel", "S.Lourenco Da Serra", "S.Andre", "S.Caetano Do Sul", "S.Paulo", "Tabao Da Serra", "Vargem Grande Paulista"];
+
+  
 
 function FormEndereco({register}) {
   return (
@@ -63,7 +66,7 @@ function FormEndereco({register}) {
                     <Input placeholder={"Estado"} {...register("estadoEntrega")} />
                 </li>
                 <li key={"cidadeEntrega"} style={{ width: "48%" }}>
-                    <Input placeholder={"Cidade"} {...register("cidadeEntrega")} />
+                <Select options={cidades} placeholder="Selecione a cidade" registro={"cidadeEntrega"} register={register} />
                 </li>
                 <li key={"logradouroEntrega"} style={{ width: "48%" }}>
                     <Input placeholder={"Logradouro"} {...register("logradouroEntrega")} />
@@ -99,7 +102,7 @@ function FormEndereco({register}) {
                     <Input placeholder={"Estado"} {...register("estadoEntrega")} />
                 </li>
                 <li key={"cidadeCobranca"} style={{ width: "48%" }}>
-                    <Input placeholder={"Cidade"} {...register("cidadeCobranca")} />
+                <Select options={cidades} placeholder="Selecione a cidade" registro={"cidadeCobranca"} register={register} />
                 </li>
                 <li key={"logradouroCobranca"} style={{ width: "48%" }}>
                     <Input placeholder={"Logradouro"} {...register("logradouroCobranca")} />
