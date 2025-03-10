@@ -2,8 +2,16 @@ const prisma = require('../config/prismaClient');
 
 async function criarCartao(req, res) {
     try {
-        const cartao = await prisma.cartao.create({ data: req.body });
-        res.status(201).json(cartao);
+        const cartaoReq = req.body
+        const data = {
+            nomeTitular: cartaoReq.nomeTitular,
+            numeroCartao: cartaoReq.numeroCartao,
+            validade: cartaoReq.validade,
+            cvv: cartaoReq.cvv
+        }
+        console.log("Dados cartão:", cartaoReq);
+        const novoCartao = await prisma.cartao.create({ data });
+        res.status(201).json(novoCartao);
     } catch (error) {
         res.status(400).json({ error: error.message });
     }

@@ -62,7 +62,8 @@ function App() {
     }
     const enderecoEntrega = {
       clienteId: 1,
-      estado: data.estadoEntrega,
+      pais: "Brasil",
+      estado: "São Paulo",
       cidade: data.cidadeEntrega,
       logradouro: data.logradouroEntrega,
       numero: parseInt(data.numeroEnderecoEntrega),
@@ -75,7 +76,8 @@ function App() {
 
     const enderecoCobranca = {
       clienteId: 1,
-      estado: data.estadoCobranca,
+      pais: "Brasil",
+      estado: "São Paulo",
       cidade: data.cidadeCobranca,
       logradouro: data.logradouroCobranca,
       numero: parseInt(data.numeroEnderecoCobranca),
@@ -87,10 +89,11 @@ function App() {
     }
 
     const cartao = {
+
       nomeTitular: data.nomeTitular,
-      numeroCartao: data.numeroCartao,
+      numero: data.numeroCartao,
       validade: data.validade,
-      cvv: data.cvv
+      codSeguranca: data.cvv
     }
 
     const senha = {
@@ -101,10 +104,11 @@ function App() {
 
     //await criarEndereco(enderecoCobranca)
     await criarCliente(cliente)
+
     console.log(cliente)
     //console.log(enderecoCobranca)
     //console.log(enderecoEntrega)
-    // console.log(cartao)
+    //console.log(cartao)
     // console.log(senha)
 
   }
