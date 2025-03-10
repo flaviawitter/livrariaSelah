@@ -62,7 +62,7 @@ function FormCliente({register}) {
                                     <Input placeholder={"Senha"} {...register("senha")} />
                             </li>
                 <li key={"nascimento"} style={{ width: "48%" }}>
-                    <Input placeholder={"Nascimento"} {...register("nascimento")} />
+                    <Input type='date' placeholder={"Nascimento"} {...register("nascimento")} />
                 </li>
                 <li key={"ddd"} style={{ width: "48%" }}>
                     <Input placeholder={"DDD"} {...register("ddd")} />

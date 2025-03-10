@@ -55,14 +55,18 @@ function App() {
       cpf: data.cpf,
       senha: data.senha,
       genero: data.genero,
-      nascimento: data.nascimento,
+      dataNascimento: data.nascimento,
       ranking: 0
       //tipoTelefone: data.tipoTelefone,
       //ddd: data.ddd,
       //numero: data.numero
     }
+
+    const newCliente = await criarCliente(cliente)
+    const idCliente = newCliente.data.id
+
     const enderecoEntrega = {
-      clienteId: 1,
+      clienteId: idCliente,
       pais: "Brasil",
       estado: "São Paulo",
       cidade: data.cidadeEntrega,
@@ -72,11 +76,11 @@ function App() {
       cep: data.cepEntrega,
       tpResidencia: data.tpResidenciaEntrega,
       tpLogradouro: data.tpLogradouroEntrega,
-      tpEndereco: data.tpEnderecoEntrega
+      tpEndereco: "Entrega"
     }
 
     const enderecoCobranca = {
-      clienteId: 1,
+      clienteId: idCliente,
       pais: "Brasil",
       estado: "São Paulo",
       cidade: data.cidadeCobranca,
@@ -86,7 +90,7 @@ function App() {
       cep: data.cepCobranca,
       tipoResidencia: data.tpResidenciaCobranca,
       tipoLogradouro: data.tpLogradouroCobranca,
-      tipoEndereco: data.tpEnderecoCobranca
+      tipoEndereco: "Cobranca"
     }
 
     const cartao = {
@@ -97,7 +101,7 @@ function App() {
       codSeguranca: data.codSeguranca,
       bandeiraCartao: data.bandeiraCartao,
       preferencial: data.preferencial || false,
-      clienteId: 1
+      clienteId: idCliente
     }
 
     const senha = {
@@ -105,16 +109,15 @@ function App() {
       senhaNova: data.senhaNova
     }
 
-
+    
+    //await criarCartao(cartao)
     //await criarEndereco(enderecoCobranca)
-    //await criarCliente(cliente)
-    await criarCartao(cartao)
 
 
     //console.log(cliente)
     //console.log(enderecoCobranca)
     //console.log(enderecoEntrega)
-    console.log(cartao)
+    //console.log(cartao)
     // console.log(senha)
 
   }

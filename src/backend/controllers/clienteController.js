@@ -9,12 +9,13 @@ async function criarCliente(req, res) {
             email: clienteReq.email,
             senha: clienteReq.senha, 
             genero: clienteReq.genero,
-            dataNascimento: clienteReq.dataNascimento,
+            dataNascimento: new Date(clienteReq.dataNascimento),
             ranking: clienteReq.ranking
         }
-        console.log("Dados Clientes:", clienteReq);
         const novoCliente = await prisma.cliente.create({ data });
-        res.status(201).json(novoCliente);
+        console.log(novoCliente);
+        res.json(novoCliente);
+        return novoCliente;
     } catch (error) {
         res.status(400).json({ error: error.message });
     }

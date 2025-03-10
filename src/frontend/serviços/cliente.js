@@ -4,7 +4,8 @@ const clienteAPI = "http://localhost:5000/api/clientes";
 
 async function criarCliente(cliente) {
     try{
-        await axios.post(clienteAPI, cliente);
+        const newCliente = await axios.post(clienteAPI, cliente);
+        return newCliente
     } catch (error) {
         console.log(error.request.response)
     }

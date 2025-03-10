@@ -35,7 +35,8 @@ model cartao {
   nomeTitular      String  @db.VarChar(100)
   codSeguranca     String  @db.VarChar(4)
   preferencial     Boolean @default(false)
-  bandeiraCartao String
+  bandeiraCartao   String
+  validade         String
 
   clienteId        Int
   cliente          cliente @relation(fields: [clienteId], references: [id])
@@ -93,6 +94,8 @@ model endereco {
   id               Int     @id @default(autoincrement())
   cep              String? @db.VarChar(10)
   logradouro       String? @db.VarChar(100)
+  pais             String
+  estado           String
   numero           Int?
   bairro           String? @db.VarChar(50)
   tipoEndereco     String

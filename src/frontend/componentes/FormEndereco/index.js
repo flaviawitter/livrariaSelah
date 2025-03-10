@@ -45,7 +45,6 @@ const Opcoes = styled.ul`
 
 const tipoResidencia = ["Casa", "Apartamento", "Sobreloja ", "Outro"]
 const tiposLogradouro = ["Avenida", "Rua", "Alameda", "Rodovia", "Outro"]
-const tiposEndereco = ["Casa", "Trabalho", "Comercio", "Outro"]
 const cidades = ["Aruja", "Barueri", "Biritiba-Mirim", "Boituva", "Campinas", "Cajamar", "Caieiras", "Carapicuiba", "Cotia", "Cubatao", "Diadema", "Embu", "Embu-Guacu", "Ferraz De Vasconcelos", "Francisco Morato", "Guararema", "Guarulhos", "Itapevi", "Itaquaquecetuba", "Itapecerica Da Serra", "Jandira", "Juquitiba", "Jundiai", "Mairipora", "Maua", "Miracatu", "Mogi Das Cruzes", "Osasco", "Poa", "Pirapora Bom Jesus", "Quetuz", "Registro", "Ribeirao Pires", "Rio Grande Da Serra", "Santana De Parnaiba", "Salesopolis", "Santo Andre", "Sao Bernardo Do Campo", "Sao Caetano Do Sul", "Sao Paulo", "Suzano", "S.Isabel", "S.Lourenco Da Serra", "S.Andre", "S.Caetano Do Sul", "S.Paulo", "Tabao Da Serra", "Vargem Grande Paulista"];
 
   
@@ -88,9 +87,7 @@ function FormEndereco({register}) {
                 <li key={"tpLogradouroEntrega"} style={{ width: "48%" }}>
                     <Select options={tiposLogradouro} placeholder="Selecione o tipo de logradouro" registro={"tpLogradouroEntrega"} register={register}/>
                 </li>
-                <li key={"tpEnderecoEntrega"} style={{ width: "48%" }}>
-                    <Select options={tiposEndereco} placeholder="Selecione o tipo de endereco" registro={"tpEnderecoEntrega"} register={register} />
-                </li>
+
 
                 <Titulo style={{ fontFamily: "Bookochi", letterSpacing: "0.22em" }}>
                 Endereço de Cobrança
@@ -123,9 +120,7 @@ function FormEndereco({register}) {
                 <li key={"tpLogradouroCobranca"} style={{ width: "48%" }}>
                     <Select options={tiposLogradouro} placeholder="Selecione o tipo de logradouro" registro={"tpLogradouroCobranca"} register={register} />
                 </li>
-                <li key={"tpEnderecoCobranca"} style={{ width: "48%" }}>
-                    <Select options={tiposEndereco} placeholder="Selecione o tipo de endereco" registro={"tpEnderecoCobranca"} register={register} />
-                </li>
+               
           </Opcoes>
     </FormContainer>
   )
