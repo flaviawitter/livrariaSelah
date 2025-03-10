@@ -46,6 +46,8 @@ const Opcoes = styled.ul`
 const tipoResidencia = ["Casa", "Apartamento", "Sobreloja ", "Outro"]
 const tiposLogradouro = ["Avenida", "Rua", "Alameda", "Rodovia", "Outro"]
 const tiposEndereco = ["Casa", "Trabalho", "Comercio", "Outro"]
+const cidades = ["Aruja", "Barueri", "Biritiba-Mirim", "Boituva", "Caieiras", "Cajamar", "Campinas", "Carapicuiba", "Cotia", "Cubatao", "Diadema", "Embu", "Embu-Guacu", "Ferraz De Vasconcelos", "Francisco Morato", "Franco Da Rocha", "Guararema", "Guarulhos", "Itaquaquecetuba", "Itapevi", "Itapecerica Da Serra", "Jandira", "Juquitiba", "Jundiai", "Mairipora", "Maua", "Miracatu", "Mogi Das Cruzes", "Osasco", "Pirapora Bom Jesus", "Poa", "Queluz", "Registro", "Ribeirao Pires", "Rio Grande Da Serra", "Santo Andre", "Sao Bernardo Do Campo", "Sao Caetano Do Sul", "Santa Isabel", "Santana De Parnaiba", "Sao Lourenco Da Serra", "Sao Paulo", "Salesopolis", "Suzano", "Taboao Da Serra", "Vargem Grande Paulista"]
+
 
 function FormEndereco({register}) {
   return (
@@ -56,12 +58,14 @@ function FormEndereco({register}) {
           </Titulo>
 
                 <Opcoes>
-
+                <li key={"pais"} style={{ width: "48%" }}>
+                    <Input placeholder={"País"} {...register("pais")} />
+                </li>
                 <li key={"estadoEntrega"} style={{ width: "48%" }}>
-                    <Input placeholder={"Estado"} {...register("estadoEntrega")} />
+                    <Input value="São Paulo" {...register("estadoEntrega")} readOnly />
                 </li>
                 <li key={"cidadeEntrega"} style={{ width: "48%" }}>
-                    <Input placeholder={"Cidade"} {...register("cidadeEntrega")} />
+                <Select options={cidades} placeholder="Selecione a cidade" registro={"cidadeEntrega"} register={register} />
                 </li>
                 <li key={"logradouroEntrega"} style={{ width: "48%" }}>
                     <Input placeholder={"Logradouro"} {...register("logradouroEntrega")} />
@@ -74,7 +78,7 @@ function FormEndereco({register}) {
                     <Input placeholder={"Bairro"} {...register("bairroEntrega")} />
                 </li>
                 <li key={"cepEntrega"} style={{ width: "48%" }}>
-                    <Input placeholder={"CEP"} {...register("cepEntrega")} />
+                    <Input mask="99999-999" placeholder={"CEP"} {...register("cepEntrega")} />
                 </li>
 
                 <li key={"tpResidenciaEntrega"} style={{ width: "48%" }}>
@@ -91,9 +95,11 @@ function FormEndereco({register}) {
                 Endereço de Cobrança
                 </Titulo>
 
-
+                <li key={"paisCobranca"} style={{ width: "48%" }}>
+                    <Input placeholder={"País"} {...register("paisCobranca")} />
+                </li>
                 <li key={"estadoCobranca"} style={{ width: "48%" }}>
-                    <Input placeholder={"Estado"} {...register("estadoCobranca")} />
+                    <Input value="São Paulo" {...register("estadoCobranca")} readOnly />
                 </li>
                 <li key={"cidadeCobranca"} style={{ width: "48%" }}>
                     <Input placeholder={"Cidade"} {...register("cidadeCobranca")} />
@@ -109,7 +115,7 @@ function FormEndereco({register}) {
                     <Input placeholder={"Bairro"} {...register("bairroCobranca")} />
                 </li>
                 <li key={"cepCobranca"} style={{ width: "48%" }}>
-                    <Input placeholder={"CEP"} {...register("cepCobranca")} />
+                    <Input mask="99999-999" placeholder={"CEP"} {...register("cepCobranca")} />
                 </li>
                 <li key={"tpResidenciaCobranca"} style={{ width: "48%" }}>
                     <Select options={tipoResidencia} placeholder="Selecione o tipo de residência" registro={"tpResidenciaCobranca"} register={register} />

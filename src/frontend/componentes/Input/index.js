@@ -1,6 +1,7 @@
 import styled from "styled-components"
+import InputMask from "react-input-mask";
 
-const Input = styled.input`
+const StyleInput = styled.input`
     background-color: #CACACA;
     backdrop-filter: blur(10px);
     border: 1px solid #004A33;
@@ -25,5 +26,13 @@ const Input = styled.input`
         box-shadow: 0px 0px 5px #00FF00; 
     }
 `
+
+const Input = ({ mask, placeholder, register, name }) => {
+    return (
+        <InputMask mask={mask} {...register(name)}>
+            {(inputProps) => <StyleInput {...inputProps} placeholder={placeholder} />}
+        </InputMask>
+    );
+};
 
 export default Input
