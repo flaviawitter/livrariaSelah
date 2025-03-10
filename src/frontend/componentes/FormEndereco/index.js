@@ -80,7 +80,7 @@ function FormEndereco({register}) {
                     <Input placeholder={"Bairro"} {...register("bairroEntrega")} />
                 </li>
                 <li key={"cepEntrega"} style={{ width: "48%" }}>
-                    <Input placeholder={"CEP"} {...register("cepEntrega")} />
+                    <Input mask="99999-999" placeholder={"CEP"} {...register("cepEntrega")} />
                 </li>
                 <li key={"ptReferenciaEntrega"} style={{ width: "48%" }}>
                     <Input placeholder={"Ponto de Referência"} {...register("ptReferenciaEntrega")} />
@@ -98,12 +98,11 @@ function FormEndereco({register}) {
                 <Titulo style={{ fontFamily: "Bookochi", letterSpacing: "0.22em" }}>
                 Endereço de Cobrança
                 </Titulo>
-
                 <li key={"paisCobranca"} style={{ width: "48%" }}>
-                    <Input placeholder={"País"} {...register("paisCobranca")} />
+                    <Input value="Brasil" {...register("paisCobranca")} readOnly />
                 </li>
                 <li key={"estadoCobranca"} style={{ width: "48%" }}>
-                    <Input placeholder={"Estado"} {...register("estadoCobranca")} />
+                    <Input value="São Paulo" {...register("estadoCobranca")} readOnly />
                 </li>
                 <li key={"cidadeCobranca"} style={{ width: "48%" }}>
                     <Input placeholder={"Cidade"} {...register("cidadeCobranca")} />
@@ -121,7 +120,7 @@ function FormEndereco({register}) {
                     <Input placeholder={"Bairro"} {...register("bairroCobranca")} />
                 </li>
                 <li key={"cepCobranca"} style={{ width: "48%" }}>
-                    <Input placeholder={"CEP"} {...register("cepCobranca")} />
+                    <Input mask="99999-999" placeholder={"CEP"} {...register("cepCobranca")} />
                 </li>
                 <li key={"ptReferenciaCobranca"} style={{ width: "48%" }}>
                     <Input placeholder={"Ponto de Referência"} {...register("ptReferenciaCobranca")} />
