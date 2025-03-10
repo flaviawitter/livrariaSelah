@@ -3,10 +3,10 @@ const { criarCliente, listarClientes, obterCliente, atualizarCliente, deletarCli
 
 const router = express.Router();
 
-router.post('/clientes', criarCliente);
-router.get('/clientes', listarClientes);
-router.get('/clientes/:id', obterCliente);
-router.put('/clientes/:id', atualizarCliente);
-router.delete('/clientes/:id', deletarCliente);
+router.post('/', criarCliente);
+router.get('/', listarClientes);
+router.get('/:id', obterCliente);
+router.put('/:id', atualizarCliente);
+router.delete('/:id', deletarCliente);
 
 module.exports = router;

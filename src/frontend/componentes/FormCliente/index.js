@@ -1,4 +1,5 @@
 import Input from '../Input'
+import { useState } from 'react'
 import Select from "../Select"
 import styled from 'styled-components'
 
@@ -42,7 +43,7 @@ const generos = ["Masculino", "Feminino", "Outro"]
 const tiposTelefone = ["Celular", "Residencial", "Comercial", "Outro"]
 
 
-function FormCliente({ register }) {
+function FormCliente({register}) {
     return (
         <FormContainer>
             <Titulo style={{ fontFamily: "Bookochi", letterSpacing: "0.22em" }}>Dados Cadastrados</Titulo>
@@ -56,14 +57,17 @@ function FormCliente({ register }) {
                 <li key={"cpf"} style={{ width: "48%" }}>
                     <Input  placeholder={"CPF"} {...register("cpf")} />
                 </li>
+                <li key={"senha"} style={{ width: "48%" }}>
+                                    <Input placeholder={"Senha"} {...register("senha")} />
+                            </li>
                 <li key={"nascimento"} style={{ width: "48%" }}>
-                    <Input placeholder={"Nascimento"} {...register("nascimento")} />
+                    <Input mask="99/99/9999" placeholder={"Nascimento"} {...register("nascimento")} />
                 </li>
                 <li key={"ddd"} style={{ width: "48%" }}>
-                    <Input placeholder={"DDD"} {...register("ddd")} />
+                    <Input mask="(99)" placeholder={"DDD"} {...register("ddd")} />
                 </li>
                 <li key={"numero"} style={{ width: "48%" }}>
-                    <Input placeholder={"Número"} {...register("numero")} />
+                    <Input mask="99999-9999" placeholder={"Número"} {...register("numero")} />
                 </li>
                 <li key={"genero"} style={{ width: "48%" }}>
                     <Select options={generos} placeholder="Selecione o gênero" registro={"genero"} register={register} />

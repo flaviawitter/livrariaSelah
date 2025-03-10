@@ -68,8 +68,8 @@ model cliente {
   cpf            String         @unique(map: "Cliente_cpf_key") @db.VarChar(14)
   email          String         @db.VarChar(100)
   senha          String         @db.VarChar(64)
-  genero         cliente_genero
-  dataNascimento DateTime?
+  genero         String
+  dataNascimento DateTime
   ranking        Int
   statusAtivo    Boolean        @default(true)
   enderecos      endereco[]
@@ -242,10 +242,4 @@ model telefones {
 
   @@index([clienteId], map: "Telefones_clienteId_fkey")
  
-}
-
-enum cliente_genero {
-  MASCULINO
-  FEMININO
-  OUTRO
 }

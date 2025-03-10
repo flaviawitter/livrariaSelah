@@ -71,18 +71,14 @@ function FormEndereco({register}) {
                 <li key={"numeroEnderecoEntrega"} style={{ width: "48%" }}>
                     <Input placeholder={"Número"} {...register("numeroEnderecoEntrega")} />
                 </li>
-                <li key={"complementoEntrega"} style={{ width: "48%" }}>
-                    <Input placeholder={"Complemento"} {...register("complementoEntrega")} />
-                </li>
+
                 <li key={"bairroEntrega"} style={{ width: "48%" }}>
                     <Input placeholder={"Bairro"} {...register("bairroEntrega")} />
                 </li>
                 <li key={"cepEntrega"} style={{ width: "48%" }}>
-                    <Input placeholder={"CEP"} {...register("cepEntrega")} />
+                    <Input mask="99999-999" placeholder={"CEP"} {...register("cepEntrega")} />
                 </li>
-                <li key={"ptReferenciaEntrega"} style={{ width: "48%" }}>
-                    <Input placeholder={"Ponto de Referência"} {...register("ptReferenciaEntrega")} />
-                </li>
+
                 <li key={"tpResidenciaEntrega"} style={{ width: "48%" }}>
                     <Select options={tipoResidencia} placeholder="Selecione o tipo de residência" registro={"tpResidenciaEntrega"} register={register} />
                 </li>
@@ -111,17 +107,12 @@ function FormEndereco({register}) {
                 <li key={"numeroEnderecoCobranca"} style={{ width: "48%" }}>
                     <Input placeholder={"Número"} {...register("numeroEnderecoCobranca")} />
                 </li>
-                <li key={"complementoCobranca"} style={{ width: "48%" }}>
-                    <Input placeholder={"Complemento"} {...register("complementoCobranca")} />
-                </li>
+
                 <li key={"bairroCobranca"} style={{ width: "48%" }}>
                     <Input placeholder={"Bairro"} {...register("bairroCobranca")} />
                 </li>
                 <li key={"cepCobranca"} style={{ width: "48%" }}>
-                    <Input placeholder={"CEP"} {...register("cepCobranca")} />
-                </li>
-                <li key={"ptReferenciaCobranca"} style={{ width: "48%" }}>
-                    <Input placeholder={"Ponto de Referência"} {...register("ptReferenciaCobranca")} />
+                    <Input mask="99999-999" placeholder={"CEP"} {...register("cepCobranca")} />
                 </li>
                 <li key={"tpResidenciaCobranca"} style={{ width: "48%" }}>
                     <Select options={tipoResidencia} placeholder="Selecione o tipo de residência" registro={"tpResidenciaCobranca"} register={register} />
