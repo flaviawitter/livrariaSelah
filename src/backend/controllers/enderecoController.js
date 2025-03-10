@@ -15,7 +15,7 @@ async function criarEndereco(req, res) {
             cidade: enderecoReq.cidade,
             observacao: enderecoReq.observacao
         }
-        console.log("Dados recebidos:", enderecoReq);
+        console.log("Dados endereço:", enderecoReq);
 
         const endereco = await prisma.endereco.create({ data });
         res.status(201).json(endereco);

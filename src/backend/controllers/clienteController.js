@@ -1,19 +1,20 @@
 const prisma = require('../config/prismaClient');
 
 async function criarCliente(req, res) {
-    const { nome, cpf, email, senha, genero, dataNascimento } = req.body;
-
     try {
-        const novoCliente = await prisma.cliente.create({
-            data: {
-                nome,
-                cpf,
-                email,
-                senha, // ⚠️ Idealmente, encripta a senha antes de salvar!
-                genero,
-                dataNascimento: new Date(dataNascimento)
-            }
-        });
+        const clienteReq = req.body
+        const data = {
+            nome: clienteReq.nome,
+            cpf: clienteReq.cpf,
+            email: clienteReq.email,
+            senha: clienteReq.senha, 
+            genero: clienteReq.genero,
+            dataNascimento: new Date(clienteReq.dataNascimento),
+            ranking: clienteReq.ranking
+        }
+        console.log("Dados Clientes:", clienteReq);
+        
+        const novoCliente = await prisma.cliente.create({ data });
         res.status(201).json(novoCliente);
     } catch (error) {
         res.status(400).json({ error: error.message });

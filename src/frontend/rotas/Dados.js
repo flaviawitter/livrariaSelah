@@ -9,8 +9,10 @@ import BotaoVermelho from '../componentes/BotaoVermelho';
 import BotaoCinza from '../componentes/BotaoCinza';
 
 
-import { useForm } from "react-hook-form"
+import { useForm } from "react-hook-form";
 import { criarEndereco } from '../serviços/endereco';
+import { criarCliente } from '../serviços/cliente';
+
 
 const AppContainer = styled.div`
     width: 100%;
@@ -50,11 +52,13 @@ function App() {
       nome: data.nome,
       email: data.email,
       cpf: data.cpf,
+      senha: data.senha,
       genero: data.genero,
       nascimento: data.nascimento,
-      tipoTelefone: data.tipoTelefone,
-      ddd: data.ddd,
-      numero: data.numero
+      ranking: 0
+      //tipoTelefone: data.tipoTelefone,
+      //ddd: data.ddd,
+      //numero: data.numero
     }
     const enderecoEntrega = {
       clienteId: 1,
@@ -75,10 +79,8 @@ function App() {
       cidade: data.cidadeCobranca,
       logradouro: data.logradouroCobranca,
       numero: parseInt(data.numeroEnderecoCobranca),
-      complemento: data.complementoCobranca,
       bairro: data.bairroCobranca,
       cep: data.cepCobranca,
-      pontoReferencia: data.ptReferenciaCobranca,
       tipoResidencia: data.tpResidenciaCobranca,
       tipoLogradouro: data.tpLogradouroCobranca,
       tipoEndereco: data.tpEnderecoCobranca
@@ -97,10 +99,11 @@ function App() {
     }
 
 
-    await criarEndereco(enderecoCobranca)
-    // console.log(cliente)
-    console.log(enderecoCobranca)
-    console.log(enderecoEntrega)
+    //await criarEndereco(enderecoCobranca)
+    await criarCliente(cliente)
+    console.log(cliente)
+    //console.log(enderecoCobranca)
+    //console.log(enderecoEntrega)
     // console.log(cartao)
     // console.log(senha)
 
@@ -110,7 +113,7 @@ function App() {
     <AppContainer>
       <Header />
       <DadosContainer>
-        <FormCliente register={register} />
+        <FormCliente register={register}/>
         <FormEndereco register={register}/>
         <FormCartao register={register}/>
         <FormSenha register={register}/>
