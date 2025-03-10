@@ -61,13 +61,13 @@ function FormCliente({register}) {
                                     <Input placeholder={"Senha"} {...register("senha")} />
                             </li>
                 <li key={"nascimento"} style={{ width: "48%" }}>
-                    <Input mask="99/99/9999" placeholder={"Nascimento"} {...register("nascimento")} />
+                    <Input placeholder={"Nascimento"} {...register("nascimento")} />
                 </li>
                 <li key={"ddd"} style={{ width: "48%" }}>
-                    <Input mask="(99)" placeholder={"DDD"} {...register("ddd")} />
+                    <Input placeholder={"DDD"} {...register("ddd")} />
                 </li>
                 <li key={"numero"} style={{ width: "48%" }}>
-                    <Input mask="99999-9999" placeholder={"Número"} {...register("numero")} />
+                    <Input placeholder={"Número"} {...register("numero")} />
                 </li>
                 <li key={"genero"} style={{ width: "48%" }}>
                     <Select options={generos} placeholder="Selecione o gênero" registro={"genero"} register={register} />
