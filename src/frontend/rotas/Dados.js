@@ -12,6 +12,7 @@ import BotaoCinza from '../componentes/BotaoCinza';
 import { useForm } from "react-hook-form";
 import { criarEndereco } from '../serviços/endereco';
 import { criarCliente } from '../serviços/cliente';
+import { criarCartao } from '../serviços/cartao';
 
 
 const AppContainer = styled.div`
@@ -89,11 +90,14 @@ function App() {
     }
 
     const cartao = {
-
+      apelidoCartao: data.apelidoCartao,
       nomeTitular: data.nomeTitular,
       numero: data.numeroCartao,
       validade: data.validade,
-      codSeguranca: data.cvv
+      codSeguranca: data.codSeguranca,
+      bandeiraCartao: data.bandeiraCartao,
+      preferencial: data.preferencial || false,
+      clienteId: 1
     }
 
     const senha = {
@@ -103,12 +107,14 @@ function App() {
 
 
     //await criarEndereco(enderecoCobranca)
-    await criarCliente(cliente)
+    //await criarCliente(cliente)
+    await criarCartao(cartao)
 
-    console.log(cliente)
+
+    //console.log(cliente)
     //console.log(enderecoCobranca)
     //console.log(enderecoEntrega)
-    //console.log(cartao)
+    console.log(cartao)
     // console.log(senha)
 
   }

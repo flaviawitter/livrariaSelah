@@ -4,10 +4,14 @@ async function criarCartao(req, res) {
     try {
         const cartaoReq = req.body
         const data = {
+            apelidoCartao: cartaoReq.apelidoCartao,
             nomeTitular: cartaoReq.nomeTitular,
-            numeroCartao: cartaoReq.numeroCartao,
+            numero: cartaoReq.numero,
             validade: cartaoReq.validade,
-            cvv: cartaoReq.cvv
+            codSeguranca: cartaoReq.codSeguranca,
+            bandeiraCartao: cartaoReq.bandeiraCartao,
+            preferencial: cartaoReq.preferencial === true,
+            clienteId: cartaoReq.clienteId
         }
         console.log("Dados cartão:", cartaoReq);
         const novoCartao = await prisma.cartao.create({ data });
