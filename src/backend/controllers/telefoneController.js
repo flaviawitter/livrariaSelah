@@ -2,8 +2,17 @@ const prisma = require('../config/prismaClient');
 
 async function criarTelefone(req, res) {
     try {
-        const telefone = await prisma.telefones.create({ data: req.body });
-        res.status(201).json(telefone);
+        const telefoneReq = req.body
+        const data = {
+            tipoTelefone: telefoneReq.tipoTelefone,
+            ddd: telefoneReq.ddd,
+            numero: telefoneReq.numero,
+            clienteId: telefoneReq.clienteId
+        }
+        const novoTelefone = await prisma.telefones.create({ data });
+        console.log(novoTelefone);
+        res.json(novoTelefone);
+        return novoTelefone;
     } catch (error) {
         res.status(400).json({ error: error.message });
     }

@@ -64,18 +64,19 @@ function FormCliente({register}) {
                 <li key={"nascimento"} style={{ width: "48%" }}>
                     <Input type='date' placeholder={"Nascimento"} {...register("nascimento")} />
                 </li>
-                <li key={"ddd"} style={{ width: "48%" }}>
-                    <Input placeholder={"DDD"} {...register("ddd")} />
-                </li>
-                <li key={"numero"} style={{ width: "48%" }}>
-                    <Input placeholder={"Número"} {...register("numero")} />
-                </li>
                 <li key={"genero"} style={{ width: "48%" }}>
                     <Select options={generos} placeholder="Selecione o gênero" registro={"genero"} register={register} />
                 </li>
                 <li key={"tipoTelefone"} style={{ width: "48%" }}>
                     <Select options={tiposTelefone} placeholder="Selecione o tipo de telefone" registro={"tipoTelefone"} register={register} />
                 </li>
+                <li key={"ddd"} style={{ width: "48%" }}>
+                    <Input placeholder={"DDD"} {...register("ddd")} />
+                </li>
+                <li key={"numero"} style={{ width: "48%" }}>
+                    <Input placeholder={"Número"} {...register("numero")} />
+                </li>
+                
             </Opcoes>
         </FormContainer>
     )

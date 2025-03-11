@@ -74,6 +74,7 @@ model cliente {
   statusAtivo    Boolean        @default(true)
   enderecos      endereco[]
   cartoes        cartao[]
+  telefones      telefones[]
 }
 
 model cupom {
@@ -241,8 +242,7 @@ model telefones {
   ddd            String @db.Char(3)
   numero         String @db.VarChar(20)
   tipoTelefone   String
-  clienteId      Int?
 
-  @@index([clienteId], map: "Telefones_clienteId_fkey")
- 
+  clienteId        Int
+  cliente          cliente @relation(fields: [clienteId], references: [id])
 }

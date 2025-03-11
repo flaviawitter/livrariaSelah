@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors')
 const clienteRoutes = require('./src/backend/routes/clienteRoutes');
-const tipoTelefoneRoutes = require('./src/backend/routes/tipoTelefoneRoutes');
 const bandeiraCartaoRoutes = require('./src/backend/routes/bandeiraCartaoRoutes');
 const cartaoRoutes = require('./src/backend/routes/cartaoRoutes');
 const cidadeRoutes = require('./src/backend/routes/cidadeRoutes');
@@ -10,9 +9,6 @@ const paisRoutes = require('./src/backend/routes/paisRoutes');
 const enderecoRoutes = require('./src/backend/routes/enderecoRoutes');
 const logRoutes = require('./src/backend/routes/logRoutes');
 const telefoneRoutes = require('./src/backend/routes/telefoneRoutes');
-const tipoEnderecoRoutes = require('./src/backend/routes/tipoEnderecoRoutes');
-const tipoLogradouroRoutes = require('./src/backend/routes/tipoLogradouroRoutes');
-const tipoResidenciaRoutes = require('./src/backend/routes/tipoResidenciaRoutes');
 const autoresRoutes = require('./src/backend/routes/autoresRoutes');
 const editorasRoutes = require('./src/backend/routes/editorasRoutes');
 const categoriasRoutes = require('./src/backend/routes/categoriasRoutes');
@@ -38,7 +34,6 @@ app.use(cors({origin: "*"}));
 app.use(express.json());
 
 app.use('/api/clientes', clienteRoutes);
-app.use('/api/tipos-telefone', tipoTelefoneRoutes);
 app.use('/api/bandeiras-cartao', bandeiraCartaoRoutes);
 app.use('/api/cartoes', cartaoRoutes);
 app.use('/api/cidades', cidadeRoutes);
@@ -47,9 +42,6 @@ app.use('/api/paises', paisRoutes);
 app.use('/api/enderecos', enderecoRoutes);
 app.use('/api/logs', logRoutes);
 app.use('/api/telefones', telefoneRoutes);
-app.use('/api/tipos-endereco', tipoEnderecoRoutes);
-app.use('/api/tipos-logradouro', tipoLogradouroRoutes);
-app.use('/api/tipos-residencia', tipoResidenciaRoutes);
 app.use('/api/autores', autoresRoutes);
 app.use('/api/editoras', editorasRoutes);
 app.use('/api/categorias', categoriasRoutes);

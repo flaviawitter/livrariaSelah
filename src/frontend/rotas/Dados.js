@@ -8,11 +8,11 @@ import FormSenha from '../componentes/FormSenha';
 import BotaoVermelho from '../componentes/BotaoVermelho';
 import BotaoCinza from '../componentes/BotaoCinza';
 
-
+import { criarTelefone } from '../serviços/telefone';
 import { useForm } from "react-hook-form";
-import { criarEndereco } from '../serviços/endereco';
+//import { criarEndereco } from '../serviços/endereco';
 import { criarCliente } from '../serviços/cliente';
-import { criarCartao } from '../serviços/cartao';
+//import { criarCartao } from '../serviços/cartao';
 
 
 const AppContainer = styled.div`
@@ -57,13 +57,18 @@ function App() {
       genero: data.genero,
       dataNascimento: data.nascimento,
       ranking: 0
-      //tipoTelefone: data.tipoTelefone,
-      //ddd: data.ddd,
-      //numero: data.numero
     }
 
     const newCliente = await criarCliente(cliente)
     const idCliente = newCliente.data.id
+
+
+    const telefone = {
+      tipoTelefone: data.tipoTelefone,
+      ddd: data.ddd,
+      numero: data.numero,
+      clienteId: idCliente
+    }
 
     const enderecoEntrega = {
       clienteId: idCliente,
@@ -112,8 +117,9 @@ function App() {
     
     //await criarCartao(cartao)
     //await criarEndereco(enderecoCobranca)
+    await criarTelefone(telefone)
 
-
+    console.log(telefone)
     //console.log(cliente)
     //console.log(enderecoCobranca)
     //console.log(enderecoEntrega)

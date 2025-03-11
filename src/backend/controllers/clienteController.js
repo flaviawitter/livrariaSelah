@@ -54,6 +54,25 @@ async function obterCliente(req, res) {
     }
 }
 
+async function obterClienteCpf(req, res) {
+    const { cpf } = req.params;
+
+    try {
+        const cliente = await prisma.cliente.findUnique({
+            where: { cpf: cpf }
+        });
+
+        if (!cliente) {
+            return res.status(404).json({ message: "Cliente não encontrado" });
+        }
+
+        res.json(cliente);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+
+}
+
 async function atualizarCliente(req, res) {
     const { id } = req.params;
     const { nome, email, senha, genero, dataNascimento } = req.body;
@@ -86,6 +105,7 @@ module.exports = {
     criarCliente, 
     listarClientes, 
     obterCliente, 
+    obterClienteCpf,
     atualizarCliente, 
     deletarCliente 
 };

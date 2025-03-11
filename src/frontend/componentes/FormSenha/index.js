@@ -2,7 +2,6 @@ import Input from '../Input'
 import styled from 'styled-components'
 import BotaoCinza from '../BotaoCinza'
 
-//import { obterCliente } from '../serviços/cliente';
 
 const FormContainer = styled.section`
     color: #FFF;
@@ -42,9 +41,6 @@ const Opcoes = styled.ul`
     margin-top: 0;
 `
 
-//const ValidaSenha(senhaAtual, SenhaNova){
-//}
-
 function FormSenha({register}) {
     return (
         <FormContainer>
@@ -54,7 +50,7 @@ function FormSenha({register}) {
                     <Input placeholder={"Senha Atual"} {...register("senhaAtual")} />
             </li>
             <li>
-                <BotaoCinza style={{ fontSize: "14px"}} type="button" >Alterar Senha</BotaoCinza>
+                <BotaoCinza style={{ fontSize: "14px"}} type="button"> Alterar Senha</BotaoCinza>
             </li>
             <li key={"senhaNova"} style={{ width: "48%" }}>
                     <Input placeholder={"Senha Nova"} {...register("senhaNova")} />

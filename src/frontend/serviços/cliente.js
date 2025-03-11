@@ -10,9 +10,9 @@ async function criarCliente(cliente) {
         console.log(error.request.response)
     }
 }
-async function obterCliente(idCliente) {
+async function obterClienteCpf(cpf) {
     try{
-        const clienteObtido = await axios.get(clienteAPI + "/" + idCliente);
+        const clienteObtido = await axios.get(clienteAPI + "/" + cpf);
         return clienteObtido
     } catch (error) {
         console.log(error.request.response)
@@ -21,6 +21,6 @@ async function obterCliente(idCliente) {
 
 
 export {
-    criarCliente, obterCliente
+    criarCliente, obterClienteCpf
 } 
 
