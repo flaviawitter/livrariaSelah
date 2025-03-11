@@ -7,7 +7,9 @@ import FormCartao from '../componentes/FormCartao';
 import FormSenha from '../componentes/FormSenha';
 import BotaoVermelho from '../componentes/BotaoVermelho';
 import BotaoCinza from '../componentes/BotaoCinza';
-
+import ModalEndereco from '../componentes/ModalEndereco';
+import ModalCartao from '../componentes/ModalCartao';
+import React, { useState } from 'react';
 import { criarTelefone } from '../serviços/telefone';
 import { useForm } from "react-hook-form";
 //import { criarEndereco } from '../serviços/endereco';
@@ -39,6 +41,10 @@ const BotaoContainer = styled.div`
 
 
 function App() {
+
+  const [showModalEndereco, setShowModalEndereco] = useState(false);  
+  const [showModalCartao, setShowModalCartao] = useState(false);
+  
   const {
     register,
     handleSubmit,
@@ -114,7 +120,7 @@ function App() {
       senhaNova: data.senhaNova
     }
 
-    
+      
     //await criarCartao(cartao)
     //await criarEndereco(enderecoCobranca)
     await criarTelefone(telefone)
@@ -134,13 +140,30 @@ function App() {
       <DadosContainer>
         <FormCliente register={register}/>
         <FormEndereco register={register}/>
+        <BotaoCinza onClick={() => setShowModalEndereco(true)} style={{ width: "100%", marginLeft: "1%" }}>Adicionar Endereço</BotaoCinza>
         <FormCartao register={register}/>
+        <BotaoCinza onClick={() => setShowModalCartao(true)} style={{ width: "100%", marginLeft: "1%" }}>Adicionar Cartão</BotaoCinza>
         <FormSenha register={register}/>
       </DadosContainer>
       <BotaoContainer>
         <BotaoVermelho type="submit" onClick={handleSubmit(onSubmit)}>Salvar Dados</BotaoVermelho>
         <BotaoCinza type="button">Excluir Conta</BotaoCinza>
       </BotaoContainer>
+
+
+      <ModalEndereco
+        showModal={showModalEndereco}
+        setShowModal={setShowModalEndereco}
+        register={register}
+        handleSubmit={handleSubmit}
+      />
+      <ModalCartao
+        showModal={showModalCartao}
+        setShowModal={setShowModalCartao}
+        register={register}
+        handleSubmit={handleSubmit}
+      />
+
     </AppContainer>
   );
 }

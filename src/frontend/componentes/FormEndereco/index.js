@@ -40,6 +40,15 @@ const Opcoes = styled.ul`
     list-style-type: none;
     margin-top: 0;
 `
+const CheckboxLabel = styled.label`
+    color: #095F54;
+    font-size: 16px;
+    margin-left: 8px;
+    display: flex;
+    align-items: center;
+    font-family: "Bookochi";
+    letter-spacing: 0.22em;
+`
 
 //const titulos = ['Endereço Residencial', 'Endereço de Entrega', 'Endereço de Cobrança']
 //const textoPlaceHolders = ['País', 'Estado', 'Cidade', 'Tipo Residência', 'Tipo Logradouro', 'Logradouro', 'Número', 'Complemento', 'Bairro', 'CEP', 'Tipo Endereço', 'Ponto de Referência']
@@ -88,6 +97,10 @@ function FormEndereco({register}) {
                 <li key={"tpLogradouroEntrega"} style={{ width: "48%" }}>
                     <Select options={tiposLogradouro} placeholder="Selecione o tipo de logradouro" registro={"tpLogradouroEntrega"} register={register}/>
                 </li>
+                <li key={"EnderecoPreferencialEntrega"} style={{ width: "100%", display: "flex", alignItems: "center" }}>
+                    <input type="checkbox" {...register("preferencial")} />
+                    <CheckboxLabel>Endereço Preferencial</CheckboxLabel>
+                </li>
 
 
                 <Titulo style={{ fontFamily: "Bookochi", letterSpacing: "0.22em" }}>
@@ -120,6 +133,10 @@ function FormEndereco({register}) {
                 </li>
                 <li key={"tpLogradouroCobranca"} style={{ width: "48%" }}>
                     <Select options={tiposLogradouro} placeholder="Selecione o tipo de logradouro" registro={"tpLogradouroCobranca"} register={register} />
+                </li>
+                <li key={"EnderecoPreferencialCobranca"} style={{ width: "100%", display: "flex", alignItems: "center" }}>
+                    <input type="checkbox" {...register("preferencial")} />
+                    <CheckboxLabel>Endereço Preferencial</CheckboxLabel>
                 </li>
                
           </Opcoes>
