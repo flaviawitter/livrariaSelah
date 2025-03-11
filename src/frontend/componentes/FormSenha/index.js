@@ -36,6 +36,7 @@ const Opcoes = styled.ul`
     flex-direction: collumn;
     flex-wrap: wrap;
     justify-content: space-between;
+    align-items: flex-start; 
     padding: 0;
     list-style-type: none;
     margin-top: 0;
@@ -49,7 +50,7 @@ function FormSenha({register}) {
             <li key={"senhaAtual"} style={{ width: "48%" }}>
                     <Input placeholder={"Senha Atual"} {...register("senhaAtual")} />
             </li>
-            <li>
+            <li style={{  width: "48%", textAlign: "left", marginTop: "8px" }}>
                 <BotaoCinza style={{ fontSize: "14px"}} type="button"> Alterar Senha</BotaoCinza>
             </li>
             <li key={"senhaNova"} style={{ width: "48%" }}>
