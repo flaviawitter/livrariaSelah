@@ -10,7 +10,17 @@ async function criarCliente(cliente) {
         console.log(error.request.response)
     }
 }
+async function obterCliente(idCliente) {
+    try{
+        const clienteObtido = await axios.get(clienteAPI + "/" + idCliente);
+        return clienteObtido
+    } catch (error) {
+        console.log(error.request.response)
+    }
+}
+
 
 export {
-    criarCliente
+    criarCliente, obterCliente
 } 
+
