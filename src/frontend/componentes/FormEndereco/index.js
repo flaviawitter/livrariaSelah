@@ -2,6 +2,7 @@ import Input from '../Input'
 import { useState } from 'react'
 import styled from 'styled-components'
 import Select from "../Select"
+import InputMask from '../InputMask'
 
 const FormContainer = styled.section`
     color: #FFF;
@@ -78,7 +79,7 @@ function FormEndereco({register}) {
                     <Input placeholder={"Bairro"} {...register("bairroEntrega")} />
                 </li>
                 <li key={"cepEntrega"} style={{ width: "48%" }}>
-                    <Input placeholder={"CEP"} {...register("cepEntrega")} />
+                    <InputMask mask="99999-999" placeholder={"CEP"} {...register("cepEntrega")} />
                 </li>
 
                 <li key={"tpResidenciaEntrega"} style={{ width: "48%" }}>
@@ -112,7 +113,7 @@ function FormEndereco({register}) {
                     <Input placeholder={"Bairro"} {...register("bairroCobranca")} />
                 </li>
                 <li key={"cepCobranca"} style={{ width: "48%" }}>
-                    <Input placeholder={"CEP"} {...register("cepCobranca")} />
+                    <InputMask mask="99999-999" placeholder={"CEP"} {...register("cepCobranca")} />
                 </li>
                 <li key={"tpResidenciaCobranca"} style={{ width: "48%" }}>
                     <Select options={tipoResidencia} placeholder="Selecione o tipo de residência" registro={"tpResidenciaCobranca"} register={register} />

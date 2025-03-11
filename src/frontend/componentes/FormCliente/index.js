@@ -2,7 +2,7 @@ import Input from '../Input'
 import { useState } from 'react'
 import Select from "../Select"
 import styled from 'styled-components'
-import InputMask from "react-input-mask"
+import InputMask from '../InputMask'
 
 const FormContainer = styled.section`
     color: #FFF;
@@ -56,11 +56,11 @@ function FormCliente({register}) {
                     <Input placeholder={"E-mail"} {...register("email")} />
                 </li>
                 <li key={"cpf"} style={{ width: "48%" }}>
-                    <Input placeholder={"CPF"} {...register("cpf")} />
+                    <InputMask mask="999.999.999-99" placeholder={"CPF"} {...register("cpf")} />
                 </li>
                 <li key={"senha"} style={{ width: "48%" }}>
-                                    <Input placeholder={"Senha"} {...register("senha")} />
-                            </li>
+                    <Input placeholder={"Senha"} {...register("senha")} />
+                </li>
                 <li key={"nascimento"} style={{ width: "48%" }}>
                     <Input type='date' placeholder={"Nascimento"} {...register("nascimento")} />
                 </li>
@@ -71,10 +71,10 @@ function FormCliente({register}) {
                     <Select options={tiposTelefone} placeholder="Selecione o tipo de telefone" registro={"tipoTelefone"} register={register} />
                 </li>
                 <li key={"ddd"} style={{ width: "48%" }}>
-                    <Input placeholder={"DDD"} {...register("ddd")} />
+                    <InputMask mask='(99)' placeholder={"DDD"} {...register("ddd")} />
                 </li>
                 <li key={"numero"} style={{ width: "48%" }}>
-                    <Input placeholder={"Número"} {...register("numero")} />
+                    <InputMask mask='99999-9999' placeholder={"Número"} {...register("numero")} />
                 </li>
                 
             </Opcoes>
