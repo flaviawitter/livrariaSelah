@@ -91,10 +91,11 @@ function App() {
       tipoLogradouro: data.tpLogradouroCobranca,
       tipoEndereco: "Cobranca",
       preferencial: data.preferencialCobranca
-
     }
 
-    await criarEndereco(enderecoCobranca)
+   console.log(data.preferencialCobranca)
+
+   await criarEndereco(enderecoCobranca)
 
     const enderecoEntrega = {
       clienteId: idCliente,
@@ -111,7 +112,7 @@ function App() {
       preferencial: data.preferencialEntrega
     }
 
-    await criarEndereco(enderecoEntrega)
+   await criarEndereco(enderecoEntrega)
 
 
     const cartao = {
@@ -121,7 +122,7 @@ function App() {
       validade: data.validade,
       codSeguranca: data.codSeguranca,
       bandeiraCartao: data.bandeiraCartao,
-      preferencial: true,
+      preferencial: data.preferencial ? true : false,
       clienteId: idCliente
     }
 
@@ -139,8 +140,6 @@ function App() {
     console.log(enderecoCobranca)
     console.log(enderecoEntrega)
     console.log(cartao)
-    console.log(senha)
-
   }
 
   const onDelete = async (data) => {

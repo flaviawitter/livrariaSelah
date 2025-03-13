@@ -74,7 +74,7 @@ function FormCartao({ register }) {
             </li>
             <li key={"preferencial"} style={{ width: "48%", display: "flex", alignItems: "center" }}>
                     <input type="checkbox" {...register("preferencial")} />
-                    <CheckboxLabel>Cartão Preferencial</CheckboxLabel>
+                    <CheckboxLabel >Cartão Preferencial</CheckboxLabel>
             </li>
 
             </Opcoes>

@@ -106,11 +106,11 @@ function FormEndereco({register}) {
                 <Titulo style={{ fontFamily: "Bookochi", letterSpacing: "0.22em" }}>
                 Endereço de Cobrança
                 </Titulo>
-                <li key={"pais"} style={{ width: "48%" }}>
-                    <Input placeholder={"Brasil"} {...register("pais")} readOnly/>
+                <li key={"paisCobranca"} style={{ width: "48%" }}>
+                    <Input placeholder={"Brasil"} {...register("paisCobranca")} readOnly/>
                 </li>
-                <li key={"estadoEntrega"} style={{ width: "48%" }}>
-                    <Input placeholder={"São Paulo"} {...register("estadoEntrega")} readOnly />
+                <li key={"estadoEntregaCobrança"} style={{ width: "48%" }}>
+                    <Input placeholder={"São Paulo"} {...register("estadoEntregaCobrança")} readOnly />
                 </li>
                 <li key={"cidadeCobranca"} style={{ width: "48%" }}>
                 <Select options={cidades} placeholder="Selecione a cidade" registro={"cidadeCobranca"} register={register} />
