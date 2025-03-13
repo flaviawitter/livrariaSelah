@@ -56,7 +56,7 @@ function FormCliente({register}) {
                     <Input placeholder={"E-mail"} {...register("email")} />
                 </li>
                 <li key={"cpf"} style={{ width: "48%" }}>
-                    <InputMask mask="999.999.999-99" placeholder={"CPF"} {...register("cpf")} />
+                    <Input placeholder={"CPF"} {...register("cpf")} />
                 </li>
                 <li key={"senha"} style={{ width: "48%" }}>
                     <Input placeholder={"Senha"} {...register("senha")} />
@@ -71,15 +71,16 @@ function FormCliente({register}) {
                     <Select options={tiposTelefone} placeholder="Selecione o tipo de telefone" registro={"tipoTelefone"} register={register} />
                 </li>
                 <li key={"ddd"} style={{ width: "48%" }}>
-                    <InputMask mask='(99)' placeholder={"DDD"} {...register("ddd")} />
+                    <Input placeholder={"DDD"} {...register("ddd")} />
                 </li>
                 <li key={"numero"} style={{ width: "48%" }}>
-                    <InputMask mask='99999-9999' placeholder={"Número"} {...register("numero")} />
+                    <Input placeholder={"Número"} {...register("numero")} />
                 </li>
                 
             </Opcoes>
         </FormContainer>
     )
+
 }
 
 export default FormCliente;

@@ -88,7 +88,7 @@ function FormEndereco({register}) {
                     <Input placeholder={"Bairro"} {...register("bairroEntrega")} />
                 </li>
                 <li key={"cepEntrega"} style={{ width: "48%" }}>
-                    <InputMask mask="99999-999" placeholder={"CEP"} {...register("cepEntrega")} />
+                    <Input placeholder={"CEP"} {...register("cepEntrega")} />
                 </li>
 
                 <li key={"tpResidenciaEntrega"} style={{ width: "48%" }}>
@@ -126,7 +126,7 @@ function FormEndereco({register}) {
                     <Input placeholder={"Bairro"} {...register("bairroCobranca")} />
                 </li>
                 <li key={"cepCobranca"} style={{ width: "48%" }}>
-                    <InputMask mask="99999-999" placeholder={"CEP"} {...register("cepCobranca")} />
+                    <Input placeholder={"CEP"} {...register("cepCobranca")} />
                 </li>
                 <li key={"tpResidenciaCobranca"} style={{ width: "48%" }}>
                     <Select options={tipoResidencia} placeholder="Selecione o tipo de residência" registro={"tpResidenciaCobranca"} register={register} />
@@ -134,8 +134,8 @@ function FormEndereco({register}) {
                 <li key={"tpLogradouroCobranca"} style={{ width: "48%" }}>
                     <Select options={tiposLogradouro} placeholder="Selecione o tipo de logradouro" registro={"tpLogradouroCobranca"} register={register} />
                 </li>
-                <li key={"EnderecoPreferencialCobranca"} style={{ width: "100%", display: "flex", alignItems: "center" }}>
-                    <input type="checkbox" {...register("preferencial")} />
+                <li key={"preferencialCobranca"} style={{ width: "100%", display: "flex", alignItems: "center" }}>
+                    <input type="checkbox" {...register("preferencialCobranca")} />
                     <CheckboxLabel>Endereço Preferencial</CheckboxLabel>
                 </li>
                

@@ -1,11 +1,7 @@
 const express = require('express');
 const cors = require('cors')
 const clienteRoutes = require('./src/backend/routes/clienteRoutes');
-const bandeiraCartaoRoutes = require('./src/backend/routes/bandeiraCartaoRoutes');
 const cartaoRoutes = require('./src/backend/routes/cartaoRoutes');
-const cidadeRoutes = require('./src/backend/routes/cidadeRoutes');
-const estadoRoutes = require('./src/backend/routes/estadoRoutes');
-const paisRoutes = require('./src/backend/routes/paisRoutes');
 const enderecoRoutes = require('./src/backend/routes/enderecoRoutes');
 const logRoutes = require('./src/backend/routes/logRoutes');
 const telefoneRoutes = require('./src/backend/routes/telefoneRoutes');
@@ -34,11 +30,7 @@ app.use(cors({origin: "*"}));
 app.use(express.json());
 
 app.use('/api/clientes', clienteRoutes);
-app.use('/api/bandeiras-cartao', bandeiraCartaoRoutes);
 app.use('/api/cartoes', cartaoRoutes);
-app.use('/api/cidades', cidadeRoutes);
-app.use('/api/estados', estadoRoutes);
-app.use('/api/paises', paisRoutes);
 app.use('/api/enderecos', enderecoRoutes);
 app.use('/api/logs', logRoutes);
 app.use('/api/telefones', telefoneRoutes);

@@ -10,7 +10,6 @@ async function criarTelefone(req, res) {
             clienteId: telefoneReq.clienteId
         }
         const novoTelefone = await prisma.telefones.create({ data });
-        console.log(novoTelefone);
         res.json(novoTelefone);
         return novoTelefone;
     } catch (error) {

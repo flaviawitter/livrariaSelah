@@ -12,9 +12,9 @@ import ModalCartao from '../componentes/ModalCartao';
 import React, { useState } from 'react';
 import { criarTelefone } from '../serviços/telefone';
 import { useForm } from "react-hook-form";
-//import { criarEndereco } from '../serviços/endereco';
+import { criarEndereco } from '../serviços/endereco';
 import { criarCliente } from '../serviços/cliente';
-//import { criarCartao } from '../serviços/cartao';
+import { criarCartao } from '../serviços/cartao';
 
 
 const AppContainer = styled.div`
@@ -44,7 +44,9 @@ function App() {
 
   const [showModalEndereco, setShowModalEndereco] = useState(false);  
   const [showModalCartao, setShowModalCartao] = useState(false);
-  
+  const [idCliente, setIdCliente] = useState(null);
+
+
   const {
     register,
     handleSubmit,
@@ -67,27 +69,13 @@ function App() {
 
     const newCliente = await criarCliente(cliente)
     const idCliente = newCliente.data.id
-
+    setIdCliente(newCliente.data.id);
 
     const telefone = {
       tipoTelefone: data.tipoTelefone,
       ddd: data.ddd,
       numero: data.numero,
       clienteId: idCliente
-    }
-
-    const enderecoEntrega = {
-      clienteId: idCliente,
-      pais: "Brasil",
-      estado: "São Paulo",
-      cidade: data.cidadeEntrega,
-      logradouro: data.logradouroEntrega,
-      numero: parseInt(data.numeroEnderecoEntrega),
-      bairro: data.bairroEntrega,
-      cep: data.cepEntrega,
-      tpResidencia: data.tpResidenciaEntrega,
-      tpLogradouro: data.tpLogradouroEntrega,
-      tpEndereco: "Entrega"
     }
 
     const enderecoCobranca = {
@@ -104,6 +92,25 @@ function App() {
       tipoEndereco: "Cobranca"
     }
 
+    await criarEndereco(enderecoCobranca)
+
+    const enderecoEntrega = {
+      clienteId: idCliente,
+      pais: "Brasil",
+      estado: "São Paulo",
+      cidade: data.cidadeEntrega,
+      logradouro: data.logradouroEntrega,
+      numero: parseInt(data.numeroEnderecoEntrega),
+      bairro: data.bairroEntrega,
+      cep: data.cepEntrega,
+      tipoResidencia: data.tpResidenciaEntrega,
+      tipoLogradouro: data.tpLogradouroEntrega,
+      tipoEndereco: "Entrega"
+    }
+
+    await criarEndereco(enderecoEntrega)
+
+
     const cartao = {
       apelidoCartao: data.apelidoCartao,
       nomeTitular: data.nomeTitular,
@@ -111,7 +118,7 @@ function App() {
       validade: data.validade,
       codSeguranca: data.codSeguranca,
       bandeiraCartao: data.bandeiraCartao,
-      preferencial: data.preferencial || false,
+      preferencial: true,
       clienteId: idCliente
     }
 
@@ -121,16 +128,19 @@ function App() {
     }
 
       
-    //await criarCartao(cartao)
-    //await criarEndereco(enderecoCobranca)
+    await criarCartao(cartao)
     await criarTelefone(telefone)
 
+    console.log(cliente)
     console.log(telefone)
-    //console.log(cliente)
-    //console.log(enderecoCobranca)
-    //console.log(enderecoEntrega)
-    //console.log(cartao)
-    // console.log(senha)
+    console.log(enderecoCobranca)
+    console.log(enderecoEntrega)
+    console.log(cartao)
+    console.log(senha)
+
+  }
+
+  const onDelete = async (data) => {
 
   }
 
@@ -143,11 +153,11 @@ function App() {
         <BotaoCinza onClick={() => setShowModalEndereco(true)} style={{ width: "100%", marginLeft: "1%" }}>Adicionar Endereço</BotaoCinza>
         <FormCartao register={register}/>
         <BotaoCinza onClick={() => setShowModalCartao(true)} style={{ width: "100%", marginLeft: "1%" }}>Adicionar Cartão</BotaoCinza>
-        <FormSenha register={register}/>
+        <FormSenha register={register} idCliente={idCliente} />
       </DadosContainer>
       <BotaoContainer>
         <BotaoVermelho type="submit" onClick={handleSubmit(onSubmit)}>Salvar Dados</BotaoVermelho>
-        <BotaoCinza type="button">Excluir Conta</BotaoCinza>
+        <BotaoCinza type="submit" onClick={handleSubmit(onDelete)}>Excluir Conta</BotaoCinza>
       </BotaoContainer>
 
 
@@ -163,8 +173,9 @@ function App() {
         register={register}
         handleSubmit={handleSubmit}
       />
-
     </AppContainer>
+
+    
   );
 }
 

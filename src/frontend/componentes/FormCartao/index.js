@@ -58,13 +58,13 @@ function FormCartao({ register }) {
                     <Input  placeholder={"Apelido do Cartão"} {...register("apelidoCartao")} />
             </li>
             <li key={"numeroCartao"} style={{ width: "48%" }}>
-                    <InputMask mask="9999 9999 9999 9999" placeholder={"Número do Cartão"} {...register("numeroCartao")} />
+                    <Input placeholder={"Número do Cartão"} {...register("numeroCartao")} />
             </li>
             <li key={"codSeguranca"} style={{ width: "48%" }}>
-                    <InputMask mask="999" placeholder={"Código de Segurança"} {...register("codSeguranca")} />
+                    <Input placeholder={"Código de Segurança"} {...register("codSeguranca")} />
             </li>
             <li key={"validade"} style={{ width: "48%" }}>
-                    <InputMask mask="99/99"  placeholder={"Validade"} {...register("validade")} />
+                    <Input placeholder={"Validade"} {...register("validade")} />
             </li>
             <li key={"nomeTitular"} style={{ width: "48%" }}>
                     <Input placeholder={"Nome do Titular"} {...register("nomeTitular")} />
@@ -72,7 +72,7 @@ function FormCartao({ register }) {
             <li key={"bandeiraCartao"} style={{ width: "48%" }}>
             <Select options={bandeiras} placeholder="Selecione a bandeira" registro={"bandeiraCartao"} register={register} />
             </li>
-            <li key={"cartaoPreferencial"} style={{ width: "48%", display: "flex", alignItems: "center" }}>
+            <li key={"preferencial"} style={{ width: "48%", display: "flex", alignItems: "center" }}>
                     <input type="checkbox" {...register("preferencial")} />
                     <CheckboxLabel>Cartão Preferencial</CheckboxLabel>
             </li>

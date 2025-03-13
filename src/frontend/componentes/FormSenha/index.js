@@ -1,6 +1,9 @@
 import Input from '../Input'  
 import styled from 'styled-components'
 import BotaoCinza from '../BotaoCinza'
+import { useForm } from "react-hook-form";
+import { atualizarCliente, atualizarSenha, obterCliente } from '../../serviços/cliente';
+import { useState } from "react";
 
 
 const FormContainer = styled.section`
@@ -42,16 +45,51 @@ const Opcoes = styled.ul`
     margin-top: 0;
 `
 
-function FormSenha({register}) {
+function FormSenha({ idCliente }) {
+    const {
+        register,
+        handleSubmit,
+    } = useForm(
+        {
+        mode: "onBlur"
+        }
+    )
+
+  const onSubmit = async (data) => {
+    console.log("Senha Atual:", data.senhaAtual);
+    console.log("Nova Senha:", data.senhaNova);
+    console.log("Repita a Nova Senha:", data.repitaSenhaNova);
+
+
+    const clienteRes = await obterCliente(idCliente);
+                const senhaCliente = clienteRes.data.senha;
+                console.log(senhaCliente);
+
+    if (data.senhaNova && data.repitaSenhaNova != null) {
+        if (senhaCliente !== data.senhaNova) {
+            await atualizarSenha(idCliente, data.senhaNova);
+        }
+         else {
+            console.log("Senha inválida! As senhas não coincidem.");
+        }
+    }else{
+        console.log("As senhas não podem estar em branco.")
+    }
+
+  }
+
     return (
-        <FormContainer>
+
+        <FormContainer >
+            <form onSubmit={handleSubmit(onSubmit)}>
             <Titulo style={{ fontFamily: "Bookochi", letterSpacing: "0.22em" }}>Senha</Titulo>
+           
             <Opcoes>
             <li key={"senhaAtual"} style={{ width: "48%" }}>
                     <Input placeholder={"Senha Atual"} {...register("senhaAtual")} />
             </li>
             <li style={{  width: "48%", textAlign: "left", marginTop: "8px" }}>
-                <BotaoCinza style={{ fontSize: "14px"}} type="button"> Alterar Senha</BotaoCinza>
+                <BotaoCinza style={{ fontSize: "14px"}} type="submit"> Alterar Senha</BotaoCinza>
             </li>
             <li key={"senhaNova"} style={{ width: "48%" }}>
                     <Input placeholder={"Senha Nova"} {...register("senhaNova")} />
@@ -60,8 +98,10 @@ function FormSenha({register}) {
                     <Input placeholder={"Repita a Senha Nova"} {...register("repitaSenhaNova")} />
             </li>
             </Opcoes>
-        </FormContainer>
+</form> 
+       </FormContainer>
     )
+
 }
 
 export default FormSenha;

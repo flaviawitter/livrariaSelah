@@ -13,7 +13,6 @@ async function criarCliente(req, res) {
             ranking: clienteReq.ranking
         }
         const novoCliente = await prisma.cliente.create({ data });
-        console.log(novoCliente);
         res.json(novoCliente);
         return novoCliente;
     } catch (error) {
@@ -73,22 +72,34 @@ async function obterClienteCpf(req, res) {
 
 }
 
-async function atualizarCliente(req, res) {
-    const { id } = req.params;
-    const { nome, email, senha, genero, dataNascimento } = req.body;
-
+async function atualizarCliente(id, dados) {
     try {
         const clienteAtualizado = await prisma.cliente.update({
             where: { id: parseInt(id) },
-            data: { nome, email, senha, genero, dataNascimento: new Date(dataNascimento) }
+            data: dados
         });
 
-        res.json(clienteAtualizado);
+        return clienteAtualizado;
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
 }
 
+/*async function atualizarSenha(id, senha) {
+    const { id } = req.params;
+    const { senha } = req.body;
+    try {
+        const senhaAtualizada = await prisma.cliente.update({
+            where: { id: parseInt(id) },
+            data:{ senha }
+        });
+
+        return senhaAtualizada;
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+}
+*/
 async function deletarCliente(req, res) {
     const { id } = req.params;
 

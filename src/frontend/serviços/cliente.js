@@ -10,17 +10,27 @@ async function criarCliente(cliente) {
         console.log(error.request.response)
     }
 }
-async function obterClienteCpf(cpf) {
+async function obterCliente(id) {
     try{
-        const clienteObtido = await axios.get(clienteAPI + "/" + cpf);
+        const clienteObtido = await axios.get(clienteAPI + "/" + id);
         return clienteObtido
     } catch (error) {
         console.log(error.request.response)
     }
 }
 
+async function atualizarSenha(idCliente, senha) {
+    try {
+        await axios.put(`${clienteAPI}/${idCliente}/senha`, { senha });
+
+    } catch (error) {
+        console.log(error.request.response);
+    }
+}
+
+
 
 export {
-    criarCliente, obterClienteCpf
+    criarCliente, obterCliente, atualizarSenha
 } 
 

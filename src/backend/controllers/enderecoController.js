@@ -17,8 +17,6 @@ async function criarEndereco(req, res) {
             pais: enderecoReq.pais,
             estado: enderecoReq.estado
         }
-        console.log("Dados endereço:", enderecoReq);
-
         const endereco = await prisma.endereco.create({ data });
         res.status(201).json(endereco);
     } catch (error) {
