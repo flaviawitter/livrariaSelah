@@ -10,11 +10,11 @@ import BotaoCinza from '../componentes/BotaoCinza';
 import ModalEndereco from '../componentes/ModalEndereco';
 import ModalCartao from '../componentes/ModalCartao';
 import React, { useState } from 'react';
-import { criarTelefone } from '../serviços/telefone';
+import { criarTelefone, deletarTelefone } from '../serviços/telefone';
 import { useForm } from "react-hook-form";
-import { criarEndereco } from '../serviços/endereco';
-import { criarCliente } from '../serviços/cliente';
-import { criarCartao } from '../serviços/cartao';
+import { criarEndereco, deletarEndereco } from '../serviços/endereco';
+import { criarCliente, deletarCliente } from '../serviços/cliente';
+import { criarCartao, deletarCartao } from '../serviços/cartao';
 
 
 const AppContainer = styled.div`
@@ -93,8 +93,6 @@ function App() {
       preferencial: data.preferencialCobranca
     }
 
-   console.log(data.preferencialCobranca)
-
    await criarEndereco(enderecoCobranca)
 
     const enderecoEntrega = {
@@ -132,8 +130,8 @@ function App() {
     }
 
       
-    await criarCartao(cartao)
-    await criarTelefone(telefone)
+   await criarCartao(cartao)
+   await criarTelefone(telefone)
 
     console.log(cliente)
     console.log(telefone)
@@ -143,7 +141,20 @@ function App() {
   }
 
   const onDelete = async (data) => {
+    try {
+      await deletarCartao(idCliente);
+      console.log("Cartão excluído com sucesso!")
+      await deletarEndereco(idCliente);
+      console.log("Endereço excluído com sucesso!")
+      await deletarTelefone(idCliente);
+      console.log("Telefone excluído com sucesso!")
+      await deletarCliente(idCliente);
+      console.log("Cliente excluído com sucesso!")
 
+      
+    } catch (error) {
+      console.log(error.request.response)
+    }
   }
 
   return (

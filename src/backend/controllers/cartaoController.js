@@ -56,8 +56,9 @@ async function atualizarCartao(req, res) {
 }
 
 async function deletarCartao(req, res) {
+    
     try {
-        await prisma.cartao.delete({ where: { id: parseInt(req.params.id) } });
+        await prisma.cartao.deleteMany({ where: { clienteId: parseInt(req.params.id) } });
         res.json({ message: "Cartão deletado com sucesso" });
     } catch (error) {
         res.status(400).json({ error: error.message });

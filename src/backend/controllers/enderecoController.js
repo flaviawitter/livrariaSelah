@@ -63,7 +63,7 @@ async function atualizarEndereco(req, res) {
 
 async function deletarEndereco(req, res) {
     try {
-        await prisma.endereco.delete({ where: { id: parseInt(req.params.id) } });
+        await prisma.endereco.deleteMany({ where: { clienteId: parseInt(req.params.id) } });
         res.json({ message: "Endereço deletado com sucesso" });
     } catch (error) {
         res.status(400).json({ error: error.message });

@@ -56,7 +56,7 @@ async function atualizarTelefone(req, res) {
 
 async function deletarTelefone(req, res) {
     try {
-        await prisma.telefones.delete({ where: { id: parseInt(req.params.id) } });
+        await prisma.telefones.deleteMany({ where: { clienteId: parseInt(req.params.id) } });
         res.json({ message: "Telefone deletado com sucesso" });
     } catch (error) {
         res.status(400).json({ error: error.message });

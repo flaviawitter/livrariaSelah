@@ -28,9 +28,16 @@ async function atualizarSenha(idCliente, senha) {
     }
 }
 
+async function deletarCliente(idCliente) {
+    try {
+        await axios.delete(clienteAPI + "/" + idCliente);
 
+    } catch (error) {
+        console.log(error.request.response);
+    }
+}
 
 export {
-    criarCliente, obterCliente, atualizarSenha
+    criarCliente, obterCliente, atualizarSenha, deletarCliente
 } 
 

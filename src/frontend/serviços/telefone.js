@@ -10,6 +10,14 @@ async function criarTelefone(telefone) {
     }
 }
 
+async function deletarTelefone(idCliente) {
+    try{
+        await axios.delete(telefoneAPI + "/" + idCliente);
+    } catch (error) {
+        console.log(error.request.response)
+    }
+}
+
 export {
-    criarTelefone
+    criarTelefone, deletarTelefone
 } 

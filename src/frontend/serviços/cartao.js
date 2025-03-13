@@ -10,6 +10,14 @@ async function criarCartao(cartao) {
     }
 }
 
+async function deletarCartao(cartao) {
+    try{
+        await axios.delete(cartaoAPI + "/" + cartao);
+    } catch (error) {
+        console.log(error.request.response)
+    }
+}
+
 export {
-    criarCartao
+    criarCartao, deletarCartao
 } 

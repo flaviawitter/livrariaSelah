@@ -10,6 +10,15 @@ async function criarEndereco(endereco) {
     }
 }
 
+async function deletarEndereco(idCliente) {
+    try{
+        await axios.delete(enderecoAPI + "/" + idCliente);
+    } catch (error) {
+        console.log(error.request.response)
+    }
+}
+
+
 export {
-    criarEndereco
+    criarEndereco, deletarEndereco
 } 
