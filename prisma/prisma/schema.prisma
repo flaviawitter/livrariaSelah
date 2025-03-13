@@ -14,10 +14,6 @@ model autores {
   nacionalidade  String?
 }
 
-model bandeiracartao {
-  id        Int    @id @default(autoincrement())
-  descricao String @db.VarChar(50)
-}
 
 model carrinho {
   id           Int     @id @default(autoincrement())
@@ -47,13 +43,6 @@ model categorias {
   nome String @unique(map: "Categorias_nome_key")
 }
 
-model cidades {
-  id       Int    @id @default(autoincrement())
-  nome     String @db.VarChar(100)
-  estadoId Int
-
-  @@index([estadoId], map: "Cidades_estadoId_fkey")
-}
 
 model classificacaoia {
   id        Int    @id @default(autoincrement())
@@ -65,7 +54,7 @@ model classificacaoia {
 model cliente {
   id             Int            @id @default(autoincrement())
   nome           String         @db.VarChar(100)
-  cpf            String         @unique(map: "Cliente_cpf_key") @db.VarChar(14)
+  cpf            String         @unique(map: "Cliente_cpf_key") @db.VarChar(15)
   email          String         @db.VarChar(100)
   senha          String         @db.VarChar(64)
   genero         String
@@ -104,15 +93,13 @@ model endereco {
   tipoResidencia   String
   cidade           String
   observacao       String?
+  preferencial     Boolean @default(false)
+
 
   clienteId        Int
   cliente          cliente @relation(fields: [clienteId], references: [id])
 }
 
-model estados {
-  id     Int    @id @default(autoincrement())
-  nome   String @db.VarChar(100)
-}
 
 model estoque {
   id                Int       @id @default(autoincrement())

@@ -89,7 +89,9 @@ function App() {
       cep: data.cepCobranca,
       tipoResidencia: data.tpResidenciaCobranca,
       tipoLogradouro: data.tpLogradouroCobranca,
-      tipoEndereco: "Cobranca"
+      tipoEndereco: "Cobranca",
+      preferencial: data.preferencialCobranca
+
     }
 
     await criarEndereco(enderecoCobranca)
@@ -105,7 +107,8 @@ function App() {
       cep: data.cepEntrega,
       tipoResidencia: data.tpResidenciaEntrega,
       tipoLogradouro: data.tpLogradouroEntrega,
-      tipoEndereco: "Entrega"
+      tipoEndereco: "Entrega",
+      preferencial: data.preferencialEntrega
     }
 
     await criarEndereco(enderecoEntrega)

@@ -97,8 +97,8 @@ function FormEndereco({register}) {
                 <li key={"tpLogradouroEntrega"} style={{ width: "48%" }}>
                     <Select options={tiposLogradouro} placeholder="Selecione o tipo de logradouro" registro={"tpLogradouroEntrega"} register={register}/>
                 </li>
-                <li key={"EnderecoPreferencialEntrega"} style={{ width: "100%", display: "flex", alignItems: "center" }}>
-                    <input type="checkbox" {...register("preferencial")} />
+                <li key={"preferencialEntrega"} style={{ width: "100%", display: "flex", alignItems: "center" }}>
+                    <input type="checkbox" {...register("preferencialEntrega")} />
                     <CheckboxLabel>Endereço Preferencial</CheckboxLabel>
                 </li>
 
