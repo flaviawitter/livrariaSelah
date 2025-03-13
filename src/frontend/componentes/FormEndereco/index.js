@@ -77,6 +77,9 @@ function FormEndereco({register}) {
                 <li key={"cidadeEntrega"} style={{ width: "48%" }}>
                 <Select options={cidades} placeholder="Selecione a cidade" registro={"cidadeEntrega"} register={register} />
                 </li>
+                <li key={"tpLogradouroEntrega"} style={{ width: "48%" }}>
+                    <Select options={tiposLogradouro} placeholder="Selecione o tipo de logradouro" registro={"tpLogradouroEntrega"} register={register}/>
+                </li>
                 <li key={"logradouroEntrega"} style={{ width: "48%" }}>
                     <Input placeholder={"Logradouro"} {...register("logradouroEntrega")} />
                 </li>
@@ -93,9 +96,6 @@ function FormEndereco({register}) {
 
                 <li key={"tpResidenciaEntrega"} style={{ width: "48%" }}>
                     <Select options={tipoResidencia} placeholder="Selecione o tipo de residência" registro={"tpResidenciaEntrega"} register={register} />
-                </li>
-                <li key={"tpLogradouroEntrega"} style={{ width: "48%" }}>
-                    <Select options={tiposLogradouro} placeholder="Selecione o tipo de logradouro" registro={"tpLogradouroEntrega"} register={register}/>
                 </li>
                 <li key={"preferencialEntrega"} style={{ width: "100%", display: "flex", alignItems: "center" }}>
                     <input type="checkbox" {...register("preferencialEntrega")} />
@@ -115,6 +115,9 @@ function FormEndereco({register}) {
                 <li key={"cidadeCobranca"} style={{ width: "48%" }}>
                 <Select options={cidades} placeholder="Selecione a cidade" registro={"cidadeCobranca"} register={register} />
                 </li>
+                <li key={"tpLogradouroCobranca"} style={{ width: "48%" }}>
+                    <Select options={tiposLogradouro} placeholder="Selecione o tipo de logradouro" registro={"tpLogradouroCobranca"} register={register} />
+                </li>
                 <li key={"logradouroCobranca"} style={{ width: "48%" }}>
                     <Input placeholder={"Logradouro"} {...register("logradouroCobranca")} />
                 </li>
@@ -130,9 +133,6 @@ function FormEndereco({register}) {
                 </li>
                 <li key={"tpResidenciaCobranca"} style={{ width: "48%" }}>
                     <Select options={tipoResidencia} placeholder="Selecione o tipo de residência" registro={"tpResidenciaCobranca"} register={register} />
-                </li>
-                <li key={"tpLogradouroCobranca"} style={{ width: "48%" }}>
-                    <Select options={tiposLogradouro} placeholder="Selecione o tipo de logradouro" registro={"tpLogradouroCobranca"} register={register} />
                 </li>
                 <li key={"preferencialCobranca"} style={{ width: "100%", display: "flex", alignItems: "center" }}>
                     <input type="checkbox" {...register("preferencialCobranca")} />
