@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import FormEnderecoModal from '../FormEnderecoModal'
 import BotaoVermelho from '../BotaoVermelho';
 import BotaoCinza from '../BotaoCinza';
+import { criarEnderecoNovo } from '../../serviços/endereco'
 
 const ModalContainer = styled.div`
   position: fixed;
@@ -44,21 +45,47 @@ const ModalBotoes = styled.div`
 `
 
 
-function ModalEndereco({ showModal, setShowModal, register, handleSubmit }) {
+function ModalEndereco({ showModal, setShowModal, register, handleSubmit, idCliente }) {
 
     const onSubmit = async (data) => {    
-        const enderecoEntrega = {
-          clienteId: 1,
+
+      console.log(data);
+
+      if (!idCliente) {
+        console.error("ID do cliente não definido!");
+        return;
+      }  
+
+        const endereco = {
+          clienteId: idCliente,
           pais: "Brasil",
           estado: "São Paulo",
-          cidade: data.cidadeNovo,
-          logradouro: data.logradouroNovo,
-          numero: parseInt(data.numeroEnderecoNovo),
-          bairro: data.bairroNovo,
-          cep: data.cepNovo,
-          tpResidencia: data.tpResidenciaNovo,
-          tpLogradouro: data.tpLogradouroNovo,
-          tpEndereco: data.tpEnderecoNovo
+          cidade: data.cidade,
+          logradouro: data.logradouro,
+          numero: parseInt(data.numeroEndereco),
+          bairro: data.bairro,
+          cep: data.cep,
+          tipoResidencia: data.tpResidencia,
+          tipoLogradouro: data.tpLogradouro,
+          tipoEndereco: data.tpEndereco,
+          preferencial: data.preferencial ? true : false
+        }
+
+        console.log(data.cidade);
+        console.log(data.tpLogradouro);
+        console.log(data.logradouro);
+        console.log(data.numeroEndereco);
+        console.log(data.bairro);
+        console.log(data.cep);
+        console.log(data.tpResidencia);
+        console.log(data.tpEndereco);
+
+        try {
+          await criarEnderecoNovo(idCliente, endereco); 
+          console.log();
+          setShowModal(false);
+        } catch (error) {
+          console.error("Erro ao inserir cartão:", error);
         }
     }
 

@@ -1,8 +1,6 @@
 import Input from '../Input'
-import { useState } from 'react'
 import styled from 'styled-components'
 import Select from "../Select"
-import InputMask from '../InputMask'
 
 const FormContainer = styled.section`
     color: #FFF;
@@ -55,35 +53,35 @@ function FormEnderecoModal({register}) {
                 <li key={"pais"} style={{ width: "45%" }}>
                     <Input placeholder={"Brasil"} {...register("pais")} readOnly />
                 </li>
-                <li key={"estadoNovo"} style={{ width: "45%" }}>
-                    <Input placeholder={"São Paulo"} {...register("estadoNovo")} readOnly />
+                <li key={"estado"} style={{ width: "45%" }}>
+                    <Input placeholder={"São Paulo"} {...register("estado")} readOnly />
                 </li>
-                <li key={"cidadeNovo"} style={{ width: "48%" }}>
-                    <Select options={cidades} placeholder="Selecione a cidade" registro={"cidadeNovo"} register={register} />
+                <li key={"cidade"} style={{ width: "48%" }}>
+                    <Select options={cidades} placeholder="Selecione a cidade" registro={"cidade"} register={register} />
                 </li>
-                <li key={"tpLogradouroNovo"} style={{ width: "45%" }}>
-                    <Select options={tiposLogradouro} placeholder="Selecione o tipo de logradouro" registro={"tpLogradouroNovo"} register={register}/>
+                <li key={"tpLogradouro"} style={{ width: "45%" }}>
+                    <Select options={tiposLogradouro} placeholder="Selecione o tipo de logradouro" registro={"tpLogradouro"} register={register}/>
                 </li>
-                <li key={"logradouroNovo"} style={{ width: "45%" }}>
-                    <Input placeholder={"Logradouro"} {...register("logradouroNovo")} />
+                <li key={"logradouro"} style={{ width: "45%" }}>
+                    <Input placeholder={"Logradouro"} {...register("logradouro")} />
                 </li>
-                <li key={"numeroEnderecoNovo"} style={{ width: "45%" }}>
-                    <Input placeholder={"Número"} {...register("numeroEnderecoNovo")} />
-                </li>
-
-                <li key={"bairroNovo"} style={{ width: "45%" }}>
-                    <Input placeholder={"Bairro"} {...register("bairroNovo")} />
-                </li>
-                <li key={"cepNovo"} style={{ width: "45%" }}>
-                    <InputMask mask="99999-999" placeholder={"CEP"} {...register("cepNovo")} />
+                <li key={"numeroEndereco"} style={{ width: "45%" }}>
+                    <Input placeholder={"Número"} {...register("numeroEndereco")} />
                 </li>
 
-                <li key={"tpResidenciaNovo"} style={{ width: "48%" }}>
-                    <Select options={tipoResidencia} placeholder="Tipo de residência" registro={"tpResidenciaNovo"} register={register} />
+                <li key={"bairro"} style={{ width: "45%" }}>
+                    <Input placeholder={"Bairro"} {...register("bairro")} />
+                </li>
+                <li key={"cep"} style={{ width: "45%" }}>
+                    <Input placeholder={"CEP"} {...register("cep")} />
                 </li>
 
-                <li key={"tpEnderecoNovo"} style={{ width: "45%"}}>
-                    <Select options={tipoEndereco} placeholder="Tipo de Endereço" registro={"tpEnderecoNovo"} register={register} />
+                <li key={"tpResidencia"} style={{ width: "48%" }}>
+                    <Select options={tipoResidencia} placeholder="Tipo de residência" registro={"tpResidencia"} register={register} />
+                </li>
+
+                <li key={"tpEndereco"} style={{ width: "45%"}}>
+                    <Select options={tipoEndereco} placeholder="Tipo de Endereço" registro={"tpEndereco"} register={register} />
                 </li>
 
                 <li key={"EnderecoPreferencial"} style={{ width: "100%", display: "flex", alignItems: "center" }}>

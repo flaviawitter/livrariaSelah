@@ -25,6 +25,19 @@ async function criarEndereco(req, res) {
     }
 }
 
+async function criarEnderecoNovo(req, res) {
+    const { idCliente } = req.params;  
+    const endereco = req.body.endereco;  
+    try {
+        const novoEndereco = await prisma.endereco.create({
+            data: { ...endereco, clienteId: parseInt(idCliente) },
+        });
+        res.status(201).json({ message: "Cartão criado com sucesso", novoEndereco });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+}
+
 async function listarEnderecos(req, res) {
     try {
         const enderecos = await prisma.endereco.findMany();
@@ -70,4 +83,4 @@ async function deletarEndereco(req, res) {
     }
 }
 
-module.exports = { criarEndereco, listarEnderecos, obterEndereco, atualizarEndereco, deletarEndereco };
+module.exports = { criarEndereco, listarEnderecos, obterEndereco, atualizarEndereco, deletarEndereco, criarEnderecoNovo };

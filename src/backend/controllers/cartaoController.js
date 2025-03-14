@@ -33,9 +33,6 @@ async function criarCartaoNovo(req, res) {
     }
 }
 
-
-
-
 async function listarCartoes(req, res) {
     try {
         const cartoes = await prisma.cartao.findMany();

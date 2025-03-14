@@ -84,7 +84,6 @@ function ModalCartao({ showModal, setShowModal, register, handleSubmit, idClient
     }
   };
   
-
   if (!showModal) return null;
 
   const onClose = () => setShowModal(false);

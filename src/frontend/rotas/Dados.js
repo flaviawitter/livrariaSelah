@@ -12,7 +12,7 @@ import ModalCartao from '../componentes/ModalCartao';
 import React, { useState } from 'react';
 import { criarTelefone, deletarTelefone } from '../serviços/telefone';
 import { useForm } from "react-hook-form";
-import { criarEndereco, deletarEndereco } from '../serviços/endereco';
+import { criarEndereco, deletarEndereco, criarEnderecoNovo } from '../serviços/endereco';
 import { criarCliente, deletarCliente } from '../serviços/cliente';
 import { criarCartao, deletarCartao } from '../serviços/cartao';
 
@@ -178,6 +178,7 @@ function App() {
         setShowModal={setShowModalEndereco}
         register={register}
         handleSubmit={handleSubmit}
+        idCliente={idCliente} 
       />
       <ModalCartao
         showModal={showModalCartao}
