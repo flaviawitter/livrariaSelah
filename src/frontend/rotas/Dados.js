@@ -185,7 +185,8 @@ function App() {
         setShowModal={setShowModalCartao}
         register={register}
         handleSubmit={handleSubmit}
-        idCliente={idCliente} 
+        idCliente={idCliente}
+        
       />
     </AppContainer>
 
