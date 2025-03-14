@@ -21,7 +21,7 @@ async function obterCliente(id) {
 
 async function atualizarSenha(idCliente, senha) {
     try {
-        await axios.put(`${clienteAPI}/${idCliente}/senha`, { senha });
+        await axios.put(clienteAPI + "/" + idCliente + "/senha", {senha});
 
     } catch (error) {
         console.log(error.request.response);

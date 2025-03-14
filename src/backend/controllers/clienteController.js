@@ -85,21 +85,22 @@ async function atualizarCliente(id, dados) {
     }
 }
 
-/*async function atualizarSenha(id, senha) {
-    const { id } = req.params;
-    const { senha } = req.body;
+async function atualizarSenha(req, res) {
+    const { id } = req.params; 
+    const senhaNova = req.body.senha; 
     try {
         const senhaAtualizada = await prisma.cliente.update({
-            where: { id: parseInt(id) },
-            data:{ senha }
+            where: { id: parseInt(id) }, 
+            data: { senha: senhaNova }
         });
 
-        return senhaAtualizada;
+        res.status(200).json({ message: "Senha atualizada com sucesso", senhaAtualizada });
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
 }
-*/
+
+
 async function deletarCliente(req, res) {
     const { id } = req.params;
 
@@ -117,6 +118,7 @@ module.exports = {
     listarClientes, 
     obterCliente, 
     obterClienteCpf,
+    atualizarSenha,
     atualizarCliente, 
     deletarCliente 
 };

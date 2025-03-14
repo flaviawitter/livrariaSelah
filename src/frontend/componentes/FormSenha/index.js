@@ -56,26 +56,30 @@ function FormSenha({ idCliente }) {
     )
 
   const onSubmit = async (data) => {
-    console.log("Senha Atual:", data.senhaAtual);
-    console.log("Nova Senha:", data.senhaNova);
-    console.log("Repita a Nova Senha:", data.repitaSenhaNova);
-
-
     const clienteRes = await obterCliente(idCliente);
-                const senhaCliente = clienteRes.data.senha;
-                console.log(senhaCliente);
+    const senhaCliente = clienteRes.data.senha;    
+    const senhaNovaCliente = data.senhaNova;
+    
+    if(data.senhaAtual === senhaCliente){
+        // console.log("Senha Atual:", data.senhaAtual);
+        // console.log("Nova Senha:", data.senhaNova);
+        // console.log("Repita a Nova Senha:", data.repitaSenhaNova)
 
-    if (data.senhaNova && data.repitaSenhaNova != null) {
-        if (senhaCliente !== data.senhaNova) {
-            await atualizarSenha(idCliente, data.senhaNova);
-        }
-         else {
-            console.log("Senha inválida! As senhas não coincidem.");
-        }
+        if (data.senhaNova && data.repitaSenhaNova != null) {
+            if (data.repitaSenhaNova == data.senhaNova) {
+                await atualizarSenha(idCliente, senhaNovaCliente);
+            }
+             else {
+                console.log("Senha inválida! As senhas não coincidem.");
+            }
+        }else{
+            console.log("As senhas não podem estar em branco.")
+        }    
+
     }else{
-        console.log("As senhas não podem estar em branco.")
+        console.log("As senhas atuais não coincidem!")
     }
-
+    
   }
 
     return (
