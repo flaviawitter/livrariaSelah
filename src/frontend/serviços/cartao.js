@@ -10,6 +10,16 @@ async function criarCartao(cartao) {
     }
 }
 
+async function criarCartaoNovo(idCliente, cartao) {
+    try {
+        await axios.post(`http://localhost:5000/api/cartoes/${idCliente}`, { cartao });
+        console.log("Cartão criado com sucesso!");
+    } catch (error) {
+        console.log("Erro ao inserir cartão:", error.response ? error.response.data : error.message);
+    }
+}
+
+
 async function deletarCartao(cartao) {
     try{
         await axios.delete(cartaoAPI + "/" + cartao);
@@ -19,5 +29,5 @@ async function deletarCartao(cartao) {
 }
 
 export {
-    criarCartao, deletarCartao
+    criarCartao, deletarCartao, criarCartaoNovo
 } 

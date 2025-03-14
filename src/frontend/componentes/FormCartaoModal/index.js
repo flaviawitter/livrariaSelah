@@ -1,7 +1,6 @@
 import Input from '../Input'
 import Select from "../Select"
 import styled from 'styled-components'
-import InputMask from '../InputMask'
 
 const FormContainer = styled.section`
     color: #FFF;
@@ -58,13 +57,13 @@ function FormCartaoModal({ register }) {
                     <Input  placeholder={"Apelido do Cartão"} {...register("apelidoCartao")} />
             </li>
             <li key={"numeroCartao"} style={{ width: "45%" }}>
-                    <InputMask mask="9999 9999 9999 9999" placeholder={"Número do Cartão"} {...register("numeroCartao")} />
+                    <Input placeholder={"Número do Cartão"} {...register("numeroCartao")} />
             </li>
             <li key={"codSeguranca"} style={{ width: "45%" }}>
-                    <InputMask mask="999" placeholder={"Código de Segurança"} {...register("codSeguranca")} />
+                    <Input placeholder={"Código de Segurança"} {...register("codSeguranca")} />
             </li>
             <li key={"validade"} style={{ width: "45%" }}>
-                    <InputMask mask="99/99"  placeholder={"Validade"} {...register("validade")} />
+                    <Input  placeholder={"Validade"} {...register("validade")} />
             </li>
             <li key={"nomeTitular"} style={{ width: "45%" }}>
                     <Input placeholder={"Nome do Titular"} {...register("nomeTitular")} />

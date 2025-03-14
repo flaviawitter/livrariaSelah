@@ -1,9 +1,10 @@
-// ModalEndereco.js
 import React from 'react'
 import styled from 'styled-components'
 import BotaoVermelho from '../BotaoVermelho';
 import BotaoCinza from '../BotaoCinza';
 import FormCartaoModal from '../FormCartaoModal';
+import { criarCartaoNovo } from '../../serviços/cartao';
+
 
 const ModalContainer = styled.div`
   position: fixed;
@@ -44,20 +45,45 @@ const ModalBotoes = styled.div`
 `
 
 
-function ModalCartao({ showModal, setShowModal, register, handleSubmit }) {
+function ModalCartao({ showModal, setShowModal, register, handleSubmit, idCliente }) {
 
-    const onSubmit = async (data) => {    
-      const cartao = {
-        apelidoCartao: data.apelidoCartao,
-        nomeTitular: data.nomeTitular,
-        numero: data.numeroCartao,
-        validade: data.validade,
-        codSeguranca: data.codSeguranca,
-        bandeiraCartao: data.bandeiraCartao,
-        preferencial: data.preferencial || false,
-        clienteId: 1
-      }
+  const onSubmit = async (data) => {   
+    
+    if (!idCliente) {
+      console.error("ID do cliente não definido!");
+      return;
+    }  
+  
+    const cartao = {
+      apelidoCartao: data.apelidoCartao, 
+      nomeTitular: data.nomeTitular,
+      numero: data.numeroCartao,
+      validade: data.validade,
+      codSeguranca: data.codSeguranca,
+      bandeiraCartao: data.bandeiraCartao,
+      preferencial: data.preferencial ? true : false,
+      clienteId: idCliente  
+    };
+
+    console.log(data.apelidoCartao);
+    console.log(data.nomeTitular);
+    console.log(data.numeroCartao);
+    console.log(data.validade);
+    console.log(data.codSeguranca);
+    console.log(data.bandeiraCartao);
+    console.log(data.preferencial);
+    console.log(idCliente);
+    
+  
+    try {
+      await criarCartaoNovo(idCliente, cartao); 
+      console.log();
+      setShowModal(false);
+    } catch (error) {
+      console.error("Erro ao inserir cartão:", error);
     }
+  };
+  
 
   if (!showModal) return null;
 
@@ -68,8 +94,8 @@ function ModalCartao({ showModal, setShowModal, register, handleSubmit }) {
       <ModalContent>
         <FormCartaoModal register={register} />
         <ModalBotoes>
-            <BotaoVermelho type="submit" onClick={handleSubmit(onSubmit)}>Salvar Cartão</BotaoVermelho>
-            <BotaoCinza onClick={onClose}>Fechar</BotaoCinza>
+          <BotaoVermelho type="submit" onClick={handleSubmit(onSubmit)}>Salvar Cartão</BotaoVermelho>
+          <BotaoCinza onClick={onClose}>Fechar</BotaoCinza>
         </ModalBotoes>
       </ModalContent>
     </ModalContainer>

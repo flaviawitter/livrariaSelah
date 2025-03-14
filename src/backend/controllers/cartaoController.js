@@ -20,6 +20,22 @@ async function criarCartao(req, res) {
     }
 }
 
+async function criarCartaoNovo(req, res) {
+    const { idCliente } = req.params;  
+    const cartao = req.body.cartao;  
+    try {
+        const novoCartao = await prisma.cartao.create({
+            data: { ...cartao, clienteId: parseInt(idCliente) },
+        });
+        res.status(201).json({ message: "Cartão criado com sucesso", novoCartao });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+}
+
+
+
+
 async function listarCartoes(req, res) {
     try {
         const cartoes = await prisma.cartao.findMany();
@@ -65,4 +81,4 @@ async function deletarCartao(req, res) {
     }
 }
 
-module.exports = { criarCartao, listarCartoes, obterCartao, atualizarCartao, deletarCartao };
+module.exports = { criarCartao, listarCartoes, obterCartao, atualizarCartao, deletarCartao, criarCartaoNovo };

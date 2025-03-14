@@ -112,7 +112,6 @@ function App() {
 
    await criarEndereco(enderecoEntrega)
 
-
     const cartao = {
       apelidoCartao: data.apelidoCartao,
       nomeTitular: data.nomeTitular,
@@ -129,7 +128,7 @@ function App() {
       senhaNova: data.senhaNova
     }
 
-      
+    
    await criarCartao(cartao)
    await criarTelefone(telefone)
 
@@ -185,6 +184,7 @@ function App() {
         setShowModal={setShowModalCartao}
         register={register}
         handleSubmit={handleSubmit}
+        idCliente={idCliente} 
       />
     </AppContainer>
 
