@@ -31,7 +31,7 @@ async function atualizarSenha(idCliente, senha) {
 
 async function atualizarCliente(idCliente, cliente) {
     try{
-        const clienteAtualizado = await axios.update(clienteAPI + "/" + idCliente + {cliente});
+        await axios.put(clienteAPI + "/" + idCliente, cliente);
     } catch (error) {
         console.log(error.request)
     }

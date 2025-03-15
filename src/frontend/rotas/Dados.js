@@ -7,15 +7,14 @@ import FormCartao from '../componentes/FormCartao';
 import FormSenha from '../componentes/FormSenha';
 import BotaoVermelho from '../componentes/BotaoVermelho';
 import BotaoCinza from '../componentes/BotaoCinza';
+import BotaoVerde from '../componentes/BotaoVerde';
 import ModalEndereco from '../componentes/ModalEndereco';
 import ModalCartao from '../componentes/ModalCartao';
 import React, { useState } from 'react';
 import { criarTelefone, deletarTelefone } from '../serviços/telefone';
 import { useForm } from "react-hook-form";
-import { criarEndereco, deletarEndereco } from '../serviços/endereco';
 import { criarCliente, deletarCliente, atualizarCliente } from '../serviços/cliente';
 import { criarEndereco, deletarEndereco, criarEnderecoNovo } from '../serviços/endereco';
-import { criarCliente, deletarCliente } from '../serviços/cliente';
 import { criarCartao, deletarCartao } from '../serviços/cartao';
 
 
@@ -69,14 +68,11 @@ function App() {
       ranking: 0
     }
 
-    if (idCliente) {
-      console.log(idCliente)
-      await atualizarCliente(idCliente, cliente)
-    } else {
+
       const newCliente = await criarCliente(cliente);
       const idCliente = newCliente.data.id;
       setIdCliente(idCliente);
-    }
+    
     const telefone = {
       tipoTelefone: data.tipoTelefone,
       ddd: data.ddd,
@@ -144,6 +140,23 @@ function App() {
     console.log(cartao)
   }
 
+  const onAtualizar = async (data) => {
+    if(idCliente){
+      const cliente = {
+        nome: data.nome,
+        email: data.email,
+        cpf: data.cpf,
+        senha: data.senha,
+        genero: data.genero,
+        dataNascimento: data.nascimento,
+        ranking: 0
+      };  
+    await atualizarCliente(idCliente, cliente);
+   }else{
+    console.log("Não há cliente para atualizar, primeiro faça o cadastro.")
+   }
+  }
+
   const onDelete = async (data) => {
     try {
       await deletarCartao(idCliente);
@@ -174,6 +187,7 @@ function App() {
       </DadosContainer>
       <BotaoContainer>
         <BotaoVermelho type="submit" onClick={handleSubmit(onSubmit)}>Salvar Dados</BotaoVermelho>
+        <BotaoVerde type="submit" onClick={handleSubmit(onAtualizar)}>Atualizar Conta</BotaoVerde>
         <BotaoCinza type="submit" onClick={handleSubmit(onDelete)}>Excluir Conta</BotaoCinza>
       </BotaoContainer>
 

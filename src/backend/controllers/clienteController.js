@@ -72,13 +72,17 @@ async function obterClienteCpf(req, res) {
 
 }
 
-async function atualizarCliente(id, dados, res) {
+async function atualizarCliente(req, res) {
+    const {id} = req.params;
+    const body = req.body;
+
+    body.dataNascimento = new Date(body.dataNascimento);
+
     try {
         const clienteAtualizado = await prisma.cliente.update({
             where: { id: parseInt(id) },
-            data: dados
+            data: body
         });
-
         return clienteAtualizado;
     } catch (error) {
         res.status(400).json({ error: error.message });
