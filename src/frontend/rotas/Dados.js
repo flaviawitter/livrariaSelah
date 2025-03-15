@@ -13,7 +13,7 @@ import React, { useState } from 'react';
 import { criarTelefone, deletarTelefone } from '../serviços/telefone';
 import { useForm } from "react-hook-form";
 import { criarEndereco, deletarEndereco } from '../serviços/endereco';
-import { criarCliente, deletarCliente } from '../serviços/cliente';
+import { criarCliente, deletarCliente, atualizarCliente } from '../serviços/cliente';
 import { criarCartao, deletarCartao } from '../serviços/cartao';
 
 
@@ -67,10 +67,14 @@ function App() {
       ranking: 0
     }
 
-    const newCliente = await criarCliente(cliente)
-    const idCliente = newCliente.data.id
-    setIdCliente(newCliente.data.id);
-
+    if (idCliente) {
+      console.log(idCliente)
+      await atualizarCliente(idCliente, cliente)
+    } else {
+      const newCliente = await criarCliente(cliente);
+      const idCliente = newCliente.data.id;
+      setIdCliente(idCliente);
+    }
     const telefone = {
       tipoTelefone: data.tipoTelefone,
       ddd: data.ddd,
@@ -127,7 +131,6 @@ function App() {
       senhaAtual: data.senhaAtual,
       senhaNova: data.senhaNova
     }
-
     
    await criarCartao(cartao)
    await criarTelefone(telefone)

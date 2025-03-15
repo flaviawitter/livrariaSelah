@@ -72,7 +72,7 @@ async function obterClienteCpf(req, res) {
 
 }
 
-async function atualizarCliente(id, dados) {
+async function atualizarCliente(id, dados, res) {
     try {
         const clienteAtualizado = await prisma.cliente.update({
             where: { id: parseInt(id) },

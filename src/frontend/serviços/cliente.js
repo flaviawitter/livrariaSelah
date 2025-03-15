@@ -10,6 +10,7 @@ async function criarCliente(cliente) {
         console.log(error.request.response)
     }
 }
+
 async function obterCliente(id) {
     try{
         const clienteObtido = await axios.get(clienteAPI + "/" + id);
@@ -28,6 +29,14 @@ async function atualizarSenha(idCliente, senha) {
     }
 }
 
+async function atualizarCliente(idCliente, cliente) {
+    try{
+        const clienteAtualizado = await axios.update(clienteAPI + "/" + idCliente + {cliente});
+    } catch (error) {
+        console.log(error.request)
+    }
+}
+
 async function deletarCliente(idCliente) {
     try {
         await axios.delete(clienteAPI + "/" + idCliente);
@@ -38,6 +47,6 @@ async function deletarCliente(idCliente) {
 }
 
 export {
-    criarCliente, obterCliente, atualizarSenha, deletarCliente
+    criarCliente, obterCliente, atualizarSenha, deletarCliente, atualizarCliente
 } 
 
