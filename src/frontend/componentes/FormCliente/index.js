@@ -1,8 +1,7 @@
 import Input from '../Input'
-import { useState } from 'react'
 import Select from "../Select"
 import styled from 'styled-components'
-import InputMask from '../InputMask'
+import InputMask from 'react-input-mask'
 
 const FormContainer = styled.section`
     color: #FFF;
@@ -43,8 +42,33 @@ const Opcoes = styled.ul`
 const generos = ["Masculino", "Feminino", "Outro"]
 const tiposTelefone = ["Celular", "Residencial", "Comercial", "Outro"]
 
+const StyledInputMask = styled(InputMask)`
+   background-color: #CACACA;
+    backdrop-filter: blur(10px);
+    border: 1px solid #004A33;
+    padding: 10px;
+    border-radius: 25px;
+    width: 100%;
+    height: 15px;
+    color: #004A33;
+    font-size: 20px;
+    margin-bottom: 10px;
+    margin-top: 30px;
+    display: flex;
+    align-items: flex-start;
+    
+    &::placeholder {
+        color: #004A33;
+        font-size: 16px;
+    }
+    
+    &:focus {
+        border: 2px solid #004A33; 
+        box-shadow: 0px 0px 5px #00FF00; 
+    }
+`;
 
-function FormCliente({register}) {
+function FormCliente({ register }) {
     return (
         <FormContainer>
             <Titulo style={{ fontFamily: "Bookochi", letterSpacing: "0.22em" }}>Dados Cadastrados</Titulo>
@@ -56,10 +80,10 @@ function FormCliente({register}) {
                     <Input placeholder={"E-mail"} {...register("email")} />
                 </li>
                 <li key={"cpf"} style={{ width: "48%" }}>
-                    <Input placeholder={"CPF"} {...register("cpf")} />
+                    <StyledInputMask mask="999.999.999-99" placeholder={"CPF"} {...register("cpf")} />
                 </li>
                 <li key={"senha"} style={{ width: "48%" }}>
-                    <Input placeholder={"Senha"} type="password"{...register("senha")} />
+                    <Input placeholder={"Senha"} type="password" {...register("senha")} />
                 </li>
                 <li key={"nascimento"} style={{ width: "48%" }}>
                     <Input type='date' placeholder={"Nascimento"} {...register("nascimento")} />
@@ -74,13 +98,11 @@ function FormCliente({register}) {
                     <Input placeholder={"DDD"} {...register("ddd")} />
                 </li>
                 <li key={"numero"} style={{ width: "48%" }}>
-                    <Input placeholder={"Número"} {...register("numero")} />
+                    <StyledInputMask mask="99999-9999" placeholder={"Número"} {...register("numero")} />
                 </li>
-                
             </Opcoes>
         </FormContainer>
     )
-
 }
 
 export default FormCliente;
