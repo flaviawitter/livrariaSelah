@@ -65,14 +65,14 @@ function ModalCartao({ showModal, setShowModal, register, handleSubmit, idClient
       clienteId: idCliente  
     };
 
-    console.log(data.apelidoCartao);
-    console.log(data.nomeTitular);
-    console.log(data.numeroCartao);
-    console.log(data.validade);
-    console.log(data.codSeguranca);
-    console.log(data.bandeiraCartao);
-    console.log(data.preferencial);
-    console.log(idCliente);
+    //console.log(data.apelidoCartao);
+    //console.log(data.nomeTitular);
+    //cnsole.log(data.numeroCartao);
+    //console.log(data.validade);
+    //console.log(data.codSeguranca);
+    //console.log(data.bandeiraCartao);
+    //console.log(data.preferencial);
+    //console.log(idCliente);
     
   
     try {

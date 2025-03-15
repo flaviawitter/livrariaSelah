@@ -1,8 +1,7 @@
 import Input from '../Input'
-import { useState } from 'react'
 import styled from 'styled-components'
 import Select from "../Select"
-import InputMask from '../InputMask'
+import InputMask from 'react-input-mask'
 
 const FormContainer = styled.section`
     color: #FFF;
@@ -49,6 +48,31 @@ const CheckboxLabel = styled.label`
     font-family: "Bookochi";
     letter-spacing: 0.22em;
 `
+const StyledInputMask = styled(InputMask)`
+   background-color: #CACACA;
+    backdrop-filter: blur(10px);
+    border: 1px solid #004A33;
+    padding: 10px;
+    border-radius: 25px;
+    width: 100%;
+    height: 15px;
+    color: #004A33;
+    font-size: 20px;
+    margin-bottom: 10px;
+    margin-top: 30px;
+    display: flex;
+    align-items: flex-start;
+    
+    &::placeholder {
+        color: #004A33;
+        font-size: 16px;
+    }
+    
+    &:focus {
+        border: 2px solid #004A33; 
+        box-shadow: 0px 0px 5px #00FF00; 
+    }
+`;
 
 //const titulos = ['Endereço Residencial', 'Endereço de Entrega', 'Endereço de Cobrança']
 //const textoPlaceHolders = ['País', 'Estado', 'Cidade', 'Tipo Residência', 'Tipo Logradouro', 'Logradouro', 'Número', 'Complemento', 'Bairro', 'CEP', 'Tipo Endereço', 'Ponto de Referência']
@@ -91,7 +115,7 @@ function FormEndereco({register}) {
                     <Input placeholder={"Bairro"} {...register("bairroEntrega")} />
                 </li>
                 <li key={"cepEntrega"} style={{ width: "48%" }}>
-                    <Input placeholder={"CEP"} {...register("cepEntrega")} />
+                    <StyledInputMask mask="99999-999" placeholder={"CEP"} {...register("cepEntrega")} />
                 </li>
 
                 <li key={"tpResidenciaEntrega"} style={{ width: "48%" }}>
@@ -129,7 +153,7 @@ function FormEndereco({register}) {
                     <Input placeholder={"Bairro"} {...register("bairroCobranca")} />
                 </li>
                 <li key={"cepCobranca"} style={{ width: "48%" }}>
-                    <Input placeholder={"CEP"} {...register("cepCobranca")} />
+                    <StyledInputMask mask="99999-999" placeholder={"CEP"} {...register("cepCobranca")} />
                 </li>
                 <li key={"tpResidenciaCobranca"} style={{ width: "48%" }}>
                     <Select options={tipoResidencia} placeholder="Selecione o tipo de residência" registro={"tpResidenciaCobranca"} register={register} />

@@ -1,6 +1,7 @@
 import Input from '../Input'
 import Select from "../Select"
 import styled from 'styled-components'
+import InputMask from 'react-input-mask'
 
 const FormContainer = styled.section`
     color: #FFF;
@@ -46,6 +47,32 @@ const CheckboxLabel = styled.label`
     font-family: "Bookochi";
     letter-spacing: 0.22em;
 `
+const StyledInputMask = styled(InputMask)`
+   background-color: #CACACA;
+    backdrop-filter: blur(10px);
+    border: 1px solid #004A33;
+    padding: 10px;
+    border-radius: 25px;
+    width: 100%;
+    height: 15px;
+    color: #004A33;
+    font-size: 20px;
+    margin-bottom: 10px;
+    margin-top: 30px;
+    display: flex;
+    align-items: flex-start;
+    
+    &::placeholder {
+        color: #004A33;
+        font-size: 16px;
+    }
+    
+    &:focus {
+        border: 2px solid #004A33; 
+        box-shadow: 0px 0px 5px #00FF00; 
+    }
+`
+
 const bandeiras = ["MasterCard", "Visa", "Elo", "Outro"]
 
 function FormCartaoModal({ register }) {
@@ -57,13 +84,13 @@ function FormCartaoModal({ register }) {
                     <Input  placeholder={"Apelido do Cartão"} {...register("apelidoCartao")} />
             </li>
             <li key={"numeroCartao"} style={{ width: "45%" }}>
-                    <Input placeholder={"Número do Cartão"} {...register("numeroCartao")} />
+                <StyledInputMask mask="9999 9999 9999 9999" placeholder={"Número do Cartão"} {...register("numeroCartao")} />
             </li>
             <li key={"codSeguranca"} style={{ width: "45%" }}>
-                    <Input placeholder={"Código de Segurança"} {...register("codSeguranca")} />
+                <StyledInputMask mask="999" placeholder={"Código de Segurança"} {...register("codSeguranca")} />
             </li>
             <li key={"validade"} style={{ width: "45%" }}>
-                    <Input  placeholder={"Validade"} {...register("validade")} />
+            <StyledInputMask mask="99/99" placeholder={"Validade"} {...register("validade")} />
             </li>
             <li key={"nomeTitular"} style={{ width: "45%" }}>
                     <Input placeholder={"Nome do Titular"} {...register("nomeTitular")} />
