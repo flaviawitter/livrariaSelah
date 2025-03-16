@@ -96,8 +96,9 @@ function FormCartaoModal({ register }) {
                     <Input placeholder={"Nome do Titular"} id="modal-nomeTitularCartao" {...register("nomeTitular")} />
             </li>
             <li key={"bandeiraCartao"} style={{ width: "45%" }}>
-            <Select options={bandeiras} placeholder="Selecione a bandeira" id="modal-bandeiraCartao" registro={"bandeiraCartao"} register={register} />
+                <Select options={bandeiras} id="modal-bandeiraCartao" placeholder="Selecione a bandeira" registro="bandeiraCartao" register={register} />
             </li>
+
             <li key={"cartaoPreferencial"} style={{ width: "100%", display: "flex", alignItems: "center" }}>
                     <input type="checkbox" id="modal-preferencialCartao" {...register("preferencial")} />
                     <CheckboxLabel>Cartão Preferencial</CheckboxLabel>

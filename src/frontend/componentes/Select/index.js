@@ -30,9 +30,9 @@ const SelectWrapper = styled.select`
 `;
 
 
-function Select({ options, placeholder, registro, register}) {
+function Select({ options, id, name, placeholder, registro, register }) {
     return (
-        <SelectWrapper {...register(registro)}>
+        <SelectWrapper as="select" id={id} name={name} {...register(registro)}>
             <option value="">{placeholder}</option>
             {options.map((option, index) => (
                 <option key={index} value={option}>

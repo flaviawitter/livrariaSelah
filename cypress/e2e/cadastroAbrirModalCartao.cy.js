@@ -4,7 +4,9 @@ describe('Cadastrar Novo Cartão', () => {
     cy.visit('http://localhost:3000/');
     cy.get('[href="/dados"] > .sc-hKMtZM > img').click();
     // Abrir o modal cartao
-    cy.get('.sc-bUbCnL > :nth-child(5)').click();
+    cy.get('#dados-botaoAdicionarCartao').click();
+    cy.get('#modal-bandeiraCartao').select('Visa');
+
     
   });
 });

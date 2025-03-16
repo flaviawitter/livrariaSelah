@@ -81,25 +81,25 @@ function FormCartao({ register }) {
             <Titulo style={{ fontFamily: "Bookochi", letterSpacing: "0.22em" }}>Cartões Cadastrados</Titulo>
             <Opcoes>
             <li key={"apelidoCartao"} style={{ width: "48%" }}>
-                    <Input  placeholder={"Apelido do Cartão"} {...register("apelidoCartao")} />
+                    <Input id="cartao-apelido"  placeholder={"Apelido do Cartão"} {...register("apelidoCartao")} />
             </li>
             <li key={"numeroCartao"} style={{ width: "48%" }}>
-                <StyledInputMask mask="9999 9999 9999 9999" placeholder={"Número do Cartão"} {...register("numeroCartao")} />
+                <StyledInputMask id="cartao-numero" mask="9999 9999 9999 9999" placeholder={"Número do Cartão"} {...register("numeroCartao")} />
             </li>
             <li key={"codSeguranca"} style={{ width: "48%" }}>
-                <StyledInputMask mask="999" placeholder={"Código de Segurança"} {...register("codSeguranca")} />
+                <StyledInputMask id="cartao-codSeguranca" mask="999" placeholder={"Código de Segurança"} {...register("codSeguranca")} />
             </li>
             <li key={"validade"} style={{ width: "48%" }}>
-            <StyledInputMask mask="99/99" placeholder={"Validade"} {...register("validade")} />
+            <StyledInputMask id="cartao-validade" mask="99/99" placeholder={"Validade"} {...register("validade")} />
             </li>
             <li key={"nomeTitular"} style={{ width: "48%" }}>
-                    <Input placeholder={"Nome do Titular"} {...register("nomeTitular")} />
+                    <Input id="cartao-nomeTitular" placeholder={"Nome do Titular"} {...register("nomeTitular")} />
             </li>
             <li key={"bandeiraCartao"} style={{ width: "48%" }}>
-            <Select options={bandeiras} placeholder="Selecione a bandeira" registro={"bandeiraCartao"} register={register} />
+            <Select id="cartao-bandeira" options={bandeiras} placeholder="Selecione a bandeira" registro={"bandeiraCartao"} register={register} />
             </li>
             <li key={"preferencial"} style={{ width: "48%", display: "flex", alignItems: "center" }}>
-                    <input type="checkbox" {...register("preferencial")} />
+                    <input id="cartao-preferencial" type="checkbox" {...register("preferencial")} />
                     <CheckboxLabel >Cartão Preferencial</CheckboxLabel>
             </li>
 

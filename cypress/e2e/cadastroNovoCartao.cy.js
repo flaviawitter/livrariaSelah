@@ -1,11 +1,13 @@
-describe('Página de Cadastro', () => {
-  it('Deve preencher os campos do formulário corretamente para cadastrar um novo usuário', () => {
+describe('Cadastrar Novo Cartão', () => {
+
+  it('Adicionar um novo usuário e depois adicionar campos de "Adicionar Cartão" e cadastrá-lo', () => {
     cy.visit('http://localhost:3000/');
     cy.get('[href="/dados"] > .sc-hKMtZM > img').click();
 
-    cy.get('#cliente-nome').type('Flávia Witter');
+    //Preenchendo usuário
+    cy.get('#cliente-nome').type('F Witter');
     cy.get('#cliente-email').type('flavia@email.com');
-    cy.get('#cliente-cpf').type('147126302758');
+    cy.get('#cliente-cpf').type('147196303758');
     cy.get('#cliente-senha').type('Senha123');
     cy.get('#cliente-nascimento').type('1996-01-27');
     cy.get('#cliente-genero').select('Feminino');
@@ -36,6 +38,22 @@ describe('Página de Cadastro', () => {
     cy.get('#cartao-nomeTitular').type('Flávia Witter');
     cy.get('#cartao-bandeira').select('Visa');
 
+    //salvando usuário
     cy.get('#dados-botaoSalvar').click();
-  })
-})
+
+    //abrindo modal novo cartão
+    cy.get('#dados-botaoAdicionarCartao').click();
+
+    //preenchendo novo cartão
+    cy.get('#modal-apelidoCartao').clear().type('Cartao 2');
+    cy.get('#modal-numeroCartao').clear().type('1234567891234567');
+    cy.get('#modal-codSegCartao').clear().type('123');
+    cy.get('#modal-validadeCartao').clear().type('12/24');
+    cy.get('#modal-nomeTitularCartao').clear().type('Flávia Witter');
+    cy.get('#modal-bandeiraCartao').select('Visa');
+
+    //salvando novo cartão
+    cy.get('#modal-botaoCartaoCadastrar').click();
+    
+  });
+});
