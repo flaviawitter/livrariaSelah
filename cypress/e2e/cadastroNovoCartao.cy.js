@@ -49,7 +49,7 @@ describe('Cadastrar Novo Cartão', () => {
     cy.get('#modal-numeroCartao').clear().type('1234567891234567');
     cy.get('#modal-codSegCartao').clear().type('123');
     cy.get('#modal-validadeCartao').clear().type('12/24');
-    cy.get('#modal-nomeTitularCartao').clear().type('Flávia Witter');
+    cy.get('#modal-nomeTitularCartao').clear().type('João Silva');
     cy.get('#modal-bandeiraCartao').select('Visa');
 
     //salvando novo cartão

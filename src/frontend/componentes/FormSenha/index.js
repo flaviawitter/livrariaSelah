@@ -4,6 +4,7 @@ import BotaoCinza from '../BotaoCinza'
 import { useForm } from "react-hook-form";
 import { atualizarCliente, atualizarSenha, obterCliente } from '../../serviços/cliente';
 import { useState } from "react";
+import bcrypt from "bcryptjs"
 
 
 const FormContainer = styled.section`
@@ -55,28 +56,37 @@ function FormSenha({ idCliente }) {
         }
     )
 
-  const onSubmit = async (data) => {
-    const clienteRes = await obterCliente(idCliente);
-    const senhaCliente = clienteRes.data.senha;    
-    const senhaNovaCliente = data.senhaNova;
+    const onSubmit = async (data) => {
+        try {
+            const clienteRes = await obterCliente(idCliente);
+            const senhaCliente = clienteRes.data.senha;  // Senha criptografada no banco
     
-    if(data.senhaAtual === senhaCliente){
-        if (data.senhaNova && data.repitaSenhaNova != null) {
-            if (data.repitaSenhaNova == data.senhaNova) {
-                await atualizarSenha(idCliente, senhaNovaCliente);
+            // Comparando a senha digitada com a criptografada
+            const senhaCorreta = await bcrypt.compare(data.senhaAtual, senhaCliente);
+            
+            if (!senhaCorreta) {
+                console.log("A senha atual está incorreta!");
+                return;
             }
-             else {
+    
+            if (!data.senhaNova || !data.repitaSenhaNova) {
+                console.log("As senhas não podem estar em branco.");
+                return;
+            }
+    
+            if (data.senhaNova !== data.repitaSenhaNova) {
                 console.log("Senha inválida! As senhas não coincidem.");
+                return;
             }
-        }else{
-            console.log("As senhas não podem estar em branco.")
-        }    
-
-    }else{
-        console.log("As senhas atuais não coincidem!")
-    }
     
-  }
+            // Atualiza a senha
+            await atualizarSenha(idCliente, data.senhaNova);
+            console.log("Senha atualizada com sucesso!");
+    
+        } catch (error) {
+            console.error("Erro ao atualizar a senha:", error);
+        }
+    };
 
     return (
 

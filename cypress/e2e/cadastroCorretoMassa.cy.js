@@ -9,41 +9,41 @@ describe('Página de Cadastro em Massa', () => {
   usuarios.forEach(usuario => {
     it('Deve preencher os campos do formulário corretamente para cadastrar uma massa de usuários', () => {
    
-      cy.get('.sc-himrzO > :nth-child(1) > .sc-gicCDI').type(usuario.nome);
-      cy.get('.sc-himrzO > :nth-child(2) > .sc-gicCDI').type(usuario.email);
-      cy.get('.sc-himrzO > :nth-child(3) > .sc-gicCDI').type(usuario.cpf);
-      cy.get('.sc-himrzO > :nth-child(4) > .sc-gicCDI').type(usuario.senha);
-      cy.get('.sc-himrzO > :nth-child(5) > .sc-gicCDI').type(usuario.nascimento);
-      cy.get('.sc-himrzO > :nth-child(6) > .sc-ezWOiH').select(usuario.sexo);
-      cy.get(':nth-child(7) > .sc-ezWOiH').select(usuario.tipoTelefone);    
-      cy.get('.sc-himrzO > :nth-child(8) > .sc-gicCDI').type(usuario.ddd); 
-      cy.get(':nth-child(9) > .sc-gicCDI').type(usuario.numeroTelefone);
+      cy.get('#cliente-nome').type(usuario.nome);
+      cy.get('#cliente-email').type(usuario.email);
+      cy.get('#cliente-cpf').type(usuario.cpf);
+      cy.get('#cliente-senha').type(usuario.senha);
+      cy.get('#cliente-nascimento').type(usuario.nascimento);
+      cy.get('#cliente-genero').select(usuario.sexo);
+      cy.get('#cliente-tipoTelefone').select(usuario.tipoTelefone);    
+      cy.get('#cliente-ddd').type(usuario.ddd); 
+      cy.get('#cliente-numero').type(usuario.numeroTelefone);
       
-      cy.get(':nth-child(3) > .sc-ezWOiH').select(usuario.cidadeEntrega); 
-      cy.get(':nth-child(4) > .sc-ezWOiH').select(usuario.tpLogradouroEntrega);  
-      cy.get('.sc-jdAMXn > :nth-child(5) > .sc-gicCDI').type(usuario.logradouroEntrega);
-      cy.get(':nth-child(6) > .sc-gicCDI').type(usuario.numeroEnderecoEntrega);
-      cy.get(':nth-child(7) > .sc-gicCDI').type(usuario.bairroEntrega);
-      cy.get('.sc-jdAMXn > :nth-child(8) > .sc-gicCDI').type(usuario.cepEntrega); 
-      cy.get(':nth-child(9) > .sc-ezWOiH').select(usuario.tpResidenciaEntrega);   
+      cy.get('#enderecoEntrega-cidade').select(usuario.cidadeEntrega); 
+      cy.get('#enderecoEntrega-tpLogradouro').select(usuario.tpLogradouroEntrega);  
+      cy.get('#enderecoEntrega-logradouro').type(usuario.logradouroEntrega);
+      cy.get('#enderecoEntrega-numero').type(usuario.numeroEnderecoEntrega);
+      cy.get('#enderecoEntrega-bairro').type(usuario.bairroEntrega);
+      cy.get('#enderecoEntrega-cep').type(usuario.cepEntrega); 
+      cy.get('#enderecoEntrega-tpResidencia').select(usuario.tpResidenciaEntrega);   
       
-      cy.get(':nth-child(14) > .sc-ezWOiH').select(usuario.cidadeCobranca);   
-      cy.get(':nth-child(15) > .sc-ezWOiH').select(usuario.tpLogradouroCobranca); 
-      cy.get(':nth-child(16) > .sc-gicCDI').type(usuario.logradouroCobranca);
-      cy.get(':nth-child(17) > .sc-gicCDI').type(usuario.numeroEnderecoCobranca);
-      cy.get(':nth-child(18) > .sc-gicCDI').type(usuario.bairroCobranca);
-      cy.get(':nth-child(19) > .sc-gicCDI').type(usuario.cepCobranca); 
-      cy.get(':nth-child(20) > .sc-ezWOiH').select(usuario.tpResidenciaCobranca); 
+      cy.get('#enderecoCobranca-cidade').select(usuario.cidadeCobranca);   
+      cy.get('#enderecoCobranca-tpLogradouro').select(usuario.tpLogradouroCobranca); 
+      cy.get('#enderecoCobranca-logradouro').type(usuario.logradouroCobranca);
+      cy.get('#enderecoCobranca-numero').type(usuario.numeroEnderecoCobranca);
+      cy.get('#enderecoCobranca-bairro').type(usuario.bairroCobranca);
+      cy.get('#enderecoCobranca-cep').type(usuario.cepCobranca); 
+      cy.get('#enderecoCobranca-tpResidencia').select(usuario.tpResidenciaCobranca); 
       
-      cy.get('.sc-cTQhss > :nth-child(1) > .sc-gicCDI').type(usuario.apelidoCartao);
-      cy.get('.sc-cTQhss > :nth-child(2) > .sc-gicCDI').type(usuario.numeroCartao);
-      cy.get('.sc-cTQhss > :nth-child(3) > .sc-gicCDI').type(usuario.codSeguranca);
-      cy.get('.sc-cTQhss > :nth-child(4) > .sc-gicCDI').type(usuario.validade);
-      cy.get('.sc-cTQhss > :nth-child(5) > .sc-gicCDI').type(usuario.nomeTitular);
-      cy.get('.sc-cTQhss > :nth-child(6) > .sc-ezWOiH').select(usuario.bandeiraCartao);
+      cy.get('#cartao-apelido').type(usuario.apelidoCartao);
+      cy.get('#cartao-numero').type(usuario.numeroCartao);
+      cy.get('#cartao-codSeguranca').type(usuario.codSeguranca);
+      cy.get('#cartao-validade').type(usuario.validade);
+      cy.get('#cartao-nomeTitular').type(usuario.nomeTitular);
+      cy.get('#cartao-bandeira').select(usuario.bandeiraCartao);
       
     
-        cy.get('.sc-hTtwUo').click();
+        cy.get('#dados-botaoSalvar').click();
   })
   
   })

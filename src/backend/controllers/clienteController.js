@@ -1,24 +1,31 @@
 const prisma = require('../config/prismaClient');
+const bcrypt = require('bcryptjs');
 
 async function criarCliente(req, res) {
     try {
-        const clienteReq = req.body
+        const clienteReq = req.body;
+        
+        // Criptografando a senha antes de salvar
+        const salt = await bcrypt.genSalt(10);
+        const senhaCriptografada = await bcrypt.hash(clienteReq.senha, salt);
+        
         const data = {
             nome: clienteReq.nome,
             cpf: clienteReq.cpf,
             email: clienteReq.email,
-            senha: clienteReq.senha, 
+            senha: senhaCriptografada,
             genero: clienteReq.genero,
             dataNascimento: new Date(clienteReq.dataNascimento),
             ranking: clienteReq.ranking
-        }
+        };
+        
         const novoCliente = await prisma.cliente.create({ data });
         res.json(novoCliente);
-        return novoCliente;
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
 }
+
 
 async function listarClientes(req, res) {
     try {
@@ -90,15 +97,20 @@ async function atualizarCliente(req, res) {
 }
 
 async function atualizarSenha(req, res) {
-    const { id } = req.params; 
-    const senhaNova = req.body.senha; 
+    const { id } = req.params;
+    const senhaNova = req.body.senha;
+    
     try {
-        const senhaAtualizada = await prisma.cliente.update({
-            where: { id: parseInt(id) }, 
-            data: { senha: senhaNova }
+        // Criptografando a nova senha antes de atualizar
+        const salt = await bcrypt.genSalt(10);
+        const senhaCriptografada = await bcrypt.hash(senhaNova, salt);
+
+        await prisma.cliente.update({
+            where: { id: parseInt(id) },
+            data: { senha: senhaCriptografada }
         });
 
-        res.status(200).json({ message: "Senha atualizada com sucesso", senhaAtualizada });
+        res.status(200).json({ message: "Senha atualizada com sucesso" });
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
