@@ -61,10 +61,6 @@ function FormSenha({ idCliente }) {
     const senhaNovaCliente = data.senhaNova;
     
     if(data.senhaAtual === senhaCliente){
-        // console.log("Senha Atual:", data.senhaAtual);
-        // console.log("Nova Senha:", data.senhaNova);
-        // console.log("Repita a Nova Senha:", data.repitaSenhaNova)
-
         if (data.senhaNova && data.repitaSenhaNova != null) {
             if (data.repitaSenhaNova == data.senhaNova) {
                 await atualizarSenha(idCliente, senhaNovaCliente);

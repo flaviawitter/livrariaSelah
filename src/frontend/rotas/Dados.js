@@ -7,13 +7,14 @@ import FormCartao from '../componentes/FormCartao';
 import FormSenha from '../componentes/FormSenha';
 import BotaoVermelho from '../componentes/BotaoVermelho';
 import BotaoCinza from '../componentes/BotaoCinza';
+import BotaoVerde from '../componentes/BotaoVerde';
 import ModalEndereco from '../componentes/ModalEndereco';
 import ModalCartao from '../componentes/ModalCartao';
 import React, { useState } from 'react';
 import { criarTelefone, deletarTelefone } from '../serviços/telefone';
 import { useForm } from "react-hook-form";
+import { criarCliente, deletarCliente, atualizarCliente } from '../serviços/cliente';
 import { criarEndereco, deletarEndereco, criarEnderecoNovo } from '../serviços/endereco';
-import { criarCliente, deletarCliente } from '../serviços/cliente';
 import { criarCartao, deletarCartao } from '../serviços/cartao';
 
 
@@ -67,10 +68,11 @@ function App() {
       ranking: 0
     }
 
-    const newCliente = await criarCliente(cliente)
-    const idCliente = newCliente.data.id
-    setIdCliente(newCliente.data.id);
 
+      const newCliente = await criarCliente(cliente);
+      const idCliente = newCliente.data.id;
+      setIdCliente(idCliente);
+    
     const telefone = {
       tipoTelefone: data.tipoTelefone,
       ddd: data.ddd,
@@ -127,7 +129,6 @@ function App() {
       senhaAtual: data.senhaAtual,
       senhaNova: data.senhaNova
     }
-
     
    await criarCartao(cartao)
    await criarTelefone(telefone)
@@ -137,6 +138,23 @@ function App() {
     console.log(enderecoCobranca)
     console.log(enderecoEntrega)
     console.log(cartao)
+  }
+
+  const onAtualizar = async (data) => {
+    if(idCliente){
+      const cliente = {
+        nome: data.nome,
+        email: data.email,
+        cpf: data.cpf,
+        senha: data.senha,
+        genero: data.genero,
+        dataNascimento: data.nascimento,
+        ranking: 0
+      };  
+    await atualizarCliente(idCliente, cliente);
+   }else{
+    console.log("Não há cliente para atualizar, primeiro faça o cadastro.")
+   }
   }
 
   const onDelete = async (data) => {
@@ -169,6 +187,7 @@ function App() {
       </DadosContainer>
       <BotaoContainer>
         <BotaoVermelho id="dados-botaoSalvar" type="submit" onClick={handleSubmit(onSubmit)}>Salvar Dados</BotaoVermelho>
+        <BotaoVerde id="dados-botaoAtualizar" type="submit" onClick={handleSubmit(onAtualizar)}>Atualizar Dados</BotaoVerde>
         <BotaoCinza id="dados-botaoExcluir" type="submit" onClick={handleSubmit(onDelete)}>Excluir Conta</BotaoCinza>
       </BotaoContainer>
 
