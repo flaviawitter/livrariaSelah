@@ -94,8 +94,8 @@ function ModalCartao({ showModal, setShowModal, register, handleSubmit, idClient
       <ModalContent>
         <FormCartaoModal register={register} />
         <ModalBotoes>
-          <BotaoVermelho type="submit" onClick={handleSubmit(onSubmit)}>Salvar Cartão</BotaoVermelho>
-          <BotaoCinza onClick={onClose}>Fechar</BotaoCinza>
+          <BotaoVermelho id="modal-botaoCartaoCadastrar" type="submit" onClick={handleSubmit(onSubmit)}>Salvar Cartão</BotaoVermelho>
+          <BotaoCinza id="modal-botaoCartaoFechar" onClick={onClose}>Fechar</BotaoCinza>
         </ModalBotoes>
       </ModalContent>
     </ModalContainer>

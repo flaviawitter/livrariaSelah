@@ -93,36 +93,36 @@ function FormEndereco({register}) {
 
                 <Opcoes>
                 <li key={"pais"} style={{ width: "48%" }}>
-                    <Input placeholder={"Brasil"} {...register("pais")} readOnly />
+                    <Input placeholder={"Brasil"} id="enderecoEntrega-pais" {...register("pais")} readOnly />
                 </li>
                 <li key={"estadoEntrega"} style={{ width: "48%" }}>
-                    <Input placeholder={"São Paulo"} {...register("estadoEntrega")} readOnly />
+                    <Input placeholder={"São Paulo"} id="enderecoEntrega-estado" {...register("estadoEntrega")} readOnly />
                 </li>
                 <li key={"cidadeEntrega"} style={{ width: "48%" }}>
-                <Select options={cidades} placeholder="Selecione a cidade" registro={"cidadeEntrega"} register={register} />
+                <Select options={cidades} id="enderecoEntrega-cidade" placeholder="Selecione a cidade" registro={"cidadeEntrega"} register={register} />
                 </li>
                 <li key={"tpLogradouroEntrega"} style={{ width: "48%" }}>
-                    <Select options={tiposLogradouro} placeholder="Selecione o tipo de logradouro" registro={"tpLogradouroEntrega"} register={register}/>
+                    <Select options={tiposLogradouro} id="enderecoEntrega-tpLogradouro" placeholder="Selecione o tipo de logradouro" registro={"tpLogradouroEntrega"} register={register}/>
                 </li>
                 <li key={"logradouroEntrega"} style={{ width: "48%" }}>
-                    <Input placeholder={"Logradouro"} {...register("logradouroEntrega")} />
+                    <Input placeholder={"Logradouro"} id="enderecoEntrega-logradouro" {...register("logradouroEntrega")} />
                 </li>
                 <li key={"numeroEnderecoEntrega"} style={{ width: "48%" }}>
-                    <Input placeholder={"Número"} {...register("numeroEnderecoEntrega")} />
+                    <Input placeholder={"Número"} id="enderecoEntrega-numero" {...register("numeroEnderecoEntrega")} />
                 </li>
 
                 <li key={"bairroEntrega"} style={{ width: "48%" }}>
-                    <Input placeholder={"Bairro"} {...register("bairroEntrega")} />
+                    <Input placeholder={"Bairro"} id="enderecoEntrega-bairro" {...register("bairroEntrega")} />
                 </li>
                 <li key={"cepEntrega"} style={{ width: "48%" }}>
-                    <StyledInputMask mask="99999-999" placeholder={"CEP"} {...register("cepEntrega")} />
+                    <StyledInputMask mask="99999-999" id="enderecoEntrega-cep" placeholder={"CEP"} {...register("cepEntrega")} />
                 </li>
 
                 <li key={"tpResidenciaEntrega"} style={{ width: "48%" }}>
-                    <Select options={tipoResidencia} placeholder="Selecione o tipo de residência" registro={"tpResidenciaEntrega"} register={register} />
+                    <Select options={tipoResidencia} id="enderecoEntrega-tpResidencia" placeholder="Selecione o tipo de residência" registro={"tpResidenciaEntrega"} register={register} />
                 </li>
                 <li key={"preferencialEntrega"} style={{ width: "100%", display: "flex", alignItems: "center" }}>
-                    <input type="checkbox" {...register("preferencialEntrega")} />
+                    <input type="checkbox" id="enderecoEntrega-preferencial" {...register("preferencialEntrega")} />
                     <CheckboxLabel>Endereço Preferencial</CheckboxLabel>
                 </li>
 
@@ -131,35 +131,35 @@ function FormEndereco({register}) {
                 Endereço de Cobrança
                 </Titulo>
                 <li key={"paisCobranca"} style={{ width: "48%" }}>
-                    <Input placeholder={"Brasil"} {...register("paisCobranca")} readOnly/>
+                    <Input placeholder={"Brasil"} id="enderecoCobranca-pais" {...register("paisCobranca")} readOnly/>
                 </li>
                 <li key={"estadoEntregaCobrança"} style={{ width: "48%" }}>
-                    <Input placeholder={"São Paulo"} {...register("estadoEntregaCobrança")} readOnly />
+                    <Input placeholder={"São Paulo"} id="enderecoCobranca-estado" {...register("estadoEntregaCobrança")} readOnly />
                 </li>
                 <li key={"cidadeCobranca"} style={{ width: "48%" }}>
-                <Select options={cidades} placeholder="Selecione a cidade" registro={"cidadeCobranca"} register={register} />
+                <Select options={cidades} id="enderecoCobranca-cidade" placeholder="Selecione a cidade" registro={"cidadeCobranca"} register={register} />
                 </li>
                 <li key={"tpLogradouroCobranca"} style={{ width: "48%" }}>
-                    <Select options={tiposLogradouro} placeholder="Selecione o tipo de logradouro" registro={"tpLogradouroCobranca"} register={register} />
+                    <Select options={tiposLogradouro} id="enderecoCobranca-tpLogradouro" placeholder="Selecione o tipo de logradouro" registro={"tpLogradouroCobranca"} register={register} />
                 </li>
                 <li key={"logradouroCobranca"} style={{ width: "48%" }}>
-                    <Input placeholder={"Logradouro"} {...register("logradouroCobranca")} />
+                    <Input placeholder={"Logradouro"} id="enderecoCobranca-logradouro" {...register("logradouroCobranca")} />
                 </li>
                 <li key={"numeroEnderecoCobranca"} style={{ width: "48%" }}>
-                    <Input placeholder={"Número"} {...register("numeroEnderecoCobranca")} />
+                    <Input placeholder={"Número"} id="enderecoCobranca-numero"{...register("numeroEnderecoCobranca")} />
                 </li>
 
                 <li key={"bairroCobranca"} style={{ width: "48%" }}>
-                    <Input placeholder={"Bairro"} {...register("bairroCobranca")} />
+                    <Input placeholder={"Bairro"} id="enderecoCobranca-bairro" {...register("bairroCobranca")} />
                 </li>
                 <li key={"cepCobranca"} style={{ width: "48%" }}>
-                    <StyledInputMask mask="99999-999" placeholder={"CEP"} {...register("cepCobranca")} />
+                    <StyledInputMask mask="99999-999" id="enderecoCobranca-cep" placeholder={"CEP"} {...register("cepCobranca")} />
                 </li>
                 <li key={"tpResidenciaCobranca"} style={{ width: "48%" }}>
-                    <Select options={tipoResidencia} placeholder="Selecione o tipo de residência" registro={"tpResidenciaCobranca"} register={register} />
+                    <Select options={tipoResidencia} id="enderecoCobranca-tpResidencia" placeholder="Selecione o tipo de residência" registro={"tpResidenciaCobranca"} register={register} />
                 </li>
                 <li key={"preferencialCobranca"} style={{ width: "100%", display: "flex", alignItems: "center" }}>
-                    <input type="checkbox" {...register("preferencialCobranca")} />
+                    <input type="checkbox" id="enderecoCobranca-preferencial" {...register("preferencialCobranca")} />
                     <CheckboxLabel>Endereço Preferencial</CheckboxLabel>
                 </li>
                

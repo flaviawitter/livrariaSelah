@@ -20,11 +20,15 @@ const ModalContainer = styled.div`
 `;
 
 const ModalContent = styled.div`
-  background-color: white;
-  padding: 30px;
+ background-color: white;
+  padding: 10px;
   border-radius: 25px;
-  max-width: 500px;
   width: 90%;
+  max-width: 600px;
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 const CloseButton = styled.button`
@@ -35,6 +39,7 @@ const CloseButton = styled.button`
   border-radius: 5px;
   cursor: pointer;
   width: 100%;
+  border: 0;
 `;
 
 const ModalBotoes = styled.div`
@@ -42,6 +47,7 @@ const ModalBotoes = styled.div`
     justify-content: center;
     align-items: center;
     justify-content: space-between;
+    border: 0;
 `
 
 
@@ -98,8 +104,8 @@ function ModalEndereco({ showModal, setShowModal, register, handleSubmit, idClie
       <ModalContent>
         <FormEnderecoModal register={register} />
         <ModalBotoes>
-            <BotaoVermelho type="submit" onClick={handleSubmit(onSubmit)}>Salvar Endereço</BotaoVermelho>
-            <BotaoCinza onClick={onClose}>Fechar</BotaoCinza>
+            <BotaoVermelho id="modal-botaoEnderecoCadastrar" type="submit" onClick={handleSubmit(onSubmit)}>Salvar Endereço</BotaoVermelho>
+            <BotaoCinza id="modal-botaoEnderecoFechar" onClick={onClose}>Fechar</BotaoCinza>
         </ModalBotoes>
       </ModalContent>
     </ModalContainer>

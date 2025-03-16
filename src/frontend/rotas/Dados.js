@@ -162,14 +162,14 @@ function App() {
       <DadosContainer>
         <FormCliente register={register}/>
         <FormEndereco register={register}/>
-        <BotaoCinza onClick={() => setShowModalEndereco(true)} style={{ width: "100%", marginLeft: "1%" }}>Adicionar Endereço</BotaoCinza>
+        <BotaoCinza  id="dados-botaoAdicionarEndereco" onClick={() => setShowModalEndereco(true)} style={{ width: "100%", marginLeft: "1%" }}>Adicionar Endereço</BotaoCinza>
         <FormCartao register={register}/>
-        <BotaoCinza onClick={() => setShowModalCartao(true)} style={{ width: "100%", marginLeft: "1%" }}>Adicionar Cartão</BotaoCinza>
+        <BotaoCinza id="dados-botaoAdicionarCartao" onClick={() => setShowModalCartao(true)} style={{ width: "100%", marginLeft: "1%" }}>Adicionar Cartão</BotaoCinza>
         <FormSenha register={register} idCliente={idCliente} />
       </DadosContainer>
       <BotaoContainer>
-        <BotaoVermelho type="submit" onClick={handleSubmit(onSubmit)}>Salvar Dados</BotaoVermelho>
-        <BotaoCinza type="submit" onClick={handleSubmit(onDelete)}>Excluir Conta</BotaoCinza>
+        <BotaoVermelho id="dados-botaoSalvar" type="submit" onClick={handleSubmit(onSubmit)}>Salvar Dados</BotaoVermelho>
+        <BotaoCinza id="dados-botaoExcluir" type="submit" onClick={handleSubmit(onDelete)}>Excluir Conta</BotaoCinza>
       </BotaoContainer>
 
 

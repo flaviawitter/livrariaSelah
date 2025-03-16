@@ -72,7 +72,7 @@ function LoginPage() {
             <LeftContainer>
                 <Titulo style={{fontsize: "40px"}}>BEM VINDO</Titulo> 
                 <Link to="/cadastrar" style={{ textDecoration: 'none' }}>
-                    <BotaoAmarelo type="button">
+                    <BotaoAmarelo id="login-botaoCadastrar" type="button">
                         Cadastre-se
                     </BotaoAmarelo>
                 </Link>   
@@ -88,7 +88,7 @@ function LoginPage() {
                     ))}
                     <TextoPequeno>Esqueci a senha</TextoPequeno>
                     <Link to="/" style={{ textDecoration: 'none' }}>
-                        <BotaoVerde type="button">
+                        <BotaoVerde id="login-botaoEntrar" type="button">
                             Entrar
                         </BotaoVerde>
                     </Link>

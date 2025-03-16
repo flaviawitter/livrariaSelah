@@ -90,16 +90,16 @@ function FormSenha({ idCliente }) {
            
             <Opcoes>
             <li key={"senhaAtual"} style={{ width: "48%" }}>
-                    <Input placeholder={"Senha Atual"} type="password" {...register("senhaAtual")} />
+                    <Input  id="senha-atual" placeholder={"Senha Atual"} type="password" {...register("senhaAtual")} />
             </li>
             <li style={{  width: "48%", textAlign: "left", marginTop: "8px" }}>
-                <BotaoCinza style={{ fontSize: "14px"}} type="submit"> Alterar Senha</BotaoCinza>
+                <BotaoCinza id="senha-botaoAtualizar" style={{ fontSize: "14px"}} type="submit"> Alterar Senha</BotaoCinza>
             </li>
             <li key={"senhaNova"} style={{ width: "48%" }}>
-                    <Input placeholder={"Senha Nova"} type="password" {...register("senhaNova")} />
+                    <Input id="senha-nova" placeholder={"Senha Nova"} type="password" {...register("senhaNova")} />
             </li>
             <li key={"repitaSenhaNova"} style={{ width: "48%" }}>
-                    <Input placeholder={"Repita a Senha Nova"} type="password" {...register("repitaSenhaNova")} />
+                    <Input id="senha-repetirNova" placeholder={"Repita a Senha Nova"} type="password" {...register("repitaSenhaNova")} />
             </li>
             </Opcoes>
 </form> 

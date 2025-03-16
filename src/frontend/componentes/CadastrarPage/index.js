@@ -73,7 +73,7 @@ function LoginPage() {
                         </li>
                     ))}
                     <Link to="/" style={{ textDecoration: 'none' }}>
-                        <BotaoAmarelo type="button">
+                        <BotaoAmarelo id="cadastrar-botaoEntrar" type="button">
                             Entrar
                         </BotaoAmarelo>
                     </Link>
@@ -82,7 +82,7 @@ function LoginPage() {
             <RightContainer>
                 <Titulo style={{fontsize: "40px"}}>BEM VINDO</Titulo> 
                 <Link to="/login" style={{ textDecoration: 'none' }}>
-                    <BotaoVerde type="button">
+                    <BotaoVerde id="cadastrar-botaoLogin" type="button">
                         Faça Login
                     </BotaoVerde>
                 </Link>

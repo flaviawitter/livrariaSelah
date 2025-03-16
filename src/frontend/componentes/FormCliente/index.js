@@ -74,31 +74,31 @@ function FormCliente({ register }) {
             <Titulo style={{ fontFamily: "Bookochi", letterSpacing: "0.22em" }}>Dados Cadastrados</Titulo>
             <Opcoes>
                 <li key={"nome"} style={{ width: "48%" }}>
-                    <Input placeholder={"Nome"} {...register("nome")} />
+                    <Input placeholder={"Nome"} id="cliente-nome" {...register("nome")} />
                 </li>
                 <li key={"email"} style={{ width: "48%" }}>
-                    <Input placeholder={"E-mail"} {...register("email")} />
+                    <Input placeholder={"E-mail"} id="cliente-email" {...register("email")} />
                 </li>
                 <li key={"cpf"} style={{ width: "48%" }}>
-                    <StyledInputMask mask="999.999.999-99" placeholder={"CPF"} {...register("cpf")} />
+                    <StyledInputMask mask="999.999.999-99" id="cliente-cpf" placeholder={"CPF"} {...register("cpf")} />
                 </li>
                 <li key={"senha"} style={{ width: "48%" }}>
-                    <Input placeholder={"Senha"} type="password" {...register("senha")} />
+                    <Input placeholder={"Senha"} id="cliente-senha" type="password" {...register("senha")} />
                 </li>
                 <li key={"nascimento"} style={{ width: "48%" }}>
-                    <Input type='date' placeholder={"Nascimento"} {...register("nascimento")} />
+                    <Input type='date' id="cliente-nascimento" placeholder={"Nascimento"} {...register("nascimento")} />
                 </li>
                 <li key={"genero"} style={{ width: "48%" }}>
-                    <Select options={generos} placeholder="Selecione o gênero" registro={"genero"} register={register} />
+                    <Select options={generos} id="cliente-genero" placeholder="Selecione o gênero" registro={"genero"} register={register} />
                 </li>
                 <li key={"tipoTelefone"} style={{ width: "48%" }}>
-                    <Select options={tiposTelefone} placeholder="Selecione o tipo de telefone" registro={"tipoTelefone"} register={register} />
+                    <Select options={tiposTelefone} id="cliente-tipoTelefone" placeholder="Selecione o tipo de telefone" registro={"tipoTelefone"} register={register} />
                 </li>
                 <li key={"ddd"} style={{ width: "48%" }}>
-                    <Input placeholder={"DDD"} {...register("ddd")} />
+                <StyledInputMask mask="99" id="cliente-ddd" placeholder={"DDD"} {...register("ddd")} />
                 </li>
                 <li key={"numero"} style={{ width: "48%" }}>
-                    <StyledInputMask mask="99999-9999" placeholder={"Número"} {...register("numero")} />
+                    <StyledInputMask mask="99999-9999" id="cliente-numero" placeholder={"Número"} {...register("numero")} />
                 </li>
             </Opcoes>
         </FormContainer>
