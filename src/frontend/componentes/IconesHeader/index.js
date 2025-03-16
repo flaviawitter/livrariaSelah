@@ -16,9 +16,10 @@ const Icones = styled.ul`
     align-items: center;
 `
 const icones = [
-    { imagem: carrinho, rota: "/carrinho" },
-    { imagem: perfil, rota: "/dados" }
-  ];
+  { imagem: carrinho, rota: "/carrinho", id: "header-iconeCarrinho" },
+  { imagem: perfil, rota: "/dados", id: "header-iconePerfil" }
+];
+
 
 function IconesHeader() {
     return (

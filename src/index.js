@@ -51,6 +51,7 @@ root.render(
         <Route path='/pesquisa' element = {<Pesquisa/>} />
         <Route path='/livro' element = {<Livro/>} />
         <Route path='/carrinho' element = {<Carrinho/>} />
+        <Route path='/dados/:id' element = {<Dados />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

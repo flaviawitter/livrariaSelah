@@ -20,8 +20,8 @@ const Opcoes = styled.ul`
 `
 
 const textoOpcoes = [
-    { nome: "Início", rota: "/" }, 
-    { nome: "Favoritos", rota: "/favoritos" }
+    { nome: "Início", rota: "/", id: "header-opcaoInicio" }, 
+    { nome: "Favoritos", rota: "/favoritos", id: "header-opcaoFavoritos" }
   ];
 
 function OpcoesHeader() {

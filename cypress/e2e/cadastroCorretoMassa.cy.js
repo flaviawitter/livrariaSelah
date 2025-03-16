@@ -43,7 +43,8 @@ describe('Página de Cadastro em Massa', () => {
       cy.get('#cartao-bandeira').select(usuario.bandeiraCartao);
       
     
-        cy.get('#dados-botaoSalvar').click();
+        cy.get('#dados-botaoSalvar').should('be.visible').click();
+        cy.wait(1000);
   })
   
   })

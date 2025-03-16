@@ -3,7 +3,7 @@
       {
         "nome": "João Silva",
         "email": "joao.silva@email.com",
-        "cpf": "123.456.789-00",
+        "cpf": "12345478900",
         "senha": "senha1234",
         "nascimento": "1990-05-15",
         "sexo": "Masculino",
@@ -27,14 +27,14 @@
         "apelidoCartao": "João Cartão",
         "numeroCartao": "4111 1111 1111 1111",
         "codSeguranca": "123",
-        "validade": "12/25",
+        "validade": "1225",
         "nomeTitular": "João Silva",
         "bandeiraCartao": "MasterCard"
       },
       {
         "nome": "Maria Oliveira",
         "email": "maria.oliveira@email.com",
-        "cpf": "987.654.321-00",
+        "cpf": "987.644.321-00",
         "senha": "senha5678",
         "nascimento": "1985-08-22",
         "sexo": "Feminino",
@@ -65,7 +65,7 @@
       {
         "nome": "Carlos Pereira",
         "email": "carlos.pereira@email.com",
-        "cpf": "234.567.890-11",
+        "cpf": "234.567.840-11",
         "senha": "senha9876",
         "nascimento": "1980-12-10",
         "sexo": "Masculino",

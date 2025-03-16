@@ -187,7 +187,7 @@ function App() {
       </DadosContainer>
       <BotaoContainer>
         <BotaoVermelho id="dados-botaoSalvar" type="submit" onClick={handleSubmit(onSubmit)}>Salvar Dados</BotaoVermelho>
-        <BotaoVerde id="dados-botaoAtualizar" type="submit" onClick={handleSubmit(onAtualizar)}>Atualizar Dados</BotaoVerde>
+        <BotaoVerde id="dados-botaoAtualizarDados" type="submit" onClick={handleSubmit(onAtualizar)}>Atualizar Dados</BotaoVerde>
         <BotaoCinza id="dados-botaoExcluir" type="submit" onClick={handleSubmit(onDelete)}>Excluir Conta</BotaoCinza>
       </BotaoContainer>
 
