@@ -20,6 +20,15 @@ async function criarCartaoNovo(idCliente, cartao) {
 }
 
 
+async function atualizarCartao(clienteId, cartao) {
+    try{
+        await axios.put(cartaoAPI + "/" + clienteId, cartao);
+    } catch (error) {
+        console.log(error.request.response)
+    }
+}
+
+
 async function deletarCartao(cartao) {
     try{
         await axios.delete(cartaoAPI + "/" + cartao);
@@ -29,5 +38,5 @@ async function deletarCartao(cartao) {
 }
 
 export {
-    criarCartao, deletarCartao, criarCartaoNovo
+    criarCartao, atualizarCartao, deletarCartao, criarCartaoNovo
 } 

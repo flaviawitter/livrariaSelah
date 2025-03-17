@@ -90,10 +90,10 @@ async function atualizarCliente(req, res) {
             where: { id: parseInt(id) },
             data: body
         });
-        return clienteAtualizado;
+        return res.json(clienteAtualizado);
     } catch (error) {
         res.status(400).json({ error: error.message });
-    }
+    } 
 }
 
 async function atualizarSenha(req, res) {

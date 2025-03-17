@@ -10,6 +10,14 @@ async function criarTelefone(telefone) {
     }
 }
 
+async function atualizarTelefone(idCliente, telefone) {
+    try{
+        await axios.put(telefoneAPI + "/" + idCliente, telefone);
+    } catch (error) {
+        console.log(error.request.response)
+    }
+}
+
 async function deletarTelefone(idCliente) {
     try{
         await axios.delete(telefoneAPI + "/" + idCliente);
@@ -19,5 +27,5 @@ async function deletarTelefone(idCliente) {
 }
 
 export {
-    criarTelefone, deletarTelefone
+    criarTelefone, atualizarTelefone, deletarTelefone
 } 

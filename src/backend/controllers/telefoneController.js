@@ -46,9 +46,14 @@ async function obterTelefone(req, res) {
 }
 
 async function atualizarTelefone(req, res) {
+    const id = req.params.id;
+    const body = req.body;
     try {
-        const telefone = await prisma.telefones.update({ where: { id: parseInt(req.params.id) }, data: req.body });
-        res.json(telefone);
+        const telefone = await prisma.telefones.updateMany({ 
+            where: { clienteId: parseInt(id) }, 
+            data: body
+        });
+        res.json(telefone)
     } catch (error) {
         res.status(400).json({ error: error.message });
     }

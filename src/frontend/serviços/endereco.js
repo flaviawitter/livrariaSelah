@@ -18,6 +18,14 @@ async function criarEnderecoNovo(idCliente, endereco) {
     }
 }
 
+async function atualizarEndereco( clienteId, endereco) {
+    try{
+        await axios.put(enderecoAPI + "/" + clienteId, endereco);
+    } catch (error) {
+        console.log(error.request.response)
+    }
+}
+
 async function deletarEndereco(idCliente) {
     try{
         await axios.delete(enderecoAPI + "/" + idCliente);
@@ -28,5 +36,5 @@ async function deletarEndereco(idCliente) {
 
 
 export {
-    criarEndereco, deletarEndereco, criarEnderecoNovo
+    criarEndereco, atualizarEndereco, deletarEndereco, criarEnderecoNovo
 } 

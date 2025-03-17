@@ -11,11 +11,11 @@ import BotaoVerde from '../componentes/BotaoVerde';
 import ModalEndereco from '../componentes/ModalEndereco';
 import ModalCartao from '../componentes/ModalCartao';
 import React, { useState } from 'react';
-import { criarTelefone, deletarTelefone } from '../serviços/telefone';
+import { atualizarTelefone, criarTelefone, deletarTelefone } from '../serviços/telefone';
 import { useForm } from "react-hook-form";
 import { criarCliente, deletarCliente, atualizarCliente } from '../serviços/cliente';
-import { criarEndereco, deletarEndereco, criarEnderecoNovo } from '../serviços/endereco';
-import { criarCartao, deletarCartao } from '../serviços/cartao';
+import { criarEndereco, deletarEndereco, criarEnderecoNovo, atualizarEndereco } from '../serviços/endereco';
+import { atualizarCartao, criarCartao, deletarCartao } from '../serviços/cartao';
 
 
 const AppContainer = styled.div`
@@ -146,16 +146,71 @@ function App() {
         nome: data.nome,
         email: data.email,
         cpf: data.cpf,
-        senha: data.senha,
         genero: data.genero,
         dataNascimento: data.nascimento,
         ranking: 0
       };  
-    await atualizarCliente(idCliente, cliente);
+
+      const telefone = {
+        tipoTelefone: data.tipoTelefone,
+        ddd: data.ddd,
+        numero: data.numero,
+        clienteId: idCliente
+      };
+
+      const enderecoCobranca = {
+        clienteId: idCliente,
+        pais: "Brasil",
+        estado: "São Paulo",
+        cidade: data.cidadeCobranca,
+        logradouro: data.logradouroCobranca,
+        numero: parseInt(data.numeroEnderecoCobranca),
+        bairro: data.bairroCobranca,
+        cep: data.cepCobranca,
+        tipoResidencia: data.tpResidenciaCobranca,
+        tipoLogradouro: data.tpLogradouroCobranca,
+        tipoEndereco: "Cobranca",
+        preferencial: data.preferencialCobranca
+      }
+
+      const enderecoEntrega = {
+        clienteId: idCliente,
+        pais: "Brasil",
+        estado: "São Paulo",
+        cidade: data.cidadeEntrega,
+        logradouro: data.logradouroEntrega,
+        numero: parseInt(data.numeroEnderecoEntrega),
+        bairro: data.bairroEntrega,
+        cep: data.cepEntrega,
+        tipoResidencia: data.tpResidenciaEntrega,
+        tipoLogradouro: data.tpLogradouroEntrega,
+        tipoEndereco: "Entrega",
+        preferencial: data.preferencialEntrega
+      }
+
+      const cartao = {
+        apelidoCartao: data.apelidoCartao,
+        nomeTitular: data.nomeTitular,
+        numero: data.numeroCartao,
+        validade: data.validade,
+        codSeguranca: data.codSeguranca,
+        bandeiraCartao: data.bandeiraCartao,
+        preferencial: data.preferencial ? true : false,
+        clienteId: idCliente
+      }
+  
+      await atualizarCliente(idCliente, cliente);
+      await atualizarTelefone(idCliente, telefone);
+      await atualizarEndereco(idCliente, enderecoCobranca);
+      await atualizarEndereco(idCliente, enderecoEntrega);
+      await atualizarCartao(idCliente, cartao);
+      console.log("Dados Atualizados com sucesso!")
+
+      
    }else{
     console.log("Não há cliente para atualizar, primeiro faça o cadastro.")
    }
-  }
+  } 
 
   const onDelete = async (data) => {
     try {

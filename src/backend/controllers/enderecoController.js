@@ -66,8 +66,15 @@ async function obterEndereco(req, res) {
 }
 
 async function atualizarEndereco(req, res) {
+    const id = req.params.id;
+    const body = req.body;
     try {
-        const endereco = await prisma.endereco.update({ where: { id: parseInt(req.params.id) }, data: req.body });
+        const endereco = await prisma.endereco.updateMany({ 
+            where: { clienteId: parseInt(id),
+                    tipoEndereco: body.tipoEndereco
+             }, 
+            data: body
+        });
         res.json(endereco);
     } catch (error) {
         res.status(400).json({ error: error.message });
