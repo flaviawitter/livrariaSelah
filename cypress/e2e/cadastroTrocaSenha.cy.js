@@ -1,14 +1,14 @@
-describe('Cadastrar Novo Cartão', () => {
+describe('Trocar senha', () => {
 
   
-  it('Adicionar um novo usuário e depois adicionar campos de "Adicionar Cartão" e cadastrá-lo', () => {
+  it('Adicionar um novo usuário e depois trocar sua senha', () => {
     cy.visit('http://localhost:3000/');
     cy.get('[href="/dados"] > .sc-hKMtZM > img').click();
 
     //Preenchendo usuário
     cy.get('#cliente-nome').type('Luciana Peres');
     cy.get('#cliente-email').type('luciana.peres@email.com');
-    cy.get('#cliente-cpf').type('98765432100');
+    cy.get('#cliente-cpf').type('98762462100');
     cy.get('#cliente-senha').type('senha4321');
     cy.get('#cliente-nascimento').type('1992-03-15');
     cy.get('#cliente-genero').select('Feminino');
@@ -37,7 +37,7 @@ describe('Cadastrar Novo Cartão', () => {
     cy.get('#cartao-codSeguranca').type('456');
     cy.get('#cartao-validade').type('08/27');
     cy.get('#cartao-nomeTitular').type('Luciana Peres');
-    cy.get('#cartao-bandeira').select('Mastercard');
+    cy.get('#cartao-bandeira').select('MasterCard');
 
 
     //salvando usuário
