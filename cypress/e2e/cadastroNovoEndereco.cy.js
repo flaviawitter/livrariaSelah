@@ -1,13 +1,13 @@
-describe('Cadastrar Novo Cartão', () => {
+describe('Cadastrar Novo Endereço', () => {
 
-  it('Adicionar um novo usuário e depois adicionar campos de "Adicionar Cartão" e cadastrá-lo', () => {
+  it('Adicionar um novo usuário e depois adicionar campos de "Adicionar Endereço" e cadastrá-lo', () => {
     cy.visit('http://localhost:3000/');
     cy.get('[href="/dados"] > .sc-hKMtZM > img').click();
 
     //Preenchendo usuário
     cy.get('#cliente-nome').type('Marcelo Duarte');
     cy.get('#cliente-email').type('marcelo.duarte@email.com');
-    cy.get('#cliente-cpf').type('12345678900');
+    cy.get('#cliente-cpf').type('12345678300');
     cy.get('#cliente-senha').type('senha1234');
     cy.get('#cliente-nascimento').type('1990-05-20');
     cy.get('#cliente-genero').select('Masculino');
@@ -41,7 +41,7 @@ describe('Cadastrar Novo Cartão', () => {
     //salvando usuário
     cy.get('#dados-botaoSalvar').click();
 
-    cy.wait(2000);
+    cy.wait(15000);
 
     //abrindo modal novo endereço
     cy.get('#dados-botaoAdicionarEndereco').click();

@@ -1,5 +1,5 @@
-describe('Página de Cadastro', () => {
-  it('Deve preencher os campos do formulário corretamente para cadastrar um novo usuário', () => {
+describe('Deletar usuário', () => {
+  it('Adicionar um novo usuário e depois deletá-lo', () => {
     cy.visit('http://localhost:3000/');
     cy.get('[href="/dados"] > .sc-hKMtZM > img').click();
 
