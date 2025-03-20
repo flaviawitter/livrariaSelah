@@ -23,8 +23,7 @@ const buscarCategoriaPorId = async (req, res) => {
     }
 };
 
-// Criar uma nova categoria
-const criarCategoria = async (req, res) => {
+  const criarCategoria = async (req, res) => {
     const { nome } = req.body;
     try {
         const novaCategoria = await prisma.categoria.create({

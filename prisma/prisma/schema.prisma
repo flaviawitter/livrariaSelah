@@ -12,6 +12,8 @@ model autores {
   nome           String
   dataNascimento DateTime?
   nacionalidade  String?
+
+  livros         livros[]
 }
 
 
@@ -41,6 +43,9 @@ model cartao {
 model categorias {
   id   Int    @id @default(autoincrement())
   nome String @unique(map: "Categorias_nome_key")
+
+  livros         livros[]
+
 }
 
 
@@ -78,6 +83,8 @@ model editoras {
   nome        String
   pais        String?
   anoFundacao Int?
+  livros         livros[]
+
 }
 
 model endereco {
@@ -107,11 +114,15 @@ model estoque {
   quantidade        Int       @default(0)
   ultimaAtualizacao DateTime?
   dataEntrada       DateTime?
+  livros         livros[]
+
 }
 
 model fornecedor {
   id   Int    @id @default(autoincrement())
   nome String
+  livros         livros[]
+
 }
 
 model frete {
@@ -125,6 +136,8 @@ model grupoprecificacao {
   id          Int     @id @default(autoincrement())
   descricao   String
   margemLucro Decimal
+  livros         livros[]
+
 }
 
 model itempedido {
@@ -139,9 +152,6 @@ model itempedido {
 model livros {
   id                  Int       @id @default(autoincrement())
   titulo              String
-  autorId             Int
-  editoraId           Int
-  fornecedorId        Int
   ano                 Int?
   edicao              String?
   isbn                String    @unique(map: "Livros_isbn_key")
@@ -156,13 +166,21 @@ model livros {
   largura             Decimal
   peso                Decimal
   profundidade        Decimal
-  grupoPrecificacaoId Int
   codigoBarras        String    @unique(map: "Livros_codigoBarras_key")
+  
+  autorId             Int
+  autores             autores @relation(fields: [autorId], references: [id])
+  editoraId           Int
+  editoras            editoras @relation(fields: [editoraId], references: [id])
+  fornecedorId        Int
+  fornecedor          fornecedor @relation(fields: [fornecedorId], references: [id])
+  grupoPrecificacaoId Int
+  grupoprecificacao   grupoprecificacao @relation(fields: [grupoPrecificacaoId], references: [id])
+  categoriaId         Int
+  categorias     categorias  @relation(fields: [categoriaId], references: [id])
+  estoqueId           Int
+  estoque             estoque @relation(fields: [estoqueId], references: [id])
 
-  @@index([autorId], map: "Livros_autorId_fkey")
-  @@index([editoraId], map: "Livros_editoraId_fkey")
-  @@index([fornecedorId], map: "Livros_fornecedorId_fkey")
-  @@index([grupoPrecificacaoId], map: "Livros_grupoPrecificacaoId_fkey")
 }
 
 model livrosativacao {
