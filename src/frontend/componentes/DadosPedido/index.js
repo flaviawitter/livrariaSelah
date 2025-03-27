@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import pedidos from "./pedidos"; 
-import InputFiltro from "../InputFiltro";
+import InputFiltro from "../Inputs/InputFiltro";
 
 const ContainerPrincipal = styled.section`
   width: 80%;

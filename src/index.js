@@ -15,6 +15,7 @@ import HomeAdministrador from './frontend/rotas/HomeAdministrador';
 import PedidosAdm from './frontend/rotas/PedidosAdm';
 import Relatorio from './frontend/rotas/Relatorio'
 import ClientesAdm from './frontend/rotas/ClientesAdm'
+import PedidosCliente from './frontend/rotas/PedidosCliente'
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -59,7 +60,8 @@ root.render(
         <Route path='/adm' element = {<HomeAdministrador />} />     
         <Route path='/pedidosadm' element = {<PedidosAdm />} />        
         <Route path='/relatorio' element = {<Relatorio />} />              
-        <Route path='/clientesadm' element = {<ClientesAdm />} />    
+        <Route path='/clientesadm' element = {<ClientesAdm />} />   
+        <Route path='/pedidos' element = {<PedidosCliente />} />       
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

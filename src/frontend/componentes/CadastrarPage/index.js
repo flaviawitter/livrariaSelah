@@ -1,4 +1,4 @@
-import Input from '../Input' 
+import Input from '../Inputs/Input' 
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Logo from '../Logo'

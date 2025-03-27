@@ -1,7 +1,5 @@
 import styled from 'styled-components';
-import BotaoVerde from '../Botões/BotaoVerde';
-import BotaoVermelho from '../Botões/BotaoVermelho';
-import BotaoCinza from '../Botões/BotaoCinza';
+import CardPedido from '../CardPedido';
 
 const Container = styled.div`
   width: 100vw;
@@ -63,7 +61,6 @@ const ButtonGroup = styled.div`
   margin-top: 10px;
 `;
 
-
 function PagPedidos() {
   return (
     <Container>
@@ -75,24 +72,7 @@ function PagPedidos() {
       </FilterSection>
       <OrderList>
         <OrderCard>
-          <OrderInfo><strong>Pedido #123</strong></OrderInfo>
-          <OrderInfo>Cliente: Nome do Cliente</OrderInfo>
-          <OrderInfo>Data do Pedido: 02/03/2025</OrderInfo>
-          <OrderInfo>Status: Aguardando Aprovação</OrderInfo>
-          <ButtonGroup>
-            <BotaoVerde>Aprovar Pedido</BotaoVerde>
-            <BotaoVermelho>Cancelar Pedido</BotaoVermelho>
-          </ButtonGroup>
-        </OrderCard>
-        <OrderCard>
-          <OrderInfo><strong>Pedido #123</strong></OrderInfo>
-          <OrderInfo>Cliente: Nome do Cliente</OrderInfo>
-          <OrderInfo>Data do Pedido: 02/03/2025</OrderInfo>
-          <OrderInfo>Status: Troca Solicitada</OrderInfo>
-          <ButtonGroup>
-            <BotaoCinza>Gerar Cupom de Troca</BotaoCinza>
-            <BotaoVermelho>Recusar Troca</BotaoVermelho>
-          </ButtonGroup>
+          <CardPedido/>
         </OrderCard>
       </OrderList>
     </Container>
