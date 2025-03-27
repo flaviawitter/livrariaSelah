@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import DadosLivro from './dadosLivro'
-import BotaoCinza from '../BotaoCinza'
-import BotaoVermelho from '../BotaoVermelho';
+import BotaoCinza from '../Botões/BotaoCinza'
+import BotaoVermelho from '../Botões/BotaoVermelho';
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa'
 
 const ContainerPrincipal = styled.section`

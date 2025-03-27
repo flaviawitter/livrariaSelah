@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import DadosLivro from "../DadosLivro";
-import BotaoVermelho from "../BotaoVermelho";
+import BotaoVermelho from "../Botões/BotaoVermelho"
 import dadosLivrosCarrinho from "./dadosLivrosCarrinho";
 
 const ContainerCarrinho = styled.div`

@@ -1,9 +1,11 @@
-import Input from '../Input' 
-import { Link } from 'react-router-dom'
-import styled from 'styled-components'
-import Logo from '../Logo'
-import BotaoVerde from '../BotaoVerde'
-import BotaoAmarelo from '../BotaoAmarelo'
+import { useState } from "react";
+import Input from "../Input";
+import { Link, useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import Logo from "../Logo";
+import BotaoVerde from "../Botões/BotaoVerde";
+import BotaoAmarelo from "../Botões/BotaoAmarelo";
+import { verificarLogin } from "../../serviços/login";
 
 const PageContainer = styled.section`
     height: 100vh;
@@ -12,7 +14,8 @@ const PageContainer = styled.section`
     max-height: 100%;
     margin: 0px;
     display: flex;
-`
+`;
+
 const LeftContainer = styled.section`
     background-color: #095F54;
     display: flex;
@@ -22,7 +25,8 @@ const LeftContainer = styled.section`
     height: 100vh;
     width: 40%;
     color: #FDC818;
-`
+`;
+
 const RightContainer = styled.section`
     background-color: #FDC818;
     display: flex;
@@ -32,23 +36,16 @@ const RightContainer = styled.section`
     height: 100vh;
     width: 60%;
     color: #095F54;
-`
+`;
+
 const Titulo = styled.h2`
     font-size: 30px;
     text-align: center;
-    fontFamily: "Bookochi";
+    font-family: "Bookochi";
     letter-spacing: 0.22em;
     margin-bottom: 15px;
-`
-const Opcao = styled.li`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 70%;
-    padding: 0;
-    list-style-type: none;
-    margin-top: 20px;
-`
+`;
+
 const InputContainer = styled.li`
     width: 100%;
     display: flex;
@@ -57,6 +54,7 @@ const InputContainer = styled.li`
     justify-content: center;
     margin-bottom: 15px;
 `;
+
 const TextoPequeno = styled.p`
     font-size: 14px;
     color: #095F54;
@@ -64,38 +62,64 @@ const TextoPequeno = styled.p`
     text-align: center;
 `;
 
-const textoPlaceHolders = ['Usuário', 'Senha']
+const textoPlaceHolders = ["Usuário", "Senha"];
 
 function LoginPage() {
+    const [email, setEmail] = useState("");
+    const [senha, setSenha] = useState("");
+    const [erro, setErro] = useState("");
+    const navigate = useNavigate();
+
+    async function handleLogin() {
+        try {
+            const response = await verificarLogin(email, senha);
+            navigate("/dados");
+        } catch (error) {
+            setErro("Usuário ou senha inválidos");
+        }
+    }
+
     return (
         <PageContainer>
             <LeftContainer>
-                <Titulo style={{fontsize: "40px"}}>BEM VINDO</Titulo> 
-                <Link to="/cadastrar" style={{ textDecoration: 'none' }}>
+                <Titulo style={{ fontsize: "40px" }}>BEM VINDO</Titulo>
+                <Link to="/cadastrar" style={{ textDecoration: "none" }}>
                     <BotaoAmarelo id="login-botaoCadastrar" type="button">
                         Cadastre-se
                     </BotaoAmarelo>
-                </Link>   
+                </Link>
             </LeftContainer>
             <RightContainer>
                 <Logo />
-                <Titulo >FAÇA LOGIN</Titulo>
+                <Titulo>FAÇA LOGIN</Titulo>
                 <InputContainer>
-                    {textoPlaceHolders.map((placeholder, index) => (
-                        <li key={index} style={{ width: '48%' }}>
-                            <Input placeholder={placeholder} />
-                        </li>
-                    ))}
+                    <li style={{ width: "48%" }}>
+                        <Input 
+                            placeholder="E-mail" 
+                            value={email} 
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                    </li>
+                    <li style={{ width: "48%" }}>
+                        <Input 
+                            placeholder="Senha" 
+                            type="password" 
+                            value={senha} 
+                            onChange={(e) => setSenha(e.target.value)}
+                        />
+                    </li>
+                    {erro && <TextoPequeno style={{ color: "red" }}>{erro}</TextoPequeno>}
                     <TextoPequeno>Esqueci a senha</TextoPequeno>
-                    <Link to="/" style={{ textDecoration: 'none' }}>
-                        <BotaoVerde id="login-botaoEntrar" type="button">
-                            Entrar
-                        </BotaoVerde>
+                    <BotaoVerde id="login-botaoEntrar" type="button" onClick={handleLogin}>
+                        Entrar
+                    </BotaoVerde>
+                    <Link to="/adm" style={{ textDecoration: "none" }}>
+                        <TextoPequeno>Entrar como administrador</TextoPequeno>
                     </Link>
                 </InputContainer>
             </RightContainer>
         </PageContainer>
-    )
+    );
 }
 
 export default LoginPage;

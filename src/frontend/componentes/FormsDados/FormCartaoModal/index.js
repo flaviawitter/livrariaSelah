@@ -1,5 +1,5 @@
-import Input from '../Input'
-import Select from "../Select"
+import Input from '../../Inputs/Input'
+import Select from "../../Botões/Select"
 import styled from 'styled-components'
 import InputMask from 'react-input-mask'
 
@@ -7,7 +7,7 @@ const FormContainer = styled.section`
     color: #FFF;
     text-align: center;
     height: auto;
-    width: 100%;
+    width: 90%;
     margin: 15px;
 `
 const Titulo = styled.h2`
@@ -75,32 +75,33 @@ const StyledInputMask = styled(InputMask)`
 
 const bandeiras = ["MasterCard", "Visa", "Elo", "Outro"]
 
-function FormCartao({ register }) {
+function FormCartaoModal({ register }) {
     return (
         <FormContainer>
-            <Titulo style={{ fontFamily: "Bookochi", letterSpacing: "0.22em" }}>Cartões Cadastrados</Titulo>
+            <Titulo style={{ fontFamily: "Bookochi", letterSpacing: "0.22em" }}>Cadastrar Cartão</Titulo>
             <Opcoes>
-            <li key={"apelidoCartao"} style={{ width: "48%" }}>
-                    <Input id="cartao-apelido"  placeholder={"Apelido do Cartão"} {...register("apelidoCartao")} />
+            <li key={"apelidoCartao"} style={{ width: "45%" }}>
+                    <Input  placeholder={"Apelido do Cartão"} id="modal-apelidoCartao" {...register("apelidoCartao")} />
             </li>
-            <li key={"numeroCartao"} style={{ width: "48%" }}>
-                <StyledInputMask id="cartao-numero" mask="9999 9999 9999 9999" placeholder={"Número do Cartão"} {...register("numeroCartao")} />
+            <li key={"numeroCartao"} style={{ width: "45%" }}>
+                <StyledInputMask mask="9999 9999 9999 9999" id="modal-numeroCartao" placeholder={"Número do Cartão"} {...register("numeroCartao")} />
             </li>
-            <li key={"codSeguranca"} style={{ width: "48%" }}>
-                <StyledInputMask id="cartao-codSeguranca" mask="999" placeholder={"Código de Segurança"} {...register("codSeguranca")} />
+            <li key={"codSeguranca"} style={{ width: "45%" }}>
+                <StyledInputMask mask="999" placeholder={"Código de Segurança"} id="modal-codSegCartao" {...register("codSeguranca")} />
             </li>
-            <li key={"validade"} style={{ width: "48%" }}>
-            <StyledInputMask id="cartao-validade" mask="99/99" placeholder={"Validade"} {...register("validade")} />
+            <li key={"validade"} style={{ width: "45%" }}>
+            <StyledInputMask mask="99/99" placeholder={"Validade"} id="modal-validadeCartao" {...register("validade")} />
             </li>
-            <li key={"nomeTitular"} style={{ width: "48%" }}>
-                    <Input id="cartao-nomeTitular" placeholder={"Nome do Titular"} {...register("nomeTitular")} />
+            <li key={"nomeTitular"} style={{ width: "45%" }}>
+                    <Input placeholder={"Nome do Titular"} id="modal-nomeTitularCartao" {...register("nomeTitular")} />
             </li>
-            <li key={"bandeiraCartao"} style={{ width: "48%" }}>
-            <Select id="cartao-bandeira" options={bandeiras} placeholder="Selecione a bandeira" registro={"bandeiraCartao"} register={register} />
+            <li key={"bandeiraCartao"} style={{ width: "45%" }}>
+                <Select options={bandeiras} id="modal-bandeiraCartao" placeholder="Selecione a bandeira" registro="bandeiraCartao" register={register} />
             </li>
-            <li key={"preferencial"} style={{ width: "48%", display: "flex", alignItems: "center" }}>
-                    <input id="cartao-preferencial" type="checkbox" {...register("preferencial")} />
-                    <CheckboxLabel >Cartão Preferencial</CheckboxLabel>
+
+            <li key={"cartaoPreferencial"} style={{ width: "100%", display: "flex", alignItems: "center" }}>
+                    <input type="checkbox" id="modal-preferencialCartao" {...register("preferencial")} />
+                    <CheckboxLabel>Cartão Preferencial</CheckboxLabel>
             </li>
 
             </Opcoes>
@@ -108,4 +109,4 @@ function FormCartao({ register }) {
     )
 }
 
-export default FormCartao;
+export default FormCartaoModal;

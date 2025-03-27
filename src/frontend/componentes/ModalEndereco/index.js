@@ -1,9 +1,9 @@
 // ModalEndereco.js
 import React from 'react'
 import styled from 'styled-components'
-import FormEnderecoModal from '../FormEnderecoModal'
-import BotaoVermelho from '../BotaoVermelho';
-import BotaoCinza from '../BotaoCinza';
+import FormEnderecoModal from '../FormsDados/FormEnderecoModal';
+import BotaoVermelho from '../Botões/BotaoVermelho';
+import BotaoCinza from '../Botões/BotaoCinza';
 import { criarEnderecoNovo } from '../../serviços/endereco'
 
 const ModalContainer = styled.div`

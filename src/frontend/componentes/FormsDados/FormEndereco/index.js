@@ -1,6 +1,6 @@
-import Input from '../Input'
+import Input from '../../Inputs/Input'
 import styled from 'styled-components'
-import Select from "../Select"
+import Select from "../../Botões/Select"
 import InputMask from 'react-input-mask'
 
 const FormContainer = styled.section`

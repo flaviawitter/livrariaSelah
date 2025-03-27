@@ -136,5 +136,5 @@ module.exports = {
     obterClienteCpf,
     atualizarSenha,
     atualizarCliente, 
-    deletarCliente 
+    deletarCliente,
 };

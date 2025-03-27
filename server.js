@@ -24,6 +24,7 @@ const pagamentoRoutes = require('./src/backend/routes/pagamentoRoutes');
 const cupomRoutes = require('./src/backend/routes/cupomRoutes');
 const freteRoutes = require('./src/backend/routes/freteRoutes');
 const classificacaoIARoutes = require('./src/backend/routes/classificacaoIARoutes');
+const loginRoutes = require('./src/backend/routes/loginRoutes');
 
 const app = express();
 app.use(cors({origin: "*"}));
@@ -53,6 +54,7 @@ app.use('/api/pagamentos', pagamentoRoutes);
 app.use('/api/cupons', cupomRoutes);
 app.use('/api/fretes', freteRoutes);
 app.use('/api/classificacoesIA', classificacaoIARoutes);
+app.use('/api/login', loginRoutes);
 
 
 app.listen(5000, () => {

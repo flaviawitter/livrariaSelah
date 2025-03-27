@@ -1,9 +1,8 @@
-import Input from '../Input'  
+import Input from '../../Inputs/Input'  
 import styled from 'styled-components'
-import BotaoCinza from '../BotaoCinza'
+import BotaoCinza from '../../Botões/BotaoCinza'
 import { useForm } from "react-hook-form";
-import { atualizarCliente, atualizarSenha, obterCliente } from '../../serviços/cliente';
-import { useState } from "react";
+import { atualizarCliente, atualizarSenha, obterCliente } from '../../../serviços/cliente';
 import bcrypt from "bcryptjs"
 
 

@@ -1,6 +1,6 @@
 
 import styled from 'styled-components'
-import Header from '../componentes/Header';
+import Header from '../componentes/Headers/Header';
 import PainelInicial from '../componentes/PainelInicial';
 import Novidades from '../componentes/Novidades';
 import Chatbot from '../componentes/ChatBot';

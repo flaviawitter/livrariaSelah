@@ -1,7 +1,7 @@
-import Logo from '../Logo'
-import OpcoesHeader from '../OpcoesHeader'
+import Logo from '../../Logo'
+import OpcoesHeader from '../../OpcoesHeader'
 import IconesHeader from '../IconesHeader'
-import InputPesquisa from '../InputPesquisa'
+import InputPesquisa from '../../Inputs/InputPesquisa'
 import styled from 'styled-components'
 
 const HeaderContainer = styled.header`

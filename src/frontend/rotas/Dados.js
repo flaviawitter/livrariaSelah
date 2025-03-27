@@ -1,13 +1,13 @@
 
 import styled from 'styled-components'
-import Header from '../componentes/Header';
-import FormCliente from '../componentes/FormCliente';
-import FormEndereco from '../componentes/FormEndereco';
-import FormCartao from '../componentes/FormCartao';
-import FormSenha from '../componentes/FormSenha';
-import BotaoVermelho from '../componentes/BotaoVermelho';
-import BotaoCinza from '../componentes/BotaoCinza';
-import BotaoVerde from '../componentes/BotaoVerde';
+import Header from '../componentes/Headers/Header';
+import FormCliente from '../componentes/FormsDados/FormCliente';
+import FormEndereco from '../componentes/FormsDados/FormEndereco';
+import FormCartao from '../componentes/FormsDados/FormCartao';
+import FormSenha from '../componentes/FormsDados/FormSenha';
+import BotaoVermelho from '../componentes/Botões/BotaoVermelho';
+import BotaoCinza from '../componentes/Botões/BotaoCinza';
+import BotaoVerde from '../componentes/Botões/BotaoVerde';
 import ModalEndereco from '../componentes/ModalEndereco';
 import ModalCartao from '../componentes/ModalCartao';
 import React, { useState } from 'react';

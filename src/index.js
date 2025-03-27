@@ -11,6 +11,10 @@ import Pedidos from './frontend/rotas/Pedidos';
 import Pesquisa from './frontend/rotas/Pesquisa';
 import Livro from './frontend/rotas/Livro';
 import Carrinho from './frontend/rotas/Carrinho';
+import HomeAdministrador from './frontend/rotas/HomeAdministrador';
+import PedidosAdm from './frontend/rotas/PedidosAdm';
+import Relatorio from './frontend/rotas/Relatorio'
+import ClientesAdm from './frontend/rotas/ClientesAdm'
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -52,6 +56,10 @@ root.render(
         <Route path='/livro' element = {<Livro/>} />
         <Route path='/carrinho' element = {<Carrinho/>} />
         <Route path='/dados/:id' element = {<Dados />} />
+        <Route path='/adm' element = {<HomeAdministrador />} />     
+        <Route path='/pedidosadm' element = {<PedidosAdm />} />        
+        <Route path='/relatorio' element = {<Relatorio />} />              
+        <Route path='/clientesadm' element = {<ClientesAdm />} />    
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

@@ -10,12 +10,12 @@ const LogoImage = styled.img`
     height: 40px
 `
 
-function LogoAdm() {
+function Logo() {
     return (
-        <Link to="/" style={{ textDecoration: "none" }}>
+        <Link to="/adm" style={{ textDecoration: "none" }}>
             <LogoImage src={logo} alt="Logo" />
         </Link>
     )
 }
 
-export default LogoAdm
+export default Logo

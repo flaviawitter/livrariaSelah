@@ -48,6 +48,6 @@ async function deletarCliente(idCliente) {
 }
 
 export {
-    criarCliente, obterCliente, atualizarSenha, deletarCliente, atualizarCliente
+    criarCliente, obterCliente, atualizarSenha, deletarCliente, atualizarCliente, 
 } 
 

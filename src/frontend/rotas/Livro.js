@@ -1,6 +1,6 @@
 
 import styled from 'styled-components'
-import Header from '../componentes/Header';
+import Header from '../componentes/Headers/Header';
 import PaginaLivro from '../componentes/PaginaLivro';
 
 const AppContainer = styled.div`

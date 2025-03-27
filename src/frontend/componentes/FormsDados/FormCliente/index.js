@@ -1,5 +1,5 @@
-import Input from '../Input'
-import Select from "../Select"
+import Input from '../../Inputs/Input'
+import Select from "../../Botões/Select"
 import styled from 'styled-components'
 import InputMask from 'react-input-mask'
 

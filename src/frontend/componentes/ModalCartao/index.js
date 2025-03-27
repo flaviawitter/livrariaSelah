@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import BotaoVermelho from '../BotaoVermelho';
-import BotaoCinza from '../BotaoCinza';
-import FormCartaoModal from '../FormCartaoModal';
+import BotaoVermelho from '../Botões/BotaoVermelho';
+import BotaoCinza from '../Botões/BotaoCinza';
+import FormCartaoModal from '../FormsDados/FormCartaoModal';
 import { criarCartaoNovo } from '../../serviços/cartao';
 
 

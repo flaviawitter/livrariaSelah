@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import lupa from "../../imagens/lupa.png"
+import lupa from "../../../imagens/lupa.png"
 
 const Input = styled.input`
     order: 1px solid #FFF;

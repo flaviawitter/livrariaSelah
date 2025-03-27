@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import perfil from '../../imagens/perfil.png'
-import carrinho from '../../imagens/carrinho.png'
+import perfil from '../../../imagens/perfil.png'
+import carrinho from '../../../imagens/carrinho.png'
 import styled from 'styled-components'
 
 const Icone = styled.li`
