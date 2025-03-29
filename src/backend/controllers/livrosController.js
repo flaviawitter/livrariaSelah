@@ -4,15 +4,17 @@ const prisma = new PrismaClient();
 // Listar todos os livros
 const listarLivros = async (req, res) => {
     try {
-        const livros = await prisma.livro.findMany({
+        const livros = await prisma.livros.findMany({
             include: {
-                autor: true,
-                editora: true,
+                autores: true,
+                editoras: true,
                 fornecedor: true,
-                categoria: true,
-                grupo_precificacao: true
+                categorias: true, 
+                grupoprecificacao: true,
+                estoque: true
             }
         });
+        console.log(livros)
         res.json(livros);
     } catch (error) {
         res.status(500).json({ erro: "Erro ao buscar livros." });

@@ -1,4 +1,4 @@
-import fav1 from '../../imagens/fav1.png'
+import fav1 from '../../imagens/fav1.png';
 import fav2 from '../../imagens/fav2.png'
 import fav3 from '../../imagens/fav3.png'
 import fav4 from '../../imagens/fav4.png'

@@ -160,7 +160,6 @@ model livros {
   dataPublicacao      DateTime?
   paginas             Int?
   sinopse             String?
-  quantidadeEstoque   Int       @default(0)
   status              String
   altura              Decimal
   largura             Decimal

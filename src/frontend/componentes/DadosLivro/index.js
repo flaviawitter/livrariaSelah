@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
+import dadosFavoritos from "../Favoritos/dadosFavoritos";
 
 const ContainerPrincipal = styled.section`
-  display: flex; 
-  gap: 20px;     
+  display: flex;
+  gap: 20px;
   flex-wrap: wrap;
   justify-content: center;
   font-family: Bookochi, sans-serif;
@@ -31,11 +32,6 @@ const Autor = styled.p`
   color: #999;
   margin: 4px 0;
 `;
-const TipoCapa = styled.p`
-  font-size: 14px;
-  color: #666;
-  margin: 4px 0;
-`;
 const Preco = styled.p`
   font-size: 18px;
   font-weight: bold;
@@ -49,7 +45,15 @@ const AvaliacaoContainer = styled.div`
   color: #000;
 `;
 
+// Criando um objeto para associar título do livro à imagem correspondente
+const imagensLivros = {};
+dadosFavoritos.forEach(livro => {
+  imagensLivros[livro.titulo] = livro.src;
+});
+
 const DadosLivro = ({ livros }) => {
+  console.log("Livros recebidos:", livros);
+  
   const renderStars = (rating) => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
@@ -66,20 +70,23 @@ const DadosLivro = ({ livros }) => {
 
   return (
     <ContainerPrincipal>
-      {livros.map((livro, index) => (
-        <ContainerLivro key={index}>
-          <img src={livro.src} alt={livro.titulo} style={{ width: "100px", height: "auto" }} />
-          <ContainerTexto>
-            <Titulo>{livro.titulo}</Titulo>
-            <Autor>por {livro.autor}</Autor>
-            <TipoCapa>{livro.tipoCapa}</TipoCapa>
-            <Preco>{livro.preco}</Preco>
-            <AvaliacaoContainer>
-              {renderStars(livro.avaliacao)} <span style={{ marginLeft: "4px" }}>{livro.avaliacao}</span>
-            </AvaliacaoContainer>
-          </ContainerTexto>
-        </ContainerLivro>
-      ))}
+      {Array.isArray(livros) && livros.length > 0 ? (
+        livros.map((livro, index) => (
+          <ContainerLivro key={index}>
+            <img src={imagensLivros[livro.titulo] || ''} alt={livro.titulo} style={{ width: "100px", height: "auto" }} />
+            <ContainerTexto>
+              <Titulo>{livro.titulo}</Titulo>
+              <Autor>por {livro.autores?.nome || "Autor desconhecido"}</Autor>
+              <Preco>{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(livro.precoVenda)}</Preco>
+              <AvaliacaoContainer>
+                {renderStars(livro.avaliacao)} <span style={{ marginLeft: "4px" }}>{livro.avaliacao}</span>
+              </AvaliacaoContainer>
+            </ContainerTexto>
+          </ContainerLivro>
+        ))
+      ) : (
+        <p>Nenhum livro encontrado.</p>
+      )}
     </ContainerPrincipal>
   );
 };
