@@ -70,6 +70,87 @@ async function insertData() {
       await prisma.grupoprecificacao.createMany({
         data: gruposPrecificacao,
       });
+
+      
+      const estoque = [
+        
+            {
+              "id": 1,
+              "livroId": 1,
+              "quantidade": 10,
+              "ultimaAtualizacao": "2025-03-20T12:00:00Z",
+              "dataEntrada": "2025-03-10T08:30:00Z"
+            },
+            {
+              "id": 2,
+              "livroId": 2,
+              "quantidade": 8,
+              "ultimaAtualizacao": "2025-03-18T15:45:00Z",
+              "dataEntrada": "2025-03-05T09:20:00Z"
+            },
+            {
+              "id": 3,
+              "livroId": 3,
+              "quantidade": 12,
+              "ultimaAtualizacao": "2025-03-19T14:10:00Z",
+              "dataEntrada": "2025-02-28T10:00:00Z"
+            },
+            {
+              "id": 4,
+              "livroId": 4,
+              "quantidade": 5,
+              "ultimaAtualizacao": "2025-03-17T10:30:00Z",
+              "dataEntrada": "2025-03-02T11:15:00Z"
+            },
+            {
+              "id": 5,
+              "livroId": 5,
+              "quantidade": 6,
+              "ultimaAtualizacao": "2025-03-16T09:00:00Z",
+              "dataEntrada": "2025-03-01T14:50:00Z"
+            },
+            {
+              "id": 6,
+              "livroId": 6,
+              "quantidade": 7,
+              "ultimaAtualizacao": "2025-03-15T13:40:00Z",
+              "dataEntrada": "2025-02-27T12:30:00Z"
+            },
+            {
+              "id": 7,
+              "livroId": 7,
+              "quantidade": 4,
+              "ultimaAtualizacao": "2025-03-14T16:20:00Z",
+              "dataEntrada": "2025-03-03T13:25:00Z"
+            },
+            {
+              "id": 8,
+              "livroId": 8,
+              "quantidade": 9,
+              "ultimaAtualizacao": "2025-03-13T11:10:00Z",
+              "dataEntrada": "2025-02-25T15:40:00Z"
+            },
+            {
+              "id": 9,
+              "livroId": 9,
+              "quantidade": 0,
+              "ultimaAtualizacao": "2025-03-12T14:50:00Z",
+              "dataEntrada": "2025-02-20T10:10:00Z"
+            },
+            {
+              "id": 10,
+              "livroId": 10,
+              "quantidade": 3,
+              "ultimaAtualizacao": "2025-03-11T09:30:00Z",
+              "dataEntrada": "2025-02-22T09:50:00Z"
+            }
+          
+      ];
+      
+      await prisma.estoque.createMany({
+        data: estoque,
+      });
+      
 */
 const livros = [
     {
@@ -286,86 +367,6 @@ const livros = [
         data: livros,
       });
 
-   /*   
-      const estoque = [
-        
-            {
-              "id": 1,
-              "livroId": 1,
-              "quantidade": 10,
-              "ultimaAtualizacao": "2025-03-20T12:00:00Z",
-              "dataEntrada": "2025-03-10T08:30:00Z"
-            },
-            {
-              "id": 2,
-              "livroId": 2,
-              "quantidade": 8,
-              "ultimaAtualizacao": "2025-03-18T15:45:00Z",
-              "dataEntrada": "2025-03-05T09:20:00Z"
-            },
-            {
-              "id": 3,
-              "livroId": 3,
-              "quantidade": 12,
-              "ultimaAtualizacao": "2025-03-19T14:10:00Z",
-              "dataEntrada": "2025-02-28T10:00:00Z"
-            },
-            {
-              "id": 4,
-              "livroId": 4,
-              "quantidade": 5,
-              "ultimaAtualizacao": "2025-03-17T10:30:00Z",
-              "dataEntrada": "2025-03-02T11:15:00Z"
-            },
-            {
-              "id": 5,
-              "livroId": 5,
-              "quantidade": 6,
-              "ultimaAtualizacao": "2025-03-16T09:00:00Z",
-              "dataEntrada": "2025-03-01T14:50:00Z"
-            },
-            {
-              "id": 6,
-              "livroId": 6,
-              "quantidade": 7,
-              "ultimaAtualizacao": "2025-03-15T13:40:00Z",
-              "dataEntrada": "2025-02-27T12:30:00Z"
-            },
-            {
-              "id": 7,
-              "livroId": 7,
-              "quantidade": 4,
-              "ultimaAtualizacao": "2025-03-14T16:20:00Z",
-              "dataEntrada": "2025-03-03T13:25:00Z"
-            },
-            {
-              "id": 8,
-              "livroId": 8,
-              "quantidade": 9,
-              "ultimaAtualizacao": "2025-03-13T11:10:00Z",
-              "dataEntrada": "2025-02-25T15:40:00Z"
-            },
-            {
-              "id": 9,
-              "livroId": 9,
-              "quantidade": 0,
-              "ultimaAtualizacao": "2025-03-12T14:50:00Z",
-              "dataEntrada": "2025-02-20T10:10:00Z"
-            },
-            {
-              "id": 10,
-              "livroId": 10,
-              "quantidade": 3,
-              "ultimaAtualizacao": "2025-03-11T09:30:00Z",
-              "dataEntrada": "2025-02-22T09:50:00Z"
-            }
-          
-      ];
-      
-      await prisma.estoque.createMany({
-        data: estoque,
-      });
-      */
     console.log('Dados inseridos com sucesso!');
   } catch (error) {
     console.error('Erro ao inserir dados:', error);

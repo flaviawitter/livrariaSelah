@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const livrosController = require('../controllers/livrosController');
 
-router.get('/livros', livrosController.listarLivros);
+router.get('/', livrosController.listarLivros);
 router.get('/livros/:id', livrosController.buscarLivroPorId);
 router.post('/livros', livrosController.criarLivro);
 router.put('/livros/:id', livrosController.atualizarLivro);

@@ -7,6 +7,8 @@ import livro6 from '../../imagens/imgLivro6.png'
 import livro7 from '../../imagens/livro7.png'
 import livro8 from '../../imagens/livro8.png'
 
+
+
 const dadosNovidade = [
     { titulo: 'Bom dia, Socorro', id: 1, autor: 'Paulo Moreira', tipoCapa: "Capa comum", preco: "R$47,90", src: livro1, avaliacao: 4.9 },
     { titulo: 'Três Camadas de Noite', id: 2, autor: 'Vanessa Barbara', tipoCapa: "Capa comum", preco: "R$68,11", src: livro2, avaliacao: 3.0 },
