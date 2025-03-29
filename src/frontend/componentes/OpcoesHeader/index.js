@@ -22,8 +22,8 @@ const Opcoes = styled.ul`
 const textoOpcoes = [
     { nome: "Início", rota: "/", id: "header-opcaoInicio" }, 
     { nome: "Favoritos", rota: "/favoritos", id: "header-opcaoFavoritos" },
-    { nome: "Pedidos", rota: "/pedidos", id: "header-opcaoPedidos" },
-    { nome: "Cupons", rota: "/cupons", id: "header-opcaoCupons" }
+    { nome: "Pedidos", rota: "/pedidoscliente", id: "header-opcaoPedidos" },
+    { nome: "Cupons", rota: "/cuponscliente", id: "header-opcaoCupons" }
   ];
 
 function OpcoesHeader() {

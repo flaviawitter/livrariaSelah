@@ -73,11 +73,19 @@ function LoginPage() {
     async function handleLogin() {
         try {
             const response = await verificarLogin(email, senha);
-            navigate("/dados");
+    
+            if (!response || !response.mensagem) {
+                throw new Error("Resposta inválida do servidor");
+            }
+    
+            console.log(response.mensagem);
+            navigate("/dashboard"); // Redireciona para a página após o login
         } catch (error) {
-            setErro("Usuário ou senha inválidos");
+            setErro(error.response?.data?.mensagem || "Erro ao tentar login");
+            console.error("Erro ao tentar login:", error);
         }
     }
+     
 
     async function handleLogin() {
         try {
