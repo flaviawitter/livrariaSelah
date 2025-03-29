@@ -1,6 +1,9 @@
 import styled from 'styled-components'
 import dadosFavoritos from './dadosFavoritos'
 import DadosLivro from '../DadosLivro'
+import { listarLivros } from '../../serviços/livros'
+import { useState } from 'react'
+import { useEffect } from 'react'
 
 const NovidadesContainer = styled.section`
     color: #FFF;
@@ -36,12 +39,33 @@ const Resultado = styled.div`
 `
 
 function Favoritos() {
-    const livros = dadosFavoritos; 
+
+    
+       const [livro, setLivros] = useState([]); 
+        const [carregando, setCarregando] = useState(true); 
+      
+        useEffect(() => {
+          async function carregarLivros() {
+            try {
+              const resposta = await listarLivros(); 
+              console.log(resposta.data);
+              setLivros(resposta.data); 
+            } catch (erro) {
+              console.error("Erro ao buscar livros:", erro);
+            } finally {
+              setCarregando(false); 
+            }
+          }
+      
+          carregarLivros();
+        }, []);
+        
+    
 
     return (
         <NovidadesContainer>
             <Titulo style={{ fontFamily: "Bookochi", letterSpacing: "0.22em"  }}>FAVORITOS</Titulo>
-            <DadosLivro livros={livros} />
+            <DadosLivro livros={livro} />
         </NovidadesContainer>
     );
 }

@@ -79,6 +79,16 @@ function LoginPage() {
         }
     }
 
+    async function handleLogin() {
+        try {
+            const response = await verificarLogin(email, senha);
+            localStorage.setItem("usuarioLogado", "true"); 
+            navigate("/dados");
+        } catch (error) {
+            setErro("Usuário ou senha inválidos");
+        }
+    }
+
     return (
         <PageContainer>
             <LeftContainer>
