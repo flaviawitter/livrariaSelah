@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import dadosFavoritos from "../Favoritos/dadosFavoritos";
 
 const ContainerPrincipal = styled.section`
@@ -11,33 +12,40 @@ const ContainerPrincipal = styled.section`
   font-family: Bookochi, sans-serif;
   width: 100%;
 `;
+
 const ContainerLivro = styled.div`
   display: flex;
   align-items: flex-start;
   gap: 20px;
   width: 300px;
   padding: 10px;
+  cursor: pointer;
 `;
+
 const ContainerTexto = styled.div`
   text-align: left;
 `;
+
 const Titulo = styled.p`
   font-size: 16px;
   font-weight: bold;
   color: #000;
   margin: 0;
 `;
+
 const Autor = styled.p`
   font-size: 14px;
   color: #999;
   margin: 4px 0;
 `;
+
 const Preco = styled.p`
   font-size: 18px;
   font-weight: bold;
   color: #000;
   margin: 4px 0;
 `;
+
 const AvaliacaoContainer = styled.div`
   display: flex;
   align-items: center;
@@ -45,15 +53,19 @@ const AvaliacaoContainer = styled.div`
   color: #000;
 `;
 
-// Criando um objeto para associar título do livro à imagem correspondente
 const imagensLivros = {};
-dadosFavoritos.forEach(livro => {
+dadosFavoritos.forEach((livro) => {
   imagensLivros[livro.titulo] = livro.src;
 });
 
 const DadosLivro = ({ livros }) => {
-  console.log("Livros recebidos:", livros);
-  
+  const navigate = useNavigate();
+
+  const handleLivroClick = (livro) => {
+    console.log("Livro clicado:", livro);
+    navigate("/livro", { state: { livro } }); // Envia o livro para a próxima página
+  };
+
   const renderStars = (rating) => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
@@ -72,7 +84,7 @@ const DadosLivro = ({ livros }) => {
     <ContainerPrincipal>
       {Array.isArray(livros) && livros.length > 0 ? (
         livros.map((livro, index) => (
-          <ContainerLivro key={index}>
+          <ContainerLivro key={index} onClick={() => handleLivroClick(livro)}>
             <img src={imagensLivros[livro.titulo] || ''} alt={livro.titulo} style={{ width: "100px", height: "auto" }} />
             <ContainerTexto>
               <Titulo>{livro.titulo}</Titulo>
