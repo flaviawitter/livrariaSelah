@@ -3,6 +3,6 @@ const { verificarLogin } = require('../controllers/loginController');
 
 const router = express.Router();
 
-router.get('/:email', verificarLogin);
+router.post('/', verificarLogin); // Agora a rota usa POST
 
 module.exports = router;

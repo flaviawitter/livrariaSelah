@@ -1,25 +1,31 @@
 const prisma = require('../config/prismaClient');
 const bcrypt = require('bcryptjs');
 
-
 async function verificarLogin(req, res) {
-    const email = req.params.email;
+    const { email, senha } = req.body; // Alterado para receber via body
 
     try {
         const usuario = await prisma.cliente.findFirst({
-            where: { email: email}
+            where: { email: email }
         });
 
         if (!usuario) {
-            return res.status(404).json({ message: "Usuário não encontrado" });
+            return res.status(404).json({ mensagem: "Usuário não encontrado" });
         }
 
-        console.log(usuario)
-        res.json(usuario);
+        // Comparar a senha fornecida com a senha armazenada no banco
+        const senhaCorreta = await bcrypt.compare(senha, usuario.senha);
+        if (!senhaCorreta) {
+            return res.status(401).json({ mensagem: "Senha incorreta" });
+        }
+
+        res.json({ mensagem: "Login bem-sucedido", usuario });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
+}
 
+module.exports = { verificarLogin };
 
 
   /*  const usuario = await buscarUsuarioPorEmail(email);
@@ -33,8 +39,3 @@ async function verificarLogin(req, res) {
     }
 
     res.status(200).json({ mensagem: "Login realizado com sucesso" });*/
-}
-
-module.exports = { 
-    verificarLogin
-};

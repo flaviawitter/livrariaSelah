@@ -10,12 +10,14 @@ import BotaoCinza from '../componentes/Botões/BotaoCinza';
 import BotaoVerde from '../componentes/Botões/BotaoVerde';
 import ModalEndereco from '../componentes/ModalEndereco';
 import ModalCartao from '../componentes/ModalCartao';
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { atualizarTelefone, criarTelefone, deletarTelefone } from '../serviços/telefone';
 import { useForm } from "react-hook-form";
 import { criarCliente, deletarCliente, atualizarCliente } from '../serviços/cliente';
 import { criarEndereco, deletarEndereco, criarEnderecoNovo, atualizarEndereco } from '../serviços/endereco';
 import { atualizarCartao, criarCartao, deletarCartao } from '../serviços/cartao';
+import { AuthContext } from "../componentes/Context/AuthContext";
+  
 
 
 const AppContainer = styled.div`
@@ -229,14 +231,18 @@ function App() {
     }
   }
 
+  const { user } = useContext(AuthContext)
+
+  console.log("Usuário autenticado:", user);
+
   return (
     <AppContainer>
       <Header />
       <DadosContainer>
-        <FormCliente register={register}/>
-        <FormEndereco register={register}/>
+        <FormCliente register={register} user={user}/>
+        <FormEndereco register={register} user={user}/>
         <BotaoCinza  id="dados-botaoAdicionarEndereco" onClick={() => setShowModalEndereco(true)} style={{ width: "100%", marginLeft: "1%" }}>Adicionar Endereço</BotaoCinza>
-        <FormCartao register={register}/>
+        <FormCartao register={register} user={user}/>
         <BotaoCinza id="dados-botaoAdicionarCartao" onClick={() => setShowModalCartao(true)} style={{ width: "100%", marginLeft: "1%" }}>Adicionar Cartão</BotaoCinza>
         <FormSenha register={register} idCliente={idCliente} />
       </DadosContainer>

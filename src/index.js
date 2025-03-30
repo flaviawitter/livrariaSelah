@@ -17,6 +17,7 @@ import Relatorio from './frontend/rotas/Relatorio'
 import ClientesAdm from './frontend/rotas/ClientesAdm'
 import PedidosCliente from './frontend/rotas/PedidosCliente'
 import CuponsCliente from './frontend/rotas/CuponsCliente'
+import { AuthProvider } from "../src/frontend/componentes/Context/AuthContext";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -42,9 +43,11 @@ const GlobalStyle = createGlobalStyle`
 
 `
 
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <AuthProvider>
     <GlobalStyle />
     <BrowserRouter>
       <Routes>
@@ -67,6 +70,6 @@ root.render(
               
       </Routes>
     </BrowserRouter>
+    </AuthProvider>
   </React.StrictMode>
 );
- 
