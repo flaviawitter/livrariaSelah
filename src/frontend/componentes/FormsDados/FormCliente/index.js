@@ -1,7 +1,9 @@
-import Input from '../../Inputs/Input'
-import Select from "../../Botões/Select"
-import styled from 'styled-components'
-import InputMask from 'react-input-mask'
+import Input from '../../Inputs/Input';
+import Select from "../../Botões/Select";
+import styled from 'styled-components';
+import InputMask from 'react-input-mask';
+import React from "react";
+import { useForm, Controller } from "react-hook-form";
 
 const FormContainer = styled.section`
     color: #FFF;
@@ -10,27 +12,14 @@ const FormContainer = styled.section`
     width: 100vw;
     max-width: 100%;
     margin: 15px;
-`
+`;
 const Titulo = styled.h2`
     color: #095F54;
     font-size: 32px;
     text-align: left;
     width: 100%;
     margin-bottom: 5px;
-`
-const Opcao = styled.div`
-    font-size: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    height: 100%;
-    width: 100%;
-    padding: 0 15px;
-    cursor: pointer;
-    min-width: 80px;
-    color: #C7511B;
-`
+`;
 const Opcoes = styled.ul`
     display: flex;
     flex-wrap: wrap;
@@ -38,12 +27,9 @@ const Opcoes = styled.ul`
     padding: 0;
     list-style-type: none;
     margin-top: 0;
-`
-const generos = ["Masculino", "Feminino", "Outro"]
-const tiposTelefone = ["Celular", "Residencial", "Comercial", "Outro"]
-
+`;
 const StyledInputMask = styled(InputMask)`
-   background-color: #CACACA;
+    background-color: #CACACA;
     backdrop-filter: blur(10px);
     border: 1px solid #004A33;
     padding: 10px;
@@ -67,42 +53,85 @@ const StyledInputMask = styled(InputMask)`
         box-shadow: 0px 0px 5px #00FF00; 
     }
 `;
+const generos = ["Masculino", "Feminino", "Outro"];
+const tiposTelefone = ["Celular", "Residencial", "Comercial", "Outro"];
 
-function FormCliente({ register, user }) {
+    
+
+function FormCliente({ register, user, control }) {
+    const formMethods = useForm();  // Adiciona useForm caso control não seja passado
+    const effectiveControl = control || formMethods.control;
+    const effectiveRegister = register || formMethods.register;
+
     return (
         <FormContainer>
-            <Titulo style={{ fontFamily: "Bookochi", letterSpacing: "0.22em" }}>Dados Cadastrados</Titulo>
+            <Titulo style={{ fontFamily: "Bookochi", letterSpacing: "0.22em" }}>
+                Dados Cadastrados
+            </Titulo>
+
             <Opcoes>
-                <div key={"nome"} style={{ width: "48%" }}>
-                    <Input placeholder={"Nome"} id="cliente-nome" {...register("nome")} defaultValue={user?.nome}/>
+                <div style={{ width: "48%" }}>
+                    <Input placeholder="Nome" id="cliente-nome" {...effectiveRegister("nome")} defaultValue={user?.nome} />
                 </div>
-                <div key={"email"} style={{ width: "48%" }}>
-                    <Input placeholder={"E-mail"} id="cliente-email" {...register("email")} defaultValue={user?.email}/>
+                <div style={{ width: "48%" }}>
+                    <Input placeholder="E-mail" id="cliente-email" {...effectiveRegister("email")} defaultValue={user?.email} />
                 </div>
-                <div key={"cpf"} style={{ width: "48%" }}>
-                    <StyledInputMask mask="999.999.999-99" id="cliente-cpf" placeholder={"CPF"} {...register("cpf")} defaultValue={user?.cpf}/>
+                <div style={{ width: "48%" }}>
+                    <Controller
+                        name="cpf"
+                        control={effectiveControl}
+                        render={({ field }) => (
+                            <StyledInputMask {...field} mask="999.999.999-99" id="cliente-cpf" placeholder="CPF" defaultValue={user?.cpf}/>
+                        )}
+                    />
                 </div>
-                <div key={"senha"} style={{ width: "48%" }}>
-                    <Input placeholder={"Senha"} id="cliente-senha" type="password" {...register("senha")}/>
+                <div style={{ width: "48%" }}>
+                    <Input placeholder="Senha" id="cliente-senha" type="password" {...effectiveRegister("senha")} defaultValue={"********"}/>
                 </div>
-                <div key={"nascimento"} style={{ width: "48%" }}>
-                    <Input type='date' id="cliente-nascimento" placeholder={"Nascimento"} {...register("nascimento")} defaultValue={user?.nascimento} />
+                <div style={{ width: "48%" }}>
+                    <Input type='date' id="cliente-nascimento" placeholder="Nascimento" {...effectiveRegister("nascimento")} defaultValue={user?.dataNascimento ? new Date(user.dataNascimento).toISOString().split("T")[0] : ""} />
                 </div>
-                <div key={"genero"} style={{ width: "48%" }}>
-                    <Select options={generos} id="cliente-genero" placeholder="Selecione o gênero" registro={"genero"} register={register} defaultValue={user?.genero}/>
+                <div style={{ width: "48%" }}>
+                    <Controller
+                        name="genero"
+                        control={effectiveControl}
+                        defaultValue={user?.genero || ""}
+                        render={({field}) => (
+                            <Select {...field} options={generos} id="cliente-genero" placeholder="Selecione o gênero"  {...effectiveRegister("genero")} />
+                        )}
+                    />
                 </div>
-                <div key={"tipoTelefone"} style={{ width: "48%" }}>
-                    <Select options={tiposTelefone} id="cliente-tipoTelefone" placeholder="Selecione o tipo de telefone" registro={"tipoTelefone"} register={register} defaultValue={user?.tipoTelefone}/>
+                <div style={{ width: "48%" }}>
+                <Controller
+                        name="tipoTelefone"
+                        control={effectiveControl}
+                        defaultValue={user?.telefones?.[0]?.tipoTelefone || ""}
+                        render={({field}) => (
+                            <Select {...field} options={tiposTelefone} id="cliente-tipoTelefone" placeholder="Selecione o tipo de telefone"  {...effectiveRegister("tipoTelefone")} />
+                        )}
+                    />
                 </div>
-                <div key={"ddd"} style={{ width: "48%" }}>
-                <StyledInputMask mask="99" id="cliente-ddd" placeholder={"DDD"} {...register("ddd")} defaultValue={user?.ddd}/>
+                <div style={{ width: "48%" }}>
+                    <Controller
+                        name="ddd"
+                        control={effectiveControl}
+                        render={({ field }) => (
+                            <StyledInputMask {...field} mask="99" id="cliente-ddd" placeholder="DDD" defaultValue={user?.telefones?.[0]?.ddd || ""} />
+                        )}
+                    />
                 </div>
-                <div key={"numero"} style={{ width: "48%" }}>
-                    <StyledInputMask mask="99999-9999" id="cliente-numero" placeholder={"Número"} {...register("numero")} defaultValue={user?.numero}/>
+                <div style={{ width: "48%" }}>
+                    <Controller
+                        name="numero"
+                        control={effectiveControl}
+                        render={({ field }) => (
+                            <StyledInputMask {...field} mask="99999-9999" id="cliente-numero" placeholder="Número" defaultValue={user?.telefones?.[0]?.numero || ""} />
+                        )}
+                    />
                 </div>
             </Opcoes>
         </FormContainer>
-    )
+    );
 }
 
 export default FormCliente;

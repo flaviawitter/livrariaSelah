@@ -20,16 +20,15 @@ const PainelInicialContainer = styled.section`
 `
 
 function PainelInicial() {
-
-    const paineis = [desenhoInicial, cardInicial]
+    const paineis = [desenhoInicial, cardInicial];
 
     return (
         <PainelInicialContainer>
-            { paineis.map( (painel) => (
-                <img src={painel}></img>
-            )) }
+            {paineis.map((painel, index) => (
+                <img key={index} src={painel} alt={`Painel ${index}`} />
+            ))}
         </PainelInicialContainer>
-    )
+    );
 }
 
 export default PainelInicial

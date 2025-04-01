@@ -2,6 +2,8 @@ import Input from '../../Inputs/Input'
 import Select from "../../Botões/Select"
 import styled from 'styled-components'
 import InputMask from 'react-input-mask'
+import React from "react";
+import { useForm, Controller } from "react-hook-form";
 
 const FormContainer = styled.section`
     color: #FFF;
@@ -17,7 +19,7 @@ const Titulo = styled.h2`
     width: 100%;
     margin-bottom: 5px;
 `
-const Opcao = styled.li`
+const Opcao = styled.div`
     font-size: 16px;
     display: flex;
     justify-content: center;
@@ -75,33 +77,65 @@ const StyledInputMask = styled(InputMask)`
 
 const bandeiras = ["MasterCard", "Visa", "Elo", "Outro"]
 
-function FormCartao({ register }) {
+function FormCartao({ register, user, control }) {
+    const formMethods = useForm();  // Adiciona useForm caso control não seja passado
+    const effectiveControl = control || formMethods.control;
+    const effectiveRegister = register || formMethods.register;
+
     return (
         <FormContainer>
-            <Titulo style={{ fontFamily: "Bookochi", letterSpacing: "0.22em" }}>Cartões Cadastrados</Titulo>
+            <Titulo style={{ fontFamily: "Bookochi", letterSpacing: "0.22em" }}>
+                Cartões Cadastrados
+            </Titulo>
+
             <Opcoes>
-            <li key={"apelidoCartao"} style={{ width: "48%" }}>
-                    <Input id="cartao-apelido"  placeholder={"Apelido do Cartão"} {...register("apelidoCartao")} />
-            </li>
-            <li key={"numeroCartao"} style={{ width: "48%" }}>
-                <StyledInputMask id="cartao-numero" mask="9999 9999 9999 9999" placeholder={"Número do Cartão"} {...register("numeroCartao")} />
-            </li>
-            <li key={"codSeguranca"} style={{ width: "48%" }}>
-                <StyledInputMask id="cartao-codSeguranca" mask="999" placeholder={"Código de Segurança"} {...register("codSeguranca")} />
-            </li>
-            <li key={"validade"} style={{ width: "48%" }}>
-            <StyledInputMask id="cartao-validade" mask="99/99" placeholder={"Validade"} {...register("validade")} />
-            </li>
-            <li key={"nomeTitular"} style={{ width: "48%" }}>
-                    <Input id="cartao-nomeTitular" placeholder={"Nome do Titular"} {...register("nomeTitular")} />
-            </li>
-            <li key={"bandeiraCartao"} style={{ width: "48%" }}>
-            <Select id="cartao-bandeira" options={bandeiras} placeholder="Selecione a bandeira" registro={"bandeiraCartao"} register={register} />
-            </li>
-            <li key={"preferencial"} style={{ width: "48%", display: "flex", alignItems: "center" }}>
-                    <input id="cartao-preferencial" type="checkbox" {...register("preferencial")} />
+            <div key={"apelidoCartao"} style={{ width: "48%" }}>
+                    <Input id="cartao-apelido"  placeholder="Apelido do Cartão" {...effectiveRegister("apelidoCartao")} defaultValue={user?.cartoes?.[0]?.apelidoCartao} />
+            </div>
+            <div key={"numeroCartao"} style={{ width: "48%" }}>
+                <Controller
+                    name = "numeroCartao"
+                    control={effectiveControl}
+                    render={({field}) => (
+                        <StyledInputMask  {...field} id="cartao-numero" mask="9999 9999 9999 9999" placeholder="Número do Cartão" {...effectiveRegister("numeroCartao")} defaultValue={user?.cartoes?.[0]?.numero || ""}/>
+                    )}
+                />
+            </div>
+            <div key={"codSeguranca"} style={{ width: "48%" }}>
+                <Controller
+                    name = "codSeguranca"
+                    control={effectiveControl}
+                    render={({field}) => (
+                        <StyledInputMask  {...field} id="cartao-codSeguranca" mask="999" placeholder={"Código de Segurança"} {...effectiveRegister("codSeguranca")} defaultValue={user?.cartoes?.[0]?.codSeguranca || ""}/>
+                    )}
+                />
+            </div>
+            <div key={"validade"} style={{ width: "48%" }}>
+                <Controller
+                    name = "validade"
+                    control={effectiveControl}
+                    render={({field}) => (
+                        <StyledInputMask  {...field} id="cartao-validade" mask="99/99" placeholder={"Validade"} {...effectiveRegister("validade")} defaultValue={user?.cartoes?.[0]?.validade || ""}/>
+                    )}
+                />
+            </div>
+            <div key={"nomeTitular"} style={{ width: "48%" }}>
+                    <Input id="cartao-nomeTitular" placeholder="Nome do Titular" {...effectiveRegister("nomeTitular")} defaultValue={user?.cartoes?.[0]?.nomeTitular}/>
+            </div>
+            <div key={"bandeiraCartao"} style={{ width: "48%" }}>
+            <Controller
+                    name = "bandeiraCartao"
+                    control={effectiveControl}
+                    defaultValue={user?.cartoes?.[0]?.bandeiraCartao || ""} 
+                    render={({field}) => (
+                        <Select {...field} id="cartao-bandeira" options={bandeiras} placeholder="Selecione a bandeira" {...effectiveRegister("bandeiraCartao")} />
+                    )}
+            />
+            </div>
+            <div key={"preferencial"} style={{ width: "48%", display: "flex", alignItems: "center" }}>
+                    <input id="cartao-preferencial" type="checkbox" {...effectiveRegister("preferencial")} defaultValue={user?.cartoes?.[0]?.preferencial || ""} />
                     <CheckboxLabel >Cartão Preferencial</CheckboxLabel>
-            </li>
+            </div>
 
             </Opcoes>
         </FormContainer>

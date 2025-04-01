@@ -46,7 +46,6 @@ const GlobalStyle = createGlobalStyle`
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
     <AuthProvider>
     <GlobalStyle />
     <BrowserRouter>
@@ -71,5 +70,4 @@ root.render(
       </Routes>
     </BrowserRouter>
     </AuthProvider>
-  </React.StrictMode>
 );

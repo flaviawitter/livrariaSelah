@@ -9,6 +9,7 @@ import { verificarLogin } from "../../serviços/login";
 import { AuthContext } from "../Context/AuthContext"
 import { useContext } from "react";
 
+
 const PageContainer = styled.section`
     height: 100vh;
     width: 100vw;
@@ -74,6 +75,20 @@ const TextoPequeno = styled.p`
         const navigate = useNavigate();
 
         async function handleLogin() {
+            fetch("http://localhost:5000/api/login", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, senha })
+              })
+              .then(response => response.json())
+              .then(data => {
+                if (data.usuario) {
+                  login(data.usuario); // Armazena apenas o usuário no contexto
+                } else {
+                  console.error("Erro no login:", data.mensagem);
+                }
+              });
+              
             try {
                 const response = await verificarLogin(email, senha);
         

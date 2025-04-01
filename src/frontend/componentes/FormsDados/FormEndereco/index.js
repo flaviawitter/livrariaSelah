@@ -2,6 +2,8 @@ import Input from '../../Inputs/Input'
 import styled from 'styled-components'
 import Select from "../../Botões/Select"
 import InputMask from 'react-input-mask'
+import React from "react";
+import { useForm, Controller } from "react-hook-form";
 
 const FormContainer = styled.section`
     color: #FFF;
@@ -83,7 +85,11 @@ const cidades = ["Aruja", "Barueri", "Biritiba-Mirim", "Boituva", "Campinas", "C
 
   
 
-function FormEndereco({register}) {
+function FormEndereco({ register, user, control }) {
+    const formMethods = useForm();  // Adiciona useForm caso control não seja passado
+    const effectiveControl = control || formMethods.control;
+    const effectiveRegister = register || formMethods.register;
+
   return (
     <FormContainer>
       
@@ -92,76 +98,130 @@ function FormEndereco({register}) {
           </Titulo>
 
                 <Opcoes>
-                <li key={"pais"} style={{ width: "48%" }}>
-                    <Input placeholder={"Brasil"} id="enderecoEntrega-pais" {...register("pais")} readOnly />
-                </li>
-                <li key={"estadoEntrega"} style={{ width: "48%" }}>
-                    <Input placeholder={"São Paulo"} id="enderecoEntrega-estado" {...register("estadoEntrega")} readOnly />
-                </li>
-                <li key={"cidadeEntrega"} style={{ width: "48%" }}>
-                <Select options={cidades} id="enderecoEntrega-cidade" placeholder="Selecione a cidade" registro={"cidadeEntrega"} register={register} />
-                </li>
-                <li key={"tpLogradouroEntrega"} style={{ width: "48%" }}>
-                    <Select options={tiposLogradouro} id="enderecoEntrega-tpLogradouro" placeholder="Selecione o tipo de logradouro" registro={"tpLogradouroEntrega"} register={register}/>
-                </li>
-                <li key={"logradouroEntrega"} style={{ width: "48%" }}>
-                    <Input placeholder={"Logradouro"} id="enderecoEntrega-logradouro" {...register("logradouroEntrega")} />
-                </li>
-                <li key={"numeroEnderecoEntrega"} style={{ width: "48%" }}>
-                    <Input placeholder={"Número"} id="enderecoEntrega-numero" {...register("numeroEnderecoEntrega")} />
-                </li>
+                <div key={"pais"} style={{ width: "48%" }}>
+                    <Input placeholder="Brasil" id="enderecoEntrega-pais" {...effectiveRegister("pais")} readOnly />
+                </div>
+                <div key={"estadoEntrega"} style={{ width: "48%" }}>
+                    <Input placeholder="São Paulo" id="enderecoEntrega-estado" {...effectiveRegister("estadoEntrega")} readOnly />
+                </div>
+                <div key={"cidadeEntrega"} style={{ width: "48%" }}>
+                    <Controller
+                        name = "cidadeEntrega"
+                        control={effectiveControl}
+                        defaultValue={user?.enderecos?.[0]?.cidade || ""} 
+                        render={({field}) => (
+                            <Select {...field} options={cidades} id="enderecoEntrega-cidade" placeholder="Selecione a cidade" {...effectiveRegister("cidadeEntrega")} />
+                        )}
+                    />
+                </div>
+                <div key={"tpLogradouroEntrega"} style={{ width: "48%" }}>
+                    <Controller
+                        name = "tpLogradouroEntrega"
+                        control={effectiveControl}
+                        defaultValue={user?.enderecos?.[0]?.tipoLogradouro || ""} 
+                        render={({field}) => (
+                            <Select {...field} options={tiposLogradouro} id="enderecoEntrega-tpLogradouro" placeholder="Selecione o tipo de logradouro" {...effectiveRegister("tpLogradouroEntrega")} />
+                        )}
+                    />
+                </div>
+                <div key={"logradouroEntrega"} style={{ width: "48%" }}>
+                    <Input placeholder="Logradouro" id="enderecoEntrega-logradouro" {...effectiveRegister("logradouroEntrega")} defaultValue={user?.enderecos?.[0]?.logradouro} />
+                </div>
+                <div key={"numeroEnderecoEntrega"} style={{ width: "48%" }}>
+                    <Input placeholder="Número" id="enderecoEntrega-numero" {...effectiveRegister("numeroEnderecoEntrega")} defaultValue={user?.enderecos?.[0]?.numero} />
+                </div>
 
-                <li key={"bairroEntrega"} style={{ width: "48%" }}>
-                    <Input placeholder={"Bairro"} id="enderecoEntrega-bairro" {...register("bairroEntrega")} />
-                </li>
-                <li key={"cepEntrega"} style={{ width: "48%" }}>
-                    <StyledInputMask mask="99999-999" id="enderecoEntrega-cep" placeholder={"CEP"} {...register("cepEntrega")} />
-                </li>
+                <div key={"bairroEntrega"} style={{ width: "48%" }}>
+                    <Input placeholder="Bairro" id="enderecoEntrega-bairro" {...effectiveRegister("bairroEntrega")} defaultValue={user?.enderecos?.[0]?.bairro} />
+                </div>
+                <div key={"cepEntrega"} style={{ width: "48%" }}>
+                    <Controller
+                        name="cepEntrega"
+                        control={effectiveControl}
+                        render={({ field }) => (
+                            <StyledInputMask {...field} mask="99999-999" id="enderecoCobranca-cepEntrega" placeholder="CEP" defaultValue={user?.enderecos?.[0]?.cep || ""} />
+                        )}
+                    /> 
+                </div>
 
-                <li key={"tpResidenciaEntrega"} style={{ width: "48%" }}>
-                    <Select options={tipoResidencia} id="enderecoEntrega-tpResidencia" placeholder="Selecione o tipo de residência" registro={"tpResidenciaEntrega"} register={register} />
-                </li>
-                <li key={"preferencialEntrega"} style={{ width: "100%", display: "flex", alignItems: "center" }}>
-                    <input type="checkbox" id="enderecoEntrega-preferencial" {...register("preferencialEntrega")} />
+                <div key={"tpResidenciaEntrega"} style={{ width: "48%" }}>
+                    <Controller
+                        name = "tpResidenciaEntrega"
+                        control={effectiveControl}
+                        defaultValue={user?.enderecos?.[0]?.tipoResidencia || ""} 
+                        render={({field}) => (
+                            <Select {...field} options={tipoResidencia} id="enderecoEntrega-tpResidencia" placeholder="Selecione o tipo de residência"  {...effectiveRegister("tpResidenciaEntrega")} />
+                        )}
+                    />
+                </div>
+                <div key={"preferencialEntrega"} style={{ width: "100%", display: "flex", alignItems: "center" }}>
+                    <input type="checkbox" id="enderecoEntrega-preferencial" {...effectiveRegister("preferencialEntrega")} defaultValue={user?.enderecos?.[0]?.preferencial || ""} />
                     <CheckboxLabel>Endereço Preferencial</CheckboxLabel>
-                </li>
+                </div>
 
 
                 <Titulo style={{ fontFamily: "Bookochi", letterSpacing: "0.22em" }}>
                 Endereço de Cobrança
                 </Titulo>
-                <li key={"paisCobranca"} style={{ width: "48%" }}>
-                    <Input placeholder={"Brasil"} id="enderecoCobranca-pais" {...register("paisCobranca")} readOnly/>
-                </li>
-                <li key={"estadoEntregaCobrança"} style={{ width: "48%" }}>
-                    <Input placeholder={"São Paulo"} id="enderecoCobranca-estado" {...register("estadoEntregaCobrança")} readOnly />
-                </li>
-                <li key={"cidadeCobranca"} style={{ width: "48%" }}>
-                <Select options={cidades} id="enderecoCobranca-cidade" placeholder="Selecione a cidade" registro={"cidadeCobranca"} register={register} />
-                </li>
-                <li key={"tpLogradouroCobranca"} style={{ width: "48%" }}>
-                    <Select options={tiposLogradouro} id="enderecoCobranca-tpLogradouro" placeholder="Selecione o tipo de logradouro" registro={"tpLogradouroCobranca"} register={register} />
-                </li>
-                <li key={"logradouroCobranca"} style={{ width: "48%" }}>
-                    <Input placeholder={"Logradouro"} id="enderecoCobranca-logradouro" {...register("logradouroCobranca")} />
-                </li>
-                <li key={"numeroEnderecoCobranca"} style={{ width: "48%" }}>
-                    <Input placeholder={"Número"} id="enderecoCobranca-numero"{...register("numeroEnderecoCobranca")} />
-                </li>
+                <div key={"paisCobranca"} style={{ width: "48%" }}>
+                    <Input placeholder="Brasil" id="enderecoCobranca-pais" {...effectiveRegister("paisCobranca")} readOnly/>
+                </div>
+                <div key={"estadoCobranca"} style={{ width: "48%" }}>
+                    <Input placeholder="São Paulo" id="enderecoCobranca-estado" {...effectiveRegister("estadoEntregaCobranca")} readOnly />
+                </div>
+                <div key={"cidadeCobranca"} style={{ width: "48%" }}>
+                    <Controller
+                        name = "cidadeCobranca"
+                        control={effectiveControl}
+                        defaultValue={user?.enderecos?.[1]?.cidade || ""} 
+                        render={({field}) => (
+                            <Select {...field} options={cidades} id="enderecoCobranca-cidade" placeholder="Selecione a cidade"  {...effectiveRegister("cidadeCobranca")} />
+                        )}
+                    />
+                </div>
+                <div key={"tpLogradouroCobranca"} style={{ width: "48%" }}>
+                    <Controller
+                        name="tpLogradouroCobranca"
+                        control={effectiveControl}
+                        defaultValue={user?.enderecos?.[1]?.tipoLogradouro || ""} 
+                        render={({field}) => (
+                            <Select {...field} options={tiposLogradouro} id="enderecoEntrega-tpLogradouro" placeholder="Selecione o tipo de logradouro"  {...effectiveRegister("tpLogradouroCobranca")} />
+                        )}
+                    />
+                </div>
+                <div key={"logradouroCobranca"} style={{ width: "48%" }}>
+                    <Input placeholder="Logradouro" id="enderecoCobranca-logradouro" {...effectiveRegister("logradouroCobranca")} defaultValue={user?.enderecos?.[1]?.logradouro} />
+                </div>
+                <div key={"numeroEnderecoCobranca"} style={{ width: "48%" }}>
+                    <Input placeholder="Número" id="enderecoCobranca-numero" {...effectiveRegister("numeroEnderecoCobranca")} defaultValue={user?.enderecos?.[1]?.numero} />
+                </div>
 
-                <li key={"bairroCobranca"} style={{ width: "48%" }}>
-                    <Input placeholder={"Bairro"} id="enderecoCobranca-bairro" {...register("bairroCobranca")} />
-                </li>
-                <li key={"cepCobranca"} style={{ width: "48%" }}>
-                    <StyledInputMask mask="99999-999" id="enderecoCobranca-cep" placeholder={"CEP"} {...register("cepCobranca")} />
-                </li>
-                <li key={"tpResidenciaCobranca"} style={{ width: "48%" }}>
-                    <Select options={tipoResidencia} id="enderecoCobranca-tpResidencia" placeholder="Selecione o tipo de residência" registro={"tpResidenciaCobranca"} register={register} />
-                </li>
-                <li key={"preferencialCobranca"} style={{ width: "100%", display: "flex", alignItems: "center" }}>
-                    <input type="checkbox" id="enderecoCobranca-preferencial" {...register("preferencialCobranca")} />
+                <div key={"bairroCobranca"} style={{ width: "48%" }}>
+                    <Input placeholder="Bairro" id="enderecoCobranca-bairro" {...effectiveRegister("bairroCobranca")} defaultValue={user?.enderecos?.[1]?.bairro} />
+                </div>
+                <div key={"cepCobranca"} style={{ width: "48%" }}>
+                    <Controller
+                        name="cepCobranca"
+                        control={effectiveControl}
+                        render={({ field }) => (
+                            <StyledInputMask {...field} mask="99999-999" id="enderecoCobranca-cepCobranca" placeholder="CEP" defaultValue={user?.enderecos?.[1]?.cep || ""} />
+                        )}
+                    />    
+                </div>
+                <div key={"tpResidenciaCobranca"} style={{ width: "48%" }}>
+                    <Controller
+                        name="tpResidenciaCobranca"
+                        control={effectiveControl}
+                        defaultValue={user?.enderecos?.[1]?.tipoResidencia || ""} 
+                        render={({field}) => (
+                            <Select {...field} options={tipoResidencia} id="enderecoEntrega-tpResidencia" placeholder="Selecione o tipo de residência"  {...effectiveRegister("tpResidenciaCobranca")} />
+                        )}
+                    />
+                </div>
+                <div key={"preferencialCobranca"} style={{ width: "100%", display: "flex", alignItems: "center" }}>
+                    <input type="checkbox" id="enderecoCobranca-preferencial" {...effectiveRegister("preferencialCobranca")} defaultValue={user?.enderecos?.[1]?.preferencial || ""} />
                     <CheckboxLabel>Endereço Preferencial</CheckboxLabel>
-                </li>
+                </div>
                
           </Opcoes>
     </FormContainer>

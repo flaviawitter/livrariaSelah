@@ -14,6 +14,8 @@ const Input = styled.input`
     margin-top: 30px;
     display: flex;
     align-items: flex-start;
+    font-family: "Bookochi";
+    letter-spacing: 0.22em;
     
     &::placeholder {
         color: #004A33;

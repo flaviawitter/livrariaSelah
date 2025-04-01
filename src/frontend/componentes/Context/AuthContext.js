@@ -8,21 +8,27 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     
-    if (storedUser && storedUser !== "undefined") { // Garante que não seja 'undefined'
+    if (storedUser && storedUser !== "undefined") {
       try {
         setUser(JSON.parse(storedUser));
       } catch (error) {
-        console.error("Erro ao fazer parse do usuário salvo:", error);
-        localStorage.removeItem("user"); // Remove dados corrompidos
+        console.error("Erro ao carregar usuário:", error);
+        localStorage.removeItem("user");
       }
     }
   }, []);
   
   
-  const login = (userData) => {
+const login = (userData) => {
+    if (!userData) {
+      console.error("Tentativa de login falhou: dados inválidos");
+      return;
+    }
+    console.log("Armazenando usuário no contexto:", userData);
     setUser(userData);
-    localStorage.setItem("user", JSON.stringify(userData)); // Armazena o objeto completo
+    localStorage.setItem("user", JSON.stringify(userData));
   };
+  
   
 
   const logout = () => {
