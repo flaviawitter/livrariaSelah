@@ -5,6 +5,9 @@ import FormEnderecoModal from '../FormsDados/FormEnderecoModal';
 import BotaoVermelho from '../Botões/BotaoVermelho';
 import BotaoCinza from '../Botões/BotaoCinza';
 import { criarEnderecoNovo } from '../../serviços/endereco'
+import { useEffect } from 'react';
+import { useForm } from "react-hook-form";
+
 
 const ModalContainer = styled.div`
   position: fixed;
@@ -51,8 +54,13 @@ const ModalBotoes = styled.div`
 `
 
 
-function ModalEndereco({ showModal, setShowModal, register, handleSubmit, idCliente }) {
-
+function ModalEndereco({ showModal, setShowModal, register, handleSubmit, idCliente, reset }) {
+  useEffect(() => {
+    if (showModal) {
+      reset(); // Reseta os valores ao abrir o modal
+    }
+  }, [showModal, reset]);
+  
     const onSubmit = async (data) => {    
 
       console.log(data);
@@ -63,7 +71,7 @@ function ModalEndereco({ showModal, setShowModal, register, handleSubmit, idClie
       }  
 
         const endereco = {
-          clienteId: idCliente,
+          clienteId: idCliente , 
           pais: "Brasil",
           estado: "São Paulo",
           cidade: data.cidade,
@@ -91,7 +99,7 @@ function ModalEndereco({ showModal, setShowModal, register, handleSubmit, idClie
           console.log();
           setShowModal(false);
         } catch (error) {
-          console.error("Erro ao inserir cartão:", error);
+          console.error("Erro ao inserir endereço:", error);
         }
     }
 
@@ -102,11 +110,14 @@ function ModalEndereco({ showModal, setShowModal, register, handleSubmit, idClie
   return (
     <ModalContainer>
       <ModalContent>
-        <FormEnderecoModal register={register} />
-        <ModalBotoes>
-            <BotaoVermelho id="modal-botaoEnderecoCadastrar" type="submit" onClick={handleSubmit(onSubmit)}>Salvar Endereço</BotaoVermelho>
-            <BotaoCinza id="modal-botaoEnderecoFechar" onClick={onClose}>Fechar</BotaoCinza>
-        </ModalBotoes>
+          <form onSubmit={handleSubmit(onSubmit)}>
+    <FormEnderecoModal register={register} />
+    <ModalBotoes>
+      <BotaoVermelho id="modal-botaoEnderecoCadastrar" type="submit">Salvar Endereço</BotaoVermelho>
+      <BotaoCinza id="modal-botaoEnderecoFechar" onClick={onClose}>Fechar</BotaoCinza>
+  </ModalBotoes>
+</form>
+
       </ModalContent>
     </ModalContainer>
   );

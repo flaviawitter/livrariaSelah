@@ -87,10 +87,10 @@ function FormEnderecoModal({register}) {
                      <Input placeholder={"São Paulo"} id="modal-enderecoEstado" {...register("estado")} readOnly />
                  </li>
                  <li key={"cidade"} style={{ width: "48%" }}>
-                     <Select options={cidades} id="modal-enderecoCidade" placeholder="Selecione a cidade" registro={"cidade"} register={register} />
+                     <Select options={cidades} id="modal-enderecoCidade" placeholder="Selecione a cidade" registro={"cidade"} {...register("cidade")} />
                  </li>
                  <li key={"tpLogradouro"} style={{ width: "45%" }}>
-                     <Select options={tiposLogradouro} id="modal-enderecoTpLogradouro" placeholder="Selecione o tipo de logradouro" registro={"tpLogradouro"} register={register}/>
+                     <Select options={tiposLogradouro} id="modal-enderecoTpLogradouro" placeholder="Selecione o tipo de logradouro" registro={"tpLogradouro"} {...register("tipoLogradouro")}/>
                  </li>
                  <li key={"logradouro"} style={{ width: "45%" }}>
                      <Input placeholder={"Logradouro"} id="modal-enderecoLogradouro" {...register("logradouro")} />
@@ -105,10 +105,10 @@ function FormEnderecoModal({register}) {
                     <StyledInputMask mask="99999-999" id="modal-enderecoCEP" placeholder={"CEP"} {...register("cep")} />
                  </li>
                  <li key={"tpResidencia"} style={{ width: "48%" }}>
-                     <Select options={tipoResidencia} id="modal-enderecoTpResidencia" placeholder="Tipo de residência" registro={"tpResidencia"} register={register} />
+                     <Select options={tipoResidencia} id="modal-enderecoTpResidencia" placeholder="Tipo de residência" registro={"tpResidencia"} {...register("tipoResidencia")} />
                  </li>
                 <li key={"tpEndereco"} style={{ width: "45%" }}>
-                    <Select options={tipoEndereco} id="modal-tpEndereco" placeholder="Tipo de Endereço" registro={"tpEndereco"} register={register} />
+                    <Select options={tipoEndereco} id="modal-tpEndereco" placeholder="Tipo de Endereço" registro={"tpEndereco"} {...register("tipoEndereco")} />
                 </li>
                 <li style={{ width: "100%", display: "flex", alignItems: "center" }}>
                     <input type="checkbox" id="modal-enderecoPreferencial" {...register("preferencial")} />

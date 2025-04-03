@@ -36,6 +36,7 @@ async function atualizarCliente(idCliente, cliente) {
     } catch (error) {
         console.log(error.request)
     }
+
 }
 
 async function deletarCliente(idCliente) {
@@ -47,7 +48,30 @@ async function deletarCliente(idCliente) {
     }
 }
 
+async function criarCadastro(cliente) {
+    console.log("Dados enviados:", cliente);
+
+    try {
+        const resposta = await fetch("http://localhost:5000/api/clientes", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(cliente),
+        });
+
+        if (!resposta.ok) {
+            const erro = await resposta.json();
+            throw new Error(erro.error || "Erro ao criar cliente");
+        }
+        return await resposta.json();
+    } catch (erro) {
+        console.error("Erro na requisição:", erro.message);
+        return null;
+    }
+};
+
+
+
 export {
-    criarCliente, obterCliente, atualizarSenha, deletarCliente, atualizarCliente, 
+    criarCliente, obterCliente, atualizarSenha, deletarCliente, atualizarCliente, criarCadastro
 } 
 

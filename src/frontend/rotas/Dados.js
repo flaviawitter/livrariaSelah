@@ -18,8 +18,6 @@ import { criarEndereco, deletarEndereco, criarEnderecoNovo, atualizarEndereco } 
 import { atualizarCartao, criarCartao, deletarCartao } from '../serviços/cartao';
 import { AuthContext } from "../componentes/Context/AuthContext";
   
-
-
 const AppContainer = styled.div`
     width: 100%;
     height: 100vh;
@@ -42,17 +40,18 @@ const BotaoContainer = styled.div`
     padding: 10px;
 `
 
-
 function App() {
 
   const [showModalEndereco, setShowModalEndereco] = useState(false);  
   const [showModalCartao, setShowModalCartao] = useState(false);
-  const [idCliente, setIdCliente] = useState(null);
+  const [setIdCliente] = useState(null);
+  const { user, idCliente } = useContext(AuthContext);
 
 
   const {
     register,
     handleSubmit,
+    reset
   } = useForm(
     {
       mode: "onBlur"
@@ -231,8 +230,6 @@ function App() {
     }
   }
 
-  const { user } = useContext(AuthContext)
-
   console.log("Usuário autenticado:", user);
 
   return (
@@ -240,9 +237,9 @@ function App() {
       <Header />
       <DadosContainer>
         <FormCliente register={register} user={user}/>
-        <FormEndereco register={register} user={user}/>
+        {user?.enderecos?.length > 0 && <FormEndereco register={register} user={user}/>}
         <BotaoCinza  id="dados-botaoAdicionarEndereco" onClick={() => setShowModalEndereco(true)} style={{ width: "100%", marginLeft: "1%" }}>Adicionar Endereço</BotaoCinza>
-        <FormCartao register={register} user={user}/>
+        {user?.cartoes?.length > 0 &&<FormCartao register={register} user={user}/>}
         <BotaoCinza id="dados-botaoAdicionarCartao" onClick={() => setShowModalCartao(true)} style={{ width: "100%", marginLeft: "1%" }}>Adicionar Cartão</BotaoCinza>
         <FormSenha register={register} idCliente={idCliente} />
       </DadosContainer>
@@ -259,6 +256,7 @@ function App() {
         register={register}
         handleSubmit={handleSubmit}
         idCliente={idCliente} 
+        reset={reset} 
       />
       <ModalCartao
         showModal={showModalCartao}

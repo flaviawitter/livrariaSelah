@@ -57,7 +57,7 @@ root.render(
         <Route path='/cadastrar' element = {<Cadastrar/>} />
         <Route path='/pedidos' element = {<Pedidos/>} />
         <Route path='/pesquisa' element = {<Pesquisa/>} />
-        <Route path='/livro' element = {<Livro/>} />
+        <Route path='/livro/:id' element = {<Livro/>} />
         <Route path='/carrinho' element = {<Carrinho/>} />
         <Route path='/dados/:id' element = {<Dados />} />
         <Route path='/adm' element = {<HomeAdministrador />} />     

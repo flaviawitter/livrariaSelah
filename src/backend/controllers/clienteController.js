@@ -128,6 +128,34 @@ async function deletarCliente(req, res) {
     }
 }
 
+async function criarCadastro(req, res) {
+    try {
+        const { nome, cpf, email, senha, genero, dataNascimento, ranking } = req.body;
+
+        if (!email || !senha) {
+            return res.status(400).json({ error: "E-mail e senha são obrigatórios." });
+        }
+
+        const salt = await bcrypt.genSalt(10);
+        const senhaCriptografada = await bcrypt.hash(senha, salt);
+
+        const data = {
+            nome: nome || "Usuário Padrão",
+            cpf: cpf || null,
+            email,
+            senha: senhaCriptografada,
+            genero: genero || null,
+            dataNascimento: dataNascimento ? new Date(dataNascimento) : null,
+            ranking: ranking || 0
+        };
+
+        const novoCliente = await prisma.cliente.create({ data });
+        res.status(201).json(novoCliente);;
+    } catch (error) {
+        res.status(400).json({ error: error.message || "Erro ao processar requisição back" });
+    }
+}
+
 
 module.exports = { 
     criarCliente, 
@@ -137,4 +165,5 @@ module.exports = {
     atualizarSenha,
     atualizarCliente, 
     deletarCliente,
+    criarCadastro
 };

@@ -1,9 +1,14 @@
 import Input from '../Inputs/Input' 
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import Logo from '../Logo'
 import BotaoVerde from '../Botões/BotaoVerde'
 import BotaoAmarelo from '../Botões/BotaoAmarelo'
+import { criarCadastro } from '../../serviços/cliente';
+import { useForm } from "react-hook-form";
+import React, { useContext } from "react";
+import { AuthContext } from "../../componentes/Context/AuthContext";
+
 
 const PageContainer = styled.section`
     height: 100vh;
@@ -40,7 +45,7 @@ const Titulo = styled.h2`
     letter-spacing: 0.22em;
     margin-bottom: 15px;
 `
-const Opcao = styled.li`
+const Opcao = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -58,9 +63,49 @@ const InputContainer = styled.li`
     margin-bottom: 15px;
 `;
 
-const textoPlaceHolders = ['Usuário','E-mail', 'Senha']
+const textoPlaceHolders = ['CPF', 'E-mail', 'Senha']
 
 function LoginPage() {
+
+    const navigate = useNavigate();
+      const {
+        register,
+        handleSubmit,
+      } = useForm(
+        {
+          mode: "onBlur"
+        }
+      )
+      const { login } = useContext(AuthContext);
+    
+      const onSubmit = async (data) => {
+        const cliente = {
+            email: data.email,
+            senha: data.senha,
+            nome: data.nome || "Nome do usuário",
+            cpf: data.cpf,
+            genero: data.genero || "Selecione",
+            dataNascimento: data.dataNascimento ? new Date(data.dataNascimento).toISOString().split("T")[0]: null ,
+            ranking: 0,
+        };
+    
+        try {
+            const newCliente = await criarCadastro(cliente);
+            console.log(newCliente)
+            console.log(newCliente.id)
+            if (newCliente && newCliente.id) {
+                const idCliente = newCliente.id;
+                login(cliente, idCliente);
+                navigate("/dados")
+            } else {
+                console.error("Erro ao criar cliente front: resposta inesperada do servidor");
+            }
+        } catch (error) {
+            console.error("Erro ao criar cliente front:", error);
+        }
+    };
+    
+
     return (
         <PageContainer>
             <LeftContainer>
@@ -68,15 +113,13 @@ function LoginPage() {
                 <Titulo >CADASTRE-SE</Titulo>
                 <InputContainer>
                     {textoPlaceHolders.map((placeholder, index) => (
-                        <li key={index} style={{ width: '48%' }}>
-                            <Input placeholder={placeholder} />
-                        </li>
+                        <div key={index} style={{ width: '48%' }}>
+                            <Input placeholder={placeholder}  {...register(placeholder === 'CPF' ? 'cpf' : placeholder === 'E-mail' ? 'email' : 'senha' )} />
+                        </div>
                     ))}
-                    <Link to="/" style={{ textDecoration: 'none' }}>
-                        <BotaoAmarelo id="cadastrar-botaoEntrar" type="button">
+                        <BotaoAmarelo id="cadastrar-botaoEntrar" type="button" onClick={handleSubmit(onSubmit)}>
                             Entrar
                         </BotaoAmarelo>
-                    </Link>
                 </InputContainer>   
             </LeftContainer>
             <RightContainer>

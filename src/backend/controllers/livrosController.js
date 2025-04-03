@@ -25,18 +25,18 @@ const listarLivros = async (req, res) => {
 const buscarLivroPorId = async (req, res) => {
     const { id } = req.params;
     try {
-        const livro = await prisma.livro.findUnique({
+        const livros = await prisma.livros.findUnique({
             where: { id: Number(id) },
             include: {
-                autor: true,
-                editora: true,
+                autores: true,  // Padronizando o nome dos relacionamentos
+                editoras: true,
                 fornecedor: true,
-                categoria: true,
-                grupo_precificacao: true
+                categorias: true,
+                grupoprecificacao: true
             }
-        });
-        if (!livro) return res.status(404).json({ erro: "Livro não encontrado." });
-        res.json(livro);
+        });        
+        if (!livros) return res.status(404).json({ erro: "Livro não encontrado." });
+        res.json(livros);
     } catch (error) {
         res.status(500).json({ erro: "Erro ao buscar o livro." });
     }

@@ -3,6 +3,10 @@ import DadosLivro from './dadosLivro'
 import BotaoCinza from '../Botões/BotaoCinza'
 import BotaoVermelho from '../Botões/BotaoVermelho';
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa'
+import { useParams } from "react-router-dom";
+import { buscarLivro } from "../../serviços/livros"; 
+import { useEffect, useState } from "react";
+import dadosFavoritos from "../Favoritos/dadosFavoritos";
 
 const ContainerPrincipal = styled.section`
     color: #FFF;
@@ -88,23 +92,45 @@ const renderStars = (rating) => {
 
 
   function PaginaLivro() {
-    const livro = DadosLivro[0] || {}; 
+    const { id } = useParams();
+    const [livro, setLivro] = useState(null);
+
+    useEffect(() => {
+      async function carregarLivro() {
+          try {
+              const livroEncontrado = await buscarLivro(id);
+              console.log("Livro encontrado:", livroEncontrado);
+              setLivro(livroEncontrado);
+          } catch (erro) {
+              console.error("Erro ao buscar livro:", erro);
+          }
+      }
+      carregarLivro();
+  }, [id]);
   
+
+  if (!livro) return <p>Carregando...</p>;
+  
+const imagensLivros = {};
+dadosFavoritos.forEach((livro) => {
+  imagensLivros[livro.titulo] = livro.src;
+});
+
     return (
       <ContainerPrincipal>
         <h2 style={{ fontFamily: "Bookochi", letterSpacing: "0.22em", color: "#095F54", fontSize: "26px", textAlign: "left" }}>{livro.titulo}</h2>
-        <h3 style={{ fontFamily: "Bookochi", letterSpacing: "0.22em", color: "#555", fontSize: "16px", textAlign: "left" }}>por {livro.autor}</h3>
+        <h3 style={{ fontFamily: "Bookochi", letterSpacing: "0.22em", color: "#555", fontSize: "16px", textAlign: "left" }}>por {livro.autores?.nome || "Autor desconhecido"}</h3>
   
         <ContainerLivro>
-          <ImagemLivro src={livro.src} alt={livro.titulo} />
+          <ImagemLivro  src={imagensLivros[livro.titulo] || ''} alt={livro.titulo} style={{ width: "20%", height: "auto" }} />
   
           <InfoLivro>
             <TextoSinopse>{livro.sinopse}</TextoSinopse>
             <ContainerBotoes>
-                <AvaliacaoContainer>
+               {/*<AvaliacaoContainer>
                     {renderStars(livro.avaliacao)} <span style={{ marginLeft: "4px" }}>{livro.avaliacao}</span>
                 </AvaliacaoContainer>
-                <TipoLivro>{livro.tipoCapa} <br /> <strong>{livro.preco}</strong></TipoLivro>
+                //<TipoLivro>{livro.tipoCapa} <br /> <strong>{livro.preco}</strong></TipoLivro>*/}
                 <BotaoVermelho>Adicionar ao Carrinho</BotaoVermelho>
                 <BotaoCinza>Adicionar aos Favoritos</BotaoCinza>
             </ContainerBotoes>
@@ -115,11 +141,11 @@ const renderStars = (rating) => {
           Detalhes do Produto
         </h3>
         <p style={{ fontFamily: "Bookochi", letterSpacing: "0.22em", textAlign: "left", fontSize: "16px", color: "#555", lineHeight: "1.5" }}>
-          <strong>Editora:</strong> {livro.editora}<br />
+        <strong>Editora:</strong> {livro.editora}<br />
           <strong>Edição:</strong> {livro.edicao} ({livro.ano})<br />
           <strong>Idioma:</strong> Português<br /> 
-          <strong>ISBN:</strong> {livro.ISBN} <br />
-          <strong>Páginas:</strong> {livro.nPaginas}<br /> 
+          <strong>ISBN:</strong> {livro.isbn} <br />
+          <strong>Páginas:</strong> {livro.paginas}<br /> 
           <strong>Peso:</strong> {livro.peso}g<br />
           <strong>Dimensões:</strong> {livro.altura}cm x {livro.largura}cm x {livro.profundidade}cm
         </p>
