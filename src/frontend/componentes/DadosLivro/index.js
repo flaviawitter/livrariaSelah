@@ -62,8 +62,7 @@ const DadosLivro = ({ livros }) => {
   const navigate = useNavigate();
 
   const handleLivroClick = (livro) => {
-    console.log("Livro clicado:", livro);
-    navigate(`/livro/${livro.id}`); // Garantindo que a URL bate com a configuração do roteamento
+    navigate(`/livro/${livro.id}`);
   };
 
   const renderStars = (rating) => {
