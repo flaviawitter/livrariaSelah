@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import dadosNovidade from './dadosNovidades'
 import DadosLivro from '../DadosLivro'
 import { listarLivros } from '../../serviços/livros'
 import { useState } from 'react'

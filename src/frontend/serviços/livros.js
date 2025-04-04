@@ -21,8 +21,18 @@ async function buscarLivro(id) {
     }
 }
 
+async function buscarLivrosPorTermo(termo) {
+    try {
+        const response = await axios.get(`${livrosAPI}/buscar?termo=${termo}`);
+        return response.data; // Retorna apenas o livro específico
+    } catch (error) {
+        console.error(`Erro ao buscar livro com termo:`, error.message);
+        return null; // Retorna null para evitar que o código quebre
+    }
+}
+
 
 
 export {
-    listarLivros, buscarLivro
+    listarLivros, buscarLivro, buscarLivrosPorTermo
 } 

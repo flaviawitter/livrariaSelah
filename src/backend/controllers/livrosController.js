@@ -42,6 +42,36 @@ const buscarLivroPorId = async (req, res) => {
     }
 };
 
+const buscarLivrosPorTermo = async (req, res) => {
+    const { termo } = req.query;
+    try {
+        const livros = await prisma.livros.findMany({
+            where: {
+                titulo: {
+                    contains: termo.trim(),
+                }
+            },
+            include: {
+                autores: true,
+                editoras: true,
+                fornecedor: true,
+                categorias: true,
+                grupoprecificacao: true
+            }
+        });
+
+        if (livros.length === 0) {
+            return res.status(404).json({ mensagem: "Nenhum livro encontrado com esse termo." });
+        }
+
+        res.json(livros);
+    } catch (error) {
+        console.error("Erro ao buscar livros:", error);
+        res.status(500).json({ erro: "Erro ao buscar livros." });
+    }
+};
+
+
 // Criar um novo livro
 const criarLivro = async (req, res) => {
     const {
@@ -107,4 +137,4 @@ const excluirLivro = async (req, res) => {
     }
 };
 
-module.exports = { listarLivros, buscarLivroPorId, criarLivro, atualizarLivro, excluirLivro };
+module.exports = { listarLivros, buscarLivroPorId, buscarLivrosPorTermo, criarLivro, atualizarLivro, excluirLivro };
