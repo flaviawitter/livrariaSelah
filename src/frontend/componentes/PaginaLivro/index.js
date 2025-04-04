@@ -111,10 +111,24 @@ const renderStars = (rating) => {
 
   if (!livro) return <p>Carregando...</p>;
   
-const imagensLivros = {};
-dadosFavoritos.forEach((livro) => {
-  imagensLivros[livro.titulo] = livro.src;
-});
+  const imagensLivros = {};
+  dadosFavoritos.forEach((livro) => {
+    imagensLivros[livro.titulo] = livro.src;
+  });
+
+  const adicionarAoCarrinho = () => {
+    const carrinhoAtual = JSON.parse(localStorage.getItem('carrinho')) || [];
+    carrinhoAtual.push(livro);
+    localStorage.setItem('carrinho', JSON.stringify(carrinhoAtual));
+    console.log(`${livro.titulo} foi adicionado ao carrinho!`);
+    
+    clearTimeout(window.carrinhoTimeout);
+
+    window.carrinhoTimeout = setTimeout(() => {
+        localStorage.removeItem('carrinho');
+        console.log("O carrinho foi limpo após 3 minutos de inatividade.");
+    }, 300000);
+};
 
     return (
       <ContainerPrincipal>
@@ -131,7 +145,7 @@ dadosFavoritos.forEach((livro) => {
                     {renderStars(livro.avaliacao)} <span style={{ marginLeft: "4px" }}>{livro.avaliacao}</span>
                 </AvaliacaoContainer>
                 //<TipoLivro>{livro.tipoCapa} <br /> <strong>{livro.preco}</strong></TipoLivro>*/}
-                <BotaoVermelho>Adicionar ao Carrinho</BotaoVermelho>
+                <BotaoVermelho onClick={adicionarAoCarrinho}>Adicionar ao Carrinho</BotaoVermelho>
                 <BotaoCinza>Adicionar aos Favoritos</BotaoCinza>
             </ContainerBotoes>
           </InfoLivro>
