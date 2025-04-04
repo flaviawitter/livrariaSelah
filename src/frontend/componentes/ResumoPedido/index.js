@@ -51,6 +51,14 @@ const OpcaoItem = styled.div`
     padding: 10px;
 `;
 
+const TextoResumo = styled.p`
+    font-size: 16px;
+    color: #333;
+    margin: 5px 0;
+    font-family: "Bookochi";
+    letter-spacing: 0.22em;
+`;
+
 const ResumoPedido = () => {
     const livrosSelecionados = dadosLivrosCarrinho.slice();
     const [enderecoSelecionado, setEnderecoSelecionado] = useState(null);
@@ -122,6 +130,11 @@ const ResumoPedido = () => {
                         </OpcaoItem>
                     ))}
                 </OpcoesLista>
+                <Secao>
+                    <TextoResumo>Sub-total: R$</TextoResumo>
+                    <TextoResumo>Frete: R$</TextoResumo>
+                    <TextoResumo><strong>Total: R$</strong></TextoResumo>
+                </Secao>
             </Secao>
 
             <BotaoVermelho onClick={handleFinalizarPedido}>Finalizar Pedido</BotaoVermelho>

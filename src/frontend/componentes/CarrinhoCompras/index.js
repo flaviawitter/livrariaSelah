@@ -92,6 +92,7 @@ const LivroItem = styled.div`
 const LivrosContainer = styled.div`
   display: flex;
   flex-wrap: wrap; /* Permite que os livros quebrem para a linha de baixo */
+  
   gap: 20px; /* Espaço entre os livros */
   justify-content: flex-start; /* Alinhamento à esquerda */
   margin-top: 20px;
@@ -133,12 +134,11 @@ const CarrinhoCompras = () => {
     localStorage.setItem('carrinho', JSON.stringify(novoCarrinho));
   };
 
-
-    const navigate = useNavigate();
-
-    const handleFinalizarPedido = () => {
-        navigate("/resumo");
-    };
+  const navigate = useNavigate();
+  
+  const handleFinalizarPedido = () => {
+    navigate("/resumo");
+  };
 
   return (
     <ContainerCarrinho>
