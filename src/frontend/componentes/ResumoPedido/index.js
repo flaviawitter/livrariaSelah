@@ -4,6 +4,7 @@ import DadosLivro from "../DadosLivro";
 import BotaoVermelho from "../Botões/BotaoVermelho";
 import dadosLivrosCarrinho from "./dadosLivrosCarrinho";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const ContainerResumo = styled.div`
     width: 90%;
@@ -60,7 +61,10 @@ const TextoResumo = styled.p`
 `;
 
 const ResumoPedido = () => {
-    const livrosSelecionados = dadosLivrosCarrinho.slice();
+    const location = useLocation();
+    const { livros = [], subtotal = 0, frete = 0, total = 0 } = location.state || {};
+
+    const livrosSelecionados = livros;
     const [enderecoSelecionado, setEnderecoSelecionado] = useState(null);
     const [cartaoSelecionado, setCartaoSelecionado] = useState(null);
 
@@ -84,7 +88,7 @@ const ResumoPedido = () => {
     return (
         <ContainerResumo>
             <Titulo>RESUMO DO PEDIDO</Titulo>
-            
+
             <Secao>
                 <h3>Conteúdo do Carrinho</h3>
                 <LivrosContainer>
@@ -101,14 +105,14 @@ const ResumoPedido = () => {
                 <OpcoesLista>
                     {enderecos.map((endereco) => (
                         <OpcaoItem key={endereco.id}>
-                            <input 
-                                type="radio" 
-                                name="endereco" 
-                                value={endereco.id} 
+                            <input
+                                type="radio"
+                                name="endereco"
+                                value={endereco.id}
                                 onChange={() => setEnderecoSelecionado(endereco.id)}
                             />
                             {` Endereço ${endereco.id}, CEP: ${endereco.cep}, Rua: ${endereco.rua}`}
-                            
+
                             {` Endereço ${endereco.id}, CEP: ${endereco.cep}, Rua: ${endereco.rua}`}
                         </OpcaoItem>
                     ))}
@@ -120,10 +124,10 @@ const ResumoPedido = () => {
                 <OpcoesLista>
                     {cartoes.map((cartao) => (
                         <OpcaoItem key={cartao.id}>
-                            <input 
-                                type="radio" 
-                                name="cartao" 
-                                value={cartao.id} 
+                            <input
+                                type="radio"
+                                name="cartao"
+                                value={cartao.id}
                                 onChange={() => setCartaoSelecionado(cartao.id)}
                             />
                             {` ${cartao.apelido}, Final: ${cartao.final}, Validade: ${cartao.validade}`}
@@ -131,9 +135,10 @@ const ResumoPedido = () => {
                     ))}
                 </OpcoesLista>
                 <Secao>
-                    <TextoResumo>Sub-total: R$</TextoResumo>
-                    <TextoResumo>Frete: R$</TextoResumo>
-                    <TextoResumo><strong>Total: R$</strong></TextoResumo>
+                    <TextoResumo>Sub-total: R${subtotal.toFixed(2)}</TextoResumo>
+                    <TextoResumo>Frete: R${frete.toFixed(2)}</TextoResumo>
+                    <TextoResumo><strong>Total: R${total.toFixed(2)}</strong></TextoResumo>
+
                 </Secao>
             </Secao>
 

@@ -98,29 +98,35 @@ const LivrosContainer = styled.div`
   margin-top: 20px;
 `;
 
+const MensagemErro = styled.p`
+    color: #000;
+    font-size: 16px;
+    text-align: left;
+    margin-top: 20px;
+    font-family: Bookochi;
+`;
 
 const CarrinhoCompras = () => {
   const [livrosSelecionados, setLivrosSelecionados] = useState([]);
   const [subTotal, setSubTotal] = useState(0);
-  const [frete, setFrete] = useState(7.94); // Valor padrão
+  const [frete, setFrete] = useState(7.94);
   const [total, setTotal] = useState(0);
 
-  
+
   useEffect(() => {
     const carrinhoSalvo = JSON.parse(localStorage.getItem('carrinho')) || [];
     setLivrosSelecionados(carrinhoSalvo);
   }, []);
 
-  // Atualiza subtotal e total sempre que o carrinho ou frete mudam
   useEffect(() => {
     const novoSubTotal = livrosSelecionados.reduce((acc, livro) => {
-      const preco = livro.precoVenda ? parseFloat(livro.precoVenda) : 0; // Usar precoVenda corretamente
+      const preco = livro.precoVenda ? parseFloat(livro.precoVenda) : 0;
       return acc + preco;
     }, 0);
-  
+
     setSubTotal(novoSubTotal);
     setTotal(novoSubTotal + frete);
-  }, [livrosSelecionados, frete]);  
+  }, [livrosSelecionados, frete]);
 
   const opcoesFrete = [
     { label: "Padrão (5-7 dias) - R$7,94", valor: 7.94 },
@@ -135,15 +141,32 @@ const CarrinhoCompras = () => {
   };
 
   const navigate = useNavigate();
-  
+  const [erroCarrinho, setErroCarrinho] = useState(false);
+
   const handleFinalizarPedido = () => {
-    navigate("/resumo");
+    if (livrosSelecionados.length > 0) {
+      setErroCarrinho(false);
+      navigate("/resumo", {
+        state: {
+          livros: livrosSelecionados,
+          subtotal: subTotal,
+          frete: frete,
+          total: total
+        }
+      });
+    } else {
+      setErroCarrinho(true);
+    }
   };
+
+
 
   return (
     <ContainerCarrinho>
       <Titulo>CARRINHO DE COMPRAS</Titulo>
-
+      {erroCarrinho && (
+          <MensagemErro>Não é possível ir para entrega, o carrinho está vazio!</MensagemErro>
+        )}
       <LivrosContainer>
         {livrosSelecionados.map((livro, index) => (
           <LivroItem key={index}>
@@ -175,6 +198,7 @@ const CarrinhoCompras = () => {
         <TextoResumo>Frete: R${frete.toFixed(2)}</TextoResumo>
         <TextoResumo><strong>Total: R${total.toFixed(2)}</strong></TextoResumo>
         <BotaoVermelho onClick={handleFinalizarPedido}>Ir para entrega</BotaoVermelho>
+        
       </ResumoPedido>
     </ContainerCarrinho>
   );
