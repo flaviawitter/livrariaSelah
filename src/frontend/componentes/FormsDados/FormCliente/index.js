@@ -116,7 +116,7 @@ function FormCliente({ register, user, control }) {
                         name="ddd"
                         control={effectiveControl}
                         render={({ field }) => (
-                            <StyledInputMask {...field} mask="99" id="cliente-ddd" placeholder="DDD" defaultValue={user?.telefones?.[0]?.ddd || ""} />
+                            <StyledInputMask {...field} mask="99" id="cliente-ddd" placeholder="DDD" {...effectiveRegister("ddd")} defaultValue={user?.telefones?.[0]?.ddd || ""} />
                         )}
                     />
                 </div>
@@ -125,7 +125,7 @@ function FormCliente({ register, user, control }) {
                         name="numero"
                         control={effectiveControl}
                         render={({ field }) => (
-                            <StyledInputMask {...field} mask="99999-9999" id="cliente-numero" placeholder="Número" defaultValue={user?.telefones?.[0]?.numero || ""} />
+                            <StyledInputMask {...field} mask="99999-9999" id="cliente-numero" placeholder="Número" {...effectiveRegister("numero")} defaultValue={user?.telefones?.[0]?.numero || ""} />
                         )}
                     />
                 </div>

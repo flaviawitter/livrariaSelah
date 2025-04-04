@@ -5,9 +5,10 @@ import Logo from '../Logo'
 import BotaoVerde from '../Botões/BotaoVerde'
 import BotaoAmarelo from '../Botões/BotaoAmarelo'
 import { criarCadastro } from '../../serviços/cliente';
-import { useForm } from "react-hook-form";
 import React, { useContext } from "react";
 import { AuthContext } from "../../componentes/Context/AuthContext";
+import InputMask from 'react-input-mask';
+import { useForm, Controller } from "react-hook-form";
 
 
 const PageContainer = styled.section`
@@ -62,10 +63,35 @@ const InputContainer = styled.li`
     justify-content: center;
     margin-bottom: 15px;
 `;
+const StyledInputMask = styled(InputMask)`
+    background-color: #CACACA;
+    backdrop-filter: blur(10px);
+    border: 1px solid #004A33;
+    padding: 10px;
+    border-radius: 25px;
+    width: 100%;
+    height: 15px;
+    color: #004A33;
+    font-size: 20px;
+    margin-bottom: 10px;
+    margin-top: 30px;
+    display: flex;
+    align-items: flex-start;
+    
+    &::placeholder {
+        color: #004A33;
+        font-size: 16px;
+    }
+    
+    &:focus {
+        border: 2px solid #004A33; 
+        box-shadow: 0px 0px 5px #00FF00; 
+    }
+`;
 
-const textoPlaceHolders = ['CPF', 'E-mail', 'Senha']
+const textoPlaceHolders = [ 'E-mail', 'Senha']
 
-function LoginPage() {
+function LoginPage( { control } ) {
 
     const navigate = useNavigate();
       const {
@@ -105,6 +131,9 @@ function LoginPage() {
         }
     };
     
+    const formMethods = useForm();  // Adiciona useForm caso control não seja passado
+        const effectiveControl = control || formMethods.control;
+        const effectiveRegister = register || formMethods.register;
 
     return (
         <PageContainer>
@@ -112,9 +141,18 @@ function LoginPage() {
             <Logo />
                 <Titulo >CADASTRE-SE</Titulo>
                 <InputContainer>
+                <div style={{ width: "48%" }}>
+                    <Controller
+                        name="cpf"
+                        control={effectiveControl}
+                        render={({ field }) => (
+                            <StyledInputMask {...field} mask="999.999.999-99" id="cliente-cpf" placeholder="CPF"  {...effectiveRegister("cpf")}/>
+                        )}
+                    />
+                </div>
                     {textoPlaceHolders.map((placeholder, index) => (
                         <div key={index} style={{ width: '48%' }}>
-                            <Input placeholder={placeholder}  {...register(placeholder === 'CPF' ? 'cpf' : placeholder === 'E-mail' ? 'email' : 'senha' )} />
+                            <Input placeholder={placeholder}  {...register(placeholder === 'E-mail' ? 'email' : 'senha' )} />
                         </div>
                     ))}
                         <BotaoAmarelo id="cadastrar-botaoEntrar" type="button" onClick={handleSubmit(onSubmit)}>

@@ -142,6 +142,7 @@ function App() {
   }
 
   const onAtualizar = async (data) => {
+        
     if(idCliente){
       const cliente = {
         nome: data.nome,

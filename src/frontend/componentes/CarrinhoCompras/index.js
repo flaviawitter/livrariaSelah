@@ -3,6 +3,7 @@ import styled from "styled-components";
 import DadosLivro from "../DadosLivro";
 import BotaoVermelho from "../Botões/BotaoVermelho"
 import dadosLivrosCarrinho from "./dadosLivrosCarrinho";
+import { useNavigate } from "react-router-dom";
 
 const ContainerCarrinho = styled.div`
     width: 90%;
@@ -109,6 +110,13 @@ const CarrinhoCompras = () => {
     const [frete, setFrete] = useState(opcoesFrete[0].valor);
     const total = subTotal + frete;
 
+
+    const navigate = useNavigate();
+
+    const handleFinalizarPedido = () => {
+        navigate("/resumo");
+    };
+
     return (
         <ContainerCarrinho>
           <Titulo>CARRINHO DE COMPRAS</Titulo>
@@ -141,7 +149,7 @@ const CarrinhoCompras = () => {
             <TextoResumo>Sub-total: R${subTotal.toFixed(2)}</TextoResumo>
             <TextoResumo>Frete: R${frete.toFixed(2)}</TextoResumo>
             <TextoResumo><strong>Total: R${total.toFixed(2)}</strong></TextoResumo>
-            <BotaoVermelho>Ir para entrega</BotaoVermelho>
+            <BotaoVermelho onClick={handleFinalizarPedido}>Ir para entrega</BotaoVermelho>
           </ResumoPedido>
         </ContainerCarrinho>
       );

@@ -17,6 +17,7 @@ import Relatorio from './frontend/rotas/Relatorio'
 import ClientesAdm from './frontend/rotas/ClientesAdm'
 import PedidosCliente from './frontend/rotas/PedidosCliente'
 import CuponsCliente from './frontend/rotas/CuponsCliente'
+import ResumoPedido from './frontend/rotas/ResumoPedido'
 import { AuthProvider } from "../src/frontend/componentes/Context/AuthContext";
 
 const GlobalStyle = createGlobalStyle`
@@ -65,7 +66,8 @@ root.render(
         <Route path='/relatorio' element = {<Relatorio />} />              
         <Route path='/clientesadm' element = {<ClientesAdm />} />   
         <Route path='/pedidoscliente' element = {<PedidosCliente />} /> 
-        <Route path='/cuponscliente' element = {<CuponsCliente />} /> 
+        <Route path='/cuponscliente' element = {<CuponsCliente />} />  
+        <Route path='/resumo' element = {<ResumoPedido />} /> 
               
       </Routes>
     </BrowserRouter>
