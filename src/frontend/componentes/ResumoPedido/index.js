@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import DadosLivro from "../DadosLivro";
 import BotaoVermelho from "../Botões/BotaoVermelho";
 import dadosLivrosCarrinho from "./dadosLivrosCarrinho";
-import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { AuthContext } from "../Context/AuthContext"
 
 const ContainerResumo = styled.div`
     width: 90%;
@@ -13,27 +13,23 @@ const ContainerResumo = styled.div`
     font-family: "Bookochi";
     letter-spacing: 0.22em;
 `;
-
 const Titulo = styled.h2`
     color: #095F54;
     font-size: 32px;
     text-align: left;
     width: 100%;
 `;
-
 const Secao = styled.div`
     margin-top: 20px;
     padding: 15px;
     border-top: 1px solid #ccc;
 `;
-
 const LivroItem = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     margin-bottom: 15px;
 `;
-
 const LivrosContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
@@ -41,17 +37,14 @@ const LivrosContainer = styled.div`
     justify-content: flex-start;
     margin-top: 20px;
 `;
-
 const OpcoesLista = styled.div`
     display: flex;
     justify-content: space-between;
 `;
-
 const OpcaoItem = styled.div`
     flex: 1;
     padding: 10px;
 `;
-
 const TextoResumo = styled.p`
     font-size: 16px;
     color: #333;
@@ -67,6 +60,9 @@ const ResumoPedido = () => {
     const livrosSelecionados = livros;
     const [enderecoSelecionado, setEnderecoSelecionado] = useState(null);
     const [cartaoSelecionado, setCartaoSelecionado] = useState(null);
+
+    const { user } = useContext(AuthContext);
+    console.log("user", user);
 
     const enderecos = [
         { id: 1, cep: "99999-999", rua: "Nome da Rua" },
@@ -103,35 +99,42 @@ const ResumoPedido = () => {
             <Secao>
                 <h3>Selecione um endereço:</h3>
                 <OpcoesLista>
-                    {enderecos.map((endereco) => (
-                        <OpcaoItem key={endereco.id}>
-                            <input
-                                type="radio"
-                                name="endereco"
-                                value={endereco.id}
-                                onChange={() => setEnderecoSelecionado(endereco.id)}
-                            />
-                            {` Endereço ${endereco.id}, CEP: ${endereco.cep}, Rua: ${endereco.rua}`}
-
-                            {` Endereço ${endereco.id}, CEP: ${endereco.cep}, Rua: ${endereco.rua}`}
-                        </OpcaoItem>
+                {user?.enderecos?.map((endereco, index) => (
+                    <OpcaoItem key={index}>
+                        <input
+                        type="radio"
+                        name="endereco"
+                        value={endereco.id}
+                        onChange={() => setEnderecoSelecionado(endereco.id)}
+                        checked={enderecoSelecionado === endereco.id}
+                        />
+                        <label>
+                        <strong>CEP:</strong> {endereco.cep} <br />
+                        <strong>Endereço:</strong> {endereco.tipoLogradouro || ''} {endereco.logradouro}
+                        </label>
+                    </OpcaoItem>
                     ))}
+
                 </OpcoesLista>
             </Secao>
 
             <Secao>
                 <h3>Selecione um Cartão:</h3>
                 <OpcoesLista>
-                    {cartoes.map((cartao) => (
-                        <OpcaoItem key={cartao.id}>
-                            <input
-                                type="radio"
-                                name="cartao"
-                                value={cartao.id}
-                                onChange={() => setCartaoSelecionado(cartao.id)}
-                            />
-                            {` ${cartao.apelido}, Final: ${cartao.final}, Validade: ${cartao.validade}`}
-                        </OpcaoItem>
+                {user?.cartoes?.map((cartao, index) => (
+                    <OpcaoItem key={index}>
+                        <input
+                        type="radio"
+                        name="cartao"
+                        value={cartao.id}
+                        onChange={() => setCartaoSelecionado(cartao.id)}
+                        checked={cartaoSelecionado === cartao.id}
+                        />
+                        <label>
+                        <strong>Apelido:</strong> {cartao.apelidoCartao} <br />
+                        <strong>Validade:</strong> {cartao.validade}
+                        </label>
+                    </OpcaoItem>
                     ))}
                 </OpcoesLista>
                 <Secao>

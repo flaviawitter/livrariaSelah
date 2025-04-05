@@ -66,6 +66,7 @@ const InputPesquisa = () => {
                 placeholder="Busque seu novo livro!"
                 value={valor}
                 onChange={handleChange}
+                onKeyDown={(e) => e.key === "Enter" && handleClick()} // Chama handleLogin ao pressionar Enter
             />
             <BotaoLupa onClick={handleClick}>
                 <img src={lupa} alt="Buscar" />
@@ -75,3 +76,4 @@ const InputPesquisa = () => {
 };
 
 export default InputPesquisa;
+
