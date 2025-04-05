@@ -38,6 +38,8 @@ model cartao {
 
   clienteId        Int
   cliente          cliente @relation(fields: [clienteId], references: [id])
+
+  pedidos          pedidos[]
   }
 
 model categorias {
@@ -105,6 +107,8 @@ model endereco {
 
   clienteId        Int
   cliente          cliente @relation(fields: [clienteId], references: [id])
+
+  pedidos          pedidos[]
 }
 
 
@@ -147,6 +151,8 @@ model itempedido {
   quantidade   Int
   precoUnidade Decimal
   status       String
+
+  pedido       pedidos @relation(fields: [pedidoId], references: [id])
 }
 
 model livros {
@@ -239,6 +245,13 @@ model pedidos {
   dataPedido DateTime?
   totalPreco Decimal   @default(0.000000000000000000000000000000)
   status     String
+  
+  enderecoId  Int
+  endereco    endereco @relation(fields: [enderecoId], references: [id])
+  cartaoId    Int
+  cartao      cartao @relation(fields: [cartaoId], references: [id])
+
+  itens       itempedido[]
 }
 
 model telefones {

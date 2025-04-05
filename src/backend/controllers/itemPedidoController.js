@@ -36,22 +36,26 @@ const buscarItemPedidoPorId = async (req, res) => {
 
 // Adicionar um novo item ao pedido
 const adicionarItemPedido = async (req, res) => {
-    const { pedido_id, livro_id, quantidade, preco_unidade, status } = req.body;
+    console.log("Requisição recebida (itempedido):", req.body);
+
+    const { pedidoId, livroId, quantidade, precoUnidade, status } = req.body;
     try {
-        const novoItem = await prisma.itemPedido.create({
+        const novoItem = await prisma.itempedido.create({
             data: { 
-                pedido_id: Number(pedido_id), 
-                livro_id: Number(livro_id), 
+                pedidoId: Number(pedidoId), 
+                livroId: Number(livroId), 
                 quantidade: Number(quantidade), 
-                preco_unidade: Number(preco_unidade),
+                precoUnidade: Number(precoUnidade),
                 status
             }
         });
         res.status(201).json(novoItem);
     } catch (error) {
+        console.error("Erro ao adicionar item ao pedido:", error);
         res.status(500).json({ erro: "Erro ao adicionar item ao pedido." });
     }
 };
+
 
 // Atualizar um item de pedido existente
 const atualizarItemPedido = async (req, res) => {

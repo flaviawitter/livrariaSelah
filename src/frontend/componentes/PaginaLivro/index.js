@@ -7,6 +7,8 @@ import { useParams } from "react-router-dom";
 import { buscarLivro } from "../../serviços/livros"; 
 import { useEffect, useState } from "react";
 import dadosFavoritos from "../Favoritos/dadosFavoritos";
+import Toast from "../Toast";
+
 
 const ContainerPrincipal = styled.section`
     color: #FFF;
@@ -95,6 +97,9 @@ const renderStars = (rating) => {
     const { id } = useParams();
     const [livro, setLivro] = useState(null);
 
+    const [mensagem, setMensagem] = useState('');
+    const [tipoMensagem, setTipoMensagem] = useState('');
+
     useEffect(() => {
       async function carregarLivro() {
           try {
@@ -117,10 +122,11 @@ const renderStars = (rating) => {
   });
 
   const adicionarAoCarrinho = () => {
+    try{
     const carrinhoAtual = JSON.parse(localStorage.getItem('carrinho')) || [];
     carrinhoAtual.push(livro);
     localStorage.setItem('carrinho', JSON.stringify(carrinhoAtual));
-    console.log(`${livro.titulo} foi adicionado ao carrinho!`);
+    console.log("${livro.titulo} foi adicionado ao carrinho!");
     
     clearTimeout(window.carrinhoTimeout);
 
@@ -128,8 +134,22 @@ const renderStars = (rating) => {
         localStorage.removeItem('carrinho');
         console.log("O carrinho foi limpo após 3 minutos de inatividade.");
     }, 300000);
-};
 
+    setMensagem('Livro adicionado ao carrinho!');
+    setTipoMensagem('success');
+
+    
+  console.log("carrinho", carrinhoAtual);
+
+} catch (erro) {
+  setMensagem('Erro ao adicionar ao carrinho!');
+  setTipoMensagem('error');
+}
+
+setTimeout(() => setMensagem(''), 3000);
+  };
+
+  
     return (
       <ContainerPrincipal>
         <h2 style={{ fontFamily: "Bookochi", letterSpacing: "0.22em", color: "#095F54", fontSize: "26px", textAlign: "left" }}>{livro.titulo}</h2>
@@ -164,7 +184,10 @@ const renderStars = (rating) => {
           <strong>Dimensões:</strong> {livro.altura}cm x {livro.largura}cm x {livro.profundidade}cm
         </p>
       </ContainerPrincipal>
+      
     );
+    <Toast message={mensagem} type={tipoMensagem} />
+
   }
   
   export default PaginaLivro;

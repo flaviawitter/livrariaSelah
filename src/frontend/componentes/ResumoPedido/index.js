@@ -2,9 +2,9 @@ import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import DadosLivro from "../DadosLivro";
 import BotaoVermelho from "../Botões/BotaoVermelho";
-import dadosLivrosCarrinho from "./dadosLivrosCarrinho";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, data } from "react-router-dom";
 import { AuthContext } from "../Context/AuthContext"
+import { criarPedido, criarItemPedido } from "../../serviços/pedido";
 
 const ContainerResumo = styled.div`
     width: 90%;
@@ -64,22 +64,45 @@ const ResumoPedido = () => {
     const { user } = useContext(AuthContext);
     console.log("user", user);
 
-    const enderecos = [
-        { id: 1, cep: "99999-999", rua: "Nome da Rua" },
-        { id: 2, cep: "99999-999", rua: "Nome da Rua" },
-        { id: 3, cep: "99999-999", rua: "Nome da Rua" }
-    ];
-
-    const cartoes = [
-        { id: 1, apelido: "Cartão 1", final: "9999", validade: "99/99" },
-        { id: 2, apelido: "Cartão 2", final: "9999", validade: "99/99" }
-    ];
-
     const navigate = useNavigate();
 
-    const handleFinalizarPedido = () => {
-        navigate("/pedidos");
-    };
+    const handleFinalizarPedido = async () => {
+        try {
+          const pedidos = {
+            clienteId: user.id,
+            dataPedido: new Date(),
+            status: "Pendente",
+            totalPreco: total,
+            enderecoId: enderecoSelecionado,
+            cartaoId: cartaoSelecionado,
+          };
+      
+          const newPedido = await criarPedido(pedidos);
+          const idPedidos = newPedido.data.id;
+          console.log("Pedido:", pedidos);
+          console.log(livrosSelecionados);
+      
+          for (const livro of livrosSelecionados) {
+            const itemPedido = {
+                livroId: livro.id,
+                precoUnidade: livro.preco ? parseFloat(livro.precoVenda.toString().replace(',', '.')) : 0,
+                quantidade: Number(livro.quantidade),
+                status: "Pendente",
+                pedidoId: idPedidos
+              };
+              
+      
+            await criarItemPedido(itemPedido);
+            console.log("Item do pedido:", itemPedido);
+          }
+      
+          navigate("/pedidos");
+        } catch (error) {
+          console.error("Erro ao finalizar pedido:", error);
+        }
+
+      };
+      
 
     return (
         <ContainerResumo>

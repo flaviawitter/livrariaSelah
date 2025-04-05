@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import DadosLivro from "../DadosLivro";
 import BotaoVermelho from "../Botões/BotaoVermelho"
-import dadosLivrosCarrinho from "./dadosLivrosCarrinho";
 import { useNavigate } from "react-router-dom";
 
 const ContainerCarrinho = styled.div`
@@ -14,7 +13,6 @@ const ContainerCarrinho = styled.div`
     font-family: "Bookochi";
     letter-spacing: 0.22em;
 `;
-
 const Titulo = styled.h2`
     color: #095F54;
     font-size: 32px;
@@ -116,8 +114,11 @@ const CarrinhoCompras = () => {
   useEffect(() => {
     const carrinhoSalvo = JSON.parse(localStorage.getItem('carrinho')) || [];
     setLivrosSelecionados(carrinhoSalvo);
+    
+    console.log("carrinho pedido:", carrinhoSalvo);
   }, []);
 
+  // Atualiza subtotal e total sempre que o carrinho ou frete mudam
   useEffect(() => {
     const novoSubTotal = livrosSelecionados.reduce((acc, livro) => {
       const preco = livro.precoVenda ? parseFloat(livro.precoVenda) : 0;
@@ -157,6 +158,7 @@ const CarrinhoCompras = () => {
     } else {
       setErroCarrinho(true);
     }
+
   };
 
 
@@ -164,9 +166,7 @@ const CarrinhoCompras = () => {
   return (
     <ContainerCarrinho>
       <Titulo>CARRINHO DE COMPRAS</Titulo>
-      {erroCarrinho && (
-          <MensagemErro>Não é possível ir para entrega, o carrinho está vazio!</MensagemErro>
-        )}
+
       <LivrosContainer>
         {livrosSelecionados.map((livro, index) => (
           <LivroItem key={index}>

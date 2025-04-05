@@ -47,7 +47,7 @@ app.use('/api/livros-inativacao', livrosInativacaoRoutes);
 app.use('/api/livros-ativacao', livrosAtivacaoRoutes);
 app.use('/api/carrinho', carrinhoRoutes);
 app.use('/api/pedidos', pedidosRoutes);
-app.use('/api/itens-pedido', itemPedidoRoutes);
+app.use('/api/itenspedido', itemPedidoRoutes);
 app.use('/api/fornecedor', fornecedorRoutes);
 app.use('/api/estoque', estoqueRoutes);
 app.use('/api/pagamentos', pagamentoRoutes);

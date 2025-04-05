@@ -34,21 +34,27 @@ const buscarPedidoPorId = async (req, res) => {
 
 // Criar um novo pedido
 const criarPedido = async (req, res) => {
-    const { cliente_id, data_pedido, total_preco, status } = req.body;
+    console.log("Requisição recebida (pedido):", req.body);
+
+    const { clienteId, dataPedido, totalPreco, status, enderecoId, cartaoId } = req.body;
     try {
         const novoPedido = await prisma.pedidos.create({
             data: { 
-                cliente_id: Number(cliente_id), 
-                data_pedido: new Date(data_pedido), 
-                total_preco: Number(total_preco),
-                status
+                clienteId: Number(clienteId), 
+                dataPedido: new Date(dataPedido), 
+                totalPreco: Number(totalPreco),
+                status,
+                enderecoId: Number(enderecoId),
+                cartaoId: Number(cartaoId)
             }
         });
         res.status(201).json(novoPedido);
     } catch (error) {
+        console.error("Erro ao criar pedido:", error);
         res.status(500).json({ erro: "Erro ao criar o pedido." });
     }
 };
+
 
 // Atualizar um pedido existente
 const atualizarPedido = async (req, res) => {
