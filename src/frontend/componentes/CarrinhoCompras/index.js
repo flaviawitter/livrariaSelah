@@ -3,6 +3,9 @@ import styled from "styled-components";
 import DadosLivro from "../DadosLivro";
 import BotaoVermelho from "../Botões/BotaoVermelho"
 import { useNavigate } from "react-router-dom";
+import Toast from "../Toast";
+import { useToast } from "../Context/ToastContext";
+
 
 const ContainerCarrinho = styled.div`
     width: 90%;
@@ -109,6 +112,7 @@ const CarrinhoCompras = () => {
   const [subTotal, setSubTotal] = useState(0);
   const [frete, setFrete] = useState(7.94);
   const [total, setTotal] = useState(0);
+  const { showToast } = useToast();
 
 
   useEffect(() => {
@@ -136,10 +140,14 @@ const CarrinhoCompras = () => {
   ];
 
   const removerDoCarrinho = (index) => {
+    console.log('Clicou no botão remover');
     const novoCarrinho = livrosSelecionados.filter((_, i) => i !== index);
     setLivrosSelecionados(novoCarrinho);
     localStorage.setItem('carrinho', JSON.stringify(novoCarrinho));
+  
+    showToast('Livro removido do carrinho!', 'warning');
   };
+  
 
   const navigate = useNavigate();
   const [erroCarrinho, setErroCarrinho] = useState(false);
@@ -161,9 +169,7 @@ const CarrinhoCompras = () => {
 
   };
 
-
-
-  return (
+return (
     <ContainerCarrinho>
       <Titulo>CARRINHO DE COMPRAS</Titulo>
 
@@ -171,9 +177,9 @@ const CarrinhoCompras = () => {
         {livrosSelecionados.map((livro, index) => (
           <LivroItem key={index}>
             <DadosLivro livros={[livro]} />
-            <RemoverCarrinho href="#" onClick={() => removerDoCarrinho(index)}>
+            <button onClick={() => removerDoCarrinho(index)}>
               Remover do Carrinho
-            </RemoverCarrinho>
+            </button>
           </LivroItem>
         ))}
       </LivrosContainer>
@@ -198,7 +204,7 @@ const CarrinhoCompras = () => {
         <TextoResumo>Frete: R${frete.toFixed(2)}</TextoResumo>
         <TextoResumo><strong>Total: R${total.toFixed(2)}</strong></TextoResumo>
         <BotaoVermelho onClick={handleFinalizarPedido}>Ir para entrega</BotaoVermelho>
-        
+
       </ResumoPedido>
     </ContainerCarrinho>
   );

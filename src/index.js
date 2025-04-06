@@ -19,6 +19,8 @@ import PedidosCliente from './frontend/rotas/PedidosCliente'
 import CuponsCliente from './frontend/rotas/CuponsCliente'
 import ResumoPedido from './frontend/rotas/ResumoPedido'
 import { AuthProvider } from "../src/frontend/componentes/Context/AuthContext";
+import { ToastProvider } from '../src/frontend/componentes/Context/ToastContext';
+import Toast from '../src/frontend/componentes/Toast';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -47,6 +49,7 @@ const GlobalStyle = createGlobalStyle`
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+  <ToastProvider>
     <AuthProvider>
     <GlobalStyle />
     <BrowserRouter>
@@ -68,8 +71,12 @@ root.render(
         <Route path='/pedidoscliente' element = {<PedidosCliente />} /> 
         <Route path='/cuponscliente' element = {<CuponsCliente />} />  
         <Route path='/resumo' element = {<ResumoPedido />} /> 
-              
+                      
       </Routes>
+
+      <Toast />
+
     </BrowserRouter>
     </AuthProvider>
+    </ToastProvider>
 );

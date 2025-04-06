@@ -138,7 +138,6 @@ const renderStars = (rating) => {
     setMensagem('Livro adicionado ao carrinho!');
     setTipoMensagem('success');
 
-    
   console.log("carrinho", carrinhoAtual);
 
 } catch (erro) {
@@ -183,10 +182,10 @@ setTimeout(() => setMensagem(''), 3000);
           <strong>Peso:</strong> {livro.peso}g<br />
           <strong>Dimensões:</strong> {livro.altura}cm x {livro.largura}cm x {livro.profundidade}cm
         </p>
+        <Toast message={mensagem} type={tipoMensagem} />
       </ContainerPrincipal>
       
     );
-    <Toast message={mensagem} type={tipoMensagem} />
 
   }
   
