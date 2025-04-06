@@ -6,11 +6,14 @@ const listarPedidos = async (req, res) => {
     try {
         const pedidos = await prisma.pedidos.findMany({
             include: {
-                cliente: true
-            }
+                cliente: true,
+                id: true,
+                dataPedido: true,
+                itens: true,            }
         });
         res.json(pedidos);
     } catch (error) {
+        console.error("Erro ao buscar pedidos(controller):", erro);
         res.status(500).json({ erro: "Erro ao buscar pedidos." });
     }
 };
