@@ -21,9 +21,9 @@ export const ToastProvider = ({ children }) => {
   };
 
   return (
-    <ToastContext.Provider value={{ showToast }}>
-      {children}
-      <Toast message={message} type={type} onClose={handleClose} />
+    <ToastContext.Provider value={{ showToast, message, type, handleClose }}>
+        {children}
+        <Toast />
     </ToastContext.Provider>
   );
 };

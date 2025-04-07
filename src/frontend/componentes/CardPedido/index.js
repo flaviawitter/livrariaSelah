@@ -5,7 +5,9 @@ import dadosCard from './dadosCard';
 import React from "react";
 import { useEffect } from 'react'
 import { useForm, Controller } from "react-hook-form";
-import { listarPedidos } from '../../serviços/pedido';
+import { listarPedidos, listarPedidosPorCliente } from '../../serviços/pedido';
+import { useContext } from "react";
+import { AuthContext } from "../Context/AuthContext";
 
 const OrderCard = styled.div`
   border-bottom: 1px solid #ccc;
@@ -23,32 +25,33 @@ const ButtonGroup = styled.div`
 
 
 function CardPedido({user}) {
+  const { idCliente } = useContext(AuthContext);
+
+  console.log("ID do cliente:", idCliente); // Verifica se o ID do cliente está sendo passado corretamente
     const formMethods = useForm();  // Adiciona useForm caso control não seja passado
     const pedido = user?.pedidos || [];
 
     const [pedidos, setPedidos] = React.useState([]); // Estado para armazenar os pedidos
     const [carregando, setCarregando] = React.useState(true); // Estado para controlar o carregamento
 
-useEffect(() => {
-  async function carregarPedidos() {
-  try {
-    const resposta = await listarPedidos(); 
-    if (!resposta || !resposta.data) {
-      console.error("Resposta inválida da API:", resposta);
-      return;
-    }
-    console.log(resposta.data);
-    setPedidos(resposta.data); 
-  } catch (erro) {
-    console.error("Erro ao buscar pedidos:", erro);
-  } finally {
-    setCarregando(false); 
-  }
-  }
-          
-  carregarPedidos();
-  }, []);
-
+    useEffect(() => {
+      async function carregarPedidos() {
+        try {
+          const resposta = await listarPedidosPorCliente(idCliente);
+          setPedidos(resposta.data);
+        } catch (erro) {
+          console.error("Erro ao buscar pedidos:", erro);
+        } finally {
+          setCarregando(false);
+        }
+      }
+  
+      if (idCliente) {
+        carregarPedidos();
+      }
+    }, [idCliente]);
+  
+    if (carregando) return <p>Carregando pedidos...</p>;
 
   return (
     <>
@@ -57,7 +60,7 @@ useEffect(() => {
           <OrderInfo><strong>Pedido # {pedido.id}</strong></OrderInfo>
           <OrderInfo>Data do Pedido: {pedido.dataPedido}</OrderInfo>
           <OrderInfo>Status: {pedido.status}</OrderInfo>
-          <OrderInfo>Qauntidade de itens: {pedido.itens}</OrderInfo>
+          <OrderInfo>Quantidade de itens: {pedido.itens.length}</OrderInfo>
           <ButtonGroup>
             {pedido.status === "Aguardando aprovação" && (
               <BotaoVermelho>Cancelar Pedido</BotaoVermelho>

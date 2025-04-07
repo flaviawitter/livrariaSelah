@@ -90,4 +90,23 @@ const excluirPedido = async (req, res) => {
     }
 };
 
-module.exports = { listarPedidos, buscarPedidoPorId, criarPedido, atualizarPedido, excluirPedido };
+const listarPedidosPorCliente = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const pedidos = await prisma.pedidos.findMany({
+            where: {
+                clienteId: Number(id)
+            },
+            include: {
+                cliente: true,
+                itens: true
+            }
+        });
+        res.json(pedidos);
+    } catch (error) {
+        console.error("Erro ao buscar pedidos do cliente:", error);
+        res.status(500).json({ erro: "Erro ao buscar pedidos do cliente." });
+    }
+};
+
+module.exports = { listarPedidos, buscarPedidoPorId, criarPedido, atualizarPedido, excluirPedido, listarPedidosPorCliente };

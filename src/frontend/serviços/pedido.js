@@ -15,5 +15,9 @@ export const criarItemPedido = async (item) => {
 const PEDIDOS_CLIENTE_URL = "http://localhost:5000/api/pedidoscliente";
 
 export async function listarPedidos() {
-  return await axios.get(`${PEDIDOS_CLIENTE_URL}`);
+  return await axios.get(API_BASE_URL);
+}
+
+export async function listarPedidosPorCliente(idCliente) {
+  return await axios.get(`http://localhost:5000/api/pedidos/cliente/${idCliente}`);
 }

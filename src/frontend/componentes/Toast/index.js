@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'; 
 import styled, { keyframes } from 'styled-components';
+import { useToast } from '../Context/ToastContext';
 
 const fadein = keyframes`
   from { transform: translateY(-100%); opacity: 0; }
@@ -24,18 +25,20 @@ const ToastWrapper = styled.div`
   animation: ${fadein} 0.5s, ${fadeout} 0.5s 2.5s;
 `;
 
-const Toast = ({ message, type = 'success', onClose }) => {
-  useEffect(() => {
-    if (message) {
-      const timer = setTimeout(() => {
-        onClose?.(); // chama onClose se estiver definido
-      }, 3000); // tempo do fadeout
-      return () => clearTimeout(timer);
-    }
-  }, [message, onClose]);
-
-  if (!message) return null;
-  return <ToastWrapper type={type}>{message}</ToastWrapper>;
-};
+const Toast = () => {
+    const { message, type, handleClose } = useToast();
+  
+    useEffect(() => {
+      if (message) {
+        const timer = setTimeout(() => {
+          handleClose?.(); // esconde o toast após 3s
+        }, 3000);
+        return () => clearTimeout(timer);
+      }
+    }, [message, handleClose]);
+  
+    if (!message) return null;
+    return <ToastWrapper type={type}>{message}</ToastWrapper>;
+  };
 
 export default Toast;
