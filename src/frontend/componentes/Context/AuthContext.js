@@ -8,12 +8,17 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
+        const storedIdCliente = localStorage.getItem("idCliente");
         if (storedUser && storedUser !== "undefined") {
             try {
                 setUser(JSON.parse(storedUser));
+                if (storedIdCliente) {
+                    setIdCliente(storedIdCliente);
+                }
             } catch (error) {
                 console.error("Erro ao carregar usuário:", error);
                 localStorage.removeItem("user");
+                localStorage.removeItem("idCliente");
             }
         }
     }, []);
@@ -24,6 +29,7 @@ export const AuthProvider = ({ children }) => {
             return;
         }
         console.log("Armazenando usuário no contexto:", userData);
+        console.log("Armazenando ID no contexto:", id);
         setUser(userData);
         setIdCliente(id);
         localStorage.setItem("user", JSON.stringify(userData));

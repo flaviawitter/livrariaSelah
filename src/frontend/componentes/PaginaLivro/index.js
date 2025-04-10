@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 import { buscarLivro } from "../../serviços/livros"; 
 import { useEffect, useState } from "react";
 import dadosFavoritos from "../Favoritos/dadosFavoritos";
-import Toast from "../Toast";
+import { useToast } from "../Context/ToastContext";
 
 
 const ContainerPrincipal = styled.section`
@@ -96,6 +96,7 @@ const renderStars = (rating) => {
   function PaginaLivro() {
     const { id } = useParams();
     const [livro, setLivro] = useState(null);
+    const { showToast } = useToast();
 
     const [mensagem, setMensagem] = useState('');
     const [tipoMensagem, setTipoMensagem] = useState('');
@@ -127,7 +128,7 @@ const renderStars = (rating) => {
     carrinhoAtual.push(livro);
     localStorage.setItem('carrinho', JSON.stringify(carrinhoAtual));
     console.log("${livro.titulo} foi adicionado ao carrinho!");
-    
+        
     clearTimeout(window.carrinhoTimeout);
 
     window.carrinhoTimeout = setTimeout(() => {
@@ -135,9 +136,7 @@ const renderStars = (rating) => {
         console.log("O carrinho foi limpo após 3 minutos de inatividade.");
     }, 300000);
 
-    setMensagem('Livro adicionado ao carrinho!');
-    setTipoMensagem('success');
-
+  showToast('Livro adicionado ao carrinho!', 'success');
   console.log("carrinho", carrinhoAtual);
 
 } catch (erro) {
@@ -182,7 +181,6 @@ setTimeout(() => setMensagem(''), 3000);
           <strong>Peso:</strong> {livro.peso}g<br />
           <strong>Dimensões:</strong> {livro.altura}cm x {livro.largura}cm x {livro.profundidade}cm
         </p>
-        <Toast message={mensagem} type={tipoMensagem} />
       </ContainerPrincipal>
       
     );

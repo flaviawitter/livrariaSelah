@@ -12,7 +12,7 @@ const BotaoVermelho = styled.button`
     
     &:hover {
         background: #C7511B;
-        color: #095F54;
+        color:rgb(249, 252, 251);
     }
 `;
 

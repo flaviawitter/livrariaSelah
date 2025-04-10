@@ -80,29 +80,29 @@ function FormCartaoModal({ register }) {
         <FormContainer>
             <Titulo style={{ fontFamily: "Bookochi", letterSpacing: "0.22em" }}>Cadastrar Cartão</Titulo>
             <Opcoes>
-            <li key={"apelidoCartao"} style={{ width: "45%" }}>
+            <div key={"apelidoCartao"} style={{ width: "45%" }}>
                     <Input  placeholder={"Apelido do Cartão"} id="modal-apelidoCartao" {...register("apelidoCartao")} />
-            </li>
-            <li key={"numeroCartao"} style={{ width: "45%" }}>
+            </div>
+            <div key={"numeroCartao"} style={{ width: "45%" }}>
                 <StyledInputMask mask="9999 9999 9999 9999" id="modal-numeroCartao" placeholder={"Número do Cartão"} {...register("numeroCartao")} />
-            </li>
-            <li key={"codSeguranca"} style={{ width: "45%" }}>
+            </div>
+            <div key={"codSeguranca"} style={{ width: "45%" }}>
                 <StyledInputMask mask="999" placeholder={"Código de Segurança"} id="modal-codSegCartao" {...register("codSeguranca")} />
-            </li>
-            <li key={"validade"} style={{ width: "45%" }}>
+            </div>
+            <div key={"validade"} style={{ width: "45%" }}>
             <StyledInputMask mask="99/99" placeholder={"Validade"} id="modal-validadeCartao" {...register("validade")} />
-            </li>
-            <li key={"nomeTitular"} style={{ width: "45%" }}>
+            </div>
+            <div key={"nomeTitular"} style={{ width: "45%" }}>
                     <Input placeholder={"Nome do Titular"} id="modal-nomeTitularCartao" {...register("nomeTitular")} />
-            </li>
-            <li key={"bandeiraCartao"} style={{ width: "45%" }}>
+            </div>
+            <div key={"bandeiraCartao"} style={{ width: "45%" }}>
                 <Select options={bandeiras} id="modal-bandeiraCartao" placeholder="Selecione a bandeira" registro="bandeiraCartao" {...register("bandeiraCartao")} />
-            </li>
+            </div>
 
-            <li key={"cartaoPreferencial"} style={{ width: "100%", display: "flex", alignItems: "center" }}>
+            <div key={"cartaoPreferencial"} style={{ width: "100%", display: "flex", alignItems: "center" }}>
                     <input type="checkbox" id="modal-preferencialCartao" {...register("preferencial")} />
                     <CheckboxLabel>Cartão Preferencial</CheckboxLabel>
-            </li>
+            </div>
 
             </Opcoes>
         </FormContainer>

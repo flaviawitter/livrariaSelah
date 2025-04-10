@@ -75,27 +75,13 @@ const TextoPequeno = styled.p`
         const navigate = useNavigate();
 
         async function handleLogin() {
-            fetch("http://localhost:5000/api/login", {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, senha })
-              })
-              .then(response => response.json())
-              .then(data => {
-                if (data.usuario) {
-                  login(data.usuario); // Armazena apenas o usuário no contexto
-                } else {
-                  console.error("Erro no login:", data.mensagem);
-                }
-              });
-              
             try {
                 const response = await verificarLogin(email, senha);
         
                 if (response.mensagem === "Login bem-sucedido") {
-                    const userData = response.data; // Pegamos os dados completos do usuário do backend
+                    const userData = response.usuario; // Pegamos os dados completos do usuário do backend
                     localStorage.setItem("usuarioLogado", "true");
-                    login(userData); // Salvamos os dados completos no contexto
+                    login(userData, userData.id); // Salvamos os dados completos no contexto
                     navigate("/");
                 }
             } catch (error) {

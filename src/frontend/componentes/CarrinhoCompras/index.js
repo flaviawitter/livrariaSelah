@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import DadosLivro from "../DadosLivro";
 import BotaoVermelho from "../Botões/BotaoVermelho"
+import BotaoSimples from "../Botões/BotaoSimples"
 import { useNavigate } from "react-router-dom";
-import Toast from "../Toast";
 import { useToast } from "../Context/ToastContext";
 
 
@@ -177,9 +177,9 @@ return (
         {livrosSelecionados.map((livro, index) => (
           <LivroItem key={index}>
             <DadosLivro livros={[livro]} />
-            <button onClick={() => removerDoCarrinho(index)}>
+            <BotaoSimples onClick={() => removerDoCarrinho(index)}>
               Remover do Carrinho
-            </button>
+            </BotaoSimples>
           </LivroItem>
         ))}
       </LivrosContainer>

@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useContext, useEffect }  from 'react'
 import styled from 'styled-components'
 import BotaoVermelho from '../Botões/BotaoVermelho';
 import BotaoCinza from '../Botões/BotaoCinza';
 import FormCartaoModal from '../FormsDados/FormCartaoModal';
 import { criarCartaoNovo } from '../../serviços/cartao';
+import { AuthContext } from '../Context/AuthContext';
 
 
 const ModalContainer = styled.div`
@@ -45,7 +46,14 @@ const ModalBotoes = styled.div`
 `
 
 
-function ModalCartao({ showModal, setShowModal, register, handleSubmit, idCliente }) {
+function ModalCartao({ showModal, setShowModal, register, handleSubmit }) {
+
+  const { idCliente } = useContext(AuthContext);
+
+  useEffect(() => {
+    console.log("ID do cliente carregado no modal:", idCliente);
+  }, [idCliente]);
+
 
   const onSubmit = async (data) => {   
     
@@ -53,6 +61,9 @@ function ModalCartao({ showModal, setShowModal, register, handleSubmit, idClient
       console.error("ID do cliente não definido!");
       return;
     }  
+
+  
+  const clienteIdInt = parseInt(idCliente);
   
     const cartao = {
       apelidoCartao: data.apelidoCartao, 
@@ -77,7 +88,6 @@ function ModalCartao({ showModal, setShowModal, register, handleSubmit, idClient
   
     try {
       await criarCartaoNovo(idCliente, cartao); 
-      console.log();
       setShowModal(false);
     } catch (error) {
       console.error("Erro ao inserir cartão:", error);

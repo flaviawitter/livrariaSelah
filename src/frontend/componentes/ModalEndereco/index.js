@@ -5,8 +5,9 @@ import FormEnderecoModal from '../FormsDados/FormEnderecoModal';
 import BotaoVermelho from '../Botões/BotaoVermelho';
 import BotaoCinza from '../Botões/BotaoCinza';
 import { criarEnderecoNovo } from '../../serviços/endereco'
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 import { useForm } from "react-hook-form";
+import { AuthContext } from '../Context/AuthContext';
 
 
 const ModalContainer = styled.div`
@@ -54,12 +55,16 @@ const ModalBotoes = styled.div`
 `
 
 
-function ModalEndereco({ showModal, setShowModal, register, handleSubmit, idCliente, reset }) {
+function ModalEndereco({ showModal, setShowModal, register, handleSubmit, reset }) {
+  
+  const { idCliente } = useContext(AuthContext);
+
   useEffect(() => {
     if (showModal) {
       reset(); // Reseta os valores ao abrir o modal
     }
-  }, [showModal, reset]);
+    console.log("ID do cliente carregado no modal:", idCliente);
+  }, [idCliente, showModal, reset]);
   
     const onSubmit = async (data) => {    
 
