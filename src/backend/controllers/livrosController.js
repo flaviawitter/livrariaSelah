@@ -11,8 +11,7 @@ const listarLivros = async (req, res) => {
                 fornecedor: true,
                 categorias: true, 
                 grupoprecificacao: true,
-                estoque: true
-            }
+                estoque: true            }
         });
         console.log(livros)
         res.json(livros);

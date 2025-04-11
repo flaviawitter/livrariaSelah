@@ -96,7 +96,7 @@ const ResumoPedido = () => {
             console.log("Item do pedido:", itemPedido);
           }
       
-          navigate("/pedidos");
+          navigate("/pedidoscliente");
         } catch (error) {
           console.error("Erro ao finalizar pedido:", error);
         }

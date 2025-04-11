@@ -71,6 +71,7 @@ model cliente {
   enderecos      endereco[]
   cartoes        cartao[]
   telefones      telefones[]
+  pedidos        pedidos[]
 }
 
 model cupom {
@@ -241,11 +242,12 @@ model pagamentos {
 
 model pedidos {
   id         Int       @id @default(autoincrement())
-  clienteId  Int
   dataPedido DateTime?
   totalPreco Decimal   @default(0.000000000000000000000000000000)
   status     String
   
+  clienteId   Int
+  cliente     cliente @relation(fields: [clienteId], references: [id])
   enderecoId  Int
   endereco    endereco @relation(fields: [enderecoId], references: [id])
   cartaoId    Int

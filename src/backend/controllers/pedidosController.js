@@ -9,7 +9,7 @@ const listarPedidos = async (req, res) => {
                 cliente: true,
                 id: true,
                 dataPedido: true,
-                itens: true,            }
+                itens: true         }
         });
         res.json(pedidos);
     } catch (error) {
@@ -43,12 +43,12 @@ const criarPedido = async (req, res) => {
     try {
         const novoPedido = await prisma.pedidos.create({
             data: { 
-                clienteId: Number(clienteId), 
+                clienteId: clienteId, 
                 dataPedido: new Date(dataPedido), 
-                totalPreco: Number(totalPreco),
+                totalPreco: totalPreco,
                 status,
-                enderecoId: Number(enderecoId),
-                cartaoId: Number(cartaoId)
+                enderecoId: 1,
+                cartaoId: 1
             }
         });
         res.status(201).json(novoPedido);
@@ -98,7 +98,6 @@ const listarPedidosPorCliente = async (req, res) => {
                 clienteId: Number(id)
             },
             include: {
-                cliente: true,
                 itens: true
             }
         });

@@ -19,5 +19,5 @@ export async function listarPedidos() {
 }
 
 export async function listarPedidosPorCliente(idCliente) {
-  return await axios.get(`http://localhost:5000/api/pedidos/cliente/${idCliente}`);
+  return await axios.get(`http://localhost:5000/api/pedidos/clienteId/${idCliente}`);
 }

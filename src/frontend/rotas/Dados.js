@@ -245,7 +245,7 @@ function App() {
         <FormSenha register={register} idCliente={idCliente} />
       </DadosContainer>
       <BotaoContainer>
-        <BotaoVermelho id="dados-botaoSalvar" type="submit" onClick={handleSubmit(onSubmit)}>Salvar Dados</BotaoVermelho>
+      {/*<BotaoVermelho id="dados-botaoSalvar" type="submit" onClick={handleSubmit(onSubmit)}>Salvar Dados</BotaoVermelho>*/}
         <BotaoVerde id="dados-botaoAtualizarDados" type="submit" onClick={handleSubmit(onAtualizar)}>Atualizar Dados</BotaoVerde>
         <BotaoCinza id="dados-botaoExcluir" type="submit" onClick={handleSubmit(onDelete)}>Excluir Conta</BotaoCinza>
       </BotaoContainer>

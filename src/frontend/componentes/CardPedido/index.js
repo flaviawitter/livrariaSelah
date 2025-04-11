@@ -29,7 +29,6 @@ function CardPedido({user}) {
 
   console.log("ID do cliente:", idCliente); // Verifica se o ID do cliente está sendo passado corretamente
     const formMethods = useForm();  // Adiciona useForm caso control não seja passado
-    const pedido = user?.pedidos || [];
 
     const [pedidos, setPedidos] = React.useState([]); // Estado para armazenar os pedidos
     const [carregando, setCarregando] = React.useState(true); // Estado para controlar o carregamento
@@ -38,6 +37,7 @@ function CardPedido({user}) {
       async function carregarPedidos() {
         try {
           const resposta = await listarPedidosPorCliente(idCliente);
+          console.log("Pedidos retornados:", resposta.data);
           setPedidos(resposta.data);
         } catch (erro) {
           console.error("Erro ao buscar pedidos:", erro);
@@ -55,17 +55,18 @@ function CardPedido({user}) {
 
   return (
     <>
-      {pedidos.map((pedido) => (
-        <OrderCard key={pedido.id}>
-          <OrderInfo><strong>Pedido # {pedido.id}</strong></OrderInfo>
-          <OrderInfo>Data do Pedido: {pedido.dataPedido}</OrderInfo>
-          <OrderInfo>Status: {pedido.status}</OrderInfo>
-          <OrderInfo>Quantidade de itens: {pedido.itens.length}</OrderInfo>
+      {pedidos.map((pedidos) => (
+        <OrderCard key={pedidos.id}>
+          <OrderInfo><strong>Pedido # {pedidos.id}</strong></OrderInfo>
+          <OrderInfo>  Data do Pedido: {new Date(pedidos.dataPedido).toLocaleDateString("pt-BR")}</OrderInfo>
+          <OrderInfo>Status: {pedidos.status}</OrderInfo>
+          <OrderInfo>Preço: {pedidos.totalPreco}</OrderInfo>
+          <OrderInfo>Quantidade de itens: {pedidos.itens.length}</OrderInfo>
           <ButtonGroup>
-            {pedido.status === "Aguardando aprovação" && (
+            {pedidos.status === "Pendente" && (
               <BotaoVermelho>Cancelar Pedido</BotaoVermelho>
             )}
-            {pedido.status === "Entregue" && (
+            {pedidos.status === "Entregue" && (
               <>
                 <BotaoVerde>Solicitar Troca</BotaoVerde>
                 <BotaoVermelho>Solicitar Devolução</BotaoVermelho>

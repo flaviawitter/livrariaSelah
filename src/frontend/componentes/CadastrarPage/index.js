@@ -1,4 +1,4 @@
-import Input from '../Inputs/Input' 
+import Input from '../Inputs/Input'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import Logo from '../Logo'
@@ -77,6 +77,8 @@ const StyledInputMask = styled(InputMask)`
     margin-top: 30px;
     display: flex;
     align-items: flex-start;
+    font-family: "Bookochi";
+
     
     &::placeholder {
         color: #004A33;
@@ -89,32 +91,32 @@ const StyledInputMask = styled(InputMask)`
     }
 `;
 
-const textoPlaceHolders = [ 'E-mail', 'Senha']
+const textoPlaceHolders = ['E-mail', 'Senha']
 
-function LoginPage( { control } ) {
+function LoginPage({ control }) {
 
     const navigate = useNavigate();
-      const {
+    const {
         register,
         handleSubmit,
-      } = useForm(
+    } = useForm(
         {
-          mode: "onBlur"
+            mode: "onBlur"
         }
-      )
-      const { login } = useContext(AuthContext);
-    
-      const onSubmit = async (data) => {
+    )
+    const { login } = useContext(AuthContext);
+
+    const onSubmit = async (data) => {
         const cliente = {
             email: data.email,
             senha: data.senha,
             nome: data.nome || "Nome do usuário",
             cpf: data.cpf,
             genero: data.genero || "Selecione",
-            dataNascimento: data.dataNascimento ? new Date(data.dataNascimento).toISOString().split("T")[0]: null ,
+            dataNascimento: data.dataNascimento ? new Date(data.dataNascimento).toISOString().split("T")[0] : null,
             ranking: 0,
         };
-    
+
         try {
             const newCliente = await criarCadastro(cliente);
             console.log(newCliente)
@@ -130,38 +132,53 @@ function LoginPage( { control } ) {
             console.error("Erro ao criar cliente front:", error);
         }
     };
-    
+
     const formMethods = useForm();  // Adiciona useForm caso control não seja passado
-        const effectiveControl = control || formMethods.control;
-        const effectiveRegister = register || formMethods.register;
+    const effectiveControl = control || formMethods.control;
+    const effectiveRegister = register || formMethods.register;
 
     return (
         <PageContainer>
             <LeftContainer>
-            <Logo />
+                <Logo />
                 <Titulo >CADASTRE-SE</Titulo>
                 <InputContainer>
-                <div style={{ width: "48%" }}>
-                    <Controller
-                        name="cpf"
-                        control={effectiveControl}
-                        render={({ field }) => (
-                            <StyledInputMask {...field} mask="999.999.999-99" id="cliente-cpf" placeholder="CPF"  {...effectiveRegister("cpf")}/>
-                        )}
-                    />
-                </div>
-                    {textoPlaceHolders.map((placeholder, index) => (
-                        <div key={index} style={{ width: '48%' }}>
-                            <Input placeholder={placeholder}  {...register(placeholder === 'E-mail' ? 'email' : 'senha' )} />
-                        </div>
-                    ))}
-                        <BotaoAmarelo id="cadastrar-botaoEntrar" type="button" onClick={handleSubmit(onSubmit)}>
-                            Entrar
-                        </BotaoAmarelo>
-                </InputContainer>   
+                    <div style={{ width: "48%" }}>
+                        <Controller
+                            name="cpf"
+                            control={effectiveControl}
+                            render={({ field }) => (
+                                <StyledInputMask
+                                    {...field}
+                                    mask="999.999.999-99"
+                                    id="cliente-cpf"
+                                    placeholder="CPF"
+                                    {...effectiveRegister("cpf")}
+                                />
+                            )}
+                        />
+                    </div>
+
+                    <div style={{ width: '48%', marginTop: '10px' }}>
+                        <Input placeholder="E-mail" {...register('email')} />
+                    </div>
+
+                    <div style={{ width: '48%', marginTop: '10px' }}>
+                        <Input placeholder="Senha" type='password'{...register('senha')} />
+                    </div>
+
+                    <BotaoAmarelo
+                        id="cadastrar-botaoEntrar"
+                        type="button"
+                        onClick={handleSubmit(onSubmit)}
+                    >
+                        Entrar
+                    </BotaoAmarelo>
+                </InputContainer>
+
             </LeftContainer>
             <RightContainer>
-                <Titulo style={{fontsize: "40px"}}>BEM VINDO</Titulo> 
+                <Titulo style={{ fontsize: "40px" }}>BEM VINDO</Titulo>
                 <Link to="/login" style={{ textDecoration: 'none' }}>
                     <BotaoVerde id="cadastrar-botaoLogin" type="button">
                         Faça Login

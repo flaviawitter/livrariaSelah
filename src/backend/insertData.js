@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 
 async function insertData() {
   try {
-   /* await prisma.categorias.createMany({
+    await prisma.categorias.createMany({
       data: [
         { nome: 'Suspense Psicológico' },
         { nome: 'Romance' },
@@ -151,7 +151,7 @@ async function insertData() {
         data: estoque,
       });
       
-*/
+
 const livros = [
     {
       "titulo": "A Paciente Silenciosa",
