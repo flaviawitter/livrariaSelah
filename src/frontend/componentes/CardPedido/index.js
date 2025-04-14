@@ -8,6 +8,8 @@ import { useForm, Controller } from "react-hook-form";
 import { listarPedidos, listarPedidosPorCliente } from '../../serviços/pedido';
 import { useContext } from "react";
 import { AuthContext } from "../Context/AuthContext";
+import BotaoSimples from '../Botões/BotaoSimples';
+import { useNavigate } from "react-router-dom";
 
 const OrderCard = styled.div`
   border-bottom: 1px solid #ccc;
@@ -27,7 +29,14 @@ const ExibirDetalhes = (pedido) => {
   console.log("Detalhes do pedido:", pedido.itens);
 };
 
-function CardPedido({ user }) {
+function CardPedido({user}) {
+
+  const navigate = useNavigate();
+
+    const handleLivroClick = () => {
+      navigate(`/detalhes`);
+    };
+
   const { idCliente } = useContext(AuthContext);
   const formMethods = useForm();
 
@@ -54,6 +63,8 @@ function CardPedido({ user }) {
 
   if (carregando) return <p>Carregando pedidos...</p>;
 
+    
+
   return (
     <>
       {pedidos.map((pedido) => (
@@ -67,7 +78,10 @@ function CardPedido({ user }) {
           </OrderInfo>
 
           <ButtonGroup>
-            {pedido.status === "Pendente" && (
+              <BotaoSimples  onClick={() => handleLivroClick()}>+ Detalhes</BotaoSimples>
+          </ButtonGroup>
+          <ButtonGroup>
+            {pedidos.status === "Pendente" && (
               <BotaoVermelho>Cancelar Pedido</BotaoVermelho>
             )}
             {pedido.status === "Entregue" && (

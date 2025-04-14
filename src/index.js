@@ -7,7 +7,6 @@ import { createGlobalStyle } from 'styled-components'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Login from './frontend/rotas/Login';
 import Cadastrar from './frontend/rotas/Cadastrar';
-import Pedidos from './frontend/rotas/Pedidos';
 import Pesquisa from './frontend/rotas/Pesquisa';
 import Livro from './frontend/rotas/Livro';
 import Carrinho from './frontend/rotas/Carrinho';
@@ -21,6 +20,7 @@ import ResumoPedido from './frontend/rotas/ResumoPedido'
 import { AuthProvider } from "../src/frontend/componentes/Context/AuthContext";
 import { ToastProvider } from '../src/frontend/componentes/Context/ToastContext';
 import Toast from '../src/frontend/componentes/Toast';
+import Detalhes from './frontend/rotas/DetalhesPedido';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -59,7 +59,7 @@ root.render(
         <Route path='/dados' element = {<Dados />} />
         <Route path='/login' element = {<Login/>} />
         <Route path='/cadastrar' element = {<Cadastrar/>} />
-        <Route path='/pedidos' element = {<Pedidos/>} />
+        <Route path='/detalhes' element = {<Detalhes/>} />
         <Route path='/pesquisa' element = {<Pesquisa/>} />
         <Route path='/livro/:id' element = {<Livro/>} />
         <Route path='/carrinho' element = {<Carrinho/>} />
