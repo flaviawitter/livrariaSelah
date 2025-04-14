@@ -23,56 +23,64 @@ const ButtonGroup = styled.div`
   margin-top: 10px;
 `;
 
+const ExibirDetalhes = (pedido) => {
+  console.log("Detalhes do pedido:", pedido.itens);
+};
 
-function CardPedido({user}) {
+function CardPedido({ user }) {
   const { idCliente } = useContext(AuthContext);
+  const formMethods = useForm();
 
-  console.log("ID do cliente:", idCliente); // Verifica se o ID do cliente está sendo passado corretamente
-    const formMethods = useForm();  // Adiciona useForm caso control não seja passado
+  const [pedidos, setPedidos] = React.useState([]);
+  const [carregando, setCarregando] = React.useState(true);
 
-    const [pedidos, setPedidos] = React.useState([]); // Estado para armazenar os pedidos
-    const [carregando, setCarregando] = React.useState(true); // Estado para controlar o carregamento
-
-    useEffect(() => {
-      async function carregarPedidos() {
-        try {
-          const resposta = await listarPedidosPorCliente(idCliente);
-          console.log("Pedidos retornados:", resposta.data);
-          setPedidos(resposta.data);
-        } catch (erro) {
-          console.error("Erro ao buscar pedidos:", erro);
-        } finally {
-          setCarregando(false);
-        }
+  useEffect(() => {
+    async function carregarPedidos() {
+      try {
+        const resposta = await listarPedidosPorCliente(idCliente);
+        console.log("Pedidos retornados:", resposta.data);
+        setPedidos(resposta.data);
+      } catch (erro) {
+        console.error("Erro ao buscar pedidos:", erro);
+      } finally {
+        setCarregando(false);
       }
-  
-      if (idCliente) {
-        carregarPedidos();
-      }
-    }, [idCliente]);
-  
-    if (carregando) return <p>Carregando pedidos...</p>;
+    }
+
+    if (idCliente) {
+      carregarPedidos();
+    }
+  }, [idCliente]);
+
+  if (carregando) return <p>Carregando pedidos...</p>;
 
   return (
     <>
-      {pedidos.map((pedidos) => (
-        <OrderCard key={pedidos.id}>
-          <OrderInfo><strong>Pedido # {pedidos.id}</strong></OrderInfo>
-          <OrderInfo>  Data do Pedido: {new Date(pedidos.dataPedido).toLocaleDateString("pt-BR")}</OrderInfo>
-          <OrderInfo>Status: {pedidos.status}</OrderInfo>
-          <OrderInfo>Preço: {pedidos.totalPreco}</OrderInfo>
-          <OrderInfo>Quantidade de itens: {pedidos.itens.length}</OrderInfo>
+      {pedidos.map((pedido) => (
+        <OrderCard key={pedido.id}>
+          <OrderInfo><strong>Pedido # {pedido.id}</strong></OrderInfo>
+          <OrderInfo>Data do Pedido: {new Date(pedido.dataPedido).toLocaleDateString("pt-BR")}</OrderInfo>
+          <OrderInfo>Status: {pedido.status}</OrderInfo>
+          <OrderInfo>Preço: {pedido.totalPreco}</OrderInfo>
+          <OrderInfo>
+            Quantidade de itens: {pedido.itens ? pedido.itens.length : 0}
+          </OrderInfo>
+
           <ButtonGroup>
-            {pedidos.status === "Pendente" && (
+            {pedido.status === "Pendente" && (
               <BotaoVermelho>Cancelar Pedido</BotaoVermelho>
             )}
-            {pedidos.status === "Entregue" && (
+            {pedido.status === "Entregue" && (
               <>
                 <BotaoVerde>Solicitar Troca</BotaoVerde>
                 <BotaoVermelho>Solicitar Devolução</BotaoVermelho>
               </>
             )}
           </ButtonGroup>
+
+          <BotaoVerde onClick={() => ExibirDetalhes(pedido)}>
+            Exibir detalhes
+          </BotaoVerde>
         </OrderCard>
       ))}
     </>

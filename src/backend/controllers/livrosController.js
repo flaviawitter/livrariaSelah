@@ -46,9 +46,20 @@ const buscarLivrosPorTermo = async (req, res) => {
     try {
         const livros = await prisma.livros.findMany({
             where: {
-                titulo: {
-                    contains: termo.trim(),
-                }
+                OR: [
+                    {
+                        titulo: {
+                            contains: termo.trim()
+                        }
+                    },
+                    {
+                        autores: {
+                            nome: {
+                                contains: termo.trim()
+                            }
+                        }
+                    }
+                ]
             },
             include: {
                 autores: true,
@@ -69,6 +80,7 @@ const buscarLivrosPorTermo = async (req, res) => {
         res.status(500).json({ erro: "Erro ao buscar livros." });
     }
 };
+
 
 
 // Criar um novo livro

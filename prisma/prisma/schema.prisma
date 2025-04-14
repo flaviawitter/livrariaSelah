@@ -13,7 +13,7 @@ model autores {
   dataNascimento DateTime?
   nacionalidade  String?
 
-  livros         livros[]
+  livros         livros[] 
 }
 
 
