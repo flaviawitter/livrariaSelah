@@ -8,8 +8,7 @@ import { useForm, Controller } from "react-hook-form";
 import { listarPedidos, listarPedidosPorCliente } from '../../serviços/pedido';
 import { useContext } from "react";
 import { AuthContext } from "../Context/AuthContext";
-import BotaoSimples from '../Botões/BotaoSimples';
-import { useNavigate } from "react-router-dom";
+import { Link } from 'react-router-dom'
 
 const OrderCard = styled.div`
   border-bottom: 1px solid #ccc;
@@ -27,13 +26,6 @@ const ButtonGroup = styled.div`
 
 
 function CardPedido({user}) {
-
-  const navigate = useNavigate();
-
-    const handleLivroClick = () => {
-      navigate(`/detalhes`);
-    };
-
   const { idCliente } = useContext(AuthContext);
 
   console.log("ID do cliente:", idCliente); // Verifica se o ID do cliente está sendo passado corretamente
@@ -60,22 +52,16 @@ function CardPedido({user}) {
       }
     }, [idCliente]);
   
-    if (carregando) return <p>Carregando pedidos...</p>;
-
-    
+    if (carregando) return <p>Carregando detalhes...</p>;
 
   return (
     <>
       {pedidos.map((pedidos) => (
-        <OrderCard key={pedidos.id}>
-          <OrderInfo><strong>Pedido # {pedidos.id}</strong></OrderInfo>
-          <OrderInfo>  Data do Pedido: {new Date(pedidos.dataPedido).toLocaleDateString("pt-BR")}</OrderInfo>
-          <OrderInfo>Status: {pedidos.status}</OrderInfo>
-          <OrderInfo>Preço: {pedidos.totalPreco}</OrderInfo>
-          <OrderInfo>Quantidade de itens: {pedidos.itens.length}</OrderInfo>
-          <ButtonGroup>
-              <BotaoSimples  onClick={() => handleLivroClick()}>+ Detalhes</BotaoSimples>
-          </ButtonGroup>
+        <OrderCard >
+          <OrderInfo><strong>Nome: Nome do Livro </strong></OrderInfo>
+          <OrderInfo>Status: Troca realizada</OrderInfo>
+          <OrderInfo>Preço: R$9,99</OrderInfo>
+          <OrderInfo>Quantidade de itens: 1</OrderInfo>
           <ButtonGroup>
             {pedidos.status === "Pendente" && (
               <BotaoVermelho>Cancelar Pedido</BotaoVermelho>
