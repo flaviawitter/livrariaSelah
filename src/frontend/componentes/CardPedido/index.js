@@ -25,17 +25,14 @@ const ButtonGroup = styled.div`
   margin-top: 10px;
 `;
 
-const ExibirDetalhes = (pedido) => {
-  console.log("Detalhes do pedido:", pedido.itens);
-};
-
-function CardPedido({user}) {
+function CardPedido({ user }) {
 
   const navigate = useNavigate();
 
-    const handleLivroClick = () => {
-      navigate(`/detalhes`);
-    };
+  const handleLivroClick = (pedido) => {
+    navigate(`/detalhes`, { state: { pedidoSelecionado: pedido } });
+  };
+
 
   const { idCliente } = useContext(AuthContext);
   const formMethods = useForm();
@@ -63,7 +60,7 @@ function CardPedido({user}) {
 
   if (carregando) return <p>Carregando pedidos...</p>;
 
-    
+
 
   return (
     <>
@@ -78,7 +75,7 @@ function CardPedido({user}) {
           </OrderInfo>
 
           <ButtonGroup>
-              <BotaoSimples  onClick={() => handleLivroClick()}>+ Detalhes</BotaoSimples>
+            <BotaoSimples onClick={() => handleLivroClick(pedido)}>+ Detalhes</BotaoSimples>
           </ButtonGroup>
           <ButtonGroup>
             {pedidos.status === "Pendente" && (
@@ -92,9 +89,7 @@ function CardPedido({user}) {
             )}
           </ButtonGroup>
 
-          <BotaoVerde onClick={() => ExibirDetalhes(pedido)}>
-            Exibir detalhes
-          </BotaoVerde>
+
         </OrderCard>
       ))}
     </>

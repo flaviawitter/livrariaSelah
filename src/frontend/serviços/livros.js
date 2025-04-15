@@ -11,7 +11,7 @@ async function listarLivros() {
     }
 }
 
-async function buscarLivro(id) {
+async function buscarLivroPorId(id) {
     try {
         const response = await axios.get(`${livrosAPI}/${id}`);
         return response.data; // Retorna apenas o livro específico
@@ -34,5 +34,5 @@ async function buscarLivrosPorTermo(termo) {
 
 
 export {
-    listarLivros, buscarLivro, buscarLivrosPorTermo
+    listarLivros, buscarLivroPorId, buscarLivrosPorTermo
 } 

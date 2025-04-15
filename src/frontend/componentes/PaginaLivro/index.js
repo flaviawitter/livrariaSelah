@@ -4,7 +4,7 @@ import BotaoCinza from '../Botões/BotaoCinza'
 import BotaoVermelho from '../Botões/BotaoVermelho';
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa'
 import { useParams } from "react-router-dom";
-import { buscarLivro } from "../../serviços/livros"; 
+import { buscarLivro, buscarLivroPorId } from "../../serviços/livros"; 
 import { useEffect, useState } from "react";
 import dadosFavoritos from "../Favoritos/dadosFavoritos";
 import { useToast } from "../Context/ToastContext";
@@ -104,7 +104,7 @@ const renderStars = (rating) => {
     useEffect(() => {
       async function carregarLivro() {
           try {
-              const livroEncontrado = await buscarLivro(id);
+              const livroEncontrado = await buscarLivroPorId(id);
               console.log("Livro encontrado:", livroEncontrado);
               setLivro(livroEncontrado);
           } catch (erro) {

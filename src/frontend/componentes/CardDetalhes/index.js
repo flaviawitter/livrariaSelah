@@ -1,14 +1,9 @@
+import { useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
 import styled from 'styled-components';
 import BotaoVerde from '../Botões/BotaoVerde';
 import BotaoVermelho from '../Botões/BotaoVermelho';
-import dadosCard from './dadosCard';
-import React from "react";
-import { useEffect } from 'react'
-import { useForm, Controller } from "react-hook-form";
-import { listarPedidos, listarPedidosPorCliente } from '../../serviços/pedido';
-import { useContext } from "react";
-import { AuthContext } from "../Context/AuthContext";
-import { Link } from 'react-router-dom'
+import { buscarLivroPorId } from '../../serviços/livros';
 
 const OrderCard = styled.div`
   border-bottom: 1px solid #ccc;
@@ -19,64 +14,65 @@ const OrderInfo = styled.p`
   color: #333;
 `;
 const ButtonGroup = styled.div`
-  display: flex;
+  display: flex; 
   gap: 10px;
   margin-top: 10px;
 `;
 
+function DetalhesPedido() {
+  const { state } = useLocation();
+  const { pedidoSelecionado } = state || {};
 
-function CardPedido({user}) {
-  const { idCliente } = useContext(AuthContext);
+  const [livros, setLivros] = useState({});
 
-  console.log("ID do cliente:", idCliente); // Verifica se o ID do cliente está sendo passado corretamente
-    const formMethods = useForm();  // Adiciona useForm caso control não seja passado
-
-    const [pedidos, setPedidos] = React.useState([]); // Estado para armazenar os pedidos
-    const [carregando, setCarregando] = React.useState(true); // Estado para controlar o carregamento
-
-    useEffect(() => {
-      async function carregarPedidos() {
+  useEffect(() => {
+    async function buscarLivros() {
+      const resultados = {};
+      for (const item of pedidoSelecionado.itens) {
         try {
-          const resposta = await listarPedidosPorCliente(idCliente);
-          console.log("Pedidos retornados:", resposta.data);
-          setPedidos(resposta.data);
+          const resposta = await buscarLivroPorId(item.livroId);
+          resultados[item.livroId] = resposta;          
         } catch (erro) {
-          console.error("Erro ao buscar pedidos:", erro);
-        } finally {
-          setCarregando(false);
+          console.error(`Erro ao buscar livro ${item.livroId}:`, erro);
         }
       }
-  
-      if (idCliente) {
-        carregarPedidos();
-      }
-    }, [idCliente]);
-  
-    if (carregando) return <p>Carregando detalhes...</p>;
+      setLivros(resultados);
+    }
+
+    if (pedidoSelecionado) {
+      buscarLivros();
+    }
+  }, [pedidoSelecionado]);
+
+  if (!pedidoSelecionado) return <p>Pedido não encontrado.</p>;
 
   return (
-    <>
-      {pedidos.map((pedidos) => (
-        <OrderCard >
-          <OrderInfo><strong>Nome: Nome do Livro </strong></OrderInfo>
-          <OrderInfo>Status: Troca realizada</OrderInfo>
-          <OrderInfo>Preço: R$9,99</OrderInfo>
-          <OrderInfo>Quantidade de itens: 1</OrderInfo>
-          <ButtonGroup>
-            {pedidos.status === "Pendente" && (
-              <BotaoVermelho>Cancelar Pedido</BotaoVermelho>
-            )}
-            {pedidos.status === "Entregue" && (
-              <>
-                <BotaoVerde>Solicitar Troca</BotaoVerde>
-                <BotaoVermelho>Solicitar Devolução</BotaoVermelho>
-              </>
-            )}
-          </ButtonGroup>
-        </OrderCard>
-      ))}
-    </>
+    <OrderCard>
+      <OrderInfo><strong>Itens do Pedido:</strong></OrderInfo>
+      {pedidoSelecionado.itens.map((item, index) => {
+        const livro = livros[item.livroId];
+        return (
+          <div key={index}>
+            <OrderInfo><strong>Livro:</strong> {livro ? livro.titulo : 'Carregando...'}</OrderInfo>
+            <OrderInfo>Preço Unitário: R$ {livro ? livro.precoVenda : 'Carregando...'}</OrderInfo>
+            <OrderInfo>Quantidade: {item.quantidade}</OrderInfo>
+            <OrderInfo>Status do Item: {item.status}</OrderInfo>
+            <ButtonGroup>
+              {pedidoSelecionado.status === "Pendente" && (
+                <BotaoVermelho>Cancelar Pedido</BotaoVermelho>
+              )}
+              {pedidoSelecionado.status === "Entregue" && (
+                <>
+                  <BotaoVerde>Solicitar Troca</BotaoVerde>
+                  <BotaoVermelho>Solicitar Devolução</BotaoVermelho>
+                </>
+              )}
+            </ButtonGroup>
+          </div>
+        );
+      })}
+    </OrderCard>
   );
 }
 
-export default CardPedido;
+export default DetalhesPedido;

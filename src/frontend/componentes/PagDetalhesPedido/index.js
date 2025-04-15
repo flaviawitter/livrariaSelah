@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import CardDetalhes from '../CardDetalhes';
+import { useLocation } from 'react-router-dom';
 
 const Container = styled.div`
   width: 100vw;
@@ -12,6 +13,7 @@ const Container = styled.div`
   font-family: 'Bookochi';
   letter-spacing: 0.22em;
 `;
+
 const Title = styled.h2`
   color: #095F54;
   font-size: 32px;
@@ -19,49 +21,29 @@ const Title = styled.h2`
   letter-spacing: 0.22em;
   margin-left: 20px;
 `;
-const FilterSection = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 20px 0;
-  margin-left: 20px;
 
-  label {
-    font-size: 14px;
-    color: #333;
-  }
-
-  input, select {
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-`;
 const OrderList = styled.div`
   width: 80%;
   margin-left: 20px;
 `;
+
 const OrderCard = styled.div`
   border-bottom: 1px solid #ccc;
   padding: 15px 0;
 `;
-const OrderInfo = styled.p`
-  font-size: 14px;
-  color: #333;
-`;
-const ButtonGroup = styled.div`
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-`;
 
 function PagDetalhesPedido() {
+  const { state } = useLocation();
+  const { pedidoSelecionado } = state || {};
+
+  if (!pedidoSelecionado) return <p>Nenhum pedido selecionado.</p>;
+
   return (
     <Container>
-      <Title>PEDIDO #1</Title>
+      <Title>PEDIDO #{pedidoSelecionado.id}</Title>
       <OrderList>
         <OrderCard>
-          <CardDetalhes/>
+          <CardDetalhes pedidoSelecionado={pedidoSelecionado} />
         </OrderCard>
       </OrderList>
     </Container>

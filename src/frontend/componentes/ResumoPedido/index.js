@@ -85,7 +85,7 @@ const ResumoPedido = () => {
           for (const livro of livrosSelecionados) {
             const itemPedido = {
                 livroId: livro.id,
-                precoUnidade: livro.preco ? parseFloat(livro.precoVenda.toString().replace(',', '.')) : 0,
+                precoUnidade: livro.precoVenda ? parseFloat(livro.precoVenda.toString().replace(',', '.')) : 0,
                 quantidade: Number(livro.quantidade),
                 status: "Pendente",
                 pedidoId: idPedidos

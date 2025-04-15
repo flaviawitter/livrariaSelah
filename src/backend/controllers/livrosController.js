@@ -27,7 +27,7 @@ const buscarLivroPorId = async (req, res) => {
         const livros = await prisma.livros.findUnique({
             where: { id: Number(id) },
             include: {
-                autores: true,  // Padronizando o nome dos relacionamentos
+                autores: true,  
                 editoras: true,
                 fornecedor: true,
                 categorias: true,
