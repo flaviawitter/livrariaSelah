@@ -22,7 +22,6 @@ const ModalContainer = styled.div`
   align-items: center;
   z-index: 1000;
 `;
-
 const ModalContent = styled.div`
  background-color: white;
   padding: 10px;
@@ -35,7 +34,6 @@ const ModalContent = styled.div`
   justify-content: space-between;
   margin-bottom: 0;
 `;
-
 const CloseButton = styled.button`
   background-color: #c7511b;
   color: white;
@@ -46,7 +44,6 @@ const CloseButton = styled.button`
   width: 100%;
   border: 0;
 `;
-
 const ModalBotoes = styled.div`
     display: flex;
     justify-content: center;
@@ -56,17 +53,16 @@ const ModalBotoes = styled.div`
     border: 0;
 `
 
-
-function ModalEndereco({ showModal, setShowModal, register, handleSubmit, reset }) {
+function ModalEndereco({ showModal, setShowModal, register, handleSubmit, reset, setEnderecos }) {
   
   const { idCliente } = useContext(AuthContext);
 
   useEffect(() => {
-    if (showModal) {
-      reset(); // Reseta os valores ao abrir o modal
-    }
-    console.log("ID do cliente carregado no modal:", idCliente);
+    if (showModal) reset(); // Reseta os valores ao abrir o modal
   }, [idCliente, showModal, reset]);
+
+    console.log("ID do cliente carregado no modal endereco:", idCliente);
+
   
     const onSubmit = async (data) => {    
 
@@ -103,8 +99,9 @@ function ModalEndereco({ showModal, setShowModal, register, handleSubmit, reset 
         console.log('endereco:', endereco);
 
         try {
-          await criarEnderecoNovo(idCliente, endereco); 
-          console.log();
+          const resposta = await criarEnderecoNovo(idCliente, endereco);
+          const novoEndereco = resposta.data;
+          setEnderecos(prev => [...prev, novoEndereco]); // <-- Atualiza lista
           setShowModal(false);
         } catch (error) {
           console.error("Erro ao inserir endereço:", error);

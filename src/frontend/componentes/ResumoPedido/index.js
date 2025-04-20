@@ -5,6 +5,10 @@ import BotaoVermelho from "../Botões/BotaoVermelho";
 import { useNavigate, useLocation, data } from "react-router-dom";
 import { AuthContext } from "../Context/AuthContext"
 import { criarPedido, criarItemPedido } from "../../serviços/pedido";
+import { useForm } from "react-hook-form";
+import BotaoCinza from '../Botões/BotaoCinza';
+import ModalEndereco from '../ModalEndereco';
+import ModalCartao from '../ModalCartao';
 
 const ContainerResumo = styled.div`
     width: 90%;
@@ -45,6 +49,11 @@ const OpcaoItem = styled.div`
     flex: 1;
     padding: 10px;
 `;
+const OpcaoAdicionar = styled.div`
+    flex: 1;
+    padding: 10px;
+    width: 30%;
+`;
 const TextoResumo = styled.p`
     font-size: 16px;
     color: #333;
@@ -61,11 +70,26 @@ const ResumoPedido = () => {
     const [enderecoSelecionado, setEnderecoSelecionado] = useState(null);
     const [cartaoSelecionado, setCartaoSelecionado] = useState(null);
 
-    const { user } = useContext(AuthContext);
+    const { user, idCliente } = useContext(AuthContext);
     console.log("user", user);
 
     const navigate = useNavigate();
+    const [showModalEndereco, setShowModalEndereco] = useState(false);  
+    const [showModalCartao, setShowModalCartao] = useState(false);
+    const [enderecos, setEnderecos] = useState(user?.enderecos || []);
+    const [cartoes, setCartoes] = useState(user?.cartoes || []);
 
+
+    const {
+        register,
+        handleSubmit,
+        reset
+      } = useForm(
+        {
+          mode: "onBlur"
+        }
+      );
+      
     const handleFinalizarPedido = async () => {
         try {
           const pedidos = {
@@ -122,7 +146,7 @@ const ResumoPedido = () => {
             <Secao>
                 <h3>Selecione um endereço:</h3>
                 <OpcoesLista>
-                {user?.enderecos?.map((endereco, index) => (
+                {enderecos.map((endereco, index) => (
                     <OpcaoItem key={index}>
                         <input
                         type="radio"
@@ -137,14 +161,16 @@ const ResumoPedido = () => {
                         </label>
                     </OpcaoItem>
                     ))}
-
+                    <OpcaoAdicionar>
+                        <BotaoCinza id="resumoPedido-botaoAdicionarEndereco" onClick={() => setShowModalEndereco(true)}>Adicionar Endereço</BotaoCinza>
+                    </OpcaoAdicionar>
                 </OpcoesLista>
             </Secao>
 
             <Secao>
                 <h3>Selecione um Cartão:</h3>
                 <OpcoesLista>
-                {user?.cartoes?.map((cartao, index) => (
+                {cartoes.map((cartao, index) => (
                     <OpcaoItem key={index}>
                         <input
                         type="radio"
@@ -159,6 +185,9 @@ const ResumoPedido = () => {
                         </label>
                     </OpcaoItem>
                     ))}
+                    <OpcaoAdicionar>
+                        <BotaoCinza id="resumoPedido-botaoAdicionarCartao" onClick={() => setShowModalCartao(true)}>Adicionar Cartão</BotaoCinza>
+                    </OpcaoAdicionar>
                 </OpcoesLista>
                 <Secao>
                     <TextoResumo>Sub-total: R${subtotal.toFixed(2)}</TextoResumo>
@@ -169,6 +198,24 @@ const ResumoPedido = () => {
             </Secao>
 
             <BotaoVermelho onClick={handleFinalizarPedido}>Finalizar Pedido</BotaoVermelho>
+
+            <ModalEndereco
+                showModal={showModalEndereco}
+                setShowModal={setShowModalEndereco}
+                register={register}
+                handleSubmit={handleSubmit}
+                idCliente={idCliente} 
+                reset={reset}
+                setEnderecos={setEnderecos}
+            />
+
+            <ModalCartao
+                showModal={showModalCartao}
+                setShowModal={setShowModalCartao}
+                idCliente={idCliente}
+                setCartoes={setCartoes}
+            />
+
         </ContainerResumo>
     );
 };

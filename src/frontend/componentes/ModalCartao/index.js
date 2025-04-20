@@ -5,6 +5,7 @@ import BotaoCinza from '../Botões/BotaoCinza';
 import FormCartaoModal from '../FormsDados/FormCartaoModal';
 import { criarCartaoNovo } from '../../serviços/cartao';
 import { AuthContext } from '../Context/AuthContext';
+import { useForm } from 'react-hook-form';
 
 
 const ModalContainer = styled.div`
@@ -45,10 +46,10 @@ const ModalBotoes = styled.div`
     justify-content: space-between;
 `
 
-
-function ModalCartao({ showModal, setShowModal, register, handleSubmit }) {
+function ModalCartao({ showModal, setShowModal, setCartoes }) {
 
   const { idCliente } = useContext(AuthContext);
+  const { register, handleSubmit, reset } = useForm();
 
   useEffect(() => {
     console.log("ID do cliente carregado no modal:", idCliente);
@@ -87,7 +88,10 @@ function ModalCartao({ showModal, setShowModal, register, handleSubmit }) {
     
   
     try {
-      await criarCartaoNovo(idCliente, cartao); 
+      const resposta = await criarCartaoNovo(idCliente, cartao);
+      const novoCartao = resposta.data;
+      setCartoes(prev => [...prev, novoCartao]); // Atualiza lista de cartões
+      reset(); 
       setShowModal(false);
     } catch (error) {
       console.error("Erro ao inserir cartão:", error);
