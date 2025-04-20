@@ -33,6 +33,7 @@ const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  margin-bottom: 0;
 `;
 
 const CloseButton = styled.button`
@@ -51,6 +52,7 @@ const ModalBotoes = styled.div`
     justify-content: center;
     align-items: center;
     justify-content: space-between;
+    margin-top: 0;
     border: 0;
 `
 
@@ -84,9 +86,9 @@ function ModalEndereco({ showModal, setShowModal, register, handleSubmit, reset 
           numero: parseInt(data.numeroEndereco),
           bairro: data.bairro,
           cep: data.cep,
-          tipoResidencia: data.tpResidencia,
-          tipoLogradouro: data.tpLogradouro,
-          tipoEndereco: data.tpEndereco,
+          tipoResidencia: data.tipoResidencia,
+          tipoLogradouro: data.tipoLogradouro,
+          tipoEndereco: data.tipoEndereco,
           preferencial: data.preferencial ? true : false
         }
 
@@ -98,6 +100,7 @@ function ModalEndereco({ showModal, setShowModal, register, handleSubmit, reset 
         console.log(data.cep);
         console.log(data.tpResidencia);
         console.log(data.tpEndereco);
+        console.log('endereco:', endereco);
 
         try {
           await criarEnderecoNovo(idCliente, endereco); 
@@ -115,19 +118,17 @@ function ModalEndereco({ showModal, setShowModal, register, handleSubmit, reset 
   return (
     <ModalContainer>
       <ModalContent>
-          <form onSubmit={handleSubmit(onSubmit)}>
-    <FormEnderecoModal register={register} />
-    <ModalBotoes>
-      <BotaoVermelho id="modal-botaoEnderecoCadastrar" type="submit">Salvar Endereço</BotaoVermelho>
-      <BotaoCinza id="modal-botaoEnderecoFechar" onClick={onClose}>Fechar</BotaoCinza>
-  </ModalBotoes>
-</form>
-
+        <FormEnderecoModal register={register} />
+        <ModalBotoes>
+          <BotaoVermelho id="modal-botaoEnderecoCadastrar" type="submit" onClick={handleSubmit(onSubmit)}>Salvar Endereço</BotaoVermelho>
+          <BotaoCinza id="modal-botaoEnderecoFechar" onClick={onClose}>Fechar</BotaoCinza>
+        </ModalBotoes>
       </ModalContent>
     </ModalContainer>
   );
 }
 
 export default ModalEndereco;
+
 
 

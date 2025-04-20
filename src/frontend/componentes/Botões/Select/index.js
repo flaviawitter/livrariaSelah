@@ -30,9 +30,9 @@ const SelectWrapper = styled.select`
   }
 `;
 
-const Select = React.forwardRef(({ options, id, name, placeholder, ...props }, ref) => {
+const Select = React.forwardRef(({ options, id, placeholder, ...props }, ref) => {
     return (
-        <SelectWrapper id={id} name={name} ref={ref} {...props}>
+        <SelectWrapper id={id} ref={ref} {...props}>
             <option value="">{placeholder}</option>
             {options.map((option, index) => (
                 <option key={index} value={option}>

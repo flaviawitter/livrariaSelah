@@ -3,16 +3,14 @@ import styled from "styled-components";
 import Select from "../../Botões/Select";
 import InputMask from 'react-input-mask';
 
-
 const FormContainer = styled.section`
     color: #FFF;
     text-align: center;
     height: auto;
     width: 90%;
     margin: 15px;
-    margin-bottom: 50px;
+    margin-bottom: 5px;
 `;
-
 const Titulo = styled.h2`
     color: #095F54;
     font-size: 32px;
@@ -20,7 +18,6 @@ const Titulo = styled.h2`
     width: 100%;
     margin-bottom: 5px;
 `;
-
 const Opcoes = styled.ul`
     display: flex;
     flex-wrap: wrap;
@@ -28,8 +25,8 @@ const Opcoes = styled.ul`
     padding: 0;
     list-style-type: none;
     margin-top: 0;
+    margin-bottom: 0;
 `;
-
 const CheckboxLabel = styled.label`
     color: #095F54;
     font-size: 16px;
@@ -39,7 +36,6 @@ const CheckboxLabel = styled.label`
     font-family: "Bookochi";
     letter-spacing: 0.22em;
 `;
-
 const StyledInputMask = styled(InputMask)`
    background-color: #CACACA;
     backdrop-filter: blur(10px);
@@ -89,8 +85,8 @@ function FormEnderecoModal({register}) {
                  <li key={"cidade"} style={{ width: "48%" }}>
                      <Select options={cidades} id="modal-enderecoCidade" placeholder="Selecione a cidade" registro={"cidade"} {...register("cidade")} />
                  </li>
-                 <li key={"tpLogradouro"} style={{ width: "45%" }}>
-                     <Select options={tiposLogradouro} id="modal-enderecoTpLogradouro" placeholder="Selecione o tipo de logradouro" registro={"tpLogradouro"} {...register("tipoLogradouro")}/>
+                 <li key={"tipoLogradouro"} style={{ width: "45%" }}>
+                     <Select options={tiposLogradouro} id="modal-enderecoTpLogradouro" placeholder="Selecione o tipo de logradouro" name="tipoLogradouro" {...register("tipoLogradouro")}/>
                  </li>
                  <li key={"logradouro"} style={{ width: "45%" }}>
                      <Input placeholder={"Logradouro"} id="modal-enderecoLogradouro" {...register("logradouro")} />
