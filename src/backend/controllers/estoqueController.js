@@ -15,17 +15,13 @@ const listarEstoque = async (req, res) => {
     }
 };
 
-// Buscar registro de estoque por ID
 const buscarEstoquePorId = async (req, res) => {
-    const { id } = req.params;
+    const {id} = req.params;
+    
     try {
         const estoque = await prisma.estoque.findUnique({
-            where: { id: Number(id) },
-            include: {
-                livro: true
-            }
+            where: { livroId: Number(id)}
         });
-        if (!estoque) return res.status(404).json({ erro: "Registro de estoque não encontrado." });
         res.json(estoque);
     } catch (error) {
         res.status(500).json({ erro: "Erro ao buscar o registro de estoque." });
@@ -37,9 +33,9 @@ const adicionarEstoque = async (req, res) => {
     const { livro_id, quantidade, data_entrada } = req.body;
     try {
         const novoEstoque = await prisma.estoque.create({
-            data: { 
-                livro_id: Number(livro_id), 
-                quantidade: Number(quantidade), 
+            data: {
+                livro_id: Number(livro_id),
+                quantidade: Number(quantidade),
                 ultima_atualizacao: new Date(),
                 data_entrada: new Date(data_entrada)
             }
@@ -57,9 +53,9 @@ const atualizarEstoque = async (req, res) => {
     try {
         const estoqueAtualizado = await prisma.estoque.update({
             where: { id: Number(id) },
-            data: { 
-                livro_id: Number(livro_id), 
-                quantidade: Number(quantidade), 
+            data: {
+                livro_id: Number(livro_id),
+                quantidade: Number(quantidade),
                 ultima_atualizacao: new Date(),
                 data_entrada: new Date(data_entrada)
             }
@@ -81,4 +77,43 @@ const excluirEstoque = async (req, res) => {
     }
 };
 
-module.exports = { listarEstoque, buscarEstoquePorId, adicionarEstoque, atualizarEstoque, excluirEstoque };
+const diminuirQuantidadeLivro = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const livroAtualizado = await prisma.estoque.update({
+            where: { livroId: Number(id) },
+            data: {
+                quantidade: {
+                    decrement: 1
+                }
+            }
+        });
+        res.json(livroAtualizado);
+    } catch (error) {
+        console.error("Erro ao diminuir quantidade:", error);
+        res.status(500).json({ erro: "Erro ao diminuir quantidade do livro." });
+    }
+};
+
+const acrescentarQuantidadeLivro = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const livroAtualizado = await prisma.estoque.update({
+            where: { livroId: Number(id) },
+            data: {
+                quantidade: {
+                    increment: 1
+                }
+            }
+        });
+        res.json(livroAtualizado);
+    } catch (error) {
+        console.error("Erro ao acrescentar quantidade:", error);
+        res.status(500).json({ erro: "Erro ao acrescentar quantidade do livro." });
+    }
+};
+
+
+module.exports = { listarEstoque, buscarEstoquePorId, adicionarEstoque, atualizarEstoque, excluirEstoque, diminuirQuantidadeLivro, acrescentarQuantidadeLivro };

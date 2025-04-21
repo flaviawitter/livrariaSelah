@@ -5,6 +5,7 @@ import BotaoVermelho from "../Botões/BotaoVermelho"
 import BotaoSimples from "../Botões/BotaoSimples"
 import { useNavigate } from "react-router-dom";
 import { useToast } from "../Context/ToastContext";
+import { acrescentarQuantidadeLivro } from "../../serviços/estoque";
 
 
 const ContainerCarrinho = styled.div`
@@ -122,7 +123,6 @@ const CarrinhoCompras = () => {
     console.log("carrinho pedido:", carrinhoSalvo);
   }, []);
 
-  // Atualiza subtotal e total sempre que o carrinho ou frete mudam
   useEffect(() => {
     const novoSubTotal = livrosSelecionados.reduce((acc, livro) => {
       const preco = livro.precoVenda ? parseFloat(livro.precoVenda) : 0;
@@ -139,13 +139,19 @@ const CarrinhoCompras = () => {
     { label: "Entrega no mesmo dia - R$29,99", valor: 29.99 }
   ];
 
-  const removerDoCarrinho = (index) => {
-    console.log('Clicou no botão remover');
-    const novoCarrinho = livrosSelecionados.filter((_, i) => i !== index);
-    setLivrosSelecionados(novoCarrinho);
-    localStorage.setItem('carrinho', JSON.stringify(novoCarrinho));
+  const removerDoCarrinho = async (index) => {  
+    const livro = livrosSelecionados[index]; // capturar o livro antes de filtrar o carrinho
   
-    showToast('Livro removido do carrinho!', 'warning');
+    try {
+      await acrescentarQuantidadeLivro(livro.id);
+      const novoCarrinho = livrosSelecionados.filter((_, i) => i !== index);
+      setLivrosSelecionados(novoCarrinho);
+      localStorage.setItem('carrinho', JSON.stringify(novoCarrinho));
+      showToast('Livro removido do carrinho!', 'warning');
+    } catch (error) {
+      console.error("Erro ao acrescentar quantidade no estoque:", error);
+      showToast('Erro ao remover livro do carrinho!', 'error');
+    }
   };
   
 

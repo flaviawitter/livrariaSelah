@@ -148,4 +148,5 @@ const excluirLivro = async (req, res) => {
     }
 };
 
-module.exports = { listarLivros, buscarLivroPorId, buscarLivrosPorTermo, criarLivro, atualizarLivro, excluirLivro };
+
+module.exports = { listarLivros, buscarLivroPorId, buscarLivrosPorTermo, criarLivro, atualizarLivro, excluirLivro};

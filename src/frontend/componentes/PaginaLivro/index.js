@@ -4,10 +4,11 @@ import BotaoCinza from '../Botões/BotaoCinza'
 import BotaoVermelho from '../Botões/BotaoVermelho';
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa'
 import { useParams } from "react-router-dom";
-import { buscarLivro, buscarLivroPorId } from "../../serviços/livros"; 
+import { buscarLivro, buscarLivroPorId } from "../../serviços/livros";
 import { useEffect, useState } from "react";
 import dadosFavoritos from "../Favoritos/dadosFavoritos";
 import { useToast } from "../Context/ToastContext";
+import { acrescentarQuantidadeLivro, buscarEstoquePorId, diminuirQuantidadeLivro } from '../../serviços/estoque';
 
 
 const ContainerPrincipal = styled.section`
@@ -79,112 +80,128 @@ const AvaliacaoContainer = styled.div`
 `
 
 const renderStars = (rating) => {
-    const stars = [];
-    for (let i = 1; i <= 5; i++) {
-      if (i <= rating) {
-        stars.push(<FaStar key={i} color="#ff9900" />);
-      } else if (i - 0.5 === rating) {
-        stars.push(<FaStarHalfAlt key={i} color="#ff9900" />);
-      } else {
-        stars.push(<FaRegStar key={i} color="#ff9900" />);
+  const stars = [];
+  for (let i = 1; i <= 5; i++) {
+    if (i <= rating) {
+      stars.push(<FaStar key={i} color="#ff9900" />);
+    } else if (i - 0.5 === rating) {
+      stars.push(<FaStarHalfAlt key={i} color="#ff9900" />);
+    } else {
+      stars.push(<FaRegStar key={i} color="#ff9900" />);
+    }
+  }
+  return stars;
+};
+
+
+function PaginaLivro() {
+  const { id } = useParams();
+  const [livro, setLivro] = useState(null);
+  const { showToast } = useToast();
+
+  const [mensagem, setMensagem] = useState('');
+  const [tipoMensagem, setTipoMensagem] = useState('');
+
+  useEffect(() => {
+    async function carregarLivro() {
+      try {
+        const livroEncontrado = await buscarLivroPorId(id);
+        console.log("Livro encontrado:", livroEncontrado);
+        setLivro(livroEncontrado);
+      } catch (erro) {
+        console.error("Erro ao buscar livro:", erro);
       }
     }
-    return stars;
-  };
-
-
-  function PaginaLivro() {
-    const { id } = useParams();
-    const [livro, setLivro] = useState(null);
-    const { showToast } = useToast();
-
-    const [mensagem, setMensagem] = useState('');
-    const [tipoMensagem, setTipoMensagem] = useState('');
-
-    useEffect(() => {
-      async function carregarLivro() {
-          try {
-              const livroEncontrado = await buscarLivroPorId(id);
-              console.log("Livro encontrado:", livroEncontrado);
-              setLivro(livroEncontrado);
-          } catch (erro) {
-              console.error("Erro ao buscar livro:", erro);
-          }
-      }
-      carregarLivro();
+    carregarLivro();
   }, [id]);
-  
+
 
   if (!livro) return <p>Carregando...</p>;
-  
+
   const imagensLivros = {};
   dadosFavoritos.forEach((livro) => {
     imagensLivros[livro.titulo] = livro.src;
   });
 
-  const adicionarAoCarrinho = () => {
-    try{
+  const adicionarAoCarrinho = async () => {
     const carrinhoAtual = JSON.parse(localStorage.getItem('carrinho')) || [];
-    carrinhoAtual.push(livro);
-    localStorage.setItem('carrinho', JSON.stringify(carrinhoAtual));
-    console.log("${livro.titulo} foi adicionado ao carrinho!");
+  
+    try {
+      const estoque = await buscarEstoquePorId(livro.id);
+  
+      if (estoque.data.quantidade === 0) {
+        showToast('Este livro não consta em estoque :(', 'warning');
+      }
+      
+      else{
         
-    clearTimeout(window.carrinhoTimeout);
-
-    window.carrinhoTimeout = setTimeout(() => {
+      carrinhoAtual.push(livro);
+      localStorage.setItem('carrinho', JSON.stringify(carrinhoAtual));
+      showToast('Livro adicionado ao carrinho!', 'success');
+      console.log("Carrinho atualizado:", carrinhoAtual);
+  
+      await diminuirQuantidadeLivro(livro.id);
+  
+      clearTimeout(window.carrinhoTimeout);
+  
+      window.carrinhoTimeout = setTimeout(async () => {
+        try {
+          await acrescentarQuantidadeLivro(livro.id); // devolve o livro ao estoque
+          console.log("Quantidade do livro foi reajustada no estoque.");
+        } catch (error) {
+          console.error("Erro ao reajustar quantidade no estoque:", error);
+        }
+  
         localStorage.removeItem('carrinho');
         console.log("O carrinho foi limpo após 3 minutos de inatividade.");
-    }, 300000);
-
-  showToast('Livro adicionado ao carrinho!', 'success');
-  console.log("carrinho", carrinhoAtual);
-
-} catch (erro) {
-  setMensagem('Erro ao adicionar ao carrinho!');
-  setTipoMensagem('error');
-}
-
-setTimeout(() => setMensagem(''), 3000);
+      }, 300000);
+  
+    }} catch (error) {
+      console.error('Erro ao adicionar ao carrinho:', error);
+      setMensagem('Erro ao adicionar ao carrinho!');
+      setTipoMensagem('error');
+    }
+  
+    setTimeout(() => setMensagem(''), 3000);
   };
+  
+  return (
+    <ContainerPrincipal>
+      <h2 style={{ fontFamily: "Bookochi", letterSpacing: "0.22em", color: "#095F54", fontSize: "26px", textAlign: "left" }}>{livro.titulo}</h2>
+      <h3 style={{ fontFamily: "Bookochi", letterSpacing: "0.22em", color: "#555", fontSize: "16px", textAlign: "left" }}>por {livro.autores?.nome || "Autor desconhecido"}</h3>
 
-  
-    return (
-      <ContainerPrincipal>
-        <h2 style={{ fontFamily: "Bookochi", letterSpacing: "0.22em", color: "#095F54", fontSize: "26px", textAlign: "left" }}>{livro.titulo}</h2>
-        <h3 style={{ fontFamily: "Bookochi", letterSpacing: "0.22em", color: "#555", fontSize: "16px", textAlign: "left" }}>por {livro.autores?.nome || "Autor desconhecido"}</h3>
-  
-        <ContainerLivro>
-          <ImagemLivro  src={imagensLivros[livro.titulo] || ''} alt={livro.titulo} style={{ width: "20%", height: "auto" }} />
-  
-          <InfoLivro>
-            <TextoSinopse>{livro.sinopse}</TextoSinopse>
-            <ContainerBotoes>
-               {/*<AvaliacaoContainer>
+      <ContainerLivro>
+        <ImagemLivro src={imagensLivros[livro.titulo] || ''} alt={livro.titulo} style={{ width: "20%", height: "auto" }} />
+
+        <InfoLivro>
+          <TextoSinopse>{livro.sinopse}</TextoSinopse>
+          <ContainerBotoes>
+            {/*<AvaliacaoContainer>
                     {renderStars(livro.avaliacao)} <span style={{ marginLeft: "4px" }}>{livro.avaliacao}</span>
                 </AvaliacaoContainer>
                 //<TipoLivro>{livro.tipoCapa} <br /> <strong>{livro.preco}</strong></TipoLivro>*/}
-                <BotaoVermelho onClick={adicionarAoCarrinho}>Adicionar ao Carrinho</BotaoVermelho>
-                <BotaoCinza>Adicionar aos Favoritos</BotaoCinza>
-            </ContainerBotoes>
-          </InfoLivro>
-        </ContainerLivro>
-  
-        <h3 style={{ fontFamily: "Bookochi", letterSpacing: "0.22em", color: "#095F54", fontSize: "22px", textAlign: "left", marginTop: "50px" }}>
-          Detalhes do Produto
-        </h3>
-        <p style={{ fontFamily: "Bookochi", letterSpacing: "0.22em", textAlign: "left", fontSize: "16px", color: "#555", lineHeight: "1.5" }}>
-        <strong>Editora:</strong> {livro.editora}<br />
-          <strong>Edição:</strong> {livro.edicao} ({livro.ano})<br />
-          <strong>Idioma:</strong> Português<br /> 
-          <strong>ISBN:</strong> {livro.isbn} <br />
-          <strong>Páginas:</strong> {livro.paginas}<br /> 
-          <strong>Peso:</strong> {livro.peso}g<br />
-          <strong>Dimensões:</strong> {livro.altura}cm x {livro.largura}cm x {livro.profundidade}cm
-        </p>
-      </ContainerPrincipal>
-      
-    );
+            <BotaoVermelho onClick={adicionarAoCarrinho}>Adicionar ao Carrinho</BotaoVermelho>
+            <BotaoCinza>Adicionar aos Favoritos</BotaoCinza>
+          </ContainerBotoes>
+        </InfoLivro>
+      </ContainerLivro>
 
-  }
-  
-  export default PaginaLivro;
+      <h3 style={{ fontFamily: "Bookochi", letterSpacing: "0.22em", color: "#095F54", fontSize: "22px", textAlign: "left", marginTop: "50px" }}>
+        Detalhes do Produto
+      </h3>
+      <p style={{ fontFamily: "Bookochi", letterSpacing: "0.22em", textAlign: "left", fontSize: "16px", color: "#555", lineHeight: "1.5" }}>
+        <strong>Editora:</strong> {livro.editora}<br />
+        <strong>Edição:</strong> {livro.edicao} ({livro.ano})<br />
+        <strong>Idioma:</strong> Português<br />
+        <strong>ISBN:</strong> {livro.isbn} <br />
+        <strong>Páginas:</strong> {livro.paginas}<br />
+        <strong>Peso:</strong> {livro.peso}g<br />
+        <strong>Dimensões:</strong> {livro.altura}cm x {livro.largura}cm x {livro.profundidade}cm
+      </p>
+    </ContainerPrincipal>
+
+  );
+
+}
+
+export default PaginaLivro;
