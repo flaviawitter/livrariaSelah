@@ -1,4 +1,5 @@
 const { PrismaClient } = require('@prisma/client');
+const { logDOM } = require('@testing-library/react');
 const prisma = new PrismaClient();
 
 // Listar todos os pedidos
@@ -13,7 +14,7 @@ const listarPedidos = async (req, res) => {
         });
         res.json(pedidos);
     } catch (error) {
-        console.error("Erro ao buscar pedidos(controller):", erro);
+        console.error("Erro ao buscar pedidos(controller):", error);
         res.status(500).json({ erro: "Erro ao buscar pedidos." });
     }
 };
@@ -59,25 +60,28 @@ const criarPedido = async (req, res) => {
 };
 
 
-// Atualizar um pedido existente
+
 const atualizarPedido = async (req, res) => {
-    const { id } = req.params;
-    const { cliente_id, data_pedido, total_preco, status } = req.body;
-    try {
-        const pedidoAtualizado = await prisma.pedidos.update({
-            where: { id: Number(id) },
-            data: { 
-                cliente_id: Number(cliente_id), 
-                data_pedido: new Date(data_pedido), 
-                total_preco: Number(total_preco),
-                status
-            }
-        });
-        res.json(pedidoAtualizado);
-    } catch (error) {
-        res.status(500).json({ erro: "Erro ao atualizar o pedido." });
+    const { id } = req.params;         
+    const { status } = req.body;        
+  
+    if (!id || !status) {
+      return res.status(400).json({ erro: "ID ou status ausente" });
     }
-};
+  
+    try {
+      const pedidoAtualizado = await prisma.pedidos.update({
+        where: { id: Number(id) },
+        data: { status },
+      });
+  
+      res.json(pedidoAtualizado);
+    } catch (error) {
+      console.error("Erro ao atualizar pedido:", error);
+      res.status(500).json({ erro: "Erro ao atualizar o pedido." });
+    }
+  };
+  
 
 // Excluir um pedido
 const excluirPedido = async (req, res) => {

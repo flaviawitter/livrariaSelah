@@ -5,8 +5,40 @@ import BotaoVermelho from "../Botões/BotaoVermelho"
 import BotaoSimples from "../Botões/BotaoSimples"
 import { useNavigate } from "react-router-dom";
 import { useToast } from "../Context/ToastContext";
-import { acrescentarQuantidadeLivro } from "../../serviços/estoque";
+import { buscarEstoquePorId, diminuirQuantidadeLivro, acrescentarQuantidadeLivro } from "../../serviços/estoque";
 
+const BotaoQuantidade = styled.button`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background-color: #095F54;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 0 8px;
+
+  &:hover {
+    background-color: #0b7d6a;
+  }
+`;
+
+const ControleQuantidade = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+`;
+
+const ContadorQuantidade = styled.span`
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0 8px;
+  width: 30px;
+  text-align: center;
+  color: #333;
+  font-family: "Bookochi";
+`;
 
 const ContainerCarrinho = styled.div`
     width: 90%;
@@ -118,15 +150,19 @@ const CarrinhoCompras = () => {
 
   useEffect(() => {
     const carrinhoSalvo = JSON.parse(localStorage.getItem('carrinho')) || [];
-    setLivrosSelecionados(carrinhoSalvo);
-    
-    console.log("carrinho pedido:", carrinhoSalvo);
+    const carrinhoComQuantidade = carrinhoSalvo.map(livro => ({
+      ...livro,
+      quantidade: livro.quantidade || 1
+    }));
+    setLivrosSelecionados(carrinhoComQuantidade);
   }, []);
+
 
   useEffect(() => {
     const novoSubTotal = livrosSelecionados.reduce((acc, livro) => {
       const preco = livro.precoVenda ? parseFloat(livro.precoVenda) : 0;
-      return acc + preco;
+      const qtd = livro.quantidade || 1;
+      return acc + preco * qtd;
     }, 0);
 
     setSubTotal(novoSubTotal);
@@ -139,9 +175,9 @@ const CarrinhoCompras = () => {
     { label: "Entrega no mesmo dia - R$29,99", valor: 29.99 }
   ];
 
-  const removerDoCarrinho = async (index) => {  
+  const removerDoCarrinho = async (index) => {
     const livro = livrosSelecionados[index]; // capturar o livro antes de filtrar o carrinho
-  
+
     try {
       await acrescentarQuantidadeLivro(livro.id);
       const novoCarrinho = livrosSelecionados.filter((_, i) => i !== index);
@@ -153,7 +189,7 @@ const CarrinhoCompras = () => {
       showToast('Erro ao remover livro do carrinho!', 'error');
     }
   };
-  
+
 
   const navigate = useNavigate();
   const [erroCarrinho, setErroCarrinho] = useState(false);
@@ -173,9 +209,37 @@ const CarrinhoCompras = () => {
       setErroCarrinho(true);
     }
 
+
   };
 
-return (
+  const aumentarQuantidade = async (index) => {
+    const novosLivros = [...livrosSelecionados];
+    const estoque = await buscarEstoquePorId(novosLivros[index].id);
+
+    if (estoque.data.quantidade === 0) {
+      showToast('Este livro não há mais unidades disponíveis em estoque :(', 'warning');
+    } else {
+      await diminuirQuantidadeLivro(novosLivros[index].id);
+      novosLivros[index].quantidade += 1;
+      setLivrosSelecionados(novosLivros);
+      localStorage.setItem('carrinho', JSON.stringify(novosLivros));
+    }
+  };
+
+  const diminuirQuantidade = async (index) => {
+    const novosLivros = [...livrosSelecionados];
+    if (novosLivros[index].quantidade > 1) {
+      await acrescentarQuantidadeLivro(novosLivros[index].id);
+      novosLivros[index].quantidade -= 1;
+      setLivrosSelecionados(novosLivros);
+      localStorage.setItem('carrinho', JSON.stringify(novosLivros));
+    } else {
+      showToast("Quantidade mínima é 1!", "warning");
+    }
+  };
+
+
+  return (
     <ContainerCarrinho>
       <Titulo>CARRINHO DE COMPRAS</Titulo>
 
@@ -183,10 +247,21 @@ return (
         {livrosSelecionados.map((livro, index) => (
           <LivroItem key={index}>
             <DadosLivro livros={[livro]} />
-            <BotaoSimples onClick={() => removerDoCarrinho(index)}>
-              Remover do Carrinho
-            </BotaoSimples>
+
+            <ControleQuantidade>
+              <BotaoQuantidade onClick={() => diminuirQuantidade(index)}>-</BotaoQuantidade>
+              <ContadorQuantidade>{livro.quantidade}</ContadorQuantidade>
+              <BotaoQuantidade onClick={() => aumentarQuantidade(index)}>+</BotaoQuantidade>
+            </ControleQuantidade>
+
+            {livro.quantidade === 1 && (
+              <BotaoSimples onClick={() => removerDoCarrinho(index)}>
+                Remover do Carrinho
+              </BotaoSimples>
+            )}
           </LivroItem>
+
+
         ))}
       </LivrosContainer>
 

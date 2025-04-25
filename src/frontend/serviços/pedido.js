@@ -6,6 +6,13 @@ export const criarPedido = async (pedido) => {
   return await axios.post(`${API_BASE_URL}`, pedido);
 };
 
+
+export const atualizarPedido = async (id, status) => {
+  return await axios.put(`http://localhost:5000/api/pedidos/${id}`, {
+    status, // body da requisição
+  });
+};
+
 const ITENS_PEDIDO_URL = "http://localhost:5000/api/itenspedido";
 
 export const criarItemPedido = async (item) => {
@@ -21,3 +28,4 @@ export async function listarPedidos() {
 export async function listarPedidosPorCliente(idCliente) {
   return await axios.get(`http://localhost:5000/api/pedidos/clienteId/${idCliente}`);
 }
+

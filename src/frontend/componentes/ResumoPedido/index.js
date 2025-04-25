@@ -107,6 +107,8 @@ const ResumoPedido = () => {
           console.log(livrosSelecionados);
       
           for (const livro of livrosSelecionados) {
+            console.log(`Livro: ${livro.titulo}, Quantidade: ${livro.quantidade}, Preço: ${livro.precoVenda}`);
+
             const itemPedido = {
                 livroId: livro.id,
                 precoUnidade: livro.precoVenda ? parseFloat(livro.precoVenda.toString().replace(',', '.')) : 0,
@@ -120,8 +122,12 @@ const ResumoPedido = () => {
             console.log("Item do pedido:", itemPedido);
           }
       
+          localStorage.removeItem("carrinho");
+          setEnderecos([]); 
+          setCartoes([]);  
+      
           navigate("/pedidoscliente");
-        } catch (error) {
+          } catch (error) {
           console.error("Erro ao finalizar pedido:", error);
         }
 

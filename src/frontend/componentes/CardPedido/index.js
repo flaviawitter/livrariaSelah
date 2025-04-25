@@ -1,15 +1,18 @@
 import styled from 'styled-components';
 import BotaoVerde from '../Botões/BotaoVerde';
 import BotaoVermelho from '../Botões/BotaoVermelho';
-import dadosCard from './dadosCard';
 import React from "react";
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm, Controller } from "react-hook-form";
 import { listarPedidos, listarPedidosPorCliente } from '../../serviços/pedido';
 import { useContext } from "react";
 import { AuthContext } from "../Context/AuthContext";
 import BotaoSimples from '../Botões/BotaoSimples';
 import { useNavigate } from "react-router-dom";
+import { criarCupom } from '../../serviços/cupom';
+import { useToast } from "../Context/ToastContext";
+import { atualizarPedido } from '../../serviços/pedido';
+
 
 const OrderCard = styled.div`
   border-bottom: 1px solid #ccc;
@@ -26,6 +29,7 @@ const ButtonGroup = styled.div`
 `;
 
 function CardPedido({ user }) {
+  const { showToast } = useToast();
 
   const navigate = useNavigate();
 
@@ -33,6 +37,46 @@ function CardPedido({ user }) {
     navigate(`/detalhes`, { state: { pedidoSelecionado: pedido } });
   };
 
+  const handleSolicitarTroca = async (idPedido) => {
+    try {
+      const status = "Em Troca";
+      await atualizarPedido(idPedido, status);
+      showToast('Troca solicitada com sucesso!', 'success');
+      
+    } catch (error) {
+      console.error("Erro ao solicitar troca:", error);
+      showToast('Erro ao solicitar troca.', 'error');
+    }
+  };
+  
+  const handleSolicitarDevolucao = async (idPedido) => {
+    try {
+      const novoCupom = {
+        descricao: gerarCodigoCupom(),
+        clientId: idCliente,
+        validade: true
+      };
+
+      await criarCupom(novoCupom);
+      const status = "Em Devolução";
+      await atualizarPedido(idPedido, status);
+      showToast('Cupom criado!', 'success');
+
+    } catch (error) {
+      console.error("Erro ao solicitar Devolução:", error);
+      // Exibir feedback de erro para o usuário
+    }
+  }
+
+  function gerarCodigoCupom(tamanho = 5) {
+    const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let codigo = '';
+    for (let i = 0; i < tamanho; i++) {
+      const indice = Math.floor(Math.random() * caracteres.length);
+      codigo += caracteres[indice];
+    }
+    return codigo;
+  }
 
   const { idCliente } = useContext(AuthContext);
   const formMethods = useForm();
@@ -83,8 +127,8 @@ function CardPedido({ user }) {
             )}
             {pedido.status === "Entregue" && (
               <>
-                <BotaoVerde>Solicitar Troca</BotaoVerde>
-                <BotaoVermelho>Solicitar Devolução</BotaoVermelho>
+                <BotaoVerde onClick={() => handleSolicitarTroca(pedido.id)}> Solicitar Troca</BotaoVerde>
+                <BotaoVermelho onClick={() => handleSolicitarDevolucao(pedido.id)}>Solicitar Devolução</BotaoVermelho>
               </>
             )}
           </ButtonGroup>
