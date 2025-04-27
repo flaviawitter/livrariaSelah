@@ -84,61 +84,105 @@ function FormCartao({ register, user, control }) {
 
     return (
         <FormContainer>
-            <Titulo style={{ fontFamily: "Bookochi", letterSpacing: "0.22em" }}>
-                Cartões Cadastrados
-            </Titulo>
-
-            <Opcoes>
+        <Titulo style={{ fontFamily: "Bookochi", letterSpacing: "0.22em" }}>
+            Cartões Cadastrados
+        </Titulo>
+    
+        <Opcoes>
             <div key={"apelidoCartao"} style={{ width: "48%" }}>
-                    <Input id="cartao-apelido"  placeholder="Apelido do Cartão" {...effectiveRegister("apelidoCartao")} defaultValue={user?.cartoes?.[0]?.apelidoCartao} />
+                <Input 
+                    id="cartao-apelido" 
+                    placeholder="Apelido do Cartão" 
+                    {...effectiveRegister("cartoes[0].apelidoCartao")} 
+                    defaultValue={user?.cartoes?.[0]?.apelidoCartao || ""}
+                />
             </div>
+    
             <div key={"numeroCartao"} style={{ width: "48%" }}>
                 <Controller
-                    name = "numeroCartao"
+                    name="cartoes[0].numero"
                     control={effectiveControl}
-                    render={({field}) => (
-                        <StyledInputMask  {...field} id="cartao-numero" mask="9999 9999 9999 9999" placeholder="Número do Cartão" {...effectiveRegister("numeroCartao")} defaultValue={user?.cartoes?.[0]?.numero || ""}/>
+                    defaultValue={user?.cartoes?.[0]?.numero || ""}
+                    render={({ field }) => (
+                        <StyledInputMask 
+                            {...field} 
+                            id="cartao-numero" 
+                            mask="9999 9999 9999 9999" 
+                            placeholder="Número do Cartão" 
+                        />
                     )}
                 />
             </div>
+    
             <div key={"codSeguranca"} style={{ width: "48%" }}>
                 <Controller
-                    name = "codSeguranca"
+                    name="cartoes[0].codSeguranca"
                     control={effectiveControl}
-                    render={({field}) => (
-                        <StyledInputMask  {...field} id="cartao-codSeguranca" mask="999" placeholder={"Código de Segurança"} {...effectiveRegister("codSeguranca")} defaultValue={user?.cartoes?.[0]?.codSeguranca || ""}/>
+                    defaultValue={user?.cartoes?.[0]?.codSeguranca || ""}
+                    render={({ field }) => (
+                        <StyledInputMask 
+                            {...field} 
+                            id="cartao-codSeguranca" 
+                            mask="999" 
+                            placeholder="Código de Segurança" 
+                        />
                     )}
                 />
             </div>
+    
             <div key={"validade"} style={{ width: "48%" }}>
                 <Controller
-                    name = "validade"
+                    name="cartoes[0].validade"
                     control={effectiveControl}
-                    render={({field}) => (
-                        <StyledInputMask  {...field} id="cartao-validade" mask="99/99" placeholder={"Validade"} {...effectiveRegister("validade")} defaultValue={user?.cartoes?.[0]?.validade || ""}/>
+                    defaultValue={user?.cartoes?.[0]?.validade || ""}
+                    render={({ field }) => (
+                        <StyledInputMask 
+                            {...field} 
+                            id="cartao-validade" 
+                            mask="99/99" 
+                            placeholder="Validade" 
+                        />
                     )}
                 />
             </div>
+    
             <div key={"nomeTitular"} style={{ width: "48%" }}>
-                    <Input id="cartao-nomeTitular" placeholder="Nome do Titular" {...effectiveRegister("nomeTitular")} defaultValue={user?.cartoes?.[0]?.nomeTitular}/>
+                <Input 
+                    id="cartao-nomeTitular" 
+                    placeholder="Nome do Titular" 
+                    {...effectiveRegister("cartoes[0].nomeTitular")} 
+                    defaultValue={user?.cartoes?.[0]?.nomeTitular || ""}
+                />
             </div>
+    
             <div key={"bandeiraCartao"} style={{ width: "48%" }}>
-            <Controller
-                    name = "bandeiraCartao"
+                <Controller
+                    name="cartoes[0].bandeiraCartao"
                     control={effectiveControl}
-                    defaultValue={user?.cartoes?.[0]?.bandeiraCartao || ""} 
-                    render={({field}) => (
-                        <Select {...field} id="cartao-bandeira" options={bandeiras} placeholder="Selecione a bandeira" {...effectiveRegister("bandeiraCartao")} />
+                    defaultValue={user?.cartoes?.[0]?.bandeiraCartao || ""}
+                    render={({ field }) => (
+                        <Select 
+                            {...field} 
+                            id="cartao-bandeira" 
+                            options={bandeiras} 
+                            placeholder="Selecione a bandeira" 
+                        />
                     )}
-            />
+                />
             </div>
+    
             <div key={"preferencial"} style={{ width: "48%", display: "flex", alignItems: "center" }}>
-                    <input id="cartao-preferencial" type="checkbox" {...effectiveRegister("preferencial")} defaultValue={user?.cartoes?.[0]?.preferencial || ""} />
-                    <CheckboxLabel >Cartão Preferencial</CheckboxLabel>
+                <input 
+                    id="cartao-preferencial" 
+                    type="checkbox" 
+                    {...effectiveRegister("cartoes[0].preferencial")}
+                    defaultChecked={user?.cartoes?.[0]?.preferencial || false}
+                />
+                <CheckboxLabel>Cartão Preferencial</CheckboxLabel>
             </div>
-
-            </Opcoes>
-        </FormContainer>
+        </Opcoes>
+    </FormContainer>
+    
     )
 }
 

@@ -8,14 +8,15 @@ import { useToast } from "../Context/ToastContext";
 import { buscarEstoquePorId, diminuirQuantidadeLivro, acrescentarQuantidadeLivro } from "../../serviços/estoque";
 
 const BotaoQuantidade = styled.button`
-  width: 30px;
-  height: 30px;
+  display: flex;
+  align-items: center;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   border: none;
   background-color: #095F54;
   color: white;
-  font-size: 20px;
-  font-weight: bold;
+  font-size: 16px;
   cursor: pointer;
   margin: 0 8px;
 
@@ -28,6 +29,7 @@ const ControleQuantidade = styled.div`
   display: flex;
   align-items: center;
   margin-top: 10px;
+  margin-bottom: 10px;
 `;
 
 const ContadorQuantidade = styled.span`
@@ -104,7 +106,7 @@ const RemoverCarrinho = styled.a`
   text-decoration: none;
   font-weight: bold;
   display: block;
-  margin-top: 5px;
+  margin-top: 10px;
   
   &:hover {
     text-decoration: underline;

@@ -9,6 +9,8 @@ import { useForm } from "react-hook-form";
 import BotaoCinza from '../Botões/BotaoCinza';
 import ModalEndereco from '../ModalEndereco';
 import ModalCartao from '../ModalCartao';
+import Input from "../Inputs/Input";
+import { useToast } from "../Context/ToastContext";
 
 const ContainerResumo = styled.div`
     width: 90%;
@@ -61,6 +63,21 @@ const TextoResumo = styled.p`
     font-family: "Bookochi";
     letter-spacing: 0.22em;
 `;
+const CartaoContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 15px;
+`;
+const InfoCartao = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 8px;
+`;
+const ValorInputContainer = styled.div`
+    width: 60%; /* controla o tamanho do input */
+`;
+
 
 const ResumoPedido = () => {
     const location = useLocation();
@@ -68,10 +85,9 @@ const ResumoPedido = () => {
 
     const livrosSelecionados = livros;
     const [enderecoSelecionado, setEnderecoSelecionado] = useState(null);
-    const [cartaoSelecionado, setCartaoSelecionado] = useState(null);
+    const [pagamentosCartoes, setPagamentosCartoes] = useState({});
 
     const { user, idCliente } = useContext(AuthContext);
-    console.log("user", user);
 
     const navigate = useNavigate();
     const [showModalEndereco, setShowModalEndereco] = useState(false);  
@@ -79,60 +95,66 @@ const ResumoPedido = () => {
     const [enderecos, setEnderecos] = useState(user?.enderecos || []);
     const [cartoes, setCartoes] = useState(user?.cartoes || []);
 
+    const { register, handleSubmit, reset } = useForm({ mode: "onBlur" });
+    const { showToast } = useToast();
 
-    const {
-        register,
-        handleSubmit,
-        reset
-      } = useForm(
-        {
-          mode: "onBlur"
-        }
-      );
-      
+    const handleValorCartaoChange = (cartaoId, valor) => {
+        setPagamentosCartoes(prev => ({
+            ...prev,
+            [cartaoId]: valor
+        }));
+    };
+
     const handleFinalizarPedido = async () => {
-        try {
-          const pedidos = {
-            clienteId: user.id,
-            dataPedido: new Date(),
-            status: "Pendente",
-            totalPreco: total,
-            enderecoId: enderecoSelecionado,
-            cartaoId: cartaoSelecionado,
-          };
-      
-          const newPedido = await criarPedido(pedidos);
-          const idPedidos = newPedido.data.id;
-          console.log("Pedido:", pedidos);
-          console.log(livrosSelecionados);
-      
-          for (const livro of livrosSelecionados) {
-            console.log(`Livro: ${livro.titulo}, Quantidade: ${livro.quantidade}, Preço: ${livro.precoVenda}`);
+        const valores = Object.values(pagamentosCartoes).map(Number);
+        const somaTotal = valores.reduce((acc, curr) => acc + curr, 0);
 
-            const itemPedido = {
-                livroId: livro.id,
-                precoUnidade: livro.precoVenda ? parseFloat(livro.precoVenda.toString().replace(',', '.')) : 0,
-                quantidade: Number(livro.quantidade),
-                status: "Pendente",
-                pedidoId: idPedidos
-              };
-              
-      
-            await criarItemPedido(itemPedido);
-            console.log("Item do pedido:", itemPedido);
-          }
-      
-          localStorage.removeItem("carrinho");
-          setEnderecos([]); 
-          setCartoes([]);  
-      
-          navigate("/pedidoscliente");
-          } catch (error) {
-          console.error("Erro ao finalizar pedido:", error);
+        if (somaTotal !== total) {
+        showToast(`O valor total nos cartões deve ser exatamente R$${total.toFixed(2)}`, "error");
+            return;
         }
 
-      };
-      
+        if (valores.some(valor => valor < 10)) {
+            showToast("Cada cartão deve ter no mínimo R$10,00.", "alert");
+            return;
+        }
+
+        try {
+            const pedidos = {
+                clienteId: user.id,
+                dataPedido: new Date(),
+                status: "Pendente",
+                totalPreco: total,
+                enderecoId: enderecoSelecionado,
+                // OBS: Não tem mais um só cartaoId aqui
+            };
+
+            const newPedido = await criarPedido(pedidos);
+            const idPedidos = newPedido.data.id;
+
+            for (const livro of livrosSelecionados) {
+                const itemPedido = {
+                    livroId: livro.id,
+                    precoUnidade: livro.precoVenda ? parseFloat(livro.precoVenda.toString().replace(',', '.')) : 0,
+                    quantidade: Number(livro.quantidade),
+                    status: "Pendente",
+                    pedidoId: idPedidos
+                };
+                await criarItemPedido(itemPedido);
+            }
+
+            // Aqui você pode salvar a divisão de pagamento também, se precisar
+            console.log("Pagamentos por cartão:", pagamentosCartoes);
+
+            localStorage.removeItem("carrinho");
+            setEnderecos([]); 
+            setCartoes([]);  
+
+            navigate("/pedidoscliente");
+        } catch (error) {
+            console.error("Erro ao finalizar pedido:", error);
+        }
+    };
 
     return (
         <ContainerResumo>
@@ -152,54 +174,79 @@ const ResumoPedido = () => {
             <Secao>
                 <h3>Selecione um endereço:</h3>
                 <OpcoesLista>
-                {enderecos.map((endereco, index) => (
-                    <OpcaoItem key={index}>
-                        <input
-                        type="radio"
-                        name="endereco"
-                        value={endereco.id}
-                        onChange={() => setEnderecoSelecionado(endereco.id)}
-                        checked={enderecoSelecionado === endereco.id}
-                        />
-                        <label>
-                        <strong>CEP:</strong> {endereco.cep} <br />
-                        <strong>Endereço:</strong> {endereco.tipoLogradouro || ''} {endereco.logradouro}
-                        </label>
-                    </OpcaoItem>
+                    {enderecos.map((endereco, index) => (
+                        <OpcaoItem key={index}>
+                            <input
+                                type="radio"
+                                name="endereco"
+                                value={endereco.id}
+                                onChange={() => setEnderecoSelecionado(endereco.id)}
+                                checked={enderecoSelecionado === endereco.id}
+                            />
+                            <label>
+                                <strong>CEP:</strong> {endereco.cep} <br />
+                                <strong>Endereço:</strong> {endereco.tipoLogradouro || ''} {endereco.logradouro}
+                            </label>
+                        </OpcaoItem>
                     ))}
                     <OpcaoAdicionar>
-                        <BotaoCinza id="resumoPedido-botaoAdicionarEndereco" onClick={() => setShowModalEndereco(true)}>Adicionar Endereço</BotaoCinza>
+                        <BotaoCinza onClick={() => setShowModalEndereco(true)}>Adicionar Endereço</BotaoCinza>
                     </OpcaoAdicionar>
                 </OpcoesLista>
             </Secao>
 
             <Secao>
-                <h3>Selecione um Cartão:</h3>
+                <h3>Selecione os cartões e valores:</h3>
                 <OpcoesLista>
-                {cartoes.map((cartao, index) => (
-                    <OpcaoItem key={index}>
-                        <input
-                        type="radio"
-                        name="cartao"
-                        value={cartao.id}
-                        onChange={() => setCartaoSelecionado(cartao.id)}
-                        checked={cartaoSelecionado === cartao.id}
-                        />
-                        <label>
-                        <strong>Apelido:</strong> {cartao.apelidoCartao} <br />
-                        <strong>Validade:</strong> {cartao.validade}
-                        </label>
-                    </OpcaoItem>
+                    {cartoes.map((cartao, index) => (
+                        <OpcaoItem key={index}>
+                        <CartaoContainer>
+                            <input
+                                type="checkbox"
+                                value={cartao.id}
+                                checked={pagamentosCartoes[cartao.id] !== undefined}
+                                onChange={(e) => {
+                                    if (e.target.checked) {
+                                        setPagamentosCartoes(prev => ({ ...prev, [cartao.id]: 10 }));
+                                    } else {
+                                        setPagamentosCartoes(prev => {
+                                            const novoEstado = { ...prev };
+                                            delete novoEstado[cartao.id];
+                                            return novoEstado;
+                                        });
+                                    }
+                                }}
+                            />
+                            <InfoCartao>
+                                <label>
+                                    <strong>Apelido:</strong> {cartao.apelidoCartao} <br />
+                                    <strong>Validade:</strong> {cartao.validade}
+                                </label>
+                            </InfoCartao>
+                    
+                            {pagamentosCartoes[cartao.id] !== undefined && (
+                                <ValorInputContainer>
+                                    <Input
+                                        type="number"
+                                        min="10"
+                                        value={pagamentosCartoes[cartao.id]}
+                                        onChange={(e) => handleValorCartaoChange(cartao.id, parseFloat(e.target.value))}
+                                        placeholder="Valor a pagar"
+                                    />
+                                </ValorInputContainer>
+                            )}
+                        </CartaoContainer>
+                    </OpcaoItem>                    
                     ))}
                     <OpcaoAdicionar>
-                        <BotaoCinza id="resumoPedido-botaoAdicionarCartao" onClick={() => setShowModalCartao(true)}>Adicionar Cartão</BotaoCinza>
+                        <BotaoCinza onClick={() => setShowModalCartao(true)}>Adicionar Cartão</BotaoCinza>
                     </OpcaoAdicionar>
                 </OpcoesLista>
+
                 <Secao>
                     <TextoResumo>Sub-total: R${subtotal.toFixed(2)}</TextoResumo>
                     <TextoResumo>Frete: R${frete.toFixed(2)}</TextoResumo>
                     <TextoResumo><strong>Total: R${total.toFixed(2)}</strong></TextoResumo>
-
                 </Secao>
             </Secao>
 
@@ -221,7 +268,6 @@ const ResumoPedido = () => {
                 idCliente={idCliente}
                 setCartoes={setCartoes}
             />
-
         </ContainerResumo>
     );
 };
