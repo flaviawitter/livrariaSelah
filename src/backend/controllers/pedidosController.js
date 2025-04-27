@@ -7,10 +7,11 @@ const listarPedidos = async (req, res) => {
     try {
         const pedidos = await prisma.pedidos.findMany({
             include: {
-                cliente: true,
-                id: true,
-                dataPedido: true,
-                itens: true         }
+                itens: true,
+                endereco: true,
+                cartao: true
+              }
+              
         });
         res.json(pedidos);
     } catch (error) {
@@ -43,9 +44,9 @@ const criarPedido = async (req, res) => {
     const { clienteId, dataPedido, totalPreco, status, enderecoId, cartaoId } = req.body;
     try {
         const novoPedido = await prisma.pedidos.create({
-            data: { 
-                clienteId: clienteId, 
-                dataPedido: new Date(dataPedido), 
+            data: {
+                clienteId: clienteId,
+                dataPedido: new Date(dataPedido),
                 totalPreco: totalPreco,
                 status,
                 enderecoId: 1,
@@ -62,26 +63,26 @@ const criarPedido = async (req, res) => {
 
 
 const atualizarPedido = async (req, res) => {
-    const { id } = req.params;         
-    const { status } = req.body;        
-  
+    const { id } = req.params;
+    const { status } = req.body;
+
     if (!id || !status) {
-      return res.status(400).json({ erro: "ID ou status ausente" });
+        return res.status(400).json({ erro: "ID ou status ausente" });
     }
-  
+
     try {
-      const pedidoAtualizado = await prisma.pedidos.update({
-        where: { id: Number(id) },
-        data: { status },
-      });
-  
-      res.json(pedidoAtualizado);
+        const pedidoAtualizado = await prisma.pedidos.update({
+            where: { id: Number(id) },
+            data: { status },
+        });
+
+        res.json(pedidoAtualizado);
     } catch (error) {
-      console.error("Erro ao atualizar pedido:", error);
-      res.status(500).json({ erro: "Erro ao atualizar o pedido." });
+        console.error("Erro ao atualizar pedido:", error);
+        res.status(500).json({ erro: "Erro ao atualizar o pedido." });
     }
-  };
-  
+};
+
 
 // Excluir um pedido
 const excluirPedido = async (req, res) => {

@@ -2,14 +2,12 @@ import styled from 'styled-components';
 import BotaoVerde from '../Botões/BotaoVerde';
 import BotaoVermelho from '../Botões/BotaoVermelho';
 import React from "react";
-import { useEffect, useState } from 'react'
-import { useForm, Controller } from "react-hook-form";
-import { listarPedidos, listarPedidosPorCliente } from '../../serviços/pedido';
+import { useEffect } from 'react'
+import { listarPedidosPorCliente } from '../../serviços/pedido';
 import { useContext } from "react";
 import { AuthContext } from "../Context/AuthContext";
 import BotaoSimples from '../Botões/BotaoSimples';
 import { useNavigate } from "react-router-dom";
-import { criarCupom } from '../../serviços/cupom';
 import { useToast } from "../Context/ToastContext";
 import { atualizarPedido } from '../../serviços/pedido';
 
@@ -28,7 +26,7 @@ const ButtonGroup = styled.div`
   margin-top: 10px;
 `;
 
-function CardPedido({ user }) {
+function CardPedido({ }) {
   const { showToast } = useToast();
 
   const navigate = useNavigate();
@@ -39,7 +37,7 @@ function CardPedido({ user }) {
 
   const handleSolicitarTroca = async (idPedido) => {
     try {
-      const status = "Em Troca";
+      const status = "Troca Solicitada";
       await atualizarPedido(idPedido, status);
       showToast('Troca solicitada com sucesso!', 'success');
       
@@ -51,35 +49,16 @@ function CardPedido({ user }) {
   
   const handleSolicitarDevolucao = async (idPedido) => {
     try {
-      const novoCupom = {
-        descricao: gerarCodigoCupom(),
-        clientId: idCliente,
-        validade: true
-      };
-
-      await criarCupom(novoCupom);
-      const status = "Em Devolução";
+      const status = "Devolução Solicitada";
       await atualizarPedido(idPedido, status);
-      showToast('Cupom criado!', 'success');
+      showToast('Devolução Solicitada!', 'success');
 
     } catch (error) {
       console.error("Erro ao solicitar Devolução:", error);
-      // Exibir feedback de erro para o usuário
     }
-  }
-
-  function gerarCodigoCupom(tamanho = 5) {
-    const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let codigo = '';
-    for (let i = 0; i < tamanho; i++) {
-      const indice = Math.floor(Math.random() * caracteres.length);
-      codigo += caracteres[indice];
-    }
-    return codigo;
   }
 
   const { idCliente } = useContext(AuthContext);
-  const formMethods = useForm();
 
   const [pedidos, setPedidos] = React.useState([]);
   const [carregando, setCarregando] = React.useState(true);

@@ -176,7 +176,7 @@ const CarrinhoCompras = () => {
   ];
 
   const removerDoCarrinho = async (index) => {
-    const livro = livrosSelecionados[index]; // capturar o livro antes de filtrar o carrinho
+    const livro = livrosSelecionados[index]; 
 
     try {
       await acrescentarQuantidadeLivro(livro.id);

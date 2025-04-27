@@ -153,7 +153,7 @@ function PaginaLivro() {
         }
   
         localStorage.removeItem('carrinho');
-        console.log("O carrinho foi limpo após 3 minutos de inatividade.");
+        showToast('O carrinho foi limpo após 3 minutos de inatividade.', 'alert');
       }, 300000);
   
     }} catch (error) {
