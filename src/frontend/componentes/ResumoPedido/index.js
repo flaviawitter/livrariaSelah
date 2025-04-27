@@ -109,10 +109,10 @@ const ResumoPedido = () => {
         const valores = Object.values(pagamentosCartoes).map(Number);
         const somaTotal = valores.reduce((acc, curr) => acc + curr, 0);
 
-        if (somaTotal !== total) {
-        showToast(`O valor total nos cartões deve ser exatamente R$${total.toFixed(2)}`, "error");
+        if (Math.abs(somaTotal - total) > 0.01) {
+            showToast(`O valor total nos cartões deve ser exatamente R$${total.toFixed(2)}`, "error");
             return;
-        }
+        }        
 
         if (valores.some(valor => valor < 10)) {
             showToast("Cada cartão deve ter no mínimo R$10,00.", "alert");
@@ -126,8 +126,9 @@ const ResumoPedido = () => {
                 status: "Pendente",
                 totalPreco: total,
                 enderecoId: enderecoSelecionado,
-                // OBS: Não tem mais um só cartaoId aqui
+                pagamentosCartoes: pagamentosCartoes 
             };
+            
 
             const newPedido = await criarPedido(pedidos);
             const idPedidos = newPedido.data.id;
