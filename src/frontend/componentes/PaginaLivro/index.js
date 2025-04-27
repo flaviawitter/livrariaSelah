@@ -21,7 +21,7 @@ const ContainerPrincipal = styled.section`
 const ContainerLivro = styled.section`
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
   gap: auto;
   width: 100%;
   margin-top: 20px;
@@ -43,11 +43,11 @@ const TextoSinopse = styled.p`
   color: #333;
   font-family: "Bookochi";
   letter-spacing: 0.22em;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1.5;
-  width: 65%; 
+  width: 75%; 
   text-align: justify;
-  margin-left: 15px;
+  margin-left: 25px;
 `;
 const ContainerBotoes = styled.div`
   display: flex;
@@ -55,8 +55,9 @@ const ContainerBotoes = styled.div`
   align-items: center;
   gap: auto;
   gap-min: 15px;
-  width: 40%; 
+  width: 25%; 
   margin-top: 0; 
+  margin-right: 15px;
 `;
 const TipoLivro = styled.div`
 border: 2px solid #004A33;
