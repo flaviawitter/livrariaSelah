@@ -159,7 +159,7 @@ model livros {
   precoVenda     Decimal
   dataPublicacao DateTime?
   paginas        Int?
-  sinopse        String?
+  sinopse        String? @db.LongText
   status         String
   altura         Decimal
   largura        Decimal
