@@ -46,12 +46,12 @@ const Preco = styled.p`
   margin: 4px 0;
 `;
 
-const AvaliacaoContainer = styled.div`
+{/*const AvaliacaoContainer = styled.div`
   display: flex;
   align-items: center;
   font-size: 16px;
   color: #000;
-`;
+`;*/}
 
 const imagensLivros = {};
 dadosFavoritos.forEach((livro) => {
@@ -65,7 +65,7 @@ const DadosLivro = ({ livros }) => {
     navigate(`/livro/${livro.id}`);
   };
 
-  const renderStars = (rating) => {
+  {/*const renderStars = (rating) => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
       if (i <= rating) {
@@ -77,7 +77,7 @@ const DadosLivro = ({ livros }) => {
       }
     }
     return stars;
-  };
+  };*/}
 
   return (
     <ContainerPrincipal>
@@ -89,9 +89,9 @@ const DadosLivro = ({ livros }) => {
               <Titulo>{livro.titulo}</Titulo>
               <Autor>por {livro.autores?.nome || "Autor desconhecido"}</Autor>
               <Preco>{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(livro.precoVenda)}</Preco>
-              <AvaliacaoContainer>
+              {/*<AvaliacaoContainer>
                 {renderStars(livro.avaliacao)} <span style={{ marginLeft: "4px" }}>{livro.avaliacao}</span>
-              </AvaliacaoContainer>
+              </AvaliacaoContainer>*/}
             </ContainerTexto>
           </ContainerLivro>
         ))

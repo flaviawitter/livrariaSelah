@@ -13,9 +13,8 @@ model autores {
   dataNascimento DateTime?
   nacionalidade  String?
 
-  livros         livros[] 
+  livros livros[]
 }
-
 
 model carrinho {
   id           Int     @id @default(autoincrement())
@@ -27,29 +26,27 @@ model carrinho {
 }
 
 model cartao {
-  id               Int     @id @default(autoincrement())
-  apelidoCartao    String  @db.VarChar(100)
-  numero           String  @db.VarChar(19)
-  nomeTitular      String  @db.VarChar(100)
-  codSeguranca     String  @db.VarChar(4)
-  preferencial     Boolean @default(false)
-  bandeiraCartao   String
-  validade         String
+  id             Int     @id @default(autoincrement())
+  apelidoCartao  String  @db.VarChar(100)
+  numero         String  @db.VarChar(19)
+  nomeTitular    String  @db.VarChar(100)
+  codSeguranca   String  @db.VarChar(4)
+  preferencial   Boolean @default(false)
+  bandeiraCartao String
+  validade       String
 
-  clienteId        Int
-  cliente          cliente @relation(fields: [clienteId], references: [id])
+  clienteId Int
+  cliente   cliente @relation(fields: [clienteId], references: [id])
 
-  pedidos          pedidos[]
-  }
+  pagamentos pagamentoPedido[]
+}
 
 model categorias {
   id   Int    @id @default(autoincrement())
   nome String @unique(map: "Categorias_nome_key")
 
-  livros         livros[]
-
+  livros livros[]
 }
-
 
 model classificacaoia {
   id        Int    @id @default(autoincrement())
@@ -59,15 +56,15 @@ model classificacaoia {
 }
 
 model cliente {
-  id             Int            @id @default(autoincrement())
-  nome           String         @db.VarChar(100)
-  cpf            String         @unique(map: "Cliente_cpf_key") @db.VarChar(15)
-  email          String         @db.VarChar(100)
-  senha          String         @db.VarChar(64)
+  id             Int         @id @default(autoincrement())
+  nome           String      @db.VarChar(100)
+  cpf            String      @unique(map: "Cliente_cpf_key") @db.VarChar(15)
+  email          String      @db.VarChar(100)
+  senha          String      @db.VarChar(64)
   genero         String
   dataNascimento DateTime
   ranking        Int
-  statusAtivo    Boolean        @default(true)
+  statusAtivo    Boolean     @default(true)
   enderecos      endereco[]
   cartoes        cartao[]
   telefones      telefones[]
@@ -79,39 +76,38 @@ model cupom {
   descricao String
   clienteId Int
   validade  Boolean
+
+  pedidos pedidoCupom[]
 }
 
 model editoras {
-  id          Int     @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   nome        String
   pais        String?
   anoFundacao Int?
-  livros         livros[]
-
+  livros      livros[]
 }
 
 model endereco {
-  id               Int     @id @default(autoincrement())
-  cep              String? @db.VarChar(10)
-  logradouro       String? @db.VarChar(100)
-  pais             String
-  estado           String
-  numero           Int?
-  bairro           String? @db.VarChar(50)
-  tipoEndereco     String
-  tipoLogradouro   String
-  tipoResidencia   String
-  cidade           String
-  observacao       String?
-  preferencial     Boolean @default(false)
+  id             Int     @id @default(autoincrement())
+  cep            String? @db.VarChar(10)
+  logradouro     String? @db.VarChar(100)
+  pais           String
+  estado         String
+  numero         Int?
+  bairro         String? @db.VarChar(50)
+  tipoEndereco   String
+  tipoLogradouro String
+  tipoResidencia String
+  cidade         String
+  observacao     String?
+  preferencial   Boolean @default(false)
 
+  clienteId Int
+  cliente   cliente @relation(fields: [clienteId], references: [id])
 
-  clienteId        Int
-  cliente          cliente @relation(fields: [clienteId], references: [id])
-
-  pedidos          pedidos[]
+  pedidos pedidos[]
 }
-
 
 model estoque {
   id                Int       @id @default(autoincrement())
@@ -119,15 +115,13 @@ model estoque {
   quantidade        Int       @default(0)
   ultimaAtualizacao DateTime?
   dataEntrada       DateTime?
-  livros         livros[]
-
+  livros            livros[]
 }
 
 model fornecedor {
-  id   Int    @id @default(autoincrement())
-  nome String
-  livros         livros[]
-
+  id     Int      @id @default(autoincrement())
+  nome   String
+  livros livros[]
 }
 
 model frete {
@@ -138,11 +132,10 @@ model frete {
 }
 
 model grupoprecificacao {
-  id          Int     @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   descricao   String
   margemLucro Decimal
-  livros         livros[]
-
+  livros      livros[]
 }
 
 model itempedido {
@@ -153,40 +146,39 @@ model itempedido {
   precoUnidade Decimal
   status       String
 
-  pedido       pedidos @relation(fields: [pedidoId], references: [id])
+  pedido pedidos @relation(fields: [pedidoId], references: [id])
 }
 
 model livros {
-  id                  Int       @id @default(autoincrement())
-  titulo              String
-  ano                 Int?
-  edicao              String?
-  isbn                String    @unique(map: "Livros_isbn_key")
-  precoCusto          Decimal
-  precoVenda          Decimal
-  dataPublicacao      DateTime?
-  paginas             Int?
-  sinopse             String?
-  status              String
-  altura              Decimal
-  largura             Decimal
-  peso                Decimal
-  profundidade        Decimal
-  codigoBarras        String    @unique(map: "Livros_codigoBarras_key")
-  
+  id             Int       @id @default(autoincrement())
+  titulo         String
+  ano            Int?
+  edicao         String?
+  isbn           String    @unique(map: "Livros_isbn_key")
+  precoCusto     Decimal
+  precoVenda     Decimal
+  dataPublicacao DateTime?
+  paginas        Int?
+  sinopse        String? @db.LongText
+  status         String
+  altura         Decimal
+  largura        Decimal
+  peso           Decimal
+  profundidade   Decimal
+  codigoBarras   String    @unique(map: "Livros_codigoBarras_key")
+
   autorId             Int
-  autores             autores @relation(fields: [autorId], references: [id])
+  autores             autores           @relation(fields: [autorId], references: [id])
   editoraId           Int
-  editoras            editoras @relation(fields: [editoraId], references: [id])
+  editoras            editoras          @relation(fields: [editoraId], references: [id])
   fornecedorId        Int
-  fornecedor          fornecedor @relation(fields: [fornecedorId], references: [id])
+  fornecedor          fornecedor        @relation(fields: [fornecedorId], references: [id])
   grupoPrecificacaoId Int
   grupoprecificacao   grupoprecificacao @relation(fields: [grupoPrecificacaoId], references: [id])
   categoriaId         Int
-  categorias     categorias  @relation(fields: [categoriaId], references: [id])
+  categorias          categorias        @relation(fields: [categoriaId], references: [id])
   estoqueId           Int
-  estoque             estoque @relation(fields: [estoqueId], references: [id])
-
+  estoque             estoque           @relation(fields: [estoqueId], references: [id])
 }
 
 model livrosativacao {
@@ -240,28 +232,49 @@ model pagamentos {
   status          String
 }
 
+model pagamentoPedido {
+  id       Int     @id @default(autoincrement())
+  pedidoId Int
+  cartaoId Int
+  valor    Decimal @default(0.00)
+
+  pedido pedidos @relation(fields: [pedidoId], references: [id])
+  cartao cartao  @relation(fields: [cartaoId], references: [id])
+}
+
 model pedidos {
   id         Int       @id @default(autoincrement())
   dataPedido DateTime?
   totalPreco Decimal   @default(0.000000000000000000000000000000)
   status     String
-  
-  clienteId   Int
-  cliente     cliente @relation(fields: [clienteId], references: [id])
-  enderecoId  Int
-  endereco    endereco @relation(fields: [enderecoId], references: [id])
-  cartaoId    Int
-  cartao      cartao @relation(fields: [cartaoId], references: [id])
 
-  itens       itempedido[]
+  clienteId Int
+  cliente   cliente @relation(fields: [clienteId], references: [id])
+
+  enderecoId Int
+  endereco   endereco @relation(fields: [enderecoId], references: [id])
+
+  itens      itempedido[]
+  pagamentos pagamentoPedido[]
+  cupons     pedidoCupom[]
+}
+
+model pedidoCupom {
+  id Int @id @default(autoincrement())
+
+  pedidoId Int
+  pedido   pedidos @relation(fields: [pedidoId], references: [id])
+
+  cupomId Int
+  cupom   cupom @relation(fields: [cupomId], references: [id])
 }
 
 model telefones {
-  id             Int    @id @default(autoincrement())
-  ddd            String @db.Char(3)
-  numero         String @db.VarChar(20)
-  tipoTelefone   String
+  id           Int    @id @default(autoincrement())
+  ddd          String @db.Char(3)
+  numero       String @db.VarChar(20)
+  tipoTelefone String
 
-  clienteId        Int
-  cliente          cliente @relation(fields: [clienteId], references: [id])
+  clienteId Int
+  cliente   cliente @relation(fields: [clienteId], references: [id])
 }

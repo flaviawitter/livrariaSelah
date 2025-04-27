@@ -91,43 +91,44 @@ function FormCliente({ register, user, control }) {
                 <div style={{ width: "48%" }}>
                     <Input type='date' id="cliente-nascimento" placeholder="Nascimento" {...effectiveRegister("nascimento")} defaultValue={user?.dataNascimento ? new Date(user.dataNascimento).toISOString().split("T")[0] : ""} />
                 </div>
-                <div style={{ width: "48%" }}>
-                    <Controller
-                        name="genero"
-                        control={effectiveControl}
-                        defaultValue={user?.genero || ""}
-                        render={({field}) => (
-                            <Select {...field} options={generos} id="cliente-genero" placeholder="Selecione o gênero"  {...effectiveRegister("genero")} />
-                        )}
-                    />
+                <div key={"genero"} style={{ width: "48%" }}>
+                    <Select options={generos} id="cliente-genero" placeholder="Selecione o gênero" registro={"genero"} {...effectiveRegister("genero")} defaultValue={user?.genero} />
+                </div>
+                <div key={"tipoTelefone"} style={{ width: "48%" }}>
+                <Controller
+                    name="tipoTelefone"
+                    control={effectiveControl}
+                    defaultValue={user?.telefones?.[0]?.tipoTelefone || ""}
+                    render={({ field }) => (
+                        <Select
+                        {...field}
+                        options={tiposTelefone}
+                        id="cliente-tipoTelefone"
+                        placeholder="Selecione o tipo de telefone"
+                        registro="tipoTelefone"
+                        />
+                    )}
+                />
                 </div>
                 <div style={{ width: "48%" }}>
                 <Controller
-                        name="tipoTelefone"
-                        control={effectiveControl}
-                        defaultValue={user?.telefones?.[0]?.tipoTelefone || ""}
-                        render={({field}) => (
-                            <Select {...field} options={tiposTelefone} id="cliente-tipoTelefone" placeholder="Selecione o tipo de telefone"  {...effectiveRegister("tipoTelefone")} />
-                        )}
-                    />
+                    name="ddd"
+                    control={effectiveControl}
+                    defaultValue={user?.telefones?.[0]?.ddd || ""}
+                    render={({ field }) => (
+                        <StyledInputMask {...field} mask="99" id="cliente-ddd" placeholder="DDD" />
+                    )}
+                />
                 </div>
                 <div style={{ width: "48%" }}>
-                    <Controller
-                        name="ddd"
-                        control={effectiveControl}
-                        render={({ field }) => (
-                            <StyledInputMask {...field} mask="99" id="cliente-ddd" placeholder="DDD" {...effectiveRegister("ddd")} defaultValue={user?.telefones?.[0]?.ddd || ""} />
-                        )}
-                    />
-                </div>
-                <div style={{ width: "48%" }}>
-                    <Controller
-                        name="numero"
-                        control={effectiveControl}
-                        render={({ field }) => (
-                            <StyledInputMask {...field} mask="99999-9999" id="cliente-numero" placeholder="Número" {...effectiveRegister("numero")} defaultValue={user?.telefones?.[0]?.numero || ""} />
-                        )}
-                    />
+                <Controller
+                    name="numero"
+                    control={effectiveControl}
+                    defaultValue={user?.telefones?.[0]?.numero || ""}
+                    render={({ field }) => (
+                        <StyledInputMask {...field} mask="99999-9999" id="cliente-numero" placeholder="Número" />
+                    )}
+                />
                 </div>
             </Opcoes>
         </FormContainer>
