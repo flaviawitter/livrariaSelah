@@ -11,7 +11,10 @@ async function criarCupom(cupom) {
     }
 }
 
-
 export {
-    criarCupom
+    criarCupom, 
 } 
+
+export async function listarCuponsPorCliente(idCliente) {
+  return await axios.get(`http://localhost:5000/api/cupons/clienteId/${idCliente}`);
+}

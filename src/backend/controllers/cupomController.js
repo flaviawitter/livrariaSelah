@@ -79,4 +79,29 @@ const excluirCupom = async (req, res) => {
     }
 };
 
-module.exports = { listarCupons, buscarCupomPorId, criarCupom, atualizarCupom, excluirCupom };
+// Buscar cupons por cliente
+const listarCuponsPorCliente = async (req, res) => {
+    const { idCliente } = req.params;
+    try {
+        // Buscar cupons com o clienteId
+        const cupons = await prisma.cupom.findMany({
+            where: {
+                clienteId: parseInt(idCliente),  // Aqui você usa apenas o clienteId
+            },
+        });
+
+        if (cupons.length === 0) {
+            return res.status(404).json({ erro: "Nenhum cupom encontrado para esse cliente." });
+        }
+
+        // Retorna apenas os cupons sem o relacionamento cliente
+        res.json(cupons);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ erro: "Erro ao buscar cupons por cliente." });
+    }
+};
+
+
+
+module.exports = { listarCupons, buscarCupomPorId, criarCupom, atualizarCupom, excluirCupom, listarCuponsPorCliente };

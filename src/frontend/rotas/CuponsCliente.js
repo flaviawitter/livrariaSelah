@@ -1,6 +1,7 @@
 
 import styled from 'styled-components'
 import Header from '../componentes/Headers/Header';
+import PagCupom from '../componentes/PagCupom';
 
 const AppContainer = styled.div`
     width: 100vw;
@@ -12,6 +13,7 @@ function App() {
   return (
     <AppContainer>
       <Header />
+      <PagCupom />
     </AppContainer>
   );
 }
