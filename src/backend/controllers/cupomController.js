@@ -34,7 +34,7 @@ const buscarCupomPorId = async (req, res) => {
 
 // Criar um novo cupom
 const criarCupom = async (req, res) => {
-    const { descricao, clienteId, validade, pedidoId } = req.body; // <-- CORRIGIDO
+    const { descricao, clienteId, validade, pedidoId, valor } = req.body; 
     console.log(req.body);
     try {
       const novoCupom = await prisma.cupom.create({
@@ -42,35 +42,42 @@ const criarCupom = async (req, res) => {
           descricao,
           clienteId: Number(clienteId),
           validade,
-          pedidoId: Number(pedidoId)
+          pedidoId: Number(pedidoId),
+          valor: Number(valor) 
         }
       });
       res.status(201).json(novoCupom);
     } catch (error) {
-      console.error(error); // Mostra o erro real no terminal pra facilitar
+      console.error(error);
       res.status(500).json({ erro: "Erro ao criar cupom." });
     }
-  };
+};
+
   
 
 // Atualizar um cupom existente
 const atualizarCupom = async (req, res) => {
     const { id } = req.params;
-    const { descricao, cliente_id, validade } = req.body;
+    const { validade } = req.body;
+
+    if (typeof validade !== 'boolean') {
+        return res.status(400).json({ erro: "O campo 'validade' deve ser um booleano." });
+    }
+
     try {
         const cupomAtualizado = await prisma.cupom.update({
             where: { id: Number(id) },
             data: {
-                descricao,
-                cliente_id: Number(cliente_id),
-                validade: new Date(validade)
+                validade: validade
             }
         });
         res.json(cupomAtualizado);
     } catch (error) {
-        res.status(500).json({ erro: "Erro ao atualizar cupom." });
+        console.error("Erro ao atualizar cupom:", error);
+        res.status(500).json({ erro: "Erro ao atualizar validade do cupom." });
     }
 };
+
 
 // Remover um cupom
 const excluirCupom = async (req, res) => {
@@ -106,6 +113,22 @@ const listarCuponsPorCliente = async (req, res) => {
     }
 };
 
+// Criar um pedidoCupom (associar cupom a pedido)
+const criarPedidoCupom = async (req, res) => {
+    const { pedidoId, cupomId } = req.body;
+    try {
+        const novoPedidoCupom = await prisma.pedidoCupom.create({
+            data: {
+                pedidoId,
+                cupomId
+            }
+        });
+        res.status(201).json(novoPedidoCupom);
+    } catch (error) {
+        console.error("Erro ao criar pedidoCupom:", error);
+        res.status(500).json({ erro: "Erro ao criar associação entre pedido e cupom." });
+    }
+};
 
 
-module.exports = { listarCupons, buscarCupomPorId, criarCupom, atualizarCupom, excluirCupom, listarCuponsPorCliente };
+module.exports = { listarCupons, buscarCupomPorId, criarCupom, atualizarCupom, excluirCupom, listarCuponsPorCliente, criarPedidoCupom };

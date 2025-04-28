@@ -1,7 +1,5 @@
 import styled from 'styled-components';
-import React from "react";
-import { useEffect } from 'react'
-import { useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { listarCuponsPorCliente } from '../../serviços/cupom';
@@ -54,21 +52,14 @@ const OrderInfo = styled.p`
   font-size: 14px;
   color: #333;
 `;
-const ButtonGroup = styled.div`
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-`;
 
 function PagCupom() {
-
   const navigate = useNavigate();
-
- 
   const { idCliente } = useContext(AuthContext);
 
-  const [cupons, setCupons] = React.useState([]);
-  const [carregando, setCarregando] = React.useState(true);
+  const [cupons, setCupons] = useState([]);
+  const [carregando, setCarregando] = useState(true);
+  const [busca, setBusca] = useState("");
 
   useEffect(() => {
     async function carregarCupons() {
@@ -88,36 +79,52 @@ function PagCupom() {
     }
   }, [idCliente]);
 
+  const cuponsFiltrados = cupons.filter(cupom => {
+    const textoBusca = busca.toLowerCase();
+    return (
+      cupom.pedidoId.toString().includes(textoBusca) ||
+      cupom.valor.toString().includes(textoBusca) ||
+      (cupom.descricao && cupom.descricao.toLowerCase().includes(textoBusca))
+    );
+  });
+
   if (carregando) return <p>Carregando cupons...</p>;
 
   return (
     <Container>
       <Title>CUPONS</Title>
       <FilterSection>
-        <label>Filtrar pedidos:</label>
-        <input type="text" placeholder="Data inicial" />
-        <input type="text" placeholder="Data final" />
+        <label>Filtrar cupons:</label>
+        <input
+          type="text"
+          placeholder="Id pedido, valor ou validade"
+          value={busca}
+          onChange={(e) => setBusca(e.target.value)}
+        />
       </FilterSection>
       <OrderList>
-        <OrderCard>
-        <>
-          {cupons.map((cupom) => (
+        {cuponsFiltrados.length > 0 ? (
+          cuponsFiltrados.map((cupom) => (
             <OrderCard key={cupom.id}>
               <OrderInfo><strong>Cupom # {cupom.id}</strong></OrderInfo>
               <OrderInfo>Código do cupom: {cupom.descricao}</OrderInfo>
+              <OrderInfo>Valor do cupom: R${cupom.valor}</OrderInfo>
+              <OrderInfo>Cupom referente ao pedido: {cupom.pedidoId}</OrderInfo>
+              <OrderInfo>
+                {cupom.validade ? (
+                  <span style={{ color: 'green' }}>Cupom válido</span>
+                ) : (
+                  <span style={{ color: 'red' }}>Cupom inválido</span>
+                )}
+              </OrderInfo>
             </OrderCard>
-          ))}
-        </>
-        </OrderCard>
+          ))
+        ) : (
+          <OrderInfo>Nenhum cupom encontrado.</OrderInfo>
+        )}
       </OrderList>
     </Container>
   );
 }
 
 export default PagCupom;
-
-
-
-
-  
-

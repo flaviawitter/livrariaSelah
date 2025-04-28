@@ -11,6 +11,10 @@ import ModalEndereco from '../ModalEndereco';
 import ModalCartao from '../ModalCartao';
 import Input from "../Inputs/Input";
 import { useToast } from "../Context/ToastContext";
+import axios from "axios";
+import { listarCuponsPorCliente } from "../../serviços/cupom";
+import { useEffect } from "react";
+
 
 const ContainerResumo = styled.div`
     width: 90%;
@@ -102,6 +106,39 @@ const ResumoPedido = () => {
     const { register, handleSubmit, reset } = useForm({ mode: "onBlur" });
     const { showToast } = useToast();
 
+    const [cuponsDisponiveis, setCuponsDisponiveis] = useState([]);
+    const [cuponsSelecionados, setCuponsSelecionados] = useState([]);
+
+    useEffect(() => {
+        async function buscarCupons() {
+            try {
+                const response = await listarCuponsPorCliente(user.id);
+                const cuponsValidos = response.data.filter(cupom => cupom.validade);
+                setCuponsDisponiveis(cuponsValidos);
+            } catch (error) {
+                console.error("Erro ao buscar cupons:", error);
+            }
+        }
+        buscarCupons();
+    }, [user.id]);
+
+    const handleSelecionarCupom = (cupom) => {
+        const somaCupons = cuponsSelecionados.reduce((acc, c) => acc + parseFloat(c.valor), 0);
+        const novoTotal = somaCupons + parseFloat(cupom.valor);
+
+        if (novoTotal > total) {
+            showToast("A soma dos cupons não pode ultrapassar o valor total da compra.", "error");
+            return;
+        }
+
+        setCuponsSelecionados(prev => [...prev, cupom]);
+    };
+
+    const handleRemoverCupom = (idCupom) => {
+        setCuponsSelecionados(prev => prev.filter(cupom => cupom.id !== idCupom));
+    };
+
+
     const handleValorCartaoChange = (cartaoId, valor) => {
         setPagamentosCartoes(prev => ({
             ...prev,
@@ -110,33 +147,35 @@ const ResumoPedido = () => {
     };
 
     const handleFinalizarPedido = async () => {
+        const valorCupons = cuponsSelecionados.reduce((acc, cupom) => acc + parseFloat(cupom.valor), 0);
+        const totalComDesconto = total - valorCupons;
+    
         const valores = Object.values(pagamentosCartoes).map(Number);
-        const somaTotal = valores.reduce((acc, curr) => acc + curr, 0);
-
-        if (Math.abs(somaTotal - total) > 0.01) {
-            showToast(`O valor total nos cartões deve ser exatamente R$${total.toFixed(2)}`, "error");
+        const somaCartoes = valores.reduce((acc, curr) => acc + curr, 0);
+    
+        if (Math.abs(somaCartoes - totalComDesconto) > 0.01) {
+            showToast(`O valor total dos cartões deve ser R$${totalComDesconto.toFixed(2)} após aplicar cupons`, "error");
             return;
-        }        
-
+        }
+    
         if (valores.some(valor => valor < 10)) {
             showToast("Cada cartão deve ter no mínimo R$10,00.", "alert");
             return;
         }
-
+    
         try {
             const pedidos = {
                 clienteId: user.id,
                 dataPedido: new Date(),
                 status: "Pendente",
-                totalPreco: total,
+                totalPreco: totalComDesconto,
                 enderecoId: enderecoSelecionado,
                 pagamentosCartoes: pagamentosCartoes 
             };
-            
-
+    
             const newPedido = await criarPedido(pedidos);
             const idPedidos = newPedido.data.id;
-
+    
             for (const livro of livrosSelecionados) {
                 const itemPedido = {
                     livroId: livro.id,
@@ -147,18 +186,29 @@ const ResumoPedido = () => {
                 };
                 await criarItemPedido(itemPedido);
             }
-
-            console.log("Pagamentos por cartão:", pagamentosCartoes);
-
+    
+            for (const cupom of cuponsSelecionados) {
+                await axios.post("http://localhost:5000/api/pedidocupom", {
+                    pedidoId: idPedidos,
+                    cupomId: cupom.id
+                });
+    
+                await axios.put(`http://localhost:5000/api/cupons/${cupom.id}`, {
+                    validade: false
+                });
+            }
+    
             localStorage.removeItem("carrinho");
-            setEnderecos([]); 
-            setCartoes([]);  
-
+            setEnderecos([]);
+            setCartoes([]);
+            setCuponsSelecionados([]);
+    
             navigate("/pedidoscliente");
         } catch (error) {
             console.error("Erro ao finalizar pedido:", error);
         }
     };
+    
 
     return (
         <ContainerResumo>
@@ -250,6 +300,34 @@ const ResumoPedido = () => {
                         <BotaoCinza onClick={() => setShowModalCartao(true)}>Adicionar Cartão</BotaoCinza>
                     </OpcaoAdicionar>
                 </OpcoesLista>
+
+                <Secao>
+                    <h3>Selecione seus cupons:</h3>
+                    <OpcoesLista>
+                        {cuponsDisponiveis.map(cupom => (
+                            <OpcaoItem key={cupom.id}>
+                                <input
+                                    type="checkbox"
+                                    checked={cuponsSelecionados.some(c => c.id === cupom.id)}
+                                    onChange={(e) => {
+                                        if (e.target.checked) {
+                                            handleSelecionarCupom(cupom);
+                                        } else {
+                                            handleRemoverCupom(cupom.id);
+                                        }
+                                    }}
+                                />
+                                <label>
+                                    {cupom.descricao} - Valor: R${parseFloat(cupom.valor).toFixed(2)}
+                                </label>
+                            </OpcaoItem>
+                        ))}
+                    </OpcoesLista>
+                    <TextoResumo>
+                        Valor total dos cupons: R${cuponsSelecionados.reduce((acc, c) => acc + parseFloat(c.valor), 0).toFixed(2)}
+                    </TextoResumo>
+                </Secao>
+
 
                 <Secao>
                     <TextoResumo>Sub-total: R${subtotal.toFixed(2)}</TextoResumo>

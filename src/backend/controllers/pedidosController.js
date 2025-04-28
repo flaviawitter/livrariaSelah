@@ -30,7 +30,8 @@ const buscarPedidoPorId = async (req, res) => {
         const pedido = await prisma.pedidos.findUnique({
             where: { id: Number(id) },
             include: {
-                cliente: true
+                cliente: true,
+                cupom: true,
             }
         });
         if (!pedido) return res.status(404).json({ erro: "Pedido não encontrado." });

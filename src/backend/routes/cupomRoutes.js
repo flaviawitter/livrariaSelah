@@ -6,6 +6,7 @@ router.get('/', cupomController.listarCupons);
 router.get('/clienteId/:idCliente', cupomController.listarCuponsPorCliente);
 router.get('/:id', cupomController.buscarCupomPorId);
 router.post('/', cupomController.criarCupom);
+router.post('/', cupomController.criarPedidoCupom);
 router.put('/:id', cupomController.atualizarCupom);
 router.delete('/:id', cupomController.excluirCupom);
 

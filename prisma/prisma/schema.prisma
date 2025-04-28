@@ -79,11 +79,11 @@ model cupom {
   descricao String
   clienteId Int
   validade  Boolean
+  valor     Decimal  
 
   pedidos pedidoCupom[]
   pedidoId Int
   pedido   pedidos @relation(fields: [pedidoId], references: [id])
-
 }
 
 model editoras {

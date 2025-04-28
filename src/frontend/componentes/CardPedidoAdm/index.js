@@ -127,21 +127,27 @@ function CardPedidoAdm({ user }) {
   };
 
   const handleSolicitarDevolucao = async (idPedido, status, idCliente) => {
-    console.log(idCliente);
-
     try {
-
+      // Encontrar o pedido para saber o valor
+      const pedidoEncontrado = pedidos.find(p => p.id === idPedido);
+  
+      if (!pedidoEncontrado) {
+        throw new Error("Pedido não encontrado para gerar cupom.");
+      }
+  
       const novoCupom = {
         descricao: gerarCodigoCupom(),
         clienteId: idCliente,
         validade: true,
-        pedidoId: idPedido
+        pedidoId: idPedido,
+        valor: pedidoEncontrado.totalPreco  // <-- adicionando o valor aqui!
       };
-
+  
       const cupomCriado = await criarCupom(novoCupom);
-
+  
       if (cupomCriado) {
         await atualizarPedido(idPedido, status);
+        showToast('Devolução aprovada e cupom criado com sucesso!', 'success');
       } else {
         throw new Error("Falha ao criar cupom.");
       }
@@ -150,7 +156,6 @@ function CardPedidoAdm({ user }) {
       showToast('Erro ao solicitar devolução.', 'error');
     }
   };
-
 
   return (
     <>
@@ -161,7 +166,9 @@ function CardPedidoAdm({ user }) {
           <OrderInfo>Data do Pedido: {pedido.dataPedido}</OrderInfo>
           <OrderInfo>Status: {pedido.status}</OrderInfo>
           <OrderInfo>Valor do Pedido: R$ {pedido.totalPreco}</OrderInfo>
-          <OrderInfo>Cupom: {pedido.cupons.descricao}</OrderInfo>
+          <OrderInfo>
+            Cupom: {pedido.cupom.length > 0 ? pedido.cupom[0]?.descricao : "Esse pedido não possuí cupom"}
+          </OrderInfo>
 
 
           <ButtonGroup>
