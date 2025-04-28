@@ -81,6 +81,9 @@ model cupom {
   validade  Boolean
 
   pedidos pedidoCupom[]
+  pedidoId Int
+  pedido   pedidos @relation(fields: [pedidoId], references: [id])
+
 }
 
 model editoras {
@@ -260,7 +263,9 @@ model pedidos {
   itens      itempedido[]
   pagamentos pagamentoPedido[]
   cupons     pedidoCupom[]
+  cupom      cupom[]
 }
+
 
 model pedidoCupom {
   id Int @id @default(autoincrement())

@@ -34,20 +34,24 @@ const buscarCupomPorId = async (req, res) => {
 
 // Criar um novo cupom
 const criarCupom = async (req, res) => {
-    const { descricao, clientId, validade } = req.body;
+    const { descricao, clienteId, validade, pedidoId } = req.body; // <-- CORRIGIDO
+    console.log(req.body);
     try {
-        const novoCupom = await prisma.cupom.create({
-            data: { 
-                descricao, 
-                clienteId: Number(clientId), 
-                validade: validade
-            }
-        });
-        res.status(201).json(novoCupom);
+      const novoCupom = await prisma.cupom.create({
+        data: {
+          descricao,
+          clienteId: Number(clienteId),
+          validade,
+          pedidoId: Number(pedidoId)
+        }
+      });
+      res.status(201).json(novoCupom);
     } catch (error) {
-        res.status(500).json({ erro: "Erro ao criar cupom." });
-    } 
-};
+      console.error(error); // Mostra o erro real no terminal pra facilitar
+      res.status(500).json({ erro: "Erro ao criar cupom." });
+    }
+  };
+  
 
 // Atualizar um cupom existente
 const atualizarCupom = async (req, res) => {
@@ -56,9 +60,9 @@ const atualizarCupom = async (req, res) => {
     try {
         const cupomAtualizado = await prisma.cupom.update({
             where: { id: Number(id) },
-            data: { 
-                descricao, 
-                cliente_id: Number(cliente_id), 
+            data: {
+                descricao,
+                cliente_id: Number(cliente_id),
                 validade: new Date(validade)
             }
         });

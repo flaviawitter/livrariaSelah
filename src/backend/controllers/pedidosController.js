@@ -11,7 +11,8 @@ const listarPedidos = async (req, res) => {
                 endereco: true,
                 pagamentos: true,
                 cupons: true,
-                cliente: true
+                cliente: true,
+                cupom: true
               }
               
         });

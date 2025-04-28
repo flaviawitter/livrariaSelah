@@ -59,7 +59,7 @@ function CardPedidoAdm({ user }) {
     setTimeout(async () => {
       try {
         console.log("pedido recebido");
-        
+
         await atualizarPedido(idPedido, "Entregue");
         showToast(`Pedido #${idPedido} entregue automaticamente!`, 'success');
 
@@ -79,7 +79,7 @@ function CardPedidoAdm({ user }) {
     setTimeout(async () => {
       try {
         console.log("troca recebida");
-        
+
         await atualizarPedido(idPedido, "Troca Concluída");
         showToast(`Pedido #${idPedido} trocado automaticamente!`, 'success');
 
@@ -99,7 +99,7 @@ function CardPedidoAdm({ user }) {
     setTimeout(async () => {
       try {
         console.log("troca recebida");
-        
+
         await atualizarPedido(idPedido, "Devolução Concluída");
         showToast(`Pedido #${idPedido} devolvido automaticamente!`, 'success');
 
@@ -126,26 +126,35 @@ function CardPedidoAdm({ user }) {
     }
   };
 
-  const handleSolicitarDevolucao = async (idPedido, status) => {
+  const handleSolicitarDevolucao = async (idPedido, status, idCliente) => {
+    console.log(idCliente);
+
     try {
+
       const novoCupom = {
         descricao: gerarCodigoCupom(),
-        clientId: idCliente,
-        validade: true
+        clienteId: idCliente,
+        validade: true,
+        pedidoId: idPedido
       };
 
-      await criarCupom(novoCupom);
-      await atualizarPedido(idPedido, status);
+      const cupomCriado = await criarCupom(novoCupom);
+
+      if (cupomCriado) {
+        await atualizarPedido(idPedido, status);
+      } else {
+        throw new Error("Falha ao criar cupom.");
+      }
     } catch (error) {
       console.error("Erro ao solicitar Devolução:", error);
       showToast('Erro ao solicitar devolução.', 'error');
     }
   };
 
-  
+
   return (
     <>
-      {pedidos.map((pedido) => (        
+      {pedidos.map((pedido) => (
         <OrderCard key={pedido.id}>
           <OrderInfo><strong>Pedido #{pedido.id}</strong></OrderInfo>
           <OrderInfo>Cliente: {pedido.cliente.nome}</OrderInfo>
@@ -158,19 +167,19 @@ function CardPedidoAdm({ user }) {
           <ButtonGroup>
             {pedido.status === "Troca Solicitada" && (
               <>
-                <BotaoVerde onClick={async () => {handlePedido(pedido.id, "Troca Aprovada");agendarTrocaConcluida(pedido.id);}}>Aprovar Troca</BotaoVerde>
+                <BotaoVerde onClick={async () => { handlePedido(pedido.id, "Troca Aprovada"); agendarTrocaConcluida(pedido.id); }}>Aprovar Troca</BotaoVerde>
                 <BotaoVermelho onClick={() => handlePedido(pedido.id, "Troca Reprovada")}>Recusar Troca</BotaoVermelho>
               </>
             )}
             {pedido.status === "Devolução Solicitada" && (
               <>
-                <BotaoVerde onClick={async () => {handleSolicitarDevolucao(pedido.id, "Devolução Aprovada");agendarDevolucaoConcluida(pedido.id);}}>Aprovar Devolução</BotaoVerde>
+                <BotaoVerde onClick={async () => { handleSolicitarDevolucao(pedido.id, "Devolução Aprovada", pedido.clienteId); agendarDevolucaoConcluida(pedido.id) }}>Aprovar Devolução</BotaoVerde>
                 <BotaoVermelho onClick={() => handlePedido(pedido.id, "Devolução Reprovada")}>Recusar Devolução</BotaoVermelho>
               </>
             )}
             {pedido.status === "Pendente" && (
               <>
-                <BotaoVerde onClick={async () => {handlePedido(pedido.id, "Em transporte");agendarEntrega(pedido.id);}}>Aprovar Pedido</BotaoVerde>
+                <BotaoVerde onClick={async () => { handlePedido(pedido.id, "Em transporte"); agendarEntrega(pedido.id); }}>Aprovar Pedido</BotaoVerde>
                 <BotaoVermelho onClick={() => handlePedido(pedido.id, "Pedido Reprovado")}>Recusar Pedido</BotaoVermelho>
               </>
             )}
