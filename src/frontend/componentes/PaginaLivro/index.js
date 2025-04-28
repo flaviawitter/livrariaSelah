@@ -17,6 +17,7 @@ const ContainerPrincipal = styled.section`
     height: auto;
     width: 100%;
     margin: 25px;
+    margin-bottom: 20px;
 `
 const ContainerLivro = styled.section`
   display: flex;
@@ -24,7 +25,7 @@ const ContainerLivro = styled.section`
   align-items: center;
   gap: auto;
   width: 100%;
-  margin-top: 20px;
+  margin-bottom: 20px;
 `;
 const ImagemLivro = styled.img`
   width: 20%;

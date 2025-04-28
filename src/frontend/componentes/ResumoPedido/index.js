@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import DadosLivro from "../DadosLivro";
 import BotaoVermelho from "../Botões/BotaoVermelho";
-import { useNavigate, useLocation, data } from "react-router-dom";
+import { useNavigate, useLocation, data, matchRoutes } from "react-router-dom";
 import { AuthContext } from "../Context/AuthContext"
 import { criarPedido, criarItemPedido } from "../../serviços/pedido";
 import { useForm } from "react-hook-form";
@@ -75,9 +75,13 @@ const InfoCartao = styled.div`
     margin-bottom: 8px;
 `;
 const ValorInputContainer = styled.div`
-    width: 60%; /* controla o tamanho do input */
+    width: 50%;
 `;
-
+const Quantidade = styled.p`
+  font-size: 14px;
+  color: #999;
+  margin: 4px 0;
+`;
 
 const ResumoPedido = () => {
     const location = useLocation();
@@ -167,6 +171,7 @@ const ResumoPedido = () => {
                     {livrosSelecionados.map((livro, index) => (
                         <LivroItem key={index}>
                             <DadosLivro livros={[livro]} />
+                            <Quantidade>Quantidade: x{livro.quantidade || "Autor desconhecido"}</Quantidade>
                         </LivroItem>
                     ))}
                 </LivrosContainer>
@@ -224,15 +229,18 @@ const ResumoPedido = () => {
                                     <strong>Validade:</strong> {cartao.validade}
                                 </label>
                             </InfoCartao>
-                    
+                            
                             {pagamentosCartoes[cartao.id] !== undefined && (
                                 <ValorInputContainer>
+                                    <label> Valor a ser cobrado no cartão: </label>
                                     <Input
                                         type="number"
                                         min="10"
                                         value={pagamentosCartoes[cartao.id]}
                                         onChange={(e) => handleValorCartaoChange(cartao.id, parseFloat(e.target.value))}
                                         placeholder="Valor a pagar"
+                                        style={{ marginTop: "10px" }}
+
                                     />
                                 </ValorInputContainer>
                             )}
