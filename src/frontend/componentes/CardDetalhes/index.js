@@ -1,9 +1,11 @@
 import { useLocation } from 'react-router-dom';
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import styled from 'styled-components';
 import BotaoVerde from '../Botões/BotaoVerde';
 import BotaoVermelho from '../Botões/BotaoVermelho';
 import { buscarLivroPorId } from '../../serviços/livros';
+import { atualizarPedido } from '../../serviços/pedido';
+import { useToast } from "../Context/ToastContext";
 
 const OrderCard = styled.div`
   border-bottom: 1px solid #ccc;
@@ -19,11 +21,11 @@ const ButtonGroup = styled.div`
   margin-top: 10px;
 `;
 
-function DetalhesPedido() {
+function CardDetalhes() {
   const { state } = useLocation();
   const { pedidoSelecionado } = state || {};
-
   const [livros, setLivros] = useState({});
+  const { showToast } = useToast();
 
   useEffect(() => {
     async function buscarLivros() {
@@ -31,7 +33,7 @@ function DetalhesPedido() {
       for (const item of pedidoSelecionado.itens) {
         try {
           const resposta = await buscarLivroPorId(item.livroId);
-          resultados[item.livroId] = resposta;          
+          resultados[item.livroId] = resposta;
         } catch (erro) {
           console.error(`Erro ao buscar livro ${item.livroId}:`, erro);
         }
@@ -45,6 +47,29 @@ function DetalhesPedido() {
   }, [pedidoSelecionado]);
 
   if (!pedidoSelecionado) return <p>Pedido não encontrado.</p>;
+
+  // === Funções de solicitar troca e devolução ===
+  const handleSolicitarTroca = async (idPedido) => {
+    try {
+      const status = "Troca Solicitada";
+      await atualizarPedido(idPedido, status);
+      showToast('Troca solicitada com sucesso!', 'success');
+    } catch (error) {
+      console.error("Erro ao solicitar troca:", error);
+      showToast('Erro ao solicitar troca.', 'error');
+    }
+  };
+
+  const handleSolicitarDevolucao = async (idPedido) => {
+    try {
+      const status = "Devolução Solicitada";
+      await atualizarPedido(idPedido, status);
+      showToast('Devolução solicitada com sucesso!', 'success');
+    } catch (error) {
+      console.error("Erro ao solicitar devolução:", error);
+      showToast('Erro ao solicitar devolução.', 'error');
+    }
+  };
 
   return (
     <OrderCard>
@@ -63,8 +88,8 @@ function DetalhesPedido() {
               )}
               {pedidoSelecionado.status === "Entregue" && (
                 <>
-                  <BotaoVerde>Solicitar Troca</BotaoVerde>
-                  <BotaoVermelho>Solicitar Devolução</BotaoVermelho>
+                  <BotaoVerde onClick={() => handleSolicitarTroca(pedidoSelecionado.id)}>Solicitar Troca</BotaoVerde>
+                  <BotaoVermelho onClick={() => handleSolicitarDevolucao(pedidoSelecionado.id)}>Solicitar Devolução</BotaoVermelho>
                 </>
               )}
             </ButtonGroup>
@@ -75,4 +100,4 @@ function DetalhesPedido() {
   );
 }
 
-export default DetalhesPedido;
+export default CardDetalhes;
