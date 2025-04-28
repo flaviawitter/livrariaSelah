@@ -17,6 +17,8 @@ import { criarCliente, deletarCliente, atualizarCliente } from '../serviços/cli
 import { criarEndereco, deletarEndereco, criarEnderecoNovo, atualizarEndereco } from '../serviços/endereco';
 import { atualizarCartao, criarCartao, deletarCartao } from '../serviços/cartao';
 import { AuthContext } from "../componentes/Context/AuthContext";
+import { useToast } from '../componentes/Context/ToastContext';
+
   
 const AppContainer = styled.div`
     width: 100%;
@@ -46,6 +48,7 @@ function App() {
   const [showModalCartao, setShowModalCartao] = useState(false);
   const [setIdCliente] = useState(null);
   const { user, idCliente } = useContext(AuthContext);
+  const { showToast } = useToast();
 
 
   const {
@@ -142,7 +145,7 @@ function App() {
   }
 
   const onAtualizar = async (data) => {
-        
+
     if(idCliente){
       const cliente = {
         nome: data.nome,
@@ -206,7 +209,7 @@ function App() {
       await atualizarEndereco(idCliente, enderecoCobranca);
       await atualizarEndereco(idCliente, enderecoEntrega);
       await atualizarCartao(idCliente, cartao);
-      console.log("Dados Atualizados com sucesso!")
+      showToast(`Dados atualizados com sucesso!`, 'success');
 
       
    }else{

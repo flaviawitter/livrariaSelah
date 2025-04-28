@@ -61,14 +61,11 @@ const adicionarItemPedido = async (req, res) => {
 const atualizarItemPedido = async (req, res) => {
     const { id } = req.params;
     const { pedido_id, livro_id, quantidade, preco_unidade, status } = req.body;
+
     try {
         const itemAtualizado = await prisma.itemPedido.update({
             where: { id: Number(id) },
             data: { 
-                pedido_id: Number(pedido_id), 
-                livro_id: Number(livro_id), 
-                quantidade: Number(quantidade), 
-                preco_unidade: Number(preco_unidade),
                 status
             }
         });

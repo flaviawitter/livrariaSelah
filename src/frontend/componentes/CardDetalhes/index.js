@@ -6,6 +6,7 @@ import BotaoVermelho from '../Botões/BotaoVermelho';
 import { buscarLivroPorId } from '../../serviços/livros';
 import { atualizarPedido } from '../../serviços/pedido';
 import { useToast } from "../Context/ToastContext";
+import { atualizarItemPedido } from '../../serviços/itensPedido';
 
 const OrderCard = styled.div`
   border-bottom: 1px solid #ccc;
@@ -70,6 +71,21 @@ function CardDetalhes() {
       showToast('Erro ao solicitar devolução.', 'error');
     }
   };
+  
+  const handlePedido = async (idPedido, idItem, status) => {
+    const bodyAtualizado = {
+      id: idItem,
+      status: status
+    }
+    try {
+      await atualizarItemPedido(bodyAtualizado);
+      await atualizarPedido(idPedido, status);
+      showToast('Pedido cancelado com sucesso!', 'success');
+    } catch (error) {
+      console.error("Erro ao atualizar pedido:", error);
+      showToast('Erro ao atualizar pedido.', 'error');
+    }
+  };
 
   return (
     <OrderCard>
@@ -84,7 +100,7 @@ function CardDetalhes() {
             <OrderInfo>Status do Item: {item.status}</OrderInfo>
             <ButtonGroup>
               {pedidoSelecionado.status === "Pendente" && (
-                <BotaoVermelho>Cancelar Pedido</BotaoVermelho>
+                <BotaoVermelho onClick={() => handlePedido(pedidoSelecionado.id, item.livroId, "Cancelado")}>Cancelar Pedido</BotaoVermelho>
               )}
               {pedidoSelecionado.status === "Entregue" && (
                 <>
