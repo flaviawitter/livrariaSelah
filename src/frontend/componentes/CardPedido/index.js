@@ -92,7 +92,7 @@ function CardPedido({ }) {
           <OrderInfo><strong>Pedido # {pedido.id}</strong></OrderInfo>
           <OrderInfo>Data do Pedido: {new Date(pedido.dataPedido).toLocaleDateString("pt-BR")}</OrderInfo>
           <OrderInfo>Status: {pedido.status}</OrderInfo>
-          <OrderInfo>Preço: {pedido.totalPreco}</OrderInfo>
+          <OrderInfo>Preço: {Number(pedido.totalPreco).toFixed(2)}</OrderInfo>
           <OrderInfo>
             Quantidade de itens: {pedido.itens ? pedido.itens.length : 0}
           </OrderInfo>

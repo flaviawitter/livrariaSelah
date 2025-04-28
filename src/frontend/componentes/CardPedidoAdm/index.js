@@ -7,7 +7,7 @@ import { criarCupom } from '../../serviços/cupom';
 import { useToast } from "../Context/ToastContext";
 import { AuthContext } from "../Context/AuthContext";
 
-// Styled Components
+
 const OrderCard = styled.div`
   border-bottom: 1px solid #ccc;
   padding: 15px 0;
