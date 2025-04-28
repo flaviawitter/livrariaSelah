@@ -44,6 +44,7 @@ function CardPedidoAdm({ user }) {
     async function fetchPedidos() {
       try {
         const response = await listarPedidos();
+        console.log(response.data);
         setPedidos(response.data);
       } catch (error) {
         console.error('Erro ao buscar pedidos:', error);
@@ -141,24 +142,29 @@ function CardPedidoAdm({ user }) {
     }
   };
 
+  
   return (
     <>
-      {pedidos.map((pedido) => (
+      {pedidos.map((pedido) => (        
         <OrderCard key={pedido.id}>
           <OrderInfo><strong>Pedido #{pedido.id}</strong></OrderInfo>
-          <OrderInfo>Cliente: {pedido.nome}</OrderInfo>
+          <OrderInfo>Cliente: {pedido.cliente.nome}</OrderInfo>
           <OrderInfo>Data do Pedido: {pedido.dataPedido}</OrderInfo>
           <OrderInfo>Status: {pedido.status}</OrderInfo>
+          <OrderInfo>Valor do Pedido: R$ {pedido.totalPreco}</OrderInfo>
+          <OrderInfo>Cupom: {pedido.cupons.descricao}</OrderInfo>
+
+
           <ButtonGroup>
-            {pedido.status === "Em Troca" && (
+            {pedido.status === "Troca Solicitada" && (
               <>
                 <BotaoVerde onClick={async () => {handlePedido(pedido.id, "Troca Aprovada");agendarTrocaConcluida(pedido.id);}}>Aprovar Troca</BotaoVerde>
                 <BotaoVermelho onClick={() => handlePedido(pedido.id, "Troca Reprovada")}>Recusar Troca</BotaoVermelho>
               </>
             )}
-            {pedido.status === "Em Devolução" && (
+            {pedido.status === "Devolução Solicitada" && (
               <>
-                <BotaoVerde onClick={async () => {handleSolicitarDevolucao(pedido.id, "Devolução Aprovada");agendarDevolucaoConcluida(pedido.id);}}>Aprovar Troca</BotaoVerde>
+                <BotaoVerde onClick={async () => {handleSolicitarDevolucao(pedido.id, "Devolução Aprovada");agendarDevolucaoConcluida(pedido.id);}}>Aprovar Devolução</BotaoVerde>
                 <BotaoVermelho onClick={() => handlePedido(pedido.id, "Devolução Reprovada")}>Recusar Devolução</BotaoVermelho>
               </>
             )}

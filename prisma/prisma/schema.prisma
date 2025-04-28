@@ -21,6 +21,8 @@ model carrinho {
   livroId      Int
   quantidade   Int
   precoUnidade Decimal
+  clienteId Int
+  cliente   cliente @relation(fields: [clienteId], references: [id])
 
   @@index([livroId], map: "Carrinho_livroId_fkey")
 }
@@ -69,6 +71,7 @@ model cliente {
   cartoes        cartao[]
   telefones      telefones[]
   pedidos        pedidos[]
+  carrinho       carrinho[]
 }
 
 model cupom {

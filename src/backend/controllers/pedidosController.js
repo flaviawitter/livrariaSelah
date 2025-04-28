@@ -9,7 +9,9 @@ const listarPedidos = async (req, res) => {
             include: {
                 itens: true,
                 endereco: true,
-                cartao: true
+                pagamentos: true,
+                cupons: true,
+                cliente: true
               }
               
         });
