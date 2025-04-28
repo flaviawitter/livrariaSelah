@@ -148,7 +148,6 @@ const ResumoPedido = () => {
                 await criarItemPedido(itemPedido);
             }
 
-            // Aqui você pode salvar a divisão de pagamento também, se precisar
             console.log("Pagamentos por cartão:", pagamentosCartoes);
 
             localStorage.removeItem("carrinho");
