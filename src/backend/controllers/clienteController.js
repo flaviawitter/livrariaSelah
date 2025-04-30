@@ -31,8 +31,9 @@ async function listarClientes(req, res) {
     try {
         const clientes = await prisma.cliente.findMany({
             include: {
-                telefones: true, // Inclui telefones relacionados
-                enderecos: true  // Inclui endereços relacionados
+                telefones: true,
+                enderecos: true,
+                pedidos: true
             }
         });
         res.json(clientes);

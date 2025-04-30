@@ -69,9 +69,16 @@ async function criarCadastro(cliente) {
     }
 };
 
-
+async function listarCliente() {
+    try{
+        const clientes = await axios.get(clienteAPI);
+        return clientes
+    } catch (error) {
+        console.log(error.request.response)
+    }
+}
 
 export {
-    criarCliente, obterCliente, atualizarSenha, deletarCliente, atualizarCliente, criarCadastro
+    criarCliente, obterCliente, atualizarSenha, deletarCliente, atualizarCliente, criarCadastro, listarCliente
 } 
 
