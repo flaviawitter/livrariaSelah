@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import CardPedidoAdm from '../CardPedidoAdm';
+import CardClienteAdm from '../CardClienteAdm';
 
 const Container = styled.div`
   width: 100vw;
@@ -69,7 +69,7 @@ function PagClientesAdm() {
       </FilterSection>
       <OrderList>
         <OrderCard>
-          <CardPedidoAdm/>
+          <CardClienteAdm/>
         </OrderCard>
       </OrderList>
     </Container>
