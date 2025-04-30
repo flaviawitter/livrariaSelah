@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import BotaoCinza from '../Botões/BotaoCinza';
-import { atualizarCliente, listarCliente } from '../../serviços/cliente';
+import { atualizarStatus, listarCliente } from '../../serviços/cliente';
 import { useToast } from "../Context/ToastContext";
 import { AuthContext } from "../Context/AuthContext";
 
@@ -40,15 +40,17 @@ function CardClienteAdm({ user }) {
   }, []);
 
   const handleCliente = async (idCliente, novoStatus) => {
+    console.log(`Atualizando cliente no front ${idCliente} para status ${novoStatus}`);
     try {
-      await atualizarCliente(idCliente, novoStatus);
+      await atualizarStatus(idCliente, novoStatus);
       showToast('Status do cliente atualizado!', 'success');
+      const response = await listarCliente();
     } catch (error) {
       console.error("Erro ao atualizar cliente:", error);
       showToast('Erro ao atualizar status do cliente.', 'error');
     }
   };
-  
+
 
   return (
     <>

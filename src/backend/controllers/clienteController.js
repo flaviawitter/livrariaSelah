@@ -157,6 +157,30 @@ async function criarCadastro(req, res) {
     }
 }
 
+async function atualizarStatus(req, res) {
+    const { id } = req.params;
+    const { statusAtivo } = req.body; 
+    console.log("ID:", id, "Novo status:", statusAtivo);
+
+    if (typeof statusAtivo !== 'boolean') {
+        return res.status(400).json({ error: "'statusAtivo' deve ser um valor booleano (true ou false)." });
+    }
+
+    try {
+        const clienteAtualizado = await prisma.cliente.update({
+            where: { id: parseInt(id) }, 
+            data: {
+                statusAtivo: statusAtivo  
+            }
+        });
+        return res.json(clienteAtualizado);
+    } catch (error) {
+        console.error(error);
+        return res.status(400).json({ error: error.message });
+    }
+}
+
+
 
 module.exports = { 
     criarCliente, 
@@ -166,5 +190,6 @@ module.exports = {
     atualizarSenha,
     atualizarCliente, 
     deletarCliente,
-    criarCadastro
+    criarCadastro,
+    atualizarStatus
 };
