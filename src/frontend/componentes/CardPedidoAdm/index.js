@@ -6,6 +6,7 @@ import { atualizarPedido, listarPedidos } from '../../serviços/pedido';
 import { criarCupom } from '../../serviços/cupom';
 import { useToast } from "../Context/ToastContext";
 import { AuthContext } from "../Context/AuthContext";
+import { atualizarItemPedido } from '../../serviços/itensPedido';
 
 const OrderCard = styled.div`
   border-bottom: 1px solid #ccc;
@@ -44,8 +45,8 @@ function CardPedidoAdm({ user }) {
         console.log(response.data);
         setPedidos(response.data);
       } catch (error) {
-          console.error('Erro ao buscar pedidos:', error);
-          showToast('Erro ao buscar pedidos.', 'error');
+        console.error('Erro ao buscar pedidos:', error);
+        showToast('Erro ao buscar pedidos.', 'error');
       }
     }
 
@@ -56,8 +57,12 @@ function CardPedidoAdm({ user }) {
     setTimeout(async () => {
       try {
         console.log("pedido recebido");
-
+        const bodyAtualizado = {
+       //   id: idItem,
+          status: "Entregue"
+        }
         await atualizarPedido(idPedido, "Entregue");
+        await atualizarItemPedido(bodyAtualizado);
         showToast(`Pedido #${idPedido} entregue automaticamente!`, 'success');
 
         setPedidos((prevPedidos) =>
@@ -116,13 +121,13 @@ function CardPedidoAdm({ user }) {
   const handlePedido = async (idPedido, status) => {
     try {
       await atualizarPedido(idPedido, status);
-       showToast('Pedido atualizado com sucesso!', 'success');
+      showToast('Pedido atualizado com sucesso!', 'success');
     } catch (error) {
       console.error("Erro ao atualizar pedido:", error);
-       showToast('Erro ao atualizar pedido.', 'error');
+      showToast('Erro ao atualizar pedido.', 'error');
     }
   };
-  
+
   const handleSolicitarDevolucao = async (idPedido, status, idCliente) => {
     try {
       // Encontrar o pedido para saber o valor
@@ -131,7 +136,7 @@ function CardPedidoAdm({ user }) {
       if (!pedidoEncontrado) {
         throw new Error("Pedido não encontrado para gerar cupom.");
       }
-  
+
       const novoCupom = {
         descricao: gerarCodigoCupom(),
         clienteId: idCliente,
@@ -139,9 +144,9 @@ function CardPedidoAdm({ user }) {
         pedidoId: idPedido,
         valor: pedidoEncontrado.totalPreco  // <-- adicionando o valor aqui!
       };
-  
+
       const cupomCriado = await criarCupom(novoCupom);
-  
+
       if (cupomCriado) {
         await atualizarPedido(idPedido, status);
         showToast('Devolução aprovada e cupom criado com sucesso!', 'success');
@@ -156,36 +161,36 @@ function CardPedidoAdm({ user }) {
 
   return (
     <>
-       {pedidos.map((pedido) => (
-         <OrderCard key={pedido.id}>
-           <OrderInfo><strong>Pedido #{pedido.id}</strong></OrderInfo>
-           <OrderInfo>Cliente: {pedido.cliente.nome}</OrderInfo>
-           <OrderInfo>Data do Pedido: {pedido.dataPedido}</OrderInfo>
-           <OrderInfo>Status: {pedido.status}</OrderInfo>
-           <OrderInfo>Valor do Pedido: R$ {pedido.totalPreco}</OrderInfo>
-           <OrderInfo>
-             Cupom: {pedido.cupom.length > 0 ? pedido.cupom[0]?.descricao : "Esse pedido não possuí cupom"}
-           </OrderInfo>
+      {pedidos.map((pedido) => (
+        <OrderCard key={pedido.id}>
+          <OrderInfo><strong>Pedido #{pedido.id}</strong></OrderInfo>
+          <OrderInfo>Cliente: {pedido.cliente.nome}</OrderInfo>
+          <OrderInfo>Data do Pedido: {pedido.dataPedido}</OrderInfo>
+          <OrderInfo>Status: {pedido.status}</OrderInfo>
+          <OrderInfo>Valor do Pedido: R$ {pedido.totalPreco}</OrderInfo>
+          <OrderInfo>
+            Cupom: {pedido.cupom.length > 0 ? pedido.cupom[0]?.descricao : "Esse pedido não possuí cupom"}
+          </OrderInfo>
 
           <ButtonGroup>
-          {pedido.status === "Troca Solicitada" && (
-               <>
-                 <BotaoVerde onClick={async () => { handlePedido(pedido.id, "Troca Aprovada"); agendarTrocaConcluida(pedido.id); }}>Aprovar Troca</BotaoVerde>
-                 <BotaoVermelho onClick={() => handlePedido(pedido.id, "Troca Reprovada")}>Recusar Troca</BotaoVermelho>
-               </>
-             )}
-             {pedido.status === "Devolução Solicitada" && (
-               <>
-                 <BotaoVerde onClick={async () => { handleSolicitarDevolucao(pedido.id, "Devolução Aprovada", pedido.clienteId); agendarDevolucaoConcluida(pedido.id) }}>Aprovar Devolução</BotaoVerde>
-                 <BotaoVermelho onClick={() => handlePedido(pedido.id, "Devolução Reprovada")}>Recusar Devolução</BotaoVermelho>
-               </>
-             )}
-             {pedido.status === "Pendente" && (
-               <>
-                 <BotaoVerde onClick={async () => { handlePedido(pedido.id, "Em transporte"); agendarEntrega(pedido.id); }}>Aprovar Pedido</BotaoVerde>
-                 <BotaoVermelho onClick={() => handlePedido(pedido.id, "Pedido Reprovado")}>Recusar Pedido</BotaoVermelho>
-               </>
-             )}
+            {pedido.status === "Troca Solicitada" && (
+              <>
+                <BotaoVerde onClick={async () => { handlePedido(pedido.id, "Troca Aprovada"); agendarTrocaConcluida(pedido.id); }}>Aprovar Troca</BotaoVerde>
+                <BotaoVermelho onClick={() => handlePedido(pedido.id, "Troca Reprovada")}>Recusar Troca</BotaoVermelho>
+              </>
+            )}
+            {pedido.status === "Devolução Solicitada" && (
+              <>
+                <BotaoVerde onClick={async () => { handleSolicitarDevolucao(pedido.id, "Devolução Aprovada", pedido.clienteId); agendarDevolucaoConcluida(pedido.id) }}>Aprovar Devolução</BotaoVerde>
+                <BotaoVermelho onClick={() => handlePedido(pedido.id, "Devolução Reprovada")}>Recusar Devolução</BotaoVermelho>
+              </>
+            )}
+            {pedido.status === "Pendente" && (
+              <>
+                <BotaoVerde onClick={async () => { handlePedido(pedido.id, "Em transporte"); agendarEntrega(pedido.id); }}>Aprovar Pedido</BotaoVerde>
+                <BotaoVermelho onClick={() => handlePedido(pedido.id, "Pedido Reprovado")}>Recusar Pedido</BotaoVermelho>
+              </>
+            )}
           </ButtonGroup>
         </OrderCard>
       ))}

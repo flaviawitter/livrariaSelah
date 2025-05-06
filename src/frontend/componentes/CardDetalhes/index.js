@@ -49,11 +49,15 @@ function CardDetalhes() {
 
   if (!pedidoSelecionado) return <p>Pedido não encontrado.</p>;
 
-  // === Funções de solicitar troca e devolução ===
-  const handleSolicitarTroca = async (idPedido) => {
-    try {
-      const status = "Troca Solicitada";
-      await atualizarPedido(idPedido, status);
+  const handleSolicitarTroca = async (idPedido, idItem) => {
+    const statusPedido = "Troca Solicitada";
+    const bodyAtualizado = {
+      id: idItem,
+      status: statusPedido
+    }
+    try {      
+      await atualizarItemPedido(bodyAtualizado);
+      await atualizarPedido(idPedido, statusPedido);
       showToast('Troca solicitada com sucesso!', 'success');
     } catch (error) {
       console.error("Erro ao solicitar troca:", error);
@@ -61,10 +65,15 @@ function CardDetalhes() {
     }
   };
 
-  const handleSolicitarDevolucao = async (idPedido) => {
+  const handleSolicitarDevolucao = async (idPedido, idItem) => {
+    const statusPedido = "Devolução Solicitada";
+      const bodyAtualizado = {
+        id: idItem,
+        status: statusPedido
+      }
     try {
-      const status = "Devolução Solicitada";
-      await atualizarPedido(idPedido, status);
+      await atualizarItemPedido(bodyAtualizado);
+      await atualizarPedido(idPedido, statusPedido);
       showToast('Devolução solicitada com sucesso!', 'success');
     } catch (error) {
       console.error("Erro ao solicitar devolução:", error);
@@ -99,13 +108,13 @@ function CardDetalhes() {
             <OrderInfo>Quantidade: {item.quantidade}</OrderInfo>
             <OrderInfo>Status do Item: {item.status}</OrderInfo>
             <ButtonGroup>
-              {pedidoSelecionado.status === "Pendente" && (
+              {item.status === "Pendente" && (
                 <BotaoVermelho onClick={() => handlePedido(pedidoSelecionado.id, item.livroId, "Cancelado")}>Cancelar Pedido</BotaoVermelho>
               )}
-              {pedidoSelecionado.status === "Entregue" && (
+              {item.status === "Entregue" && (
                 <>
-                  <BotaoVerde onClick={() => handleSolicitarTroca(pedidoSelecionado.id)}>Solicitar Troca</BotaoVerde>
-                  <BotaoVermelho onClick={() => handleSolicitarDevolucao(pedidoSelecionado.id)}>Solicitar Devolução</BotaoVermelho>
+                  <BotaoVerde onClick={() => handleSolicitarTroca(pedidoSelecionado.id, item.livroId)}>Solicitar Troca</BotaoVerde>
+                  <BotaoVermelho onClick={() => handleSolicitarDevolucao(pedidoSelecionado.id, item.livroId)}>Solicitar Devolução</BotaoVermelho>
                 </>
               )}
             </ButtonGroup>
