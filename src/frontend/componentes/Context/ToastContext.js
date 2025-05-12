@@ -8,22 +8,26 @@ const ToastContext = createContext();
 export const ToastProvider = ({ children }) => {
   const [message, setMessage] = useState('');
   const [type, setType] = useState('success');
+  const [toastId, setToastId] = useState(null); // ✅ aqui está o estado que faltava
 
-  const showToast = useCallback((msg, tipo = 'success') => {
+  // função que exibe o toast
+  const showToast = useCallback((msg, tipo = 'success', id = null) => {
     setMessage(msg);
     setType(tipo);
+    setToastId(id); // ✅ aqui usamos o parâmetro corretamente
   }, []);
 
-  // Limpa o toast após a exibição
+  // função para limpar o toast
   const handleClose = () => {
     setMessage('');
     setType('');
+    setToastId(null);
   };
 
   return (
-    <ToastContext.Provider value={{ showToast, message, type, handleClose }}>
-        {children}
-        <Toast />
+    <ToastContext.Provider value={{ showToast, message, type, toastId, handleClose }}>
+      {children}
+      <Toast />
     </ToastContext.Provider>
   );
 };

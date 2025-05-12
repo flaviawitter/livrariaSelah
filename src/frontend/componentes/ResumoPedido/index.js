@@ -154,7 +154,7 @@ const ResumoPedido = () => {
         const somaCartoes = valores.reduce((acc, curr) => acc + curr, 0);
     
         if (Math.abs(somaCartoes - totalComDesconto) > 0.01) {
-            showToast(`O valor total dos cartões deve ser R$${totalComDesconto.toFixed(2)} após aplicar cupons`, "error");
+            showToast(`O valor total dos cartões deve ser R$${totalComDesconto.toFixed(2)} após aplicar cupons`, "error", 'resumo-soma-errada');
             return;
         }
     

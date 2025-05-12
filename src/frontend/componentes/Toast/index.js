@@ -4,17 +4,23 @@ import { useToast } from '../Context/ToastContext';
 
 const fadein = keyframes`
   from { transform: translateY(-100%); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }`;
+  to { transform: translateY(0); opacity: 1; }
+`;
 
 const fadeout = keyframes` 
   from { opacity: 1; transform: translateY(0); } 
-  to { opacity: 0; transform: translateY(20px); }`;
+  to { opacity: 0; transform: translateY(20px); }
+`;
 
 const ToastWrapper = styled.div` 
   position: fixed; 
   bottom: 20px; 
   right: 20px; 
-  background-color: ${({ type }) => type === 'success' ? '#095F54' : type === 'error' ? '#c0392b' : type === 'warning' ? '#f39c12' : '#333'}; 
+  background-color: ${({ type }) => 
+    type === 'success' ? '#095F54' : 
+    type === 'error' ? '#c0392b' : 
+    type === 'warning' ? '#f39c12' : 
+    '#333'}; 
   color: white; 
   padding: 16px 24px; 
   border-radius: 8px; 
@@ -26,19 +32,28 @@ const ToastWrapper = styled.div`
 `;
 
 const Toast = () => {
-    const { message, type, handleClose } = useToast();
-  
-    useEffect(() => {
-      if (message) {
-        const timer = setTimeout(() => {
-          handleClose?.(); // esconde o toast após 3s
-        }, 3000);
-        return () => clearTimeout(timer);
-      }
-    }, [message, handleClose]);
-  
-    if (!message) return null;
-    return <ToastWrapper type={type}>{message}</ToastWrapper>;
-  };
+  const { message, type, toastId, handleClose } = useToast(); // ✅ agora usando "id"
+
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => {
+        handleClose?.(); // esconde o toast após 3s
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [message, handleClose]);
+
+  if (!message) return null;
+
+  return (
+    <ToastWrapper 
+      type={type} 
+      id={toastId || undefined} // ✅ aplica ID para Cypress
+      data-testid={toastId || 'toast'} // ✅ também permite usar data-testid
+    >
+      {message}
+    </ToastWrapper>
+  );
+};
 
 export default Toast;

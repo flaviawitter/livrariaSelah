@@ -140,7 +140,7 @@ function CardPedidoAdm({ user }) {
         clienteId: idCliente,
         validade: true,
         pedidoId: idPedido,
-        valor: pedidoEncontrado.totalPreco  // <-- adicionando o valor aqui!
+        valor: pedidoEncontrado.totalPreco 
       };
   
       const cupomCriado = await criarCupom(novoCupom);

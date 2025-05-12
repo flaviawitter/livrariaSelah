@@ -107,6 +107,7 @@ const TextoPequeno = styled.p`
                         <div style={{ width: "48%" }}>
                             <Input 
                                 placeholder="E-mail" 
+                                id="login-email"
                                 value={email} 
                                 onChange={(e) => setEmail(e.target.value)}
                             />
@@ -114,6 +115,7 @@ const TextoPequeno = styled.p`
                         <div style={{ width: "48%" }}>
                             <Input 
                                 placeholder="Senha" 
+                                id="login-senha"
                                 type="password" 
                                 value={senha} 
                                 onChange={(e) => setSenha(e.target.value)}

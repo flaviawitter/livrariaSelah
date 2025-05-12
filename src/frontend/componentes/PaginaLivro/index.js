@@ -132,8 +132,8 @@ function PaginaLivro() {
       const estoque = await buscarEstoquePorId(livro.id);
   
       if (estoque.data.quantidade === 0) {
-        showToast('Este livro não consta em estoque :(', 'warning');
-      }
+        showToast('Este livro não consta em estoque :(', 'warning', 'livro-sem-estoque');
+      }      
       
       else{
         
@@ -155,7 +155,7 @@ function PaginaLivro() {
         }
   
         localStorage.removeItem('carrinho');
-        showToast('O carrinho foi limpo após 3 minutos de inatividade.', 'alert');
+        showToast('O carrinho foi limpo após 3 minutos de inatividade.', 'alert', 'carrinho-vazio');
       }, 300000);
   
     }} catch (error) {
