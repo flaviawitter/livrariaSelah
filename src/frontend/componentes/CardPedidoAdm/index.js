@@ -6,18 +6,16 @@ import { atualizarPedido, listarPedidos } from '../../serviços/pedido';
 import { criarCupom } from '../../serviços/cupom';
 import { useToast } from "../Context/ToastContext";
 import { AuthContext } from "../Context/AuthContext";
-
+import { atualizarItemPedido } from '../../serviços/itensPedido';
 
 const OrderCard = styled.div`
   border-bottom: 1px solid #ccc;
   padding: 15px 0;
 `;
-
 const OrderInfo = styled.p`
   font-size: 14px;
   color: #333;
 `;
-
 const ButtonGroup = styled.div`
   display: flex;
   gap: 10px;
@@ -59,8 +57,12 @@ function CardPedidoAdm({ user }) {
     setTimeout(async () => {
       try {
         console.log("pedido recebido");
-
+        const bodyAtualizado = {
+       //   id: idItem,
+          status: "Entregue"
+        }
         await atualizarPedido(idPedido, "Entregue");
+        await atualizarItemPedido(bodyAtualizado);
         showToast(`Pedido #${idPedido} entregue automaticamente!`, 'success');
 
         setPedidos((prevPedidos) =>
@@ -130,11 +132,11 @@ function CardPedidoAdm({ user }) {
     try {
       // Encontrar o pedido para saber o valor
       const pedidoEncontrado = pedidos.find(p => p.id === idPedido);
-  
+
       if (!pedidoEncontrado) {
         throw new Error("Pedido não encontrado para gerar cupom.");
       }
-  
+
       const novoCupom = {
         descricao: gerarCodigoCupom(),
         clienteId: idCliente,
@@ -142,9 +144,9 @@ function CardPedidoAdm({ user }) {
         pedidoId: idPedido,
         valor: pedidoEncontrado.totalPreco 
       };
-  
+
       const cupomCriado = await criarCupom(novoCupom);
-  
+
       if (cupomCriado) {
         await atualizarPedido(idPedido, status);
         showToast('Devolução aprovada e cupom criado com sucesso!', 'success');
@@ -169,7 +171,6 @@ function CardPedidoAdm({ user }) {
           <OrderInfo>
             Cupom: {pedido.cupom.length > 0 ? pedido.cupom[0]?.descricao : "Esse pedido não possuí cupom"}
           </OrderInfo>
-
 
           <ButtonGroup>
             {pedido.status === "Troca Solicitada" && (
