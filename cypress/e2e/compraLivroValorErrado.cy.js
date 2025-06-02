@@ -14,9 +14,9 @@ describe('Compra de livro valor cobrado errado', () => {
     cy.get('[href="/carrinho"] > .sc-hKMtZM > img').click();
     cy.get('.sc-jgbSNz').click();
     cy.wait(1500);
-    cy.get('.sc-gGnURB > :nth-child(3) > .sc-itUGML > :nth-child(1) > input').click();
+    cy.get('.sc-liHMlC > :nth-child(3) > .sc-fThYeS > :nth-child(2) > input').click();
     cy.wait(1500);
-    cy.get(':nth-child(1) > .sc-hKdnnL > input').click();
+    cy.get(':nth-child(1) > .sc-fjqEFS > [type="checkbox"]').click();
     cy.get('.sc-gicCDI').clear().type('50');
     cy.wait(1500);
     cy.get('.sc-jgbSNz').click();
