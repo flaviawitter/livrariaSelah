@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { FaCommentDots, FaTimes } from "react-icons/fa";
+import { buscarLivrosPorTermo } from "../../serviços/livros";
 
 const ChatButton = styled.button`
   position: fixed;
@@ -113,63 +114,46 @@ const ChatInput = styled.input`
 function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { text: "Olá! Qual livro gostaria de avaliar?", isUser: false },
+    { text: "Olá! Digite o nome de um livro para avaliarmos.", isUser: false },
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // controle do fluxo da conversa
-  const [step, setStep] = useState(1);
-  const [bookName, setBookName] = useState("");
-
   const handleSendMessage = async (e) => {
     if (e.key === "Enter" && input.trim()) {
-      const userMessage = { text: input.trim(), isUser: true };
+      const userInput = input.trim();
+      const userMessage = { text: userInput, isUser: true };
       setMessages((prev) => [...prev, userMessage]);
       setInput("");
       setLoading(true);
 
       try {
-        if (step === 1) {
-          // usuário respondeu o livro
-          setBookName(userMessage.text);
+        const livros = await buscarLivrosPorTermo(userInput);
+
+        if (livros.length === 0) {
           setMessages((prev) => [
             ...prev,
-            { text: `Entendido! E qual seria sua avaliação para "${userMessage.text}"?`, isUser: false },
+            { text: "Desculpe, não encontrei esse livro no banco. Tente outro nome.", isUser: false },
           ]);
-          setStep(2);
-        } else if (step === 2) {
-          // usuário respondeu avaliação, manda para backend
-          const response = await fetch("http://localhost:5000/api/classificacoesIA/sentimento", {
+        } else {
+          const livroParaIA = livros[0].titulo;
+          
+          const respostaIA = await fetch("http://localhost:5000/api/classificacoesGemini/avaliar", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ texto: userMessage.text }),
-          });
-
-          if (!response.ok) {
-            throw new Error("Erro ao conectar com a API");
-          }
-
-          const data = await response.json();
+            body: JSON.stringify({ livro: livroParaIA })
+          }).then(res => res.json());
 
           setMessages((prev) => [
             ...prev,
-
-            {
-              text: `Análise do livro "${bookName}":\nSentimento:${data.resultado.sentimento} \nConfiança: ${data.resultado.confianca}`,
-              isUser: false,
-            },
-              
-            { text: "Quer avaliar outro livro? Qual livro gostaria de avaliar?", isUser: false },
+            { text: respostaIA.resposta, isUser: false },
           ]);
-          setStep(1);
-          setBookName("");
         }
       } catch (error) {
         console.error(error);
         setMessages((prev) => [
           ...prev,
-          { text: "Erro ao processar sua avaliação.", isUser: false },
+          { text: "Erro ao buscar ou avaliar o livro. Tente novamente.", isUser: false },
         ]);
       } finally {
         setLoading(false);
@@ -197,7 +181,7 @@ function Chatbot() {
               {msg.text}
             </Message>
           ))}
-          {loading && <Message isUser={false}>Analisando seu feedback... ⏳</Message>}
+          {loading && <Message isUser={false}>Buscando informações... ⏳</Message>}
         </ChatMessages>
 
         <ChatFooter>
@@ -206,7 +190,7 @@ function Chatbot() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleSendMessage}
-            placeholder="Digite uma mensagem..."
+            placeholder="Digite o nome do livro..."
             disabled={loading}
           />
         </ChatFooter>

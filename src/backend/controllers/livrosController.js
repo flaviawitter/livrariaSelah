@@ -73,7 +73,7 @@ const buscarLivrosPorTermo = async (req, res) => {
         if (livros.length === 0) {
             return res.status(404).json({ mensagem: "Nenhum livro encontrado com esse termo." });
         }
-
+       
         res.json(livros);
     } catch (error) {
         console.error("Erro ao buscar livros:", error);

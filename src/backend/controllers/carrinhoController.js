@@ -34,13 +34,15 @@ const buscarItemCarrinhoPorId = async (req, res) => {
 
 // Adicionar um novo item ao carrinho
 const adicionarItemCarrinho = async (req, res) => {
-    const { livro_id, quantidade, preco_unidade } = req.body;
+    const { livroId, quantidade, precoUnidade, cliente } = req.body;  
+    console.log(req.body);
+      
     try {
         const novoItem = await prisma.carrinho.create({
             data: { 
-                livro_id: Number(livro_id), 
-                quantidade: Number(quantidade), 
-                preco_unidade: Number(preco_unidade) 
+                livroId: livroId, 
+                quantidade: quantidade, 
+                clienteId: cliente
             }
         });
         res.status(201).json(novoItem);

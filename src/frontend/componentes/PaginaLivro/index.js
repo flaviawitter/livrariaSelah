@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import dadosFavoritos from "../Favoritos/dadosFavoritos";
 import { useToast } from "../Context/ToastContext";
 import { acrescentarQuantidadeLivro, buscarEstoquePorId, diminuirQuantidadeLivro } from '../../serviços/estoque';
+import { adicionarItemCarrinho } from '../../serviços/carrinho';
 
 
 const ContainerPrincipal = styled.section`
@@ -127,46 +128,51 @@ function PaginaLivro() {
 
   const adicionarAoCarrinho = async () => {
     const carrinhoAtual = JSON.parse(localStorage.getItem('carrinho')) || [];
-  
+    const idCliente = localStorage.getItem("idCliente"); // Pegando id do cliente logado
+
+    if (!idCliente) {
+      showToast('É necessário estar logado para adicionar ao carrinho.', 'alert');
+      return;
+    }
+
     try {
       const estoque = await buscarEstoquePorId(livro.id);
-  
+
       if (estoque.data.quantidade === 0) {
         showToast('Este livro não consta em estoque :(', 'warning', 'livro-sem-estoque');
-      }      
-      
-      else{
-        
-      carrinhoAtual.push(livro);
-      localStorage.setItem('carrinho', JSON.stringify(carrinhoAtual));
-      showToast('Livro adicionado ao carrinho!', 'success');
-      console.log("Carrinho atualizado:", carrinhoAtual);
-  
-      await diminuirQuantidadeLivro(livro.id);
-  
-      clearTimeout(window.carrinhoTimeout);
-  
-      window.carrinhoTimeout = setTimeout(async () => {
-        try {
-          await acrescentarQuantidadeLivro(livro.id); // devolve o livro ao estoque
-          console.log("Quantidade do livro foi reajustada no estoque.");
-        } catch (error) {
-          console.error("Erro ao reajustar quantidade no estoque:", error);
+      } else {
+        const body = {
+          cliente: idCliente,
+          livroId: livro.id,
+          quantidade: 1
         }
-  
-        localStorage.removeItem('carrinho');
-        showToast('O carrinho foi limpo após 3 minutos de inatividade.', 'alert', 'carrinho-vazio');
-      }, 300000);
-  
-    }} catch (error) {
+        const adicionandoCarrinho = await adicionarItemCarrinho(body);
+        console.log(adicionandoCarrinho);
+
+        if (adicionandoCarrinho && adicionandoCarrinho.id) {
+          carrinhoAtual.push(livro);
+          localStorage.setItem('carrinho', JSON.stringify(carrinhoAtual));
+          showToast('Livro adicionado ao carrinho!', 'success');
+          console.log("Carrinho atualizado:", carrinhoAtual);
+
+          // Limpeza após 3 minutos
+          clearTimeout(window.carrinhoTimeout);
+
+          window.carrinhoTimeout = setTimeout(async () => {
+            localStorage.removeItem('carrinho');
+            showToast('O carrinho foi limpo após 3 minutos de inatividade.', 'alert', 'carrinho-vazio');
+          }, 300000);
+        } else {
+          const erro = await adicionandoCarrinho.json();
+          showToast(erro.message, 'error');
+        }
+      }
+    } catch (error) {
       console.error('Erro ao adicionar ao carrinho:', error);
-      setMensagem('Erro ao adicionar ao carrinho!');
-      setTipoMensagem('error');
+      showToast('Erro ao adicionar ao carrinho!', 'error');
     }
-  
-    setTimeout(() => setMensagem(''), 3000);
   };
-  
+
   return (
     <ContainerPrincipal>
       <h2 style={{ fontFamily: "Bookochi", letterSpacing: "0.22em", color: "#095F54", fontSize: "26px", textAlign: "left" }}>{livro.titulo}</h2>

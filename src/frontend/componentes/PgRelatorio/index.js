@@ -56,25 +56,27 @@ const PlaceholderImage = styled.div`
   color: #666;
 `;
 
+const PowerBIEmbed = styled.iframe`
+  width: 1024px;
+  height: 804px;
+  border: none;
+`;
+
 function PgRelatorio() {
   return (
     <AppContainer>
-      
-      <Title>RELATÓRIOS</Title>
-      <FilterContainer>
-        <span>Filtrar pedidos:</span>
-        <Input type="text" placeholder="dd/mm/aa" />
-        <Input type="text" placeholder="dd/mm/aa" />
-        <Select>
-          <option>Selecionar</option>
-        </Select>
-      </FilterContainer>
+      <Title>RELATÓRIO</Title>
+    
       <ChartContainer>
-        {/* Placeholder para gráfico real do Power BI */}
-        <PlaceholderImage>Relatório do Power BI aqui</PlaceholderImage>
+        <PowerBIEmbed
+          title="Dashboard - Análise"
+          src="https://app.powerbi.com/view?r=eyJrIjoiZjBlOGUyZGEtZWVlNy00MDIzLWE5YjktNTdhMzVhNGU0MjgyIiwidCI6ImNmNzJlMmJkLTdhMmItNDc4My1iZGViLTM5ZDU3YjA3Zjc2ZiIsImMiOjR9"
+          allowFullScreen
+        />
       </ChartContainer>
     </AppContainer>
   );
 }
+
 
 export default PgRelatorio;
