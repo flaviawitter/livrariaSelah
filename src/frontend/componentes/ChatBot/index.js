@@ -128,20 +128,20 @@ function Chatbot() {
       setLoading(true);
 
       try {
-        const livros = await buscarLivrosPorTermo(userInput);
+        // const livros = await buscarLivrosPorTermo(userInput);
 
-        if (livros.length === 0) {
-          setMessages((prev) => [
-            ...prev,
-            { text: "Desculpe, não encontrei esse livro no banco. Tente outro nome.", isUser: false },
-          ]);
-        } else {
-          const livroParaIA = livros[0].titulo;
+        // if (livros.length === 0) {
+        //   setMessages((prev) => [
+        //     ...prev,
+        //     { text: "Desculpe, não encontrei esse livro no banco. Tente outro nome.", isUser: false },
+        //   ]);
+        // } else {
+        //   const livroParaIA = livros[0].titulo;
           
           const respostaIA = await fetch("http://localhost:5000/api/classificacoesGemini/avaliar", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ livro: livroParaIA })
+            body: JSON.stringify({ livro: userInput })
           }).then(res => res.json());
 
           setMessages((prev) => [
@@ -149,7 +149,8 @@ function Chatbot() {
             { text: respostaIA.resposta, isUser: false },
           ]);
         }
-      } catch (error) {
+      //}
+       catch (error) {
         console.error(error);
         setMessages((prev) => [
           ...prev,
