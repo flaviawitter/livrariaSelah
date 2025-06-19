@@ -43,6 +43,8 @@ const Select = styled.select`
 const ChartContainer = styled.div`
   width: 100%;
   height: 400px;
+  display: flex;
+  justify-content: center;
 `;
 
 const PlaceholderImage = styled.div`
@@ -69,8 +71,8 @@ function PgRelatorio() {
     
       <ChartContainer>
         <PowerBIEmbed
-          title="Dashboard - Análise"
-          src="https://app.powerbi.com/view?r=eyJrIjoiZjBlOGUyZGEtZWVlNy00MDIzLWE5YjktNTdhMzVhNGU0MjgyIiwidCI6ImNmNzJlMmJkLTdhMmItNDc4My1iZGViLTM5ZDU3YjA3Zjc2ZiIsImMiOjR9"
+          title="Dashboard - Análise2"
+          src="https://app.powerbi.com/view?r=eyJrIjoiOWI1YTk2N2MtZTk0Zi00OTlhLTliYjYtOTUyYjI0YzRmNTBhIiwidCI6ImNmNzJlMmJkLTdhMmItNDc4My1iZGViLTM5ZDU3YjA3Zjc2ZiIsImMiOjR9"
           allowFullScreen
         />
       </ChartContainer>

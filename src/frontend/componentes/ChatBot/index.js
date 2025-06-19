@@ -114,7 +114,7 @@ const ChatInput = styled.input`
 function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { text: "Olá! Digite o nome de um livro para avaliarmos.", isUser: false },
+    { text: "Olá! Digite o nome de um livro para te sugerirmos outro.", isUser: false },
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -153,7 +153,7 @@ function Chatbot() {
         console.error(error);
         setMessages((prev) => [
           ...prev,
-          { text: "Erro ao buscar ou avaliar o livro. Tente novamente.", isUser: false },
+          { text: "Erro ao buscar o livro. Tente novamente.", isUser: false },
         ]);
       } finally {
         setLoading(false);
