@@ -2,6 +2,8 @@ import { Link, useNavigate } from "react-router-dom";
 import perfil from "../../../imagens/perfil.png";
 import carrinho from "../../../imagens/carrinho.png";
 import styled from "styled-components";
+import { useAuth } from "../../Context/AuthContext";
+import { useContext } from "react";
 
 const Icone = styled.li`
   margin-right: 40px;
@@ -25,14 +27,17 @@ const icones = [
   { imagem: carrinho, rota: "/carrinho", id: "header-iconeCarrinho" },
 ];
 
+
+
 function IconesHeader() {
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   function handleLogout() {
-    localStorage.removeItem("usuarioLogado");
-    localStorage.removeItem("usuarioId"); // Removendo também o ID do usuário
-    navigate("/login");
-  }
+      logout();
+      navigate("/login");
+   }
+
 
   return (
     <Icones>

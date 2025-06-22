@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import InputMask from 'react-input-mask';
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
+import { AuthContext } from "../../Context/AuthContext";
 
 const FormContainer = styled.section`
     color: #FFF;
@@ -42,7 +43,7 @@ const StyledInputMask = styled(InputMask)`
     margin-top: 30px;
     display: flex;
     align-items: flex-start;
-    
+
     &::placeholder {
         color: #004A33;
         font-size: 16px;
@@ -53,15 +54,15 @@ const StyledInputMask = styled(InputMask)`
         box-shadow: 0px 0px 5px #00FF00; 
     }
 `;
+
 const generos = ["Masculino", "Feminino", "Outro"];
 const tiposTelefone = ["Celular", "Residencial", "Comercial", "Outro"];
 
-    
+function FormCliente({ register, control, user, disabled = false }) {
 
-function FormCliente({ register, user, control }) {
-    const formMethods = useForm();  // Adiciona useForm caso control não seja passado
-    const effectiveControl = control || formMethods.control;
-    const effectiveRegister = register || formMethods.register;
+    if (!user) {
+        return <p>Carregando dados...</p>;
+    }
 
     return (
         <FormContainer>
@@ -71,64 +72,110 @@ function FormCliente({ register, user, control }) {
 
             <Opcoes>
                 <div style={{ width: "48%" }}>
-                    <Input placeholder="Nome" id="cliente-nome" {...effectiveRegister("nome")} defaultValue={user?.nome} />
+                    <Input
+                        disabled={disabled}
+                        placeholder="Nome"
+                        id="cliente-nome"
+                        {...register("nome")}
+                    />
                 </div>
+
                 <div style={{ width: "48%" }}>
-                    <Input placeholder="E-mail" id="cliente-email" {...effectiveRegister("email")} defaultValue={user?.email} />
+                    <Input
+                        disabled={disabled}
+                        placeholder="E-mail"
+                        id="cliente-email"
+                        {...register("email")}
+                    />
                 </div>
+
                 <div style={{ width: "48%" }}>
                     <Controller
                         name="cpf"
-                        control={effectiveControl}
+                        control={control}
                         render={({ field }) => (
-                            <StyledInputMask {...field} mask="999.999.999-99" id="cliente-cpf" placeholder="CPF" defaultValue={user?.cpf}/>
+                            <StyledInputMask
+                                disabled={disabled}
+                                {...field}
+                                mask="999.999.999-99"
+                                id="cliente-cpf"
+                                placeholder="CPF"
+                            />
                         )}
                     />
                 </div>
+
                 <div style={{ width: "48%" }}>
-                    <Input placeholder="Senha" id="cliente-senha" type="password" {...effectiveRegister("senha")} defaultValue={"********"}/>
+                    <Input
+                        disabled={disabled}
+                        placeholder="Senha"
+                        id="cliente-senha"
+                        type="password"
+                        {...register("senha")}
+                    />
                 </div>
+
                 <div style={{ width: "48%" }}>
-                    <Input type='date' id="cliente-nascimento" placeholder="Nascimento" {...effectiveRegister("nascimento")} defaultValue={user?.dataNascimento ? new Date(user.dataNascimento).toISOString().split("T")[0] : ""} />
+                    <Input
+                        disabled={disabled}
+                        type='date'
+                        id="cliente-nascimento"
+                        {...register("nascimento")}
+                    />
                 </div>
+
                 <div key={"genero"} style={{ width: "48%" }}>
-                    <Select options={generos} id="cliente-genero" placeholder="Selecione o gênero" registro={"genero"} {...effectiveRegister("genero")} defaultValue={user?.genero} />
+                    <Select
+                        disabled={disabled}
+                        options={generos}
+                        id="cliente-genero"
+                        placeholder="Selecione o gênero"
+                        registro="genero"
+                        {...register("genero")}
+                    />
                 </div>
+
                 <div key={"tipoTelefone"} style={{ width: "48%" }}>
-                <Controller
-                    name="tipoTelefone"
-                    control={effectiveControl}
-                    defaultValue={user?.telefones?.[0]?.tipoTelefone || ""}
-                    render={({ field }) => (
-                        <Select
-                        {...field}
+                    <Select
+                        disabled={disabled}
                         options={tiposTelefone}
                         id="cliente-tipoTelefone"
                         placeholder="Selecione o tipo de telefone"
                         registro="tipoTelefone"
-                        />
-                    )}
-                />
+                        {...register("tipoTelefone")}
+                    />
                 </div>
+
                 <div style={{ width: "48%" }}>
-                <Controller
-                    name="ddd"
-                    control={effectiveControl}
-                    defaultValue={user?.telefones?.[0]?.ddd || ""}
-                    render={({ field }) => (
-                        <StyledInputMask {...field} mask="99" id="cliente-ddd" placeholder="DDD" />
-                    )}
-                />
+                    <Controller
+                        name="ddd"
+                        control={control}
+                        render={({ field }) => (
+                            <StyledInputMask
+                                disabled={disabled}
+                                {...field}
+                                mask="99"
+                                id="cliente-ddd"
+                                placeholder="DDD"
+                            />
+                        )}
+                    />
                 </div>
+
                 <div style={{ width: "48%" }}>
-                <Controller
-                    name="numero"
-                    control={effectiveControl}
-                    defaultValue={user?.telefones?.[0]?.numero || ""}
-                    render={({ field }) => (
-                        <StyledInputMask {...field} mask="99999-9999" id="cliente-numero" placeholder="Número" />
-                    )}
-                />
+                    <Controller
+                        name="numero"
+                        control={control}
+                        render={({ field }) => (
+                            <StyledInputMask
+                                disabled={disabled}
+                                {...field}
+                                mask="99999-9999"
+                                id="cliente-numero"
+                                placeholder="Número"
+                            />
+                        )}
+                    />
                 </div>
             </Opcoes>
         </FormContainer>

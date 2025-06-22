@@ -110,9 +110,11 @@ const ResumoPedido = () => {
     const [cuponsSelecionados, setCuponsSelecionados] = useState([]);
 
     useEffect(() => {
-        async function buscarCupons() {
-            try {
-                const response = await listarCuponsPorCliente(user.id);
+    if (!user?.id) return; // protege contra 'null' ou 'undefined'
+
+    async function buscarCupons() {
+        try {
+            const response = await listarCuponsPorCliente(user.id);
                 const cuponsValidos = response.data.filter(cupom => cupom.validade);
                 setCuponsDisponiveis(cuponsValidos);
             } catch (error) {

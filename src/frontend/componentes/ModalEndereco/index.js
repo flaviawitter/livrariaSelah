@@ -5,9 +5,8 @@ import FormEnderecoModal from '../FormsDados/FormEnderecoModal';
 import BotaoVermelho from '../Botões/BotaoVermelho';
 import BotaoCinza from '../Botões/BotaoCinza';
 import { criarEnderecoNovo } from '../../serviços/endereco'
-import { useEffect, useContext } from 'react';
+import { useEffect } from 'react';
 import { useForm } from "react-hook-form";
-import { AuthContext } from '../Context/AuthContext';
 
 
 const ModalContainer = styled.div`
@@ -53,9 +52,7 @@ const ModalBotoes = styled.div`
     border: 0;
 `
 
-function ModalEndereco({ showModal, setShowModal, register, handleSubmit, reset, setEnderecos }) {
-  
-  const { idCliente } = useContext(AuthContext);
+function ModalEndereco({ showModal, setShowModal, register, handleSubmit, reset, idCliente, setEnderecos }) {
 
   useEffect(() => {
     if (showModal) reset(); // Reseta os valores ao abrir o modal
@@ -101,7 +98,7 @@ function ModalEndereco({ showModal, setShowModal, register, handleSubmit, reset,
         try {
           const resposta = await criarEnderecoNovo(idCliente, endereco);
           const novoEndereco = resposta.data;
-          setEnderecos(prev => [...prev, novoEndereco]); // <-- Atualiza lista
+          setEnderecos(prev => [...prev, novoEndereco]); 
           setShowModal(false);
         } catch (error) {
           console.error("Erro ao inserir endereço:", error);

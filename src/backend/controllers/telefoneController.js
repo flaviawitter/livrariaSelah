@@ -46,22 +46,28 @@ async function obterTelefone(req, res) {
 }
 
 async function atualizarTelefone(req, res) {
-    const id = req.params.id;
+    const telefoneId = req.params.id; // Este é o ID do telefone
     const body = req.body;
     try {
-        const telefone = await prisma.telefones.updateMany({ 
-            where: { clienteId: parseInt(id) }, 
+        // Usar 'update' para um único registro, não 'updateMany'
+        const telefoneAtualizado = await prisma.telefones.update({ 
+            where: { id: parseInt(telefoneId) }, // Condição no ID do telefone
             data: body
         });
-        res.json(telefone)
+        res.json(telefoneAtualizado);
     } catch (error) {
+        // Prisma lança um erro se o registro não for encontrado, o que é bom
         res.status(400).json({ error: error.message });
     }
 }
 
 async function deletarTelefone(req, res) {
+    const telefoneId = req.params.id; // Este é o ID do telefone
     try {
-        await prisma.telefones.deleteMany({ where: { clienteId: parseInt(req.params.id) } });
+        // Usar 'delete' para um único registro, não 'deleteMany'
+        await prisma.telefones.delete({ 
+            where: { id: parseInt(telefoneId) } // Condição no ID do telefone
+        });
         res.json({ message: "Telefone deletado com sucesso" });
     } catch (error) {
         res.status(400).json({ error: error.message });

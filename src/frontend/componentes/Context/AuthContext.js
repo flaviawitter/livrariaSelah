@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from "react";
+import { useContext } from "react";
 
 export const AuthContext = createContext();
 
@@ -24,23 +25,29 @@ export const AuthProvider = ({ children }) => {
     }, []);
     
     const login = (userData, id) => {
-        if (!userData) {
-            console.error("Tentativa de login falhou: dados inválidos");
-            return;
+      if (user && user.id !== userData.id) {
+        logout();
         }
-        console.log("Armazenando usuário no contexto:", userData);
-        console.log("Armazenando ID no contexto:", id);
-        setUser(userData);
-        setIdCliente(id);
-        localStorage.setItem("user", JSON.stringify(userData));
-        localStorage.setItem("idCliente", id);
-    };
+
+      if (!userData) {
+         console.error("Tentativa de login falhou: dados inválidos");
+         return;
+      }
+
+      console.log("Armazenando usuário no contexto:", userData);
+      console.log("Armazenando ID no contexto:", id);
+      setUser(userData);
+      setIdCliente(id);
+      localStorage.setItem("user", JSON.stringify(userData));
+      localStorage.setItem("idCliente", id);
+   };
     
     const logout = () => {
         setUser(null);
         setIdCliente(null);
         localStorage.removeItem("user");
         localStorage.removeItem("idCliente");
+        localStorage.removeItem("usuarioLogado");
     };
 
     return (
@@ -48,4 +55,10 @@ export const AuthProvider = ({ children }) => {
             {children}
         </AuthContext.Provider>
     );
+};
+
+export const useAuth = () => {
+   const { user, idCliente, login, logout } = useContext(AuthContext);
+
+   return { user, idCliente, login, logout };
 };

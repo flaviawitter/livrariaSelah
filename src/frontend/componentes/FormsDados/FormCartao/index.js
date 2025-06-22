@@ -77,7 +77,7 @@ const StyledInputMask = styled(InputMask)`
 
 const bandeiras = ["MasterCard", "Visa", "Elo", "Outro"]
 
-function FormCartao({ register, user, control }) {
+function FormCartao({ register, user, control, disabled = false }) {
     const formMethods = useForm();  // Adiciona useForm caso control não seja passado
     const effectiveControl = control || formMethods.control;
     const effectiveRegister = register || formMethods.register;
@@ -91,6 +91,7 @@ function FormCartao({ register, user, control }) {
         <Opcoes>
             <div key={"apelidoCartao"} style={{ width: "48%" }}>
                 <Input 
+                    disabled={disabled}
                     id="cartao-apelido" 
                     placeholder="Apelido do Cartão" 
                     {...effectiveRegister("cartoes[0].apelidoCartao")} 
@@ -105,6 +106,7 @@ function FormCartao({ register, user, control }) {
                     defaultValue={user?.cartoes?.[0]?.numero || ""}
                     render={({ field }) => (
                         <StyledInputMask 
+                            disabled={disabled}
                             {...field} 
                             id="cartao-numero" 
                             mask="9999 9999 9999 9999" 
@@ -120,7 +122,8 @@ function FormCartao({ register, user, control }) {
                     control={effectiveControl}
                     defaultValue={user?.cartoes?.[0]?.codSeguranca || ""}
                     render={({ field }) => (
-                        <StyledInputMask 
+                        <StyledInputMask
+                            disabled={disabled} 
                             {...field} 
                             id="cartao-codSeguranca" 
                             mask="999" 
@@ -137,6 +140,7 @@ function FormCartao({ register, user, control }) {
                     defaultValue={user?.cartoes?.[0]?.validade || ""}
                     render={({ field }) => (
                         <StyledInputMask 
+                            disabled={disabled}
                             {...field} 
                             id="cartao-validade" 
                             mask="99/99" 
@@ -148,6 +152,7 @@ function FormCartao({ register, user, control }) {
     
             <div key={"nomeTitular"} style={{ width: "48%" }}>
                 <Input 
+                    disabled={disabled}
                     id="cartao-nomeTitular" 
                     placeholder="Nome do Titular" 
                     {...effectiveRegister("cartoes[0].nomeTitular")} 
@@ -162,6 +167,7 @@ function FormCartao({ register, user, control }) {
                     defaultValue={user?.cartoes?.[0]?.bandeiraCartao || ""}
                     render={({ field }) => (
                         <Select 
+                            disabled={disabled}
                             {...field} 
                             id="cartao-bandeira" 
                             options={bandeiras} 
@@ -173,6 +179,7 @@ function FormCartao({ register, user, control }) {
     
             <div key={"preferencial"} style={{ width: "48%", display: "flex", alignItems: "center" }}>
                 <input 
+                    disabled={disabled}
                     id="cartao-preferencial" 
                     type="checkbox" 
                     {...effectiveRegister("cartoes[0].preferencial")}

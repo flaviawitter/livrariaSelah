@@ -98,9 +98,15 @@ const atualizarStatus = async (idCliente, novoStatus) => {
       console.error('Erro ao atualizar cliente:', error);
     }
   };
+
+  // Exemplo de como o serviço deveria ser
+    async function atualizarTelefone(idTelefone, dadosTelefone) {
+        // Faz a requisição para PUT /api/telefones/{idTelefone}
+        await axios.put(`http://localhost:5000/api/telefones/${idTelefone}`, dadosTelefone);
+    }
   
 
 export {
-    criarCliente, obterCliente, atualizarSenha, deletarCliente, atualizarCliente, criarCadastro, listarCliente, atualizarStatus
+    criarCliente, obterCliente, atualizarSenha, deletarCliente, atualizarCliente, criarCadastro, listarCliente, atualizarStatus, atualizarTelefone
 } 
 

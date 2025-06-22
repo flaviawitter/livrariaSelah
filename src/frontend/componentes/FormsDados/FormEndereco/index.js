@@ -84,7 +84,7 @@ const tiposLogradouro = ["Avenida", "Rua", "Alameda", "Rodovia", "Outro"]
 const cidades = ["Aruja", "Barueri", "Biritiba-Mirim", "Boituva", "Campinas", "Cajamar", "Caieiras", "Carapicuiba", "Cotia", "Cubatao", "Diadema", "Embu", "Embu-Guacu", "Ferraz De Vasconcelos", "Francisco Morato", "Guararema", "Guarulhos", "Itapevi", "Itaquaquecetuba", "Itapecerica Da Serra", "Jandira", "Juquitiba", "Jundiai", "Mairipora", "Maua", "Miracatu", "Mogi Das Cruzes", "Osasco", "Poa", "Pirapora Bom Jesus", "Quetuz", "Registro", "Ribeirao Pires", "Rio Grande Da Serra", "Santana De Parnaiba", "Salesopolis", "Santo Andre", "Sao Bernardo Do Campo", "Sao Caetano Do Sul", "Sao Paulo", "Suzano", "S.Isabel", "S.Lourenco Da Serra", "S.Andre", "S.Caetano Do Sul", "S.Paulo", "Tabao Da Serra", "Vargem Grande Paulista"];
 
 
-function FormEndereco({ register, user, control }) {
+function FormEndereco({ register, user, control, disabled = false }) {
     const formMethods = useForm();  // Adiciona useForm caso control não seja passado
     const effectiveControl = control || formMethods.control;
     const effectiveRegister = register || formMethods.register;
@@ -98,10 +98,10 @@ function FormEndereco({ register, user, control }) {
 
                 <Opcoes>
                 <div key={"pais"} style={{ width: "48%" }}>
-                    <Input placeholder="Brasil" id="enderecoEntrega-pais" {...effectiveRegister("pais")} readOnly />
+                    <Input disabled={disabled} placeholder="Brasil" id="enderecoEntrega-pais" {...effectiveRegister("pais")} readOnly />
                 </div>
                 <div key={"estadoEntrega"} style={{ width: "48%" }}>
-                    <Input placeholder="São Paulo" id="enderecoEntrega-estado" {...effectiveRegister("estadoEntrega")} readOnly />
+                    <Input disabled={disabled} placeholder="São Paulo" id="enderecoEntrega-estado" {...effectiveRegister("estadoEntrega")} readOnly />
                 </div>
                 <div key={"cidadeEntrega"} style={{ width: "48%" }}>
                     <Controller
@@ -109,7 +109,7 @@ function FormEndereco({ register, user, control }) {
                         control={effectiveControl}
                         defaultValue={user?.enderecos?.[0]?.cidade || ""} 
                         render={({field}) => (
-                            <Select {...field} options={cidades} id="enderecoEntrega-cidade" placeholder="Selecione a cidade" {...effectiveRegister("cidadeEntrega")} />
+                            <Select disabled={disabled} {...field} options={cidades} id="enderecoEntrega-cidade" placeholder="Selecione a cidade" {...effectiveRegister("cidadeEntrega")} />
                         )}
                     />
                 </div>
@@ -119,26 +119,26 @@ function FormEndereco({ register, user, control }) {
                         control={effectiveControl}
                         defaultValue={user?.enderecos?.[0]?.tipoLogradouro || ""} 
                         render={({field}) => (
-                            <Select {...field} options={tiposLogradouro} id="enderecoEntrega-tpLogradouro" placeholder="Selecione o tipo de logradouro" {...effectiveRegister("tpLogradouroEntrega")} />
+                            <Select disabled={disabled} {...field} options={tiposLogradouro} id="enderecoEntrega-tpLogradouro" placeholder="Selecione o tipo de logradouro" {...effectiveRegister("tpLogradouroEntrega")} />
                         )}
                     />
                 </div>
                 <div key={"logradouroEntrega"} style={{ width: "48%" }}>
-                    <Input placeholder="Logradouro" id="enderecoEntrega-logradouro" {...effectiveRegister("logradouroEntrega")} defaultValue={user?.enderecos?.[0]?.logradouro} />
+                    <Input disabled={disabled} placeholder="Logradouro" id="enderecoEntrega-logradouro" {...effectiveRegister("logradouroEntrega")} defaultValue={user?.enderecos?.[0]?.logradouro} />
                 </div>
                 <div key={"numeroEnderecoEntrega"} style={{ width: "48%" }}>
-                    <Input placeholder="Número" id="enderecoEntrega-numero" {...effectiveRegister("numeroEnderecoEntrega")} defaultValue={user?.enderecos?.[0]?.numero} />
+                    <Input disabled={disabled} placeholder="Número" id="enderecoEntrega-numero" {...effectiveRegister("numeroEnderecoEntrega")} defaultValue={user?.enderecos?.[0]?.numero} />
                 </div>
 
                 <div key={"bairroEntrega"} style={{ width: "48%" }}>
-                    <Input placeholder="Bairro" id="enderecoEntrega-bairro" {...effectiveRegister("bairroEntrega")} defaultValue={user?.enderecos?.[0]?.bairro} />
+                    <Input disabled={disabled} placeholder="Bairro" id="enderecoEntrega-bairro" {...effectiveRegister("bairroEntrega")} defaultValue={user?.enderecos?.[0]?.bairro} />
                 </div>
                 <div key={"cepEntrega"} style={{ width: "48%" }}>
                     <Controller
                         name="cepEntrega"
                         control={effectiveControl}
                         render={({ field }) => (
-                            <StyledInputMask {...field} mask="99999-999" id="enderecoCobranca-cepEntrega" placeholder="CEP" defaultValue={user?.enderecos?.[0]?.cep || ""} />
+                            <StyledInputMask disabled={disabled} {...field} mask="99999-999" id="enderecoCobranca-cepEntrega" placeholder="CEP" defaultValue={user?.enderecos?.[0]?.cep || ""} />
                         )}
                     /> 
                 </div>
@@ -149,7 +149,7 @@ function FormEndereco({ register, user, control }) {
                         control={effectiveControl}
                         defaultValue={user?.enderecos?.[0]?.tipoResidencia || ""} 
                         render={({field}) => (
-                            <Select {...field} options={tipoResidencia} id="enderecoEntrega-tpResidencia" placeholder="Selecione o tipo de residência"  {...effectiveRegister("tpResidenciaEntrega")} />
+                            <Select disabled={disabled} {...field} options={tipoResidencia} id="enderecoEntrega-tpResidencia" placeholder="Selecione o tipo de residência"  {...effectiveRegister("tpResidenciaEntrega")} />
                         )}
                     />
                 </div>
@@ -163,10 +163,10 @@ function FormEndereco({ register, user, control }) {
                 Endereço de Cobrança
                 </Titulo>
                 <div key={"paisCobranca"} style={{ width: "48%" }}>
-                    <Input placeholder="Brasil" id="enderecoCobranca-pais" {...effectiveRegister("paisCobranca")} readOnly/>
+                    <Input disabled={disabled} placeholder="Brasil" id="enderecoCobranca-pais" {...effectiveRegister("paisCobranca")} readOnly/>
                 </div>
                 <div key={"estadoCobranca"} style={{ width: "48%" }}>
-                    <Input placeholder="São Paulo" id="enderecoCobranca-estado" {...effectiveRegister("estadoEntregaCobranca")} readOnly />
+                    <Input disabled={disabled} placeholder="São Paulo" id="enderecoCobranca-estado" {...effectiveRegister("estadoEntregaCobranca")} readOnly />
                 </div>
                 <div key={"cidadeCobranca"} style={{ width: "48%" }}>
                     <Controller
@@ -174,7 +174,7 @@ function FormEndereco({ register, user, control }) {
                         control={effectiveControl}
                         defaultValue={user?.enderecos?.[1]?.cidade || ""} 
                         render={({field}) => (
-                            <Select {...field} options={cidades} id="enderecoCobranca-cidade" placeholder="Selecione a cidade"  {...effectiveRegister("cidadeCobranca")} />
+                            <Select disabled={disabled} {...field} options={cidades} id="enderecoCobranca-cidade" placeholder="Selecione a cidade"  {...effectiveRegister("cidadeCobranca")} />
                         )}
                     />
                 </div>
@@ -184,26 +184,26 @@ function FormEndereco({ register, user, control }) {
                         control={effectiveControl}
                         defaultValue={user?.enderecos?.[1]?.tipoLogradouro || ""} 
                         render={({field}) => (
-                            <Select {...field} options={tiposLogradouro} id="enderecoEntrega-tpLogradouro" placeholder="Selecione o tipo de logradouro"  {...effectiveRegister("tpLogradouroCobranca")} />
+                            <Select disabled={disabled} {...field} options={tiposLogradouro} id="enderecoEntrega-tpLogradouro" placeholder="Selecione o tipo de logradouro"  {...effectiveRegister("tpLogradouroCobranca")} />
                         )}
                     />
                 </div>
                 <div key={"logradouroCobranca"} style={{ width: "48%" }}>
-                    <Input placeholder="Logradouro" id="enderecoCobranca-logradouro" {...effectiveRegister("logradouroCobranca")} defaultValue={user?.enderecos?.[1]?.logradouro} />
+                    <Input disabled={disabled} placeholder="Logradouro" id="enderecoCobranca-logradouro" {...effectiveRegister("logradouroCobranca")} defaultValue={user?.enderecos?.[1]?.logradouro} />
                 </div>
                 <div key={"numeroEnderecoCobranca"} style={{ width: "48%" }}>
-                    <Input placeholder="Número" id="enderecoCobranca-numero" {...effectiveRegister("numeroEnderecoCobranca")} defaultValue={user?.enderecos?.[1]?.numero} />
+                    <Input disabled={disabled} placeholder="Número" id="enderecoCobranca-numero" {...effectiveRegister("numeroEnderecoCobranca")} defaultValue={user?.enderecos?.[1]?.numero} />
                 </div>
 
                 <div key={"bairroCobranca"} style={{ width: "48%" }}>
-                    <Input placeholder="Bairro" id="enderecoCobranca-bairro" {...effectiveRegister("bairroCobranca")} defaultValue={user?.enderecos?.[1]?.bairro} />
+                    <Input disabled={disabled} placeholder="Bairro" id="enderecoCobranca-bairro" {...effectiveRegister("bairroCobranca")} defaultValue={user?.enderecos?.[1]?.bairro} />
                 </div>
                 <div key={"cepCobranca"} style={{ width: "48%" }}>
                     <Controller
                         name="cepCobranca"
                         control={effectiveControl}
                         render={({ field }) => (
-                            <StyledInputMask {...field} mask="99999-999" id="enderecoCobranca-cepCobranca" placeholder="CEP" defaultValue={user?.enderecos?.[1]?.cep || ""} />
+                            <StyledInputMask disabled={disabled} {...field} mask="99999-999" id="enderecoCobranca-cepCobranca" placeholder="CEP" defaultValue={user?.enderecos?.[1]?.cep || ""} />
                         )}
                     />    
                 </div>
@@ -213,7 +213,7 @@ function FormEndereco({ register, user, control }) {
                         control={effectiveControl}
                         defaultValue={user?.enderecos?.[1]?.tipoResidencia || ""} 
                         render={({field}) => (
-                            <Select {...field} options={tipoResidencia} id="enderecoEntrega-tpResidencia" placeholder="Selecione o tipo de residência"  {...effectiveRegister("tpResidenciaCobranca")} />
+                            <Select disabled={disabled} {...field} options={tipoResidencia} id="enderecoEntrega-tpResidencia" placeholder="Selecione o tipo de residência"  {...effectiveRegister("tpResidenciaCobranca")} />
                         )}
                     />
                 </div>
