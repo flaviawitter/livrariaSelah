@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import InputMask from 'react-input-mask';
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
-import { AuthContext } from "../../Context/AuthContext";
+import { useAuth } from "../../Context/AuthContext";
 
 const FormContainer = styled.section`
     color: #FFF;

@@ -5,7 +5,7 @@ import BotaoVermelho from '../Botões/BotaoVermelho';
 import { atualizarPedido, listarPedidos } from '../../serviços/pedido';
 import { criarCupom } from '../../serviços/cupom';
 import { useToast } from "../Context/ToastContext";
-import { AuthContext } from "../Context/AuthContext";
+import { useAuth } from "../Context/AuthContext";
 import { atualizarItemPedido } from '../../serviços/itensPedido';
 
 const OrderCard = styled.div`
@@ -35,7 +35,7 @@ function gerarCodigoCupom(tamanho = 5) {
 
 function CardPedidoAdm({ user }) {
   const { showToast } = useToast();
-  const { idCliente } = useContext(AuthContext);
+  const { idCliente } =  useAuth();
   const [pedidos, setPedidos] = useState([]);
 
   useEffect(() => {

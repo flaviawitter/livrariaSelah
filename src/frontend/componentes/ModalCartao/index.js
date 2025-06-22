@@ -4,7 +4,7 @@ import BotaoVermelho from '../Botões/BotaoVermelho';
 import BotaoCinza from '../Botões/BotaoCinza';
 import FormCartaoModal from '../FormsDados/FormCartaoModal';
 import { criarCartaoNovo } from '../../serviços/cartao';
-import { AuthContext } from '../Context/AuthContext';
+import { useAuth } from '../Context/AuthContext';
 import { useForm } from 'react-hook-form';
 
 
@@ -48,7 +48,7 @@ const ModalBotoes = styled.div`
 
 function ModalCartao({ showModal, setShowModal, setCartoes }) {
 
-  const { idCliente } = useContext(AuthContext);
+  const { idCliente } =  useAuth();
   const { register, handleSubmit, reset } = useForm();
 
   useEffect(() => {

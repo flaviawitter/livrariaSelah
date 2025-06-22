@@ -6,7 +6,7 @@ import Logo from "../Logo";
 import BotaoVerde from "../Botões/BotaoVerde";
 import BotaoAmarelo from "../Botões/BotaoAmarelo";
 import { verificarLogin } from "../../serviços/login";
-import { AuthContext } from "../Context/AuthContext"
+import { useAuth } from "../Context/AuthContext"
 import { useContext } from "react";
 
 
@@ -71,7 +71,7 @@ const TextoPequeno = styled.p`
         const [email, setEmail] = useState("");
         const [senha, setSenha] = useState("");
         const [erro, setErro] = useState("");
-        const { login } = useContext(AuthContext);
+        const { login } =  useAuth();
         const navigate = useNavigate();
 
         async function handleLogin() {

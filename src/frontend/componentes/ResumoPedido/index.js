@@ -3,7 +3,7 @@ import styled from "styled-components";
 import DadosLivro from "../DadosLivro";
 import BotaoVermelho from "../Botões/BotaoVermelho";
 import { useNavigate, useLocation, data, matchRoutes } from "react-router-dom";
-import { AuthContext } from "../Context/AuthContext"
+import { useAuth } from "../Context/AuthContext"
 import { criarPedido, criarItemPedido } from "../../serviços/pedido";
 import { useForm } from "react-hook-form";
 import BotaoCinza from '../Botões/BotaoCinza';
@@ -95,7 +95,7 @@ const ResumoPedido = () => {
     const [enderecoSelecionado, setEnderecoSelecionado] = useState(null);
     const [pagamentosCartoes, setPagamentosCartoes] = useState({});
 
-    const { user, idCliente } = useContext(AuthContext);
+    const { user, idCliente } =  useAuth();
 
     const navigate = useNavigate();
     const [showModalEndereco, setShowModalEndereco] = useState(false);  

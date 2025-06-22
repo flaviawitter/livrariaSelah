@@ -5,7 +5,7 @@ import React from "react";
 import { useEffect } from 'react'
 import { listarPedidosPorCliente } from '../../serviços/pedido';
 import { useContext } from "react";
-import { AuthContext } from "../Context/AuthContext";
+import { useAuth } from "../Context/AuthContext";
 import BotaoSimples from '../Botões/BotaoSimples';
 import { useNavigate } from "react-router-dom";
 import { useToast } from "../Context/ToastContext";
@@ -58,7 +58,7 @@ function CardPedido({ }) {
     }
   }
 
-  const { idCliente } = useContext(AuthContext);
+  const { idCliente } =  useAuth();
 
   const [pedidos, setPedidos] = React.useState([]);
   const [carregando, setCarregando] = React.useState(true);

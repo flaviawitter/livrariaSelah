@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import BotaoCinza from '../Botões/BotaoCinza';
 import { atualizarStatus, listarCliente } from '../../serviços/cliente';
 import { useToast } from "../Context/ToastContext";
-import { AuthContext } from "../Context/AuthContext";
+import { useAuth } from "../Context/AuthContext";
 
 const OrderCard = styled.div`
   border-bottom: 1px solid #ccc;
@@ -21,7 +21,7 @@ const ButtonGroup = styled.div`
 
 function CardClienteAdm({ user }) {
   const { showToast } = useToast();
-  const { idCliente } = useContext(AuthContext);
+  const { idCliente } = useAuth();
   const [clientes, setClientes] = useState([]);
 
   useEffect(() => {

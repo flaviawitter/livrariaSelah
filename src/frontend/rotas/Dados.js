@@ -15,7 +15,7 @@ import { useForm } from "react-hook-form";
 import { criarCliente, deletarCliente, atualizarCliente } from '../serviços/cliente';
 import { criarEndereco, deletarEndereco, criarEnderecoNovo, atualizarEndereco } from '../serviços/endereco';
 import { atualizarCartao, criarCartao, deletarCartao } from '../serviços/cartao';
-import { AuthContext } from "../componentes/Context/AuthContext";
+import { useAuth } from "../componentes/Context/AuthContext";
 import { useToast } from '../componentes/Context/ToastContext';
 
 const AppContainer = styled.div`
@@ -44,8 +44,7 @@ function App() {
   const [showModalEndereco, setShowModalEndereco] = useState(false);  
   const [showModalCartao, setShowModalCartao] = useState(false);
   const [modoEdicao, setModoEdicao] = useState(false);
-  const { user, login } = useContext(AuthContext);
-  const [idCliente, setIdCliente] = useState(user?.id || null);
+  const { user, login, idCliente } =  useAuth();
   const { showToast } = useToast();
   const methods = useForm({ mode: "onBlur" });
 
@@ -56,82 +55,6 @@ function App() {
     control,
     getValues
   } = methods;
-
-  const onSubmit = async (data) => {
-    const cliente = {
-      nome: data.nome,
-      email: data.email,
-      cpf: data.cpf,
-      senha: data.senha,
-      genero: data.genero,
-      dataNascimento: data.nascimento,
-      ranking: 0
-    }
-
-    const newCliente = await criarCliente(cliente);
-    const idCliente = newCliente.data.id;
-    setIdCliente(idCliente);
-
-    const telefone = {
-      tipoTelefone: data.tipoTelefone,
-      ddd: data.ddd,
-      numero: data.numero,
-      clienteId: idCliente
-    }
-
-    const enderecoCobranca = {
-      clienteId: idCliente,
-      pais: "Brasil",
-      estado: "São Paulo",
-      cidade: data.cidadeCobranca,
-      logradouro: data.logradouroCobranca,
-      numero: parseInt(data.numeroEnderecoCobranca),
-      bairro: data.bairroCobranca,
-      cep: data.cepCobranca,
-      tipoResidencia: data.tpResidenciaCobranca,
-      tipoLogradouro: data.tpLogradouroCobranca,
-      tipoEndereco: "Cobranca",
-      preferencial: data.preferencialCobranca
-    }
-
-    await criarEndereco(enderecoCobranca)
-
-    const enderecoEntrega = {
-      clienteId: idCliente,
-      pais: "Brasil",
-      estado: "São Paulo",
-      cidade: data.cidadeEntrega,
-      logradouro: data.logradouroEntrega,
-      numero: parseInt(data.numeroEnderecoEntrega),
-      bairro: data.bairroEntrega,
-      cep: data.cepEntrega,
-      tipoResidencia: data.tpResidenciaEntrega,
-      tipoLogradouro: data.tpLogradouroEntrega,
-      tipoEndereco: "Entrega",
-      preferencial: data.preferencialEntrega
-    }
-
-    await criarEndereco(enderecoEntrega)
-
-    const cartao = {
-      apelidoCartao: data.apelidoCartao,
-      nomeTitular: data.nomeTitular,
-      numero: data.numeroCartao,
-      validade: data.validade,
-      codSeguranca: data.codSeguranca,
-      bandeiraCartao: data.bandeiraCartao,
-      preferencial: data.preferencial ? true : false,
-      clienteId: idCliente
-    }
-
-    const senha = {
-      senhaAtual: data.senhaAtual,
-      senhaNova: data.senhaNova
-    }
-
-    await criarCartao(cartao)
-    await criarTelefone(telefone)
-  }
 
   const onAtualizar = async (data) => {
     if (!idCliente) {
@@ -288,11 +211,6 @@ function App() {
       reset({});
     }
   }, [user, reset]); // A dependência em 'user' é a chave aqui
-
-
-  useEffect(() => {
-    setIdCliente(user?.id || null);
-  }, [user]);
 
   if (!user) {
     return (

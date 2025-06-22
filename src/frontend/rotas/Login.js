@@ -11,11 +11,9 @@ const AppContainer = styled.div`
 
 function App() {
   return (
-    <AuthProvider>
     <AppContainer>
       <LoginPage />
     </AppContainer>
-    </AuthProvider>
   );
 }
 

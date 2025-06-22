@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import React, { useEffect, useState, useContext } from "react";
-import { AuthContext } from "../Context/AuthContext";
+import { useAuth } from "../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { listarCuponsPorCliente } from '../../serviços/cupom';
 
@@ -55,7 +55,7 @@ const OrderInfo = styled.p`
 
 function PagCupom() {
   const navigate = useNavigate();
-  const { idCliente } = useContext(AuthContext);
+  const { idCliente } =  useAuth();
 
   const [cupons, setCupons] = useState([]);
   const [carregando, setCarregando] = useState(true);

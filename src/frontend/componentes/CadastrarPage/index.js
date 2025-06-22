@@ -6,7 +6,7 @@ import BotaoVerde from '../Botões/BotaoVerde'
 import BotaoAmarelo from '../Botões/BotaoAmarelo'
 import { criarCadastro } from '../../serviços/cliente';
 import React, { useContext } from "react";
-import { AuthContext } from "../../componentes/Context/AuthContext";
+import { useAuth } from "../../componentes/Context/AuthContext";
 import InputMask from 'react-input-mask';
 import { useForm, Controller } from "react-hook-form";
 
@@ -104,7 +104,7 @@ function LoginPage({ control }) {
             mode: "onBlur"
         }
     )
-    const { login } = useContext(AuthContext);
+    const { login } =  useAuth();
 
     const onSubmit = async (data) => {
         const cliente = {
