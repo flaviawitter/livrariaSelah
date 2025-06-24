@@ -144,7 +144,8 @@ function PaginaLivro() {
         const body = {
           cliente: idCliente,
           livroId: livro.id,
-          quantidade: 1
+          quantidade: 1,
+          precoUnidade: livro.preco,
         }
         const adicionandoCarrinho = await adicionarItemCarrinho(body);
         console.log(adicionandoCarrinho);
@@ -189,11 +190,10 @@ function PaginaLivro() {
                 </AvaliacaoContainer>
                 //<TipoLivro>{livro.tipoCapa} <br /> <strong>{livro.preco}</strong></TipoLivro>*/}
             <BotaoVermelho onClick={adicionarAoCarrinho}>Adicionar ao Carrinho</BotaoVermelho>
-            <BotaoCinza>Adicionar aos Favoritos</BotaoCinza>
+            {/*<BotaoCinza>Adicionar aos Favoritos</BotaoCinza>*/}
           </ContainerBotoes>
         </InfoLivro>
       </ContainerLivro>
-
       <h3 style={{ fontFamily: "Bookochi", letterSpacing: "0.22em", color: "#095F54", fontSize: "22px", textAlign: "left", marginTop: "50px" }}>
         Detalhes do Produto
       </h3>

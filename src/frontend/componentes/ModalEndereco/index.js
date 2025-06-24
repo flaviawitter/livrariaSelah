@@ -7,6 +7,7 @@ import BotaoCinza from '../Botões/BotaoCinza';
 import { criarEnderecoNovo } from '../../serviços/endereco'
 import { useEffect } from 'react';
 import { useForm } from "react-hook-form";
+import { useToast } from "../Context/ToastContext";
 
 
 const ModalContainer = styled.div`
@@ -60,49 +61,47 @@ function ModalEndereco({ showModal, setShowModal, register, handleSubmit, reset,
 
     console.log("ID do cliente carregado no modal endereco:", idCliente);
 
-  
+    const { showToast } = useToast();
+
     const onSubmit = async (data) => {    
+  if (!idCliente) {
+    showToast("Faça login!", "error");
+    return;
+  }  
 
-      console.log(data);
+  const endereco = {
+    clienteId: idCliente , 
+    pais: "Brasil",
+    estado: "São Paulo",
+    cidade: data.cidade,
+    logradouro: data.logradouro,
+    numero: parseInt(data.numeroEndereco),
+    bairro: data.bairro,
+    cep: data.cep,
+    tipoResidencia: data.tipoResidencia,
+    tipoLogradouro: data.tipoLogradouro,
+    tipoEndereco: data.tipoEndereco,
+    preferencial: data.preferencial ? true : false
+  }
 
-      if (!idCliente) {
-        console.error("ID do cliente não definido!");
-        return;
-      }  
+  try {
+  const resposta = await criarEnderecoNovo(idCliente, endereco);
 
-        const endereco = {
-          clienteId: idCliente , 
-          pais: "Brasil",
-          estado: "São Paulo",
-          cidade: data.cidade,
-          logradouro: data.logradouro,
-          numero: parseInt(data.numeroEndereco),
-          bairro: data.bairro,
-          cep: data.cep,
-          tipoResidencia: data.tipoResidencia,
-          tipoLogradouro: data.tipoLogradouro,
-          tipoEndereco: data.tipoEndereco,
-          preferencial: data.preferencial ? true : false
-        }
+  // Verifica se a resposta é válida (status 2xx e data presente)
+  if (resposta?.data) {
+    const novoEndereco = resposta.data;
+    setEnderecos(prev => [...prev, novoEndereco]); 
+    showToast("Endereço salvo com sucesso!", "success");
+    setShowModal(false);
+  } else {
+    console.error("Resposta inesperada:", resposta);
+    showToast("Endereço salvo com sucesso!", "success");
+  }
+} catch (error) {
+  console.error("Erro ao salvar endereço:", error);
+  showToast("Erro ao inserir endereço", "error");
+}
 
-        console.log(data.cidade);
-        console.log(data.tpLogradouro);
-        console.log(data.logradouro);
-        console.log(data.numeroEndereco);
-        console.log(data.bairro);
-        console.log(data.cep);
-        console.log(data.tpResidencia);
-        console.log(data.tpEndereco);
-        console.log('endereco:', endereco);
-
-        try {
-          const resposta = await criarEnderecoNovo(idCliente, endereco);
-          const novoEndereco = resposta.data;
-          setEnderecos(prev => [...prev, novoEndereco]); 
-          setShowModal(false);
-        } catch (error) {
-          console.error("Erro ao inserir endereço:", error);
-        }
     }
 
   if (!showModal) return null;

@@ -85,15 +85,15 @@ function HomeAdm() {
       </TitleContainer>
       <Sections>
         <Card>
-          <Description>Aqui você encontra a lista de todos os clientes cadastrados, podendo alterar os dados cadastrados, excluir e desativar contas.</Description>
+          <Description>Aqui você encontra a lista de todos os clientes cadastrados.</Description>
           <BotaoVerde onClick={() => navigate('/clientesadm')}>Clientes</BotaoVerde>
         </Card>
         <Card>
-          <Description>Aqui você encontra a lista de todos os pedidos, podendo aprovar a venda, a troca ou o cancelamento.</Description>
+          <Description>Aqui você encontra a lista de todos os pedidos.</Description>
           <BotaoVermelho onClick={() => navigate('/pedidosadm')}>Pedidos</BotaoVermelho>
         </Card>
         <Card>
-          <Description>Aqui você pode gerar um novo relatório de vendas geral, por período ou por produto.</Description>
+          <Description>Aqui você pode gerar um novo relatório de vendas geral.</Description>
           <BotaoCinza onClick={() => navigate('/relatorio')}>Gerar Relatório</BotaoCinza>
         </Card>
       </Sections>

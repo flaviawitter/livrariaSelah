@@ -83,28 +83,28 @@ function FormEnderecoModal({register}) {
                      <Input placeholder={"São Paulo"} id="modal-enderecoEstado" {...register("estado")} readOnly />
                  </li>
                  <li key={"cidade"} style={{ width: "48%" }}>
-                     <Select options={cidades} id="modal-enderecoCidade" placeholder="Selecione a cidade" registro={"cidade"} {...register("cidade")} />
+                     <Select options={cidades} id="modal-enderecoCidade" placeholder="Selecione a cidade" registro={"cidade"} {...register("cidade", { required: true })} />
                  </li>
                  <li key={"tipoLogradouro"} style={{ width: "45%" }}>
-                     <Select options={tiposLogradouro} id="modal-enderecoTpLogradouro" placeholder="Selecione o tipo de logradouro" name="tipoLogradouro" {...register("tipoLogradouro")}/>
+                     <Select options={tiposLogradouro} id="modal-enderecoTpLogradouro" placeholder="Selecione o tipo de logradouro" name="tipoLogradouro" {...register("tipoLogradouro", { required: true })}/>
                  </li>
                  <li key={"logradouro"} style={{ width: "45%" }}>
-                     <Input placeholder={"Logradouro"} id="modal-enderecoLogradouro" {...register("logradouro")} />
+                     <Input placeholder={"Logradouro"} id="modal-enderecoLogradouro" {...register("logradouro", { required: true })} />
                  </li>
                  <li key={"numeroEndereco"} style={{ width: "45%" }}>
-                     <Input placeholder={"Número"} id="modal-enderecoNumeroEndereco" {...register("numeroEndereco")} />
+                     <Input placeholder={"Número"} id="modal-enderecoNumeroEndereco" {...register("numeroEndereco", { required: true })} />
                  </li>
                  <li key={"bairro"} style={{ width: "45%" }}>
-                     <Input placeholder={"Bairro"} id="modal-enderecoBairro" {...register("bairro")} />
+                     <Input placeholder={"Bairro"} id="modal-enderecoBairro" {...register("bairro", { required: true })} />
                  </li>
                  <li key={"cep"} style={{ width: "45%" }}>
-                    <StyledInputMask mask="99999-999" id="modal-enderecoCEP" placeholder={"CEP"} {...register("cep")} />
+                    <StyledInputMask mask="99999-999" id="modal-enderecoCEP" placeholder={"CEP"} {...register("cep", { required: true })} />
                  </li>
                  <li key={"tpResidencia"} style={{ width: "48%" }}>
-                     <Select options={tipoResidencia} id="modal-enderecoTpResidencia" placeholder="Tipo de residência" registro={"tpResidencia"} {...register("tipoResidencia")} />
+                     <Select options={tipoResidencia} id="modal-enderecoTpResidencia" placeholder="Tipo de residência" registro={"tpResidencia"} {...register("tipoResidencia", { required: true })} />
                  </li>
                 <li key={"tpEndereco"} style={{ width: "45%" }}>
-                    <Select options={tipoEndereco} id="modal-tpEndereco" placeholder="Tipo de Endereço" registro={"tpEndereco"} {...register("tipoEndereco")} />
+                    <Select options={tipoEndereco} id="modal-tpEndereco" placeholder="Tipo de Endereço" registro={"tpEndereco"} {...register("tipoEndereco", { required: true })} />
                 </li>
                 <li style={{ width: "100%", display: "flex", alignItems: "center" }}>
                     <input type="checkbox" id="modal-enderecoPreferencial" {...register("preferencial")} />

@@ -4,6 +4,7 @@ import BotaoCinza from '../../Botões/BotaoCinza'
 import { useForm } from "react-hook-form";
 import { atualizarCliente, atualizarSenha, obterCliente } from '../../../serviços/cliente';
 import bcrypt from "bcryptjs"
+import { useToast } from "../../Context/ToastContext";
 
 
 const FormContainer = styled.section`
@@ -55,6 +56,8 @@ function FormSenha({ idCliente }) {
         }
     )
 
+    const { showToast } = useToast();
+
     const onSubmit = async (data) => {
         try {
             const clienteRes = await obterCliente(idCliente);
@@ -65,25 +68,30 @@ function FormSenha({ idCliente }) {
             
             if (!senhaCorreta) {
                 console.log("A senha atual está incorreta!");
+                showToast("A senha atual está incorreta!", "error");
                 return;
             }
     
             if (!data.senhaNova || !data.repitaSenhaNova) {
                 console.log("As senhas não podem estar em branco.");
+                showToast("As senhas não podem estar em branco.", "error");
                 return;
             }
     
             if (data.senhaNova !== data.repitaSenhaNova) {
                 console.log("Senha inválida! As senhas não coincidem.");
+                showToast("Senha inválida! As senhas não coincidem.", "error");
                 return;
             }
     
             // Atualiza a senha
             await atualizarSenha(idCliente, data.senhaNova);
             console.log("Senha atualizada com sucesso!");
+            showToast("Senha atualizada com sucesso!", "success");
     
         } catch (error) {
             console.error("Erro ao atualizar a senha:", error);
+            showToast("Erro ao atualizar a senha. Tente novamente.", "error");
         }
     };
 

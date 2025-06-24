@@ -81,22 +81,22 @@ function FormCartaoModal({ register }) {
             <Titulo style={{ fontFamily: "Bookochi", letterSpacing: "0.22em" }}>Cadastrar Cartão</Titulo>
             <Opcoes>
             <div key={"apelidoCartao"} style={{ width: "45%" }}>
-                    <Input  placeholder={"Apelido do Cartão"} id="modal-apelidoCartao" {...register("apelidoCartao")} />
+                    <Input  placeholder={"Apelido do Cartão"} id="modal-apelidoCartao" {...register("apelidoCartao", { required: true })} />
             </div>
             <div key={"numeroCartao"} style={{ width: "45%" }}>
-                <StyledInputMask mask="9999 9999 9999 9999" id="modal-numeroCartao" placeholder={"Número do Cartão"} {...register("numeroCartao")} />
+                <StyledInputMask mask="9999 9999 9999 9999" id="modal-numeroCartao" placeholder={"Número do Cartão"} {...register("numeroCartao", { required: true })} />
             </div>
             <div key={"codSeguranca"} style={{ width: "45%" }}>
-                <StyledInputMask mask="999" placeholder={"Código de Segurança"} id="modal-codSegCartao" {...register("codSeguranca")} />
+                <StyledInputMask mask="999" placeholder={"Código de Segurança"} id="modal-codSegCartao" {...register("codSeguranca", { required: true })} />
             </div>
             <div key={"validade"} style={{ width: "45%" }}>
-            <StyledInputMask mask="99/99" placeholder={"Validade"} id="modal-validadeCartao" {...register("validade")} />
+            <StyledInputMask mask="99/99" placeholder={"Validade"} id="modal-validadeCartao" {...register("validade", { required: true })} />
             </div>
             <div key={"nomeTitular"} style={{ width: "45%" }}>
-                    <Input placeholder={"Nome do Titular"} id="modal-nomeTitularCartao" {...register("nomeTitular")} />
+                    <Input placeholder={"Nome do Titular"} id="modal-nomeTitularCartao" {...register("nomeTitular", { required: true })} />
             </div>
             <div key={"bandeiraCartao"} style={{ width: "45%" }}>
-                <Select options={bandeiras} id="modal-bandeiraCartao" placeholder="Selecione a bandeira" registro="bandeiraCartao" {...register("bandeiraCartao")} />
+                <Select options={bandeiras} id="modal-bandeiraCartao" placeholder="Selecione a bandeira" registro="bandeiraCartao" {...register("bandeiraCartao", { required: true })} />
             </div>
 
             <div key={"cartaoPreferencial"} style={{ width: "100%", display: "flex", alignItems: "center" }}>

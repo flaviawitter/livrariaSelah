@@ -165,7 +165,7 @@ function CardPedidoAdm({ user }) {
         <OrderCard key={pedido.id}>
           <OrderInfo><strong>Pedido #{pedido.id}</strong></OrderInfo>
           <OrderInfo>Cliente: {pedido.cliente.nome}</OrderInfo>
-          <OrderInfo>Data do Pedido: {pedido.dataPedido}</OrderInfo>
+          <OrderInfo>Data do Pedido: {new Date(pedido.dataPedido).toLocaleDateString("pt-BR")}</OrderInfo>
           <OrderInfo>Status: {pedido.status}</OrderInfo>
           <OrderInfo>Valor do Pedido: R$ {pedido.totalPreco}</OrderInfo>
           <OrderInfo>

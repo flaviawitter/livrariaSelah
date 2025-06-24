@@ -153,18 +153,18 @@ function LoginPage({ control }) {
                                     mask="999.999.999-99"
                                     id="cliente-cpf"
                                     placeholder="CPF"
-                                    {...effectiveRegister("cpf")}
+                                    {...effectiveRegister("cpf", { required: true })}
                                 />
                             )}
                         />
                     </div>
 
                     <div style={{ width: '48%', marginTop: '10px' }}>
-                        <Input placeholder="E-mail" {...register('email')} />
+                        <Input placeholder="E-mail" {...register('email', { required: true })} />
                     </div>
 
                     <div style={{ width: '48%', marginTop: '10px' }}>
-                        <Input placeholder="Senha" type='password'{...register('senha')} />
+                        <Input placeholder="Senha" type='password'{...register('senha', { required: true })} />
                     </div>
 
                     <BotaoAmarelo

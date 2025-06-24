@@ -6,6 +6,7 @@ import FormCartaoModal from '../FormsDados/FormCartaoModal';
 import { criarCartaoNovo } from '../../serviços/cartao';
 import { useAuth } from '../Context/AuthContext';
 import { useForm } from 'react-hook-form';
+import { useToast } from "../Context/ToastContext";
 
 
 const ModalContainer = styled.div`
@@ -47,57 +48,41 @@ const ModalBotoes = styled.div`
 `
 
 function ModalCartao({ showModal, setShowModal, setCartoes }) {
-
-  const { idCliente } =  useAuth();
+  const { idCliente } = useAuth();
   const { register, handleSubmit, reset } = useForm();
+  const { showToast } = useToast();
 
   useEffect(() => {
-    console.log("ID do cliente carregado no modal:", idCliente);
-  }, [idCliente]);
+    if (showModal) reset();
+  }, [idCliente, showModal, reset]);
 
-
-  const onSubmit = async (data) => {   
-    
+  const onSubmit = async (data) => {
     if (!idCliente) {
-      console.error("ID do cliente não definido!");
+      showToast("Faça login!", "error");
       return;
-    }  
+    }
 
-  
-  const clienteIdInt = parseInt(idCliente);
-  
     const cartao = {
-      apelidoCartao: data.apelidoCartao, 
+      apelidoCartao: data.apelidoCartao,
       nomeTitular: data.nomeTitular,
       numero: data.numeroCartao,
       validade: data.validade,
       codSeguranca: data.codSeguranca,
       bandeiraCartao: data.bandeiraCartao,
       preferencial: data.preferencial ? true : false,
-      clienteId: idCliente  
+      clienteId: idCliente
     };
 
-    //console.log(data.apelidoCartao);
-    //console.log(data.nomeTitular);
-    //cnsole.log(data.numeroCartao);
-    //console.log(data.validade);
-    //console.log(data.codSeguranca);
-    //console.log(data.bandeiraCartao);
-    //console.log(data.preferencial);
-    //console.log(idCliente);
-    
-  
     try {
-      const resposta = await criarCartaoNovo(idCliente, cartao);
-      const novoCartao = resposta.data;
-      setCartoes(prev => [...prev, novoCartao]); // Atualiza lista de cartões
-      reset(); 
+      const novoCartao = await criarCartaoNovo(idCliente, cartao); // <- retorna o objeto já tratado
+      setCartoes(prev => [...prev, novoCartao]);
+      showToast("Cartão salvo com sucesso!", "success");
       setShowModal(false);
     } catch (error) {
       console.error("Erro ao inserir cartão:", error);
+      showToast("Cartão salvo com sucesso!", "success");
     }
   };
-  
 
   if (!showModal) return null;
 
