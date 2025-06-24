@@ -32,5 +32,5 @@ async function deletarEndereco(idCliente) {
 
 
 export {
-    criarEndereco, atualizarEndereco, deletarEndereco, criarEnderecoNovo
+    criarEndereco, atualizarEndereco, deletarEndereco, 
 } 
