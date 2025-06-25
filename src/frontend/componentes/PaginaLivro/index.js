@@ -142,11 +142,12 @@ function PaginaLivro() {
         showToast('Este livro não consta em estoque :(', 'warning', 'livro-sem-estoque');
       } else {
         const body = {
-          cliente: idCliente,
-          livroId: livro.id,
+          clienteId: Number(idCliente),
+          livroId: Number(livro.id),
           quantidade: 1,
-          precoUnidade: livro.preco,
-        }
+          precoUnidade: livro.precoVenda
+        };
+console.log(body);
         const adicionandoCarrinho = await adicionarItemCarrinho(body);
         console.log(adicionandoCarrinho);
 

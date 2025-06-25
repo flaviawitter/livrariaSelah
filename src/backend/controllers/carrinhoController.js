@@ -34,20 +34,23 @@ const buscarItemCarrinhoPorId = async (req, res) => {
 
 // Adicionar um novo item ao carrinho
 const adicionarItemCarrinho = async (req, res) => {
-    const { livroId, quantidade, precoUnidade, cliente } = req.body;  
-    console.log(req.body);
-      
+    const { livroId, quantidade, precoUnidade, clienteId } = req.body;
+
+    console.log("Body recebido:", req.body);
+
     try {
-        const novoItem = await prisma.carrinho.create({
-            data: { 
-                livroId: livroId, 
-                quantidade: quantidade, 
-                clienteId: cliente
-            }
-        });
-        res.status(201).json(novoItem);
+    const novoItem = await prisma.carrinho.create({
+        data: {
+        livroId: Number(livroId),
+        quantidade: Number(quantidade),
+        precoUnidade: precoUnidade, 
+        clienteId: Number(clienteId),
+        },
+    });
+    res.status(201).json(novoItem);
     } catch (error) {
-        res.status(500).json({ erro: "Erro ao adicionar item ao carrinho." });
+    console.error("Erro ao adicionar item ao carrinho:", error);
+    res.status(500).json({ erro: "Erro ao adicionar item ao carrinho.", detalhes: error.message });
     }
 };
 
