@@ -10,6 +10,7 @@ import BotaoSimples from '../Botões/BotaoSimples';
 import { useNavigate } from "react-router-dom";
 import { useToast } from "../Context/ToastContext";
 import { atualizarPedido } from '../../serviços/pedido';
+import { atualizarItensPorPedidoId } from '../../serviços/itensPedido';
 
 
 const OrderCard = styled.div`
@@ -38,6 +39,7 @@ function CardPedido({ }) {
   const handleSolicitarTroca = async (idPedido) => {
     try {
       const status = "Troca Solicitada";
+      await atualizarItensPorPedidoId(idPedido, status);
       await atualizarPedido(idPedido, status);
       showToast('Troca solicitada com sucesso!', 'success');
       
@@ -50,6 +52,7 @@ function CardPedido({ }) {
   const handleSolicitarDevolucao = async (idPedido) => {
     try {
       const status = "Devolução Solicitada";
+      await atualizarItensPorPedidoId(idPedido, status);
       await atualizarPedido(idPedido, status);
       showToast('Devolução Solicitada!', 'success');
 

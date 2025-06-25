@@ -74,6 +74,29 @@ const atualizarItemPedido = async (req, res) => {
     }
 };
 
+// Atualizar todos os itens de pedido com base no pedidoId
+const atualizarItensPorPedidoId = async (req, res) => {
+    const  pedidoId  = req.params.id;
+    const  status  = req.body.status;    
+
+    if (!status) {
+        return res.status(400).json({ erro: "Status é obrigatório para atualização." });
+    }
+
+    try {
+        const itensAtualizados = await prisma.itempedido.updateMany({
+            where: { pedidoId: Number(pedidoId) },
+            data: { status }
+        });
+
+        res.json({ mensagem: "Itens atualizados com sucesso.", quantidade: itensAtualizados.count });
+    } catch (error) {
+        console.error("Erro ao atualizar itens do pedido:", error);
+        res.status(500).json({ erro: "Erro ao atualizar itens do pedido." });
+    }
+};
+
+
 // Remover um item do pedido
 const excluirItemPedido = async (req, res) => {
     const { id } = req.params;
@@ -85,4 +108,4 @@ const excluirItemPedido = async (req, res) => {
     }
 };
 
-module.exports = { listarItensPedido, buscarItemPedidoPorId, adicionarItemPedido, atualizarItemPedido, excluirItemPedido };
+module.exports = { listarItensPedido, buscarItemPedidoPorId, adicionarItemPedido, atualizarItensPorPedidoId, atualizarItemPedido, excluirItemPedido };

@@ -21,6 +21,8 @@ import { AuthProvider } from "../src/frontend/componentes/Context/AuthContext";
 import { ToastProvider } from '../src/frontend/componentes/Context/ToastContext';
 import Toast from '../src/frontend/componentes/Toast';
 import Detalhes from './frontend/rotas/DetalhesPedido';
+import DetalhesAdm from './frontend/rotas/DetalhesPedidoAdm';
+
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -71,7 +73,8 @@ root.render(
         <Route path='/pedidoscliente' element = {<PedidosCliente />} /> 
         <Route path='/cuponscliente' element = {<CuponsCliente />} />  
         <Route path='/resumo' element = {<ResumoPedido />} /> 
-                      
+        <Route path='/detalhesadm' element = {<DetalhesAdm/>} />
+
       </Routes>
 
       <Toast />

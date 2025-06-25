@@ -7,6 +7,9 @@ import { criarCupom } from '../../serviços/cupom';
 import { useToast } from "../Context/ToastContext";
 import { useAuth } from "../Context/AuthContext";
 import { atualizarItemPedido } from '../../serviços/itensPedido';
+import BotaoSimples from '../Botões/BotaoSimples';
+import { useNavigate } from "react-router-dom";
+
 
 const OrderCard = styled.div`
   border-bottom: 1px solid #ccc;
@@ -37,6 +40,14 @@ function CardPedidoAdm({ user }) {
   const { showToast } = useToast();
   const { idCliente } =  useAuth();
   const [pedidos, setPedidos] = useState([]);
+ 
+
+  const navigate = useNavigate();
+
+  const handleLivroClick = (pedido) => {
+    navigate(`/detalhesadm`, { state: { pedidoSelecionado: pedido } });
+  };
+
 
   useEffect(() => {
     async function fetchPedidos() {
@@ -171,7 +182,9 @@ function CardPedidoAdm({ user }) {
           <OrderInfo>
             Cupom: {pedido.cupom.length > 0 ? pedido.cupom[0]?.descricao : "Esse pedido não possuí cupom"}
           </OrderInfo>
-
+           <ButtonGroup>
+            <BotaoSimples onClick={() => handleLivroClick(pedido)}>+ Detalhes</BotaoSimples>
+          </ButtonGroup>
           <ButtonGroup>
             {pedido.status === "Troca Solicitada" && (
               <>
