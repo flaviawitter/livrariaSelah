@@ -7,5 +7,8 @@ router.get('/:id', itemPedidoController.buscarItemPedidoPorId);
 router.post('/', itemPedidoController.adicionarItemPedido);
 router.put('/:id', itemPedidoController.atualizarItemPedido);
 router.delete('/:id', itemPedidoController.excluirItemPedido);
+router.put('/pedido/:id', itemPedidoController.atualizarItensPorPedidoId);
+
+
 
 module.exports = router;
