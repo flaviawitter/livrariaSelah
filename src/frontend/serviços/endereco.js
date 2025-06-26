@@ -9,10 +9,15 @@ async function criarEndereco(endereco) {
         console.log(error.request.response)
     }
 }
-export async function criarEnderecoNovo(idCliente, endereco) {
-  const response = await axios.post(`/api/clientes/${idCliente}/enderecos`, endereco);
-  return response.data; // ← axios retorna um objeto com .data
+async function criarEnderecoNovo(idCliente, endereco) {
+    try {
+        await axios.post(`http://localhost:5000/api/enderecos/${idCliente}`, { endereco });
+        console.log("Endereço criado com sucesso!");
+    } catch (error) {
+        console.log("Erro ao inserir endereço:", error.response ? error.response.data : error.message);
+    }
 }
+
 
 async function atualizarEndereco( clienteId, endereco) {
     try{
@@ -32,5 +37,5 @@ async function deletarEndereco(idCliente) {
 
 
 export {
-    criarEndereco, atualizarEndereco, deletarEndereco, 
+    criarEndereco, atualizarEndereco, deletarEndereco, criarEnderecoNovo
 } 

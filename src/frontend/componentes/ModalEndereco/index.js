@@ -8,7 +8,7 @@ import { criarEnderecoNovo } from '../../serviços/endereco'
 import { useEffect } from 'react';
 import { useForm } from "react-hook-form";
 import { useToast } from "../Context/ToastContext";
-
+import { useAuth } from '../Context/AuthContext';
 
 const ModalContainer = styled.div`
   position: fixed;
@@ -53,15 +53,17 @@ const ModalBotoes = styled.div`
     border: 0;
 `
 
-function ModalEndereco({ showModal, setShowModal, register, handleSubmit, reset, idCliente, setEnderecos }) {
+function ModalEndereco({ showModal, setShowModal, setEnderecos }) {
+
+  const { idCliente } = useAuth();
+  const { register, handleSubmit, reset } = useForm();
+  const { showToast } = useToast();
 
   useEffect(() => {
     if (showModal) reset(); // Reseta os valores ao abrir o modal
   }, [idCliente, showModal, reset]);
 
     console.log("ID do cliente carregado no modal endereco:", idCliente);
-
-    const { showToast } = useToast();
 
     const onSubmit = async (data) => {    
   if (!idCliente) {
