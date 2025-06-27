@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import CardPedidoAdm from '../CardPedidoAdm';
+import { useState } from 'react';
 
 const Container = styled.div`
   width: 100vw;
@@ -36,6 +37,17 @@ const FilterSection = styled.div`
     border: 1px solid #ccc;
     border-radius: 5px;
   }
+
+  /* Remove as setas do input type="number" */
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 `;
 const OrderList = styled.div`
   width: 80%;
@@ -56,20 +68,24 @@ const ButtonGroup = styled.div`
 `;
 
 function PagPedidosAdm() {
+
+  const [filtroId, setFiltroId] = useState('');
+
   return (
     <Container>
       <Title>PEDIDOS</Title>
       <FilterSection>
-        <label>Filtrar pedidos:</label>
-        <input type="text" placeholder="Data inicial" />
-        <input type="text" placeholder="Data final" />
-        <select>
-          <option>Selecionar</option>
-        </select>
+        <label>Filtrar por ID:</label>
+        <input
+          type="number"
+          placeholder="ID do Pedido"
+          value={filtroId}
+          onChange={(e) => setFiltroId(e.target.value)}
+        />
       </FilterSection>
       <OrderList>
         <OrderCard>
-          <CardPedidoAdm/>
+          <CardPedidoAdm filtroId={filtroId}/>
         </OrderCard>
       </OrderList>
     </Container>

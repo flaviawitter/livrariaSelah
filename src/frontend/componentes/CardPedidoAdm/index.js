@@ -36,7 +36,7 @@ function gerarCodigoCupom(tamanho = 5) {
 }
 
 
-function CardPedidoAdm({ user }) {
+function CardPedidoAdm({ user, filtroId }) {
   const { showToast } = useToast();
   const { idCliente } =  useAuth();
   const [pedidos, setPedidos] = useState([]);
@@ -172,7 +172,12 @@ function CardPedidoAdm({ user }) {
 
   return (
     <>
-      {pedidos.map((pedido) => (
+    {pedidos
+      .filter((pedido) => {
+        if (!filtroId) return true; // mostra todos se não houver filtro
+        return pedido.id.toString().includes(filtroId); 
+      })
+      .map((pedido) => (
         <OrderCard key={pedido.id}>
           <OrderInfo><strong>Pedido #{pedido.id}</strong></OrderInfo>
           <OrderInfo>Cliente: {pedido.cliente.nome}</OrderInfo>
@@ -207,6 +212,7 @@ function CardPedidoAdm({ user }) {
           </ButtonGroup>
         </OrderCard>
       ))}
+
     </>
   );
 }
