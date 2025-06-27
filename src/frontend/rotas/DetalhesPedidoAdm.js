@@ -1,6 +1,6 @@
 
 import styled from 'styled-components'
-import Header from '../componentes/Headers/Header';
+import HeaderAdm from '../componentes/Headers/HeaderAdm';
 import PagDetalhesPedidoAdm from '../componentes/PagDetalhesPedidoAdm';
 
 const AppContainer = styled.div`
@@ -12,7 +12,7 @@ const AppContainer = styled.div`
 function App() {
   return (
     <AppContainer>
-      <Header />
+      <HeaderAdm />
       <PagDetalhesPedidoAdm/>
     </AppContainer>
   );

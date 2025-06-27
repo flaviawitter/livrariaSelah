@@ -4,6 +4,7 @@ import BotaoCinza from '../Botões/BotaoCinza';
 import { atualizarStatus, listarCliente } from '../../serviços/cliente';
 import { useToast } from "../Context/ToastContext";
 import { useAuth } from "../Context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const OrderCard = styled.div`
   border-bottom: 1px solid #ccc;
@@ -19,7 +20,7 @@ const ButtonGroup = styled.div`
   margin-top: 10px;
 `;
 
-function CardClienteAdm({ user }) {
+function CardClienteAdm({ user, filtroCPF }) {
   const { showToast } = useToast();
   const { idCliente } = useAuth();
   const [clientes, setClientes] = useState([]);
@@ -54,7 +55,12 @@ function CardClienteAdm({ user }) {
 
   return (
     <>
-      {clientes.map((cliente) => (
+      {clientes
+      .filter((cliente) => {
+        if (!filtroCPF) return true; // mostra todos se não houver filtro
+        return cliente.cpf.toString().includes(filtroCPF); 
+      })
+      .map((cliente) => (
         <OrderCard key={cliente.id}>
           <OrderInfo><strong>{cliente.nome}</strong></OrderInfo>
           <OrderInfo>E-mail: {cliente.email}</OrderInfo>

@@ -96,7 +96,7 @@ const ResumoPedido = () => {
     const [pagamentosCartoes, setPagamentosCartoes] = useState({});
 
     const { user, idCliente } =  useAuth();
-
+    
     const navigate = useNavigate();
     const [showModalEndereco, setShowModalEndereco] = useState(false);  
     const [showModalCartao, setShowModalCartao] = useState(false);
@@ -211,6 +211,12 @@ const ResumoPedido = () => {
         }
     };
     
+    console.log("Dados do usuário:", user);
+    
+    if (!user || !user.id) {
+        return <p>Carregando dados do usuário...</p>; // ou redirecionar para login
+    }
+
 
     return (
         <ContainerResumo>
@@ -219,7 +225,9 @@ const ResumoPedido = () => {
             <Secao>
                 <h3>Conteúdo do Carrinho</h3>
                 <LivrosContainer>
-                    {livrosSelecionados.map((livro, index) => (
+                    {livrosSelecionados
+                    .filter(livro => livro && livro.id) 
+                    .map((livro, index) => (
                         <LivroItem key={index}>
                             <DadosLivro livros={[livro]} />
                             <Quantidade>Quantidade: x{livro.quantidade || "Autor desconhecido"}</Quantidade>
@@ -231,7 +239,9 @@ const ResumoPedido = () => {
             <Secao>
                 <h3>Selecione um endereço:</h3>
                 <OpcoesLista>
-                    {enderecos.map((endereco, index) => (
+                    {enderecos
+                    .filter(endereco => endereco && endereco.id)
+                    .map((endereco, index) => (
                         <OpcaoItem key={index}>
                             <input
                                 type="radio"
@@ -255,7 +265,9 @@ const ResumoPedido = () => {
             <Secao>
                 <h3>Selecione os cartões e valores:</h3>
                 <OpcoesLista>
-                    {cartoes.map((cartao, index) => (
+                    {cartoes
+                    .filter(cartao => cartao && cartao.id)
+                    .map((cartao, index) => (
                         <OpcaoItem key={index}>
                         <CartaoContainer>
                             <input

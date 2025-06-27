@@ -9,6 +9,7 @@ import React, { useContext } from "react";
 import { useAuth } from "../../componentes/Context/AuthContext";
 import InputMask from 'react-input-mask';
 import { useForm, Controller } from "react-hook-form";
+import { useToast } from "../Context/ToastContext";
 
 
 const PageContainer = styled.section`
@@ -105,6 +106,7 @@ function LoginPage({ control }) {
         }
     )
     const { login } =  useAuth();
+    const { showToast } = useToast();
 
     const onSubmit = async (data) => {
         const cliente = {
@@ -124,7 +126,8 @@ function LoginPage({ control }) {
             if (newCliente && newCliente.id) {
                 const idCliente = newCliente.id;
                 login(cliente, idCliente);
-                navigate("/dados")
+                navigate("/login");
+                showToast("Cadastro realizado com sucesso! Faça o login.", "success");
             } else {
                 console.error("Erro ao criar cliente front: resposta inesperada do servidor");
             }
@@ -172,7 +175,7 @@ function LoginPage({ control }) {
                         type="button"
                         onClick={handleSubmit(onSubmit)}
                     >
-                        Entrar
+                        Cadastrar
                     </BotaoAmarelo>
                 </InputContainer>
 
