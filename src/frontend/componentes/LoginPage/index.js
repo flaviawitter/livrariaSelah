@@ -81,6 +81,7 @@ const TextoPequeno = styled.p`
                 if (response.mensagem === "Login bem-sucedido") {
                     const userData = response.usuario; // Pegamos os dados completos do usuário do backend
                     localStorage.setItem("usuarioLogado", "true");
+                    localStorage.setItem("idCliente", userData.id);
                     login(userData, userData.id); // Salvamos os dados completos no contexto
                     navigate("/");
                 }

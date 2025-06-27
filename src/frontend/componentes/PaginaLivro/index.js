@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import dadosFavoritos from "../Favoritos/dadosFavoritos";
 import { useToast } from "../Context/ToastContext";
 import { acrescentarQuantidadeLivro, buscarEstoquePorId, diminuirQuantidadeLivro } from '../../serviços/estoque';
-import { adicionarItemCarrinho } from '../../serviços/carrinho';
+import { adicionarItemCarrinho, excluirItemCarrinho } from '../../serviços/carrinho';
 
 
 const ContainerPrincipal = styled.section`
@@ -130,6 +130,8 @@ function PaginaLivro() {
     const carrinhoAtual = JSON.parse(localStorage.getItem('carrinho')) || [];
     const idCliente = localStorage.getItem("idCliente"); // Pegando id do cliente logado
 
+
+
     if (!idCliente) {
       showToast('É necessário estar logado para adicionar ao carrinho.', 'alert');
       return;
@@ -147,12 +149,14 @@ function PaginaLivro() {
           quantidade: 1,
           precoUnidade: livro.precoVenda
         };
-console.log(body);
         const adicionandoCarrinho = await adicionarItemCarrinho(body);
+        await diminuirQuantidadeLivro(livro.id);
+        
         console.log(adicionandoCarrinho);
 
         if (adicionandoCarrinho && adicionandoCarrinho.id) {
-          carrinhoAtual.push(livro);
+          const livroComClienteId = { ...livro, clienteId: Number(idCliente), quantidade: 1 };
+          carrinhoAtual.push(livroComClienteId);
           localStorage.setItem('carrinho', JSON.stringify(carrinhoAtual));
           showToast('Livro adicionado ao carrinho!', 'success');
           console.log("Carrinho atualizado:", carrinhoAtual);
@@ -162,6 +166,7 @@ console.log(body);
 
           window.carrinhoTimeout = setTimeout(async () => {
             localStorage.removeItem('carrinho');
+            await excluirItemCarrinho(idCliente);
             showToast('O carrinho foi limpo após 3 minutos de inatividade.', 'alert', 'carrinho-vazio');
           }, 300000);
         } else {

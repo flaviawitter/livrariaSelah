@@ -108,6 +108,13 @@ function CardDetalhes() {
 
                 </>
               )}
+              {item.status === "Pendente" && (
+                <>
+                  <BotaoVermelho onClick={() => handleSolicitarDevolucao(pedidoSelecionado.id, item.id, "Aprovação Concluída")}>Aprovar Pedido</BotaoVermelho>
+                  <BotaoVermelho onClick={() => handleSolicitarDevolucao(pedidoSelecionado.id, item.id, "Cancelamento Concluído")}>Cancelar Pedido</BotaoVermelho>
+
+                </>
+              )}
             </ButtonGroup>
           </div>
         );

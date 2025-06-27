@@ -150,14 +150,25 @@ const CarrinhoCompras = () => {
   const { showToast } = useToast();
 
 
-  useEffect(() => {
-    const carrinhoSalvo = JSON.parse(localStorage.getItem('carrinho')) || [];
-    const carrinhoComQuantidade = carrinhoSalvo.map(livro => ({
-      ...livro,
-      quantidade: livro.quantidade || 1
-    }));
-    setLivrosSelecionados(carrinhoComQuantidade);
-  }, []);
+useEffect(() => {
+  const idClienteLogado = localStorage.getItem("idCliente");
+
+  if (!idClienteLogado) {
+    setLivrosSelecionados([]);
+    return;
+  }
+
+  const carrinhoSalvo = JSON.parse(localStorage.getItem('carrinho')) || [];
+
+  const carrinhoDoCliente = carrinhoSalvo.filter(livro => 
+    livro.clienteId === Number(idClienteLogado)
+  ).map(livro => ({
+    ...livro,
+    quantidade: livro.quantidade || 1
+  }));
+
+  setLivrosSelecionados(carrinhoDoCliente);
+}, []);
 
 
   useEffect(() => {

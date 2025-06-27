@@ -36,8 +36,6 @@ const buscarItemCarrinhoPorId = async (req, res) => {
 const adicionarItemCarrinho = async (req, res) => {
     const { livroId, quantidade, precoUnidade, clienteId } = req.body;
 
-    console.log("Body recebido:", req.body);
-
     try {
     const novoItem = await prisma.carrinho.create({
         data: {
@@ -71,10 +69,10 @@ const atualizarItemCarrinho = async (req, res) => {
 
 // Remover um item do carrinho
 const excluirItemCarrinho = async (req, res) => {
-    const { id } = req.params;
+    const id  = req.params.clienteId;
     try {
-        await prisma.carrinho.delete({ where: { id: Number(id) } });
-        res.json({ mensagem: "Item do carrinho removido com sucesso." });
+        await prisma.carrinho.deleteMany({ where: { clienteId: Number(id) } });
+        res.json({ mensagem: "Carrinho excluído com sucesso." });
     } catch (error) {
         res.status(500).json({ erro: "Erro ao remover item do carrinho." });
     }

@@ -6,6 +6,6 @@ router.get('/', carrinhoController.listarCarrinho);
 router.get('/:id', carrinhoController.buscarItemCarrinhoPorId);
 router.post('/', carrinhoController.adicionarItemCarrinho);
 router.put('/:id', carrinhoController.atualizarItemCarrinho);
-router.delete('/:id', carrinhoController.excluirItemCarrinho);
+router.delete('/:clienteId', carrinhoController.excluirItemCarrinho);
 
 module.exports = router;

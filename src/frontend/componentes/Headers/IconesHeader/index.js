@@ -4,6 +4,8 @@ import carrinho from "../../../imagens/carrinho.png";
 import styled from "styled-components";
 import { useAuth } from "../../Context/AuthContext";
 import { useContext } from "react";
+import { excluirItemCarrinho } from '../../../serviços/carrinho';
+
 
 const Icone = styled.li`
   margin-right: 40px;
@@ -33,10 +35,23 @@ function IconesHeader() {
   const navigate = useNavigate();
   const { logout } = useAuth();
 
-  function handleLogout() {
-      logout();
-      navigate("/login");
-   }
+  async function handleLogout() {
+    const clienteId = localStorage.getItem("idCliente");
+    
+    if (clienteId != null) {
+      try {      
+        const response = await excluirItemCarrinho(clienteId);
+        console.log(response);
+      } catch (err) {
+        console.error("Erro ao limpar carrinho:", err);
+      }
+    }
+    logout();
+    localStorage.removeItem("usuarioLogado");
+    localStorage.removeItem("idCliente");
+    localStorage.removeItem("carrinho");
+    navigate("/login");
+  }
 
 
   return (
