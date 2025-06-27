@@ -38,9 +38,9 @@ function gerarCodigoCupom(tamanho = 5) {
 
 function CardPedidoAdm({ user, filtroId }) {
   const { showToast } = useToast();
-  const { idCliente } =  useAuth();
+  const { idCliente } = useAuth();
   const [pedidos, setPedidos] = useState([]);
- 
+
 
   const navigate = useNavigate();
 
@@ -69,7 +69,6 @@ function CardPedidoAdm({ user, filtroId }) {
       try {
         console.log("pedido recebido");
         const bodyAtualizado = {
-       //   id: idItem,
           status: "Entregue"
         }
         await atualizarPedido(idPedido, "Entregue");
@@ -88,24 +87,83 @@ function CardPedidoAdm({ user, filtroId }) {
     }, 3500);
   };
 
+
+  const handlePedido = async (idPedido, status) => {
+    try {
+      await atualizarPedido(idPedido, status);
+      showToast('Pedido atualizado com sucesso!', 'success');
+    } catch (error) {
+      console.error("Erro ao atualizar pedido:", error);
+      showToast('Erro ao atualizar pedido.', 'error');
+    }
+  };
+
   const agendarTrocaConcluida = (idPedido) => {
     setTimeout(async () => {
       try {
         console.log("troca recebida");
 
-        await atualizarPedido(idPedido, "Troca Concluída");
-        showToast(`Pedido #${idPedido} trocado automaticamente!`, 'success');
+        const pedidoEncontrado = pedidos.find(p => p.id === idPedido);
 
-        setPedidos((prevPedidos) =>
-          prevPedidos.map((pedido) =>
-            pedido.id === idPedido ? { ...pedido, status: "Troca Concluída" } : pedido
+        const novoCupom = {
+          descricao: gerarCodigoCupom(),
+          clienteId: idCliente,
+          validade: true,
+          pedidoId: idPedido,
+          valor: pedidoEncontrado.totalPreco
+        };
+
+        const cupomCriado = await criarCupom(novoCupom);
+
+        if (cupomCriado) {
+          await atualizarPedido(idPedido, "Troca Aprovada e cupom criado com sucesso!");
+          showToast(`Pedido #${idPedido} trocado automaticamente!`, 'success');
+
+          setPedidos((prevPedidos) =>
+            prevPedidos.map((pedido) =>
+              pedido.id === idPedido ? { ...pedido, status: "Troca Concluída" } : pedido
+            )
           )
-        );
+        }
+        else {
+          throw new Error("Falha ao criar cupom.");
+        }
       } catch (error) {
         console.error(`Erro ao atualizar para troca concluída o pedido ${idPedido}:`, error);
         showToast(`Erro ao marcar pedido #${idPedido} como troca concluída.`, 'error');
       }
     }, 3500);
+  };
+
+
+  const handleSolicitarDevolucao = async (idPedido, status, idCliente) => {
+    try {
+      const pedidoEncontrado = pedidos.find(p => p.id === idPedido);
+
+      if (!pedidoEncontrado) {
+        throw new Error("Pedido não encontrado para gerar cupom.");
+      }
+
+      const novoCupom = {
+        descricao: gerarCodigoCupom(),
+        clienteId: idCliente,
+        validade: true,
+        pedidoId: idPedido,
+        valor: pedidoEncontrado.totalPreco
+      };
+
+      const cupomCriado = await criarCupom(novoCupom);
+
+      if (cupomCriado) {
+        await atualizarPedido(idPedido, status);
+        showToast('Devolução aprovada e cupom criado com sucesso!', 'success');
+      } else {
+        throw new Error("Falha ao criar cupom.");
+      }
+    } catch (error) {
+      console.error("Erro ao solicitar Devolução:", error);
+      showToast('Erro ao solicitar devolução.', 'error');
+    }
   };
 
   const agendarDevolucaoConcluida = (idPedido) => {
@@ -129,89 +187,48 @@ function CardPedidoAdm({ user, filtroId }) {
   };
 
 
-  const handlePedido = async (idPedido, status) => {
-    try {
-      await atualizarPedido(idPedido, status);
-      showToast('Pedido atualizado com sucesso!', 'success');
-    } catch (error) {
-      console.error("Erro ao atualizar pedido:", error);
-      showToast('Erro ao atualizar pedido.', 'error');
-    }
-  };
-
-  const handleSolicitarDevolucao = async (idPedido, status, idCliente) => {
-    try {
-      // Encontrar o pedido para saber o valor
-      const pedidoEncontrado = pedidos.find(p => p.id === idPedido);
-
-      if (!pedidoEncontrado) {
-        throw new Error("Pedido não encontrado para gerar cupom.");
-      }
-
-      const novoCupom = {
-        descricao: gerarCodigoCupom(),
-        clienteId: idCliente,
-        validade: true,
-        pedidoId: idPedido,
-        valor: pedidoEncontrado.totalPreco 
-      };
-
-      const cupomCriado = await criarCupom(novoCupom);
-
-      if (cupomCriado) {
-        await atualizarPedido(idPedido, status);
-        showToast('Devolução aprovada e cupom criado com sucesso!', 'success');
-      } else {
-        throw new Error("Falha ao criar cupom.");
-      }
-    } catch (error) {
-      console.error("Erro ao solicitar Devolução:", error);
-      showToast('Erro ao solicitar devolução.', 'error');
-    }
-  };
-
   return (
     <>
-    {pedidos
-      .filter((pedido) => {
-        if (!filtroId) return true; // mostra todos se não houver filtro
-        return pedido.id.toString().includes(filtroId); 
-      })
-      .map((pedido) => (
-        <OrderCard key={pedido.id}>
-          <OrderInfo><strong>Pedido #{pedido.id}</strong></OrderInfo>
-          <OrderInfo>Cliente: {pedido.cliente.nome}</OrderInfo>
-          <OrderInfo>Data do Pedido: {new Date(pedido.dataPedido).toLocaleDateString("pt-BR")}</OrderInfo>
-          <OrderInfo>Status: {pedido.status}</OrderInfo>
-          <OrderInfo>Valor do Pedido: R$ {pedido.totalPreco}</OrderInfo>
-          <OrderInfo>
-            Cupom: {pedido.cupom.length > 0 ? pedido.cupom[0]?.descricao : "Esse pedido não possuí cupom"}
-          </OrderInfo>
-           <ButtonGroup>
-            <BotaoSimples onClick={() => handleLivroClick(pedido)}>+ Detalhes</BotaoSimples>
-          </ButtonGroup>
-          <ButtonGroup>
-            {pedido.status === "Troca Solicitada" && (
-              <>
-                <BotaoVerde onClick={async () => { handlePedido(pedido.id, "Troca Aprovada"); agendarTrocaConcluida(pedido.id); }}>Aprovar Troca</BotaoVerde>
-                <BotaoVermelho onClick={() => handlePedido(pedido.id, "Troca Reprovada")}>Recusar Troca</BotaoVermelho>
-              </>
-            )}
-            {pedido.status === "Devolução Solicitada" && (
-              <>
-                <BotaoVerde onClick={async () => { handleSolicitarDevolucao(pedido.id, "Devolução Aprovada", pedido.clienteId); agendarDevolucaoConcluida(pedido.id) }}>Aprovar Devolução</BotaoVerde>
-                <BotaoVermelho onClick={() => handlePedido(pedido.id, "Devolução Reprovada")}>Recusar Devolução</BotaoVermelho>
-              </>
-            )}
-            {pedido.status === "Pendente" && (
-              <>
-                <BotaoVerde onClick={async () => { handlePedido(pedido.id, "Em transporte"); agendarEntrega(pedido.id); }}>Aprovar Pedido</BotaoVerde>
-                <BotaoVermelho onClick={() => handlePedido(pedido.id, "Pedido Reprovado")}>Recusar Pedido</BotaoVermelho>
-              </>
-            )}
-          </ButtonGroup>
-        </OrderCard>
-      ))}
+      {pedidos
+        .filter((pedido) => {
+          if (!filtroId) return true; // mostra todos se não houver filtro
+          return pedido.id.toString().includes(filtroId);
+        })
+        .map((pedido) => (
+          <OrderCard key={pedido.id}>
+            <OrderInfo><strong>Pedido #{pedido.id}</strong></OrderInfo>
+            <OrderInfo>Cliente: {pedido.cliente.nome}</OrderInfo>
+            <OrderInfo>Data do Pedido: {new Date(pedido.dataPedido).toLocaleDateString("pt-BR")}</OrderInfo>
+            <OrderInfo>Status: {pedido.status}</OrderInfo>
+            <OrderInfo>Valor do Pedido: R$ {pedido.totalPreco}</OrderInfo>
+            <OrderInfo>
+              Cupom: {pedido.cupom.length > 0 ? pedido.cupom[0]?.descricao : "Esse pedido não possuí cupom"}
+            </OrderInfo>
+            <ButtonGroup>
+              <BotaoSimples onClick={() => handleLivroClick(pedido)}>+ Detalhes</BotaoSimples>
+            </ButtonGroup>
+            <ButtonGroup>
+              {pedido.status === "Troca Solicitada" && (
+                <>
+                  <BotaoVerde onClick={async () => { handlePedido(pedido.id, "Troca Aprovada"); agendarTrocaConcluida(pedido.id); }}>Aprovar Troca</BotaoVerde>
+                  <BotaoVermelho onClick={() => handlePedido(pedido.id, "Troca Reprovada")}>Recusar Troca</BotaoVermelho>
+                </>
+              )}
+              {pedido.status === "Devolução Solicitada" && (
+                <>
+                  <BotaoVerde onClick={async () => { handleSolicitarDevolucao(pedido.id, "Devolução Aprovada", pedido.clienteId); agendarDevolucaoConcluida(pedido.id) }}>Aprovar Devolução</BotaoVerde>
+                  <BotaoVermelho onClick={() => handlePedido(pedido.id, "Devolução Reprovada")}>Recusar Devolução</BotaoVermelho>
+                </>
+              )}
+              {pedido.status === "Pendente" && (
+                <>
+                  <BotaoVerde onClick={async () => { handlePedido(pedido.id, "Em transporte"); agendarEntrega(pedido.id); }}>Aprovar Pedido</BotaoVerde>
+                  <BotaoVermelho onClick={() => handlePedido(pedido.id, "Pedido Reprovado")}>Recusar Pedido</BotaoVermelho>
+                </>
+              )}
+            </ButtonGroup>
+          </OrderCard>
+        ))}
 
     </>
   );

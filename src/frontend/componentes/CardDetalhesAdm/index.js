@@ -7,6 +7,8 @@ import { buscarLivroPorId } from '../../serviços/livros';
 import { atualizarPedido } from '../../serviços/pedido';
 import { useToast } from "../Context/ToastContext";
 import { atualizarItemPedido } from '../../serviços/itensPedido';
+import { criarCupom } from '../../serviços/cupom';
+
 
 const OrderCard = styled.div`
   border-bottom: 1px solid #ccc;
@@ -22,11 +24,23 @@ const ButtonGroup = styled.div`
   margin-top: 10px;
 `;
 
+function gerarCodigoCupom(tamanho = 5) {
+  const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let codigo = '';
+  for (let i = 0; i < tamanho; i++) {
+    const indice = Math.floor(Math.random() * caracteres.length);
+    codigo += caracteres[indice];
+  }
+  return codigo;
+}
+
 function CardDetalhes() {
   const { state } = useLocation();
   const { pedidoSelecionado } = state || {};
   const [livros, setLivros] = useState({});
   const { showToast } = useToast();
+  const idCliente = localStorage.getItem("idCliente"); // Pegando id do cliente logado
+
 
   useEffect(() => {
     async function buscarLivros() {
@@ -49,13 +63,26 @@ function CardDetalhes() {
 
   if (!pedidoSelecionado) return <p>Pedido não encontrado.</p>;
 
-  const handleSolicitarTroca = async (idPedido, idItem, status) => {
+  const handleSolicitarTroca = async (idPedido, idItem, status, valorPedido) => {
     const statusPedido = status;
     const bodyAtualizado = {
       id: idItem,
       status: statusPedido
     }
-    try {      
+
+    if (statusPedido == "Troca Concluída") {
+
+      const novoCupom = {
+        descricao: gerarCodigoCupom(),
+        clienteId: idCliente,
+        validade: true,
+        pedidoId: idPedido,
+        valor: valorPedido
+      };
+
+      const cupomCriado = await criarCupom(novoCupom);
+    }
+    try {
       await atualizarItemPedido(bodyAtualizado);
       await atualizarPedido(idPedido, statusPedido);
       showToast(status + ' com sucesso!', 'success');
@@ -65,13 +92,24 @@ function CardDetalhes() {
     }
   };
 
-  const handleSolicitarDevolucao = async (idPedido, idItem, status) => {
+  const handleSolicitarDevolucao = async (idPedido, idItem, status, valorPedido) => {
     const statusPedido = status;
-      const bodyAtualizado = {
-        id: idItem,
-        status: statusPedido
-      }
-      console.log(idPedido , bodyAtualizado.id , bodyAtualizado.status)
+    const bodyAtualizado = {
+      id: idItem,
+      status: statusPedido
+    }
+
+    if (statusPedido ==  "Devolução Concluída" || "Cancelamento Concluído") {
+      const novoCupom = {
+        descricao: gerarCodigoCupom(),
+        clienteId: idCliente,
+        validade: true,
+        pedidoId: idPedido,
+        valor: valorPedido
+      };
+
+      const cupomCriado = await criarCupom(novoCupom);
+    }
     try {
       await atualizarItemPedido(bodyAtualizado);
       await atualizarPedido(idPedido, statusPedido);
@@ -81,7 +119,7 @@ function CardDetalhes() {
       showToast('Erro ao concluir devolução.', 'error');
     }
   };
- 
+
 
   return (
     <OrderCard>
@@ -97,13 +135,13 @@ function CardDetalhes() {
             <ButtonGroup>
               {item.status === "Troca Solicitada" && (
                 <>
-                  <BotaoVerde onClick={() => handleSolicitarTroca(pedidoSelecionado.id, item.id, "Troca Concluída")}>Aprovar Troca</BotaoVerde>
+                  <BotaoVerde onClick={() => handleSolicitarTroca(pedidoSelecionado.id, item.id, "Troca Concluída", livro.precoVenda)}>Aprovar Troca</BotaoVerde>
                   <BotaoVermelho onClick={() => handleSolicitarTroca(pedidoSelecionado.id, item.id, "Troca Reprovada")}>Reprovar Troca</BotaoVermelho>
-                </>  
+                </>
               )}
               {item.status === "Devolução Solicitada" && (
                 <>
-                  <BotaoVermelho onClick={() => handleSolicitarDevolucao(pedidoSelecionado.id, item.id, "Devolução Concluída")}>Aprovar Devolução</BotaoVermelho>
+                  <BotaoVermelho onClick={() => handleSolicitarDevolucao(pedidoSelecionado.id, item.id, "Devolução Concluída", livro.precoVenda)}>Aprovar Devolução</BotaoVermelho>
                   <BotaoVermelho onClick={() => handleSolicitarDevolucao(pedidoSelecionado.id, item.id, "Devolução Reprovada")}>Reprovar Devolução</BotaoVermelho>
 
                 </>
