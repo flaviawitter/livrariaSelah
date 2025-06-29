@@ -239,7 +239,7 @@ const ResumoPedido = () => {
             <Secao>
                 <h3>Selecione um endereço:</h3>
                 <OpcoesLista>
-                    {enderecos
+                    {(enderecos || [])
                     .filter(endereco => endereco && endereco.id)
                     .map((endereco, index) => (
                         <OpcaoItem key={index}>
@@ -265,7 +265,7 @@ const ResumoPedido = () => {
             <Secao>
                 <h3>Selecione os cartões e valores:</h3>
                 <OpcoesLista>
-                    {cartoes
+                    {(cartoes || [])
                     .filter(cartao => cartao && cartao.id)
                     .map((cartao, index) => (
                         <OpcaoItem key={index}>

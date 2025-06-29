@@ -129,7 +129,7 @@ function CardDetalhes() {
         return (
           <div key={index}>
             <OrderInfo><strong>Livro:</strong> {livro ? livro.titulo : 'Carregando...'}</OrderInfo>
-            <OrderInfo>Preço Unitário: R$ {livro ? livro.precoVenda : 'Carregando...'}</OrderInfo>
+            <OrderInfo>Preço Unitário: R$ {livro ? Number(livro.precoVenda).toFixed(2) : 'Carregando...'}</OrderInfo>
             <OrderInfo>Quantidade: {item.quantidade}</OrderInfo>
             <OrderInfo>Status do Item: {item.status}</OrderInfo>
             <ButtonGroup>
@@ -146,13 +146,13 @@ function CardDetalhes() {
 
                 </>
               )}
-              {item.status === "Pendente" && (
+              {/*{item.status === "Pendente" && (
                 <>
                   <BotaoVermelho onClick={() => handleSolicitarDevolucao(pedidoSelecionado.id, item.id, "Aprovação Concluída")}>Aprovar Pedido</BotaoVermelho>
                   <BotaoVermelho onClick={() => handleSolicitarDevolucao(pedidoSelecionado.id, item.id, "Cancelamento Concluído")}>Cancelar Pedido</BotaoVermelho>
 
                 </>
-              )}
+              )}*/}
             </ButtonGroup>
           </div>
         );

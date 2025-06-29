@@ -93,15 +93,6 @@ function PagCupom() {
   return (
     <Container>
       <Title>CUPONS</Title>
-      <FilterSection>
-        <label>Filtrar cupons:</label>
-        <input
-          type="text"
-          placeholder="Id pedido, valor ou validade"
-          value={busca}
-          onChange={(e) => setBusca(e.target.value)}
-        />
-      </FilterSection>
       <OrderList>
         {cuponsFiltrados.length > 0 ? (
           cuponsFiltrados.map((cupom) => (

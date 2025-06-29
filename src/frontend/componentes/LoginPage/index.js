@@ -80,10 +80,15 @@ const TextoPequeno = styled.p`
         
                 if (response.mensagem === "Login bem-sucedido") {
                     const userData = response.usuario; // Pegamos os dados completos do usuário do backend
+                    if (userData.statusAtivo === true) {
                     localStorage.setItem("usuarioLogado", "true");
                     localStorage.setItem("idCliente", userData.id);
                     login(userData, userData.id); // Salvamos os dados completos no contexto
                     navigate("/");
+                    }
+                    else {
+                        setErro("Usuário inativo. Por favor, entre em contato com o suporte.");
+                    }
                 }
             } catch (error) {
                 setErro("Usuário ou senha inválidos");
@@ -124,7 +129,7 @@ const TextoPequeno = styled.p`
                             />
                         </div>
                         {erro && <TextoPequeno style={{ color: "red" }}>{erro}</TextoPequeno>}
-                        <TextoPequeno>Esqueci a senha</TextoPequeno>
+                        {/*<TextoPequeno>Esqueci a senha</TextoPequeno>*/}
                         <BotaoVerde id="login-botaoEntrar" type="button" onClick={handleLogin}>
                             Entrar
                         </BotaoVerde>
