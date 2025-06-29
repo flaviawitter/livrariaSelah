@@ -1,5 +1,6 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 // Listar todos os livros
 const listarLivros = async (req, res) => {
@@ -148,5 +149,63 @@ const excluirLivro = async (req, res) => {
     }
 };
 
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-module.exports = { listarLivros, buscarLivroPorId, buscarLivrosPorTermo, criarLivro, atualizarLivro, excluirLivro};
+const avaliarLivro = async (req, res) => {
+    const { livro: livroUsuario } = req.body;
+
+    if (!livroUsuario) {
+        return res.status(400).json({ mensagem: "O nome do livro é obrigatório." });
+    }
+
+    try {
+        // 1. Buscar TODOS os livros do seu banco de dados.
+        // Para otimizar, selecione apenas os campos necessários, como título e talvez categoria/gênero.
+        const livrosDisponiveis = await prisma.livros.findMany({
+            select: {
+                titulo: true,
+                // Incluir categorias pode ajudar a IA a dar uma recomendação melhor
+                categorias: {
+                    select: {
+                        nome: true
+                    }
+                }
+            }
+        });
+
+        if (livrosDisponiveis.length < 2) {
+            return res.status(404).json({ mensagem: "Não tenho livros suficientes no meu banco de dados para fazer uma recomendação." });
+        }
+
+        // 2. Formatar a lista de livros para incluir no prompt.
+        const listaDeTitulos = livrosDisponiveis.map(l => l.titulo).join(', ');
+
+        // 3. Construir o prompt para o Gemini.
+        // Esta é a parte mais importante. Estamos dando contexto e uma instrução clara.
+        const prompt = `
+            Um usuário gostou do livro "${livroUsuario}". 
+            Com base na lista de livros que eu tenho disponível, qual deles você recomendaria como próxima leitura?
+            A sua resposta deve ser concisa e conter APENAS o título de UM livro da lista e uma breve justificativa de uma frase.
+
+            Exemplo de resposta: "Recomendo '1984' por também ser uma distopia que explora temas de controle social."
+
+            Lista de livros disponíveis: ${listaDeTitulos}.
+        `;
+
+        // 4. Chamar a API do Gemini com o prompt construído.
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const text = response.text();
+        
+        // 5. Enviar a resposta da IA de volta para o frontend.
+        res.json({ resposta: text });
+
+    } catch (error) {
+        console.error("Erro ao comunicar com a IA ou com o banco de dados:", error);
+        res.status(500).json({ mensagem: "Ocorreu um erro no servidor ao tentar gerar a recomendação." });
+    }
+};
+
+
+module.exports = { listarLivros, buscarLivroPorId, buscarLivrosPorTermo, criarLivro, atualizarLivro, excluirLivro, avaliarLivro};

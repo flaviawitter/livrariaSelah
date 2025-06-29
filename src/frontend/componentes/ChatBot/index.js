@@ -27,7 +27,6 @@ const ChatButton = styled.button`
     background-color: #004a33;
   }
 `;
-
 const ChatContainer = styled.div`
   position: fixed;
   bottom: 80px;
@@ -46,7 +45,6 @@ const ChatContainer = styled.div`
   letter-spacing: 0.22em;
   z-index: 1000;
 `;
-
 const ChatHeader = styled.div`
   background-color: rgb(243, 222, 154);
   color: rgb(0, 0, 0);
@@ -61,7 +59,6 @@ const ChatHeader = styled.div`
   border-top: 1px solid #004a33;
   border-radius: 12px 12px 0 0;
 `;
-
 const CloseButton = styled.button`
   background: none;
   border: none;
@@ -71,7 +68,6 @@ const CloseButton = styled.button`
   letter-spacing: 0.22em;
   cursor: pointer;
 `;
-
 const ChatMessages = styled.div`
   flex: 1;
   padding: 10px;
@@ -81,7 +77,6 @@ const ChatMessages = styled.div`
   gap: 5px;
   background-color: #f9f9f9;
 `;
-
 const Message = styled.div`
   padding: 8px;
   border-radius: 5px;
@@ -91,7 +86,6 @@ const Message = styled.div`
   background-color: ${(props) => (props.isUser ? "#3F9F81" : "#E38D65")};
   color: ${(props) => (props.isUser ? "white" : "black")};
 `;
-
 const ChatFooter = styled.div`
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #004a33;
@@ -99,7 +93,6 @@ const ChatFooter = styled.div`
   background: white;
   border-radius: 12px;
 `;
-
 const ChatInput = styled.input`
   width: 100%;
   padding: 8px;
@@ -128,33 +121,34 @@ function Chatbot() {
       setLoading(true);
 
       try {
-        // const livros = await buscarLivrosPorTermo(userInput);
+        // A lógica agora é mais simples no frontend.
+        // Apenas enviamos o livro para o backend e aguardamos a recomendação.
+        // O backend cuidará de usar seu banco de dados.
+        const respostaIA = await fetch("http://localhost:5000/api/livros/avaliar", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          // Enviamos o livro que o usuário digitou
+          body: JSON.stringify({ livro: userInput })
+        }).then(res => {
+            if (!res.ok) {
+                // Se o backend retornar um erro (ex: livro não encontrado), trate-o aqui.
+                return res.json().then(err => Promise.reject(err));
+            }
+            return res.json();
+        });
 
-        // if (livros.length === 0) {
-        //   setMessages((prev) => [
-        //     ...prev,
-        //     { text: "Desculpe, não encontrei esse livro no banco. Tente outro nome.", isUser: false },
-        //   ]);
-        // } else {
-        //   const livroParaIA = livros[0].titulo;
-          
-          const respostaIA = await fetch("http://localhost:5000/api/classificacoesGemini/avaliar", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ livro: userInput })
-          }).then(res => res.json());
-
-          setMessages((prev) => [
-            ...prev,
-            { text: respostaIA.resposta, isUser: false },
-          ]);
-        }
-      //}
-       catch (error) {
-        console.error(error);
         setMessages((prev) => [
           ...prev,
-          { text: "Erro ao buscar o livro. Tente novamente.", isUser: false },
+          // A resposta já é a recomendação de um livro do seu banco.
+          { text: respostaIA.resposta, isUser: false },
+        ]);
+      } catch (error) {
+        console.error(error);
+        // Exibe a mensagem de erro vinda do backend ou uma genérica.
+        const errorMessage = error.mensagem || "Desculpe, não consegui processar sua solicitação. Tente novamente.";
+        setMessages((prev) => [
+          ...prev,
+          { text: errorMessage, isUser: false },
         ]);
       } finally {
         setLoading(false);

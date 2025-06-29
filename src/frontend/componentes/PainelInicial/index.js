@@ -20,7 +20,8 @@ const PainelInicialContainer = styled.section`
 `
 
 function PainelInicial() {
-    const paineis = [desenhoInicial, cardInicial];
+    const paineis = [desenhoInicial];
+    /*const paineis = [desenhoInicial, cardInicial];*/
 
     return (
         <PainelInicialContainer>
