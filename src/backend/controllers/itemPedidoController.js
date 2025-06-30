@@ -77,7 +77,8 @@ const atualizarItemPedido = async (req, res) => {
 // Atualizar todos os itens de pedido com base no pedidoId
 const atualizarItensPorPedidoId = async (req, res) => {
     const  pedidoId  = req.params.id;
-    const  status  = req.body.status;    
+    const  status  = req.body.status;   
+     
 
     if (!status) {
         return res.status(400).json({ erro: "Status é obrigatório para atualização." });

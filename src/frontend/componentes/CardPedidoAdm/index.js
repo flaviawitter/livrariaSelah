@@ -6,7 +6,7 @@ import { atualizarPedido, listarPedidos } from '../../serviços/pedido';
 import { criarCupom } from '../../serviços/cupom';
 import { useToast } from "../Context/ToastContext";
 import { useAuth } from "../Context/AuthContext";
-import { atualizarItemPedido } from '../../serviços/itensPedido';
+import { atualizarItemPedido, atualizarItensPorPedidoId } from '../../serviços/itensPedido';
 import BotaoSimples from '../Botões/BotaoSimples';
 import { useNavigate } from "react-router-dom";
 
@@ -68,11 +68,12 @@ function CardPedidoAdm({ user, filtroId }) {
     setTimeout(async () => {
       try {
         console.log("pedido recebido");
-        const bodyAtualizado = {
-          status: "Entregue"
-        }
+        
+          const pedidoId = idPedido;
+          const status = "Entregue"
+        
         await atualizarPedido(idPedido, "Entregue");
-        await atualizarItemPedido(bodyAtualizado);
+        await atualizarItensPorPedidoId(pedidoId, status);
         showToast(`Pedido #${idPedido} entregue automaticamente!`, 'success');
 
         setPedidos((prevPedidos) =>

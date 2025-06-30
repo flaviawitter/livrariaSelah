@@ -23,7 +23,7 @@ const OrderInfo = styled.p`
 `;
 const ButtonGroup = styled.div`
   display: flex;
-  gap: 10px;
+  gap: 10px; 
   margin-top: 10px;
 `;
 
