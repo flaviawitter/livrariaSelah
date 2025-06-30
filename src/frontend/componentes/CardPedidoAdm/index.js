@@ -210,13 +210,13 @@ function CardPedidoAdm({ user, filtroId }) {
               <BotaoSimples onClick={() => handleLivroClick(pedido)}>+ Detalhes</BotaoSimples>
             </ButtonGroup>
             <ButtonGroup>
-              {pedido.status === "Troca Solicitada" && (
+              {pedido.status === "Troca Solicitada" && pedido.itens.length == 1 && (
                 <>
                   <BotaoVerde onClick={async () => { handlePedido(pedido.id, "Troca Aprovada"); agendarTrocaConcluida(pedido.id); }}>Aprovar Troca</BotaoVerde>
                   <BotaoVermelho onClick={() => handlePedido(pedido.id, "Troca Reprovada")}>Recusar Troca</BotaoVermelho>
                 </>
               )}
-              {pedido.status === "Devolução Solicitada" && (
+              {pedido.status === "Devolução Solicitada" && pedido.itens.length == 1 && (
                 <>
                   <BotaoVerde onClick={async () => { handleSolicitarDevolucao(pedido.id, "Devolução Aprovada", pedido.clienteId); agendarDevolucaoConcluida(pedido.id) }}>Aprovar Devolução</BotaoVerde>
                   <BotaoVermelho onClick={() => handlePedido(pedido.id, "Devolução Reprovada")}>Recusar Devolução</BotaoVermelho>
