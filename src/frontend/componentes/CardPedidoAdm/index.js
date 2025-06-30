@@ -92,6 +92,7 @@ function CardPedidoAdm({ user, filtroId }) {
   const handlePedido = async (idPedido, status) => {
     try {
       await atualizarPedido(idPedido, status);
+      await atualizarItensPorPedidoId(idPedido, "Troca Concluída") ;
       showToast('Pedido atualizado com sucesso!', 'success');
     } catch (error) {
       console.error("Erro ao atualizar pedido:", error);
@@ -117,7 +118,7 @@ function CardPedidoAdm({ user, filtroId }) {
         const cupomCriado = await criarCupom(novoCupom);
 
         if (cupomCriado) {
-          await atualizarPedido(idPedido, "Troca Aprovada e cupom criado com sucesso!");
+          await atualizarPedido(idPedido, "Troca Concluída");
           showToast(`Pedido #${idPedido} trocado automaticamente!`, 'success');
 
           setPedidos((prevPedidos) =>

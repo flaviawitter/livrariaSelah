@@ -10,9 +10,10 @@ const listarLivros = async (req, res) => {
                 autores: true,
                 editoras: true,
                 fornecedor: true,
-                categorias: true, 
+                categorias: true,
                 grupoprecificacao: true,
-                estoque: true            }
+                estoque: true
+            }
         });
         console.log(livros)
         res.json(livros);
@@ -28,13 +29,13 @@ const buscarLivroPorId = async (req, res) => {
         const livros = await prisma.livros.findUnique({
             where: { id: Number(id) },
             include: {
-                autores: true,  
+                autores: true,
                 editoras: true,
                 fornecedor: true,
                 categorias: true,
                 grupoprecificacao: true
             }
-        });        
+        });
         if (!livros) return res.status(404).json({ erro: "Livro não encontrado." });
         res.json(livros);
     } catch (error) {
@@ -74,7 +75,7 @@ const buscarLivrosPorTermo = async (req, res) => {
         if (livros.length === 0) {
             return res.status(404).json({ mensagem: "Nenhum livro encontrado com esse termo." });
         }
-       
+
         res.json(livros);
     } catch (error) {
         console.error("Erro ao buscar livros:", error);
@@ -159,12 +160,11 @@ const avaliarLivro = async (req, res) => {
     }
 
     try {
-        // 1. Buscar TODOS os livros do seu banco de dados.
-        // Para otimizar, selecione apenas os campos necessários, como título e talvez categoria/gênero.
+
         const livrosDisponiveis = await prisma.livros.findMany({
             select: {
                 titulo: true,
-                // Incluir categorias pode ajudar a IA a dar uma recomendação melhor
+
                 categorias: {
                     select: {
                         nome: true
@@ -177,28 +177,42 @@ const avaliarLivro = async (req, res) => {
             return res.status(404).json({ mensagem: "Não tenho livros suficientes no meu banco de dados para fazer uma recomendação." });
         }
 
-        // 2. Formatar a lista de livros para incluir no prompt.
         const listaDeTitulos = livrosDisponiveis.map(l => l.titulo).join(', ');
 
-        // 3. Construir o prompt para o Gemini.
-        // Esta é a parte mais importante. Estamos dando contexto e uma instrução clara.
+
         const prompt = `
+        Você é um assistente especializado em livros.
+
+Receba uma mensagem do usuário, e se essa mensagem contiver o nome de um livro, ou algo que claramente se refira a um livro (como "baseado no livro tal", "parecido com tal livro", "gostei de tal livro", "me sugira um livro de romance" (ou algum gênero literário), "existe/sugira algum livro sobre/chamado..." etc), então:
+
+→ Sugira um livro parecido que o usuário possa gostar, e inclua uma sinopse breve desse livro sugerido, não crie sinopse fictícia, se não houver o livro que ele pediu/perguntou somente diga que não encontrou uma correspondência exata.
+
+Se a mensagem do usuário **não tiver nenhuma referência clara a um livro, autor ou tema literário** (por exemplo, "qual tenis mais recente da nike", "qual o nome da banda de 90?", "em que time o neymar joga?"), responda educadamente:
+
+"Desculpa, não posso ajudar com isso no momento, mas se quiser, posso sugerir um livro para você."
+
+
+
             Um usuário gostou do livro "${livroUsuario}". 
             Com base na lista de livros que eu tenho disponível, qual deles você recomendaria como próxima leitura?
             A sua resposta deve ser concisa e conter APENAS o título de UM livro da lista e uma breve justificativa de uma frase.
 
-            Exemplo de resposta: "Recomendo '1984' por também ser uma distopia que explora temas de controle social."
+Formato de resposta: 
 
+Caso 1 — Quando houver referência a um livro:
+Sugestão: [nome do livro sugerido]  
+Sinopse: [sinopse do livro sugerido]
+
+Caso 2 — Quando não houver referência literária:
+Desculpa, não posso ajudar com isso no momento, mas se quiser, posso sugerir um livro para você.
             Lista de livros disponíveis: ${listaDeTitulos}.
         `;
 
-        // 4. Chamar a API do Gemini com o prompt construído.
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
         const result = await model.generateContent(prompt);
         const response = await result.response;
         const text = response.text();
-        
-        // 5. Enviar a resposta da IA de volta para o frontend.
+
         res.json({ resposta: text });
 
     } catch (error) {
@@ -208,4 +222,4 @@ const avaliarLivro = async (req, res) => {
 };
 
 
-module.exports = { listarLivros, buscarLivroPorId, buscarLivrosPorTermo, criarLivro, atualizarLivro, excluirLivro, avaliarLivro};
+module.exports = { listarLivros, buscarLivroPorId, buscarLivrosPorTermo, criarLivro, atualizarLivro, excluirLivro, avaliarLivro };

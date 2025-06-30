@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { FaCommentDots, FaTimes } from "react-icons/fa";
-import { buscarLivrosPorTermo } from "../../serviços/livros";
 
 const ChatButton = styled.button`
   position: fixed;
@@ -139,12 +138,10 @@ function Chatbot() {
 
         setMessages((prev) => [
           ...prev,
-          // A resposta já é a recomendação de um livro do seu banco.
           { text: respostaIA.resposta, isUser: false },
         ]);
       } catch (error) {
         console.error(error);
-        // Exibe a mensagem de erro vinda do backend ou uma genérica.
         const errorMessage = error.mensagem || "Desculpe, não consegui processar sua solicitação. Tente novamente.";
         setMessages((prev) => [
           ...prev,
