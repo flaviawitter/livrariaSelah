@@ -60,17 +60,17 @@ async function obterCartao(req, res) {
 }
 
 async function atualizarCartao(req, res) {
-    const id = req.params.id;
-    const body = req.body;
-    try {
-        const cartao = await prisma.cartao.updateMany({ 
-            where: { clienteId: parseInt(id) }, 
-            data: body
-         });
-        res.json(cartao);
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
+  const id = req.params.id;
+  const body = req.body;
+  try {
+    const cartao = await prisma.cartao.update({
+      where: { id: parseInt(id) },
+      data: body
+    });
+    res.json(cartao);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 }
 
 async function deletarCartao(req, res) {

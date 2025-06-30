@@ -27,7 +27,7 @@ const ButtonGroup = styled.div`
   margin-top: 10px;
 `;
 
-function CardPedido({ }) {
+function CardPedido({filtroId  }) {
   const { showToast } = useToast();
 
   const navigate = useNavigate();
@@ -90,7 +90,12 @@ function CardPedido({ }) {
 
   return (
     <>
-      {pedidos.map((pedido) => (
+      {pedidos
+      .filter((pedido) => {
+          if (!filtroId) return true; // mostra todos se não houver filtro
+          return pedido.id.toString().includes(filtroId);
+        })
+      .map((pedido) => (
         <OrderCard key={pedido.id}>
           <OrderInfo><strong>Pedido # {pedido.id}</strong></OrderInfo>
           <OrderInfo>Data do Pedido: {new Date(pedido.dataPedido).toLocaleDateString("pt-BR")}</OrderInfo>

@@ -48,8 +48,11 @@ function Novidades() {
       async function carregarLivros() {
         try {
           const resposta = await listarLivros(); 
-          console.log(resposta.data);
-          setLivros(resposta.data); 
+          /*console.log(resposta.data);*/
+          /*setLivros(resposta.data);*/ 
+          // Filtrar os livros com id entre 1 e 8
+          const livrosFiltrados = resposta.data.filter(l => l.id >= 1 && l.id <= 8);
+          setLivros(livrosFiltrados);
         } catch (erro) {
           console.error("Erro ao buscar livros:", erro);
         } finally {

@@ -69,17 +69,15 @@
         const id = req.params.id;
         const body = req.body;
         try {
-            const endereco = await prisma.endereco.updateMany({ 
-                where: { clienteId: parseInt(id),
-                        tipoEndereco: body.tipoEndereco
-                }, 
-                data: body
+            const endereco = await prisma.endereco.update({
+            where: { id: parseInt(id) },
+            data: body
             });
             res.json(endereco);
         } catch (error) {
             res.status(400).json({ error: error.message });
         }
-    }
+        }
 
     async function deletarEndereco(req, res) {
         try {

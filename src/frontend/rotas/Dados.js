@@ -17,6 +17,7 @@ import { criarEndereco, deletarEndereco, criarEnderecoNovo, atualizarEndereco } 
 import { atualizarCartao, criarCartao, deletarCartao } from '../serviços/cartao';
 import { useAuth } from "../componentes/Context/AuthContext";
 import { useToast } from '../componentes/Context/ToastContext';
+import { useNavigate } from 'react-router-dom';
 
 const AppContainer = styled.div`
     width: 100%;
@@ -47,6 +48,7 @@ function App() {
   const { user, login, idCliente } =  useAuth();
   const { showToast } = useToast();
   const methods = useForm({ mode: "onBlur" });
+  const navigate = useNavigate();
 
   const {
     register,
@@ -57,87 +59,79 @@ function App() {
   } = methods;
 
   const onAtualizar = async (data) => {
-    if (!idCliente) {
-      showToast('Erro: ID do cliente não encontrado.', 'error');
-      return;
+    const clienteData = {
+      nome: data.nome,
+      email: data.email,
+      cpf: data.cpf,
+      genero: data.genero,
+      dataNascimento: data.nascimento
+    };
+
+    const telefoneExistente = user.telefones?.[0];
+    const telefoneData = {
+      tipoTelefone: data.tipoTelefone,
+      ddd: data.ddd,
+      numero: data.numero,
+      clienteId: idCliente
+    };
+
+    if (telefoneExistente) {
+      await atualizarTelefone(telefoneExistente.id, telefoneData);
+    } else if (telefoneData.numero) {
+      await criarTelefone(telefoneData);
     }
+    
+    const enderecoEntregaData = {
+      clienteId: idCliente,
+      pais: 'Brasil',
+      estado: 'São Paulo',
+      tipoEndereco: 'Entrega',
+      cidade: data.cidadeEntrega,
+      logradouro: data.logradouroEntrega,
+      numero: parseInt(data.numeroEnderecoEntrega),
+      bairro: data.bairroEntrega,
+      cep: data.cepEntrega,
+      tipoResidencia: data.tpResidenciaEntrega,
+      tipoLogradouro: data.tpLogradouroEntrega,
+      preferencial: data.preferencialEntrega
+    };
 
-    try {
-      // 1. Atualiza os dados principais do cliente
-      const clienteData = {
-        nome: data.nome,
-        email: data.email,
-        cpf: data.cpf,
-        genero: data.genero,
-        dataNascimento: data.nascimento,
-      };
-      const updatedCliente = await atualizarCliente(idCliente, clienteData);
+    const enderecoCobrancaData = {
+      clienteId: idCliente,
+      pais: 'Brasil',
+      estado: 'São Paulo',
+      tipoEndereco: 'Cobranca',
+      cidade: data.cidadeCobranca,
+      logradouro: data.logradouroCobranca,
+      numero: parseInt(data.numeroEnderecoCobranca),
+      bairro: data.bairroCobranca,
+      cep: data.cepCobranca,
+      tipoResidencia: data.tpResidenciaCobranca,
+      tipoLogradouro: data.tpLogradouroCobranca,
+      preferencial: data.preferencialCobranca
+    };
 
-      // --- Lógica para Telefone ---
-      const telefoneExistente = user.telefones?.[0];
-      const telefoneData = { tipoTelefone: data.tipoTelefone, ddd: data.ddd, numero: data.numero, clienteId: idCliente };
+    const cartaoData = {
+      apelidoCartao: data.cartoes[0].apelidoCartao,
+      nomeTitular: data.cartoes[0].nomeTitular,
+      numero: data.cartoes[0].numero,
+      validade: data.cartoes[0].validade,
+      codSeguranca: data.cartoes[0].codSeguranca,
+      bandeiraCartao: data.cartoes[0].bandeiraCartao,
+      preferencial: data.cartoes[0].preferencial || false,
+      clienteId: idCliente
+    };
 
-      if (telefoneExistente) {
-        // Atualiza usando o ID do telefone
-        await atualizarTelefone(telefoneExistente.id, telefoneData);
-      } else if (telefoneData.numero) {
-        // Cria se não existir e um número for fornecido
-        await criarTelefone(telefoneData); 
-      }
+    const updatedCliente = await atualizarCliente(idCliente, clienteData);
+    await atualizarEndereco(user.enderecos[0].id, enderecoEntregaData);
+    await atualizarEndereco(user.enderecos[1].id, enderecoCobrancaData);
+    await atualizarCartao(user.cartoes[0].id, cartaoData);
+    showToast('Dados atualizados com sucesso!', 'success');
+    login(updatedCliente.data, idCliente);
 
-      // --- Lógica para Endereço de Entrega ---
-      const enderecoEntregaExistente = user.enderecos?.find(e => e.tipoEndereco === 'Entrega');
-      const enderecoEntregaData = {
-          clienteId: idCliente, pais: "Brasil", estado: "São Paulo", tipoEndereco: "Entrega",
-          cidade: data.cidadeEntrega, logradouro: data.logradouroEntrega, numero: parseInt(data.numeroEnderecoEntrega),
-          bairro: data.bairroEntrega, cep: data.cepEntrega, tipoResidencia: data.tpResidenciaEntrega,
-          tipoLogradouro: data.tpLogradouroEntrega, preferencial: data.preferencialEntrega
-      };
+   
+  };
 
-      if (enderecoEntregaExistente) {
-        await atualizarEndereco(enderecoEntregaExistente.id, enderecoEntregaData);
-      } else if (enderecoEntregaData.cidade) {
-        await criarEndereco(enderecoEntregaData);
-      }
-      
-      // --- Lógica para Endereço de Cobrança ---
-      const enderecoCobrancaExistente = user.enderecos?.find(e => e.tipoEndereco === 'Cobranca');
-      const enderecoCobrancaData = {
-          clienteId: idCliente, pais: "Brasil", estado: "São Paulo", tipoEndereco: "Cobranca",
-          cidade: data.cidadeCobranca, logradouro: data.logradouroCobranca, numero: parseInt(data.numeroEnderecoCobranca),
-          bairro: data.bairroCobranca, cep: data.cepCobranca, tipoResidencia: data.tpResidenciaCobranca,
-          tipoLogradouro: data.tpLogradouroCobranca, preferencial: data.preferencialCobranca
-      };
-
-      if (enderecoCobrancaExistente) {
-          await atualizarEndereco(enderecoCobrancaExistente.id, enderecoCobrancaData);
-      } else if (enderecoCobrancaData.cidade) {
-          await criarEndereco(enderecoCobrancaData);
-      }
-
-      // --- Lógica para Cartão ---
-      const cartaoExistente = user.cartoes?.[0];
-      const cartaoData = {
-        apelidoCartao: data.cartoes[0].apelidoCartao, nomeTitular: data.cartoes[0].nomeTitular,
-        numero: data.cartoes[0].numero, validade: data.cartoes[0].validade, codSeguranca: data.cartoes[0].codSeguranca,
-        bandeiraCartao: data.cartoes[0].bandeiraCartao, preferencial: data.cartoes[0].preferencial || false, clienteId: idCliente
-      };
-      
-      if (cartaoExistente) {
-        await atualizarCartao(cartaoExistente.id, cartaoData);
-      } else if (cartaoData.numero) {
-        await criarCartao(cartaoData); 
-      }
-      
-      login(updatedCliente.data, idCliente); 
-      showToast('Dados atualizados com sucesso!', 'success');
-      setModoEdicao(false);
-
-    } catch (error) {
-      console.error("Erro ao atualizar dados:", error);
-      showToast('Falha ao atualizar dados. Tente novamente.', 'error');
-    }
-}
 
   const onDelete = async (data) => {
     try {
@@ -145,8 +139,12 @@ function App() {
       await deletarEndereco(idCliente);
       await deletarTelefone(idCliente);
       await deletarCliente(idCliente);
+      localStorage.removeItem("usuarioLogado");
+      showToast('Conta excluída com sucesso!', 'success');
+      setTimeout(() => navigate('/login'), 1500);
     } catch (error) {
-      console.log(error.request.response)
+      console.log(error.request.response);
+      showToast('Erro ao excluir conta. Tente novamente.', 'error');
     }
   }
 
