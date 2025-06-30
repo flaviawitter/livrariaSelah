@@ -99,7 +99,7 @@ function CardDetalhes() {
       status: statusPedido
     }
 
-    if (statusPedido ==  "Devolução Concluída" || "Cancelamento Concluído") {
+    if (statusPedido == "Devolução Concluída" || "Pedido Reprovado") {
       const novoCupom = {
         descricao: gerarCodigoCupom(),
         clienteId: idCliente,
@@ -111,9 +111,14 @@ function CardDetalhes() {
       const cupomCriado = await criarCupom(novoCupom);
     }
     try {
+      if (statusPedido == "Aprovação Concluída") {
+        status = "Entregue"
+        bodyAtualizado.status = "Entregue"
+      }
       await atualizarItemPedido(bodyAtualizado);
-      await atualizarPedido(idPedido, statusPedido);
-      showToast(status + ' com sucesso!', 'success');
+      await atualizarPedido(idPedido, status);
+      showToast(statusPedido + ' com sucesso!', 'success');
+
     } catch (error) {
       console.error("Erro ao concluir devolução:", error);
       showToast('Erro ao concluir devolução.', 'error');
@@ -146,13 +151,13 @@ function CardDetalhes() {
 
                 </>
               )}
-              {/*{item.status === "Pendente" && (
+              {(item.status === "Pendente" && (
                 <>
                   <BotaoVermelho onClick={() => handleSolicitarDevolucao(pedidoSelecionado.id, item.id, "Aprovação Concluída")}>Aprovar Pedido</BotaoVermelho>
-                  <BotaoVermelho onClick={() => handleSolicitarDevolucao(pedidoSelecionado.id, item.id, "Cancelamento Concluído")}>Cancelar Pedido</BotaoVermelho>
+                  <BotaoVermelho onClick={() => handleSolicitarDevolucao(pedidoSelecionado.id, item.id, "Pedido Reprovado")}>Reprovar Pedido</BotaoVermelho>
 
                 </>
-              )}*/}
+              ))}
             </ButtonGroup>
           </div>
         );
