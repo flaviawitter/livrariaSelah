@@ -77,6 +77,7 @@ function PagClientesAdm() {
       <FilterSection>
         <label>Filtrar por CPF:</label>
         <input
+          id="adm-filroPedido"
           type="number"
           placeholder="CPF do Cliente"
           value={filtroCPF}

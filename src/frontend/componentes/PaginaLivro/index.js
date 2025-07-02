@@ -195,7 +195,7 @@ function PaginaLivro() {
                     {renderStars(livro.avaliacao)} <span style={{ marginLeft: "4px" }}>{livro.avaliacao}</span>
                 </AvaliacaoContainer>
                 //<TipoLivro>{livro.tipoCapa} <br /> <strong>{livro.preco}</strong></TipoLivro>*/}
-            <BotaoVermelho onClick={adicionarAoCarrinho}>Adicionar ao Carrinho</BotaoVermelho>
+            <BotaoVermelho id="livro-adicionar" onClick={adicionarAoCarrinho}>Adicionar ao Carrinho</BotaoVermelho>
             {/*<BotaoCinza>Adicionar aos Favoritos</BotaoCinza>*/}
           </ContainerBotoes>
         </InfoLivro>

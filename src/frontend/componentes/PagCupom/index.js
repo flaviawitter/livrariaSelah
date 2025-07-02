@@ -95,7 +95,9 @@ function PagCupom() {
       <Title>CUPONS</Title>
       <OrderList>
         {cuponsFiltrados.length > 0 ? (
-          cuponsFiltrados.map((cupom) => (
+          cuponsFiltrados
+          .sort((a, b) => b.id - a.id)
+          .map((cupom) => (
             <OrderCard key={cupom.id}>
               <OrderInfo><strong>Cupom # {cupom.id}</strong></OrderInfo>
               <OrderInfo>Código do cupom: {cupom.descricao}</OrderInfo>

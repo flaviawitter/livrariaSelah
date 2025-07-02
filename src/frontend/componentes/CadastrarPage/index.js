@@ -153,8 +153,8 @@ function LoginPage({ control }) {
                             render={({ field }) => (
                                 <StyledInputMask
                                     {...field}
+                                    id="cadastrar-cpf"
                                     mask="999.999.999-99"
-                                    id="cliente-cpf"
                                     placeholder="CPF"
                                     {...effectiveRegister("cpf", { required: true })}
                                 />
@@ -163,11 +163,11 @@ function LoginPage({ control }) {
                     </div>
 
                     <div style={{ width: '48%', marginTop: '10px' }}>
-                        <Input placeholder="E-mail" {...register('email', { required: true })} />
+                        <Input id="cadastrar-email" placeholder="E-mail" {...register('email', { required: true })} />
                     </div>
 
                     <div style={{ width: '48%', marginTop: '10px' }}>
-                        <Input placeholder="Senha" type='password'{...register('senha', { required: true })} />
+                        <Input id="cadastrar-senha" placeholder="Senha" type='password'{...register('senha', { required: true })} />
                     </div>
 
                     <BotaoAmarelo

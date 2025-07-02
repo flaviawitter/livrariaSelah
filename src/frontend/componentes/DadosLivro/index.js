@@ -84,7 +84,7 @@ const DadosLivro = ({ livros }) => {
       {Array.isArray(livros) && livros.length > 0 ? (
         livros.map((livro, index) => (
           <ContainerLivro key={index} onClick={() => handleLivroClick(livro)}>
-            <img src={imagensLivros[livro.titulo] || ''} alt={livro.titulo} style={{ width: "100px", height: "auto" }} />
+            <img id="livro" src={imagensLivros[livro.titulo] || ''} alt={livro.titulo} style={{ width: "100px", height: "auto" }} />
             <ContainerTexto>
               <Titulo>{livro.titulo}</Titulo>
               <Autor>por {livro.autores?.nome || "Autor desconhecido"}</Autor>

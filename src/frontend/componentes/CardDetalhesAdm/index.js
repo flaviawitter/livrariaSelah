@@ -140,21 +140,21 @@ function CardDetalhes() {
             <ButtonGroup>
               {item.status === "Troca Solicitada" && (
                 <>
-                  <BotaoVerde onClick={() => handleSolicitarTroca(pedidoSelecionado.id, item.id, "Troca Concluída", livro.precoVenda)}>Aprovar Troca</BotaoVerde>
-                  <BotaoVermelho onClick={() => handleSolicitarTroca(pedidoSelecionado.id, item.id, "Troca Reprovada")}>Reprovar Troca</BotaoVermelho>
+                  <BotaoVerde id="adm-aprovarTroca" onClick={() => handleSolicitarTroca(pedidoSelecionado.id, item.id, "Troca Concluída", livro.precoVenda)}>Aprovar Troca</BotaoVerde>
+                  <BotaoVermelho id="adm-reprovarTroca" onClick={() => handleSolicitarTroca(pedidoSelecionado.id, item.id, "Troca Reprovada")}>Reprovar Troca</BotaoVermelho>
                 </>
               )}
               {item.status === "Devolução Solicitada" && (
                 <>
-                  <BotaoVermelho onClick={() => handleSolicitarDevolucao(pedidoSelecionado.id, item.id, "Devolução Concluída", livro.precoVenda)}>Aprovar Devolução</BotaoVermelho>
-                  <BotaoVermelho onClick={() => handleSolicitarDevolucao(pedidoSelecionado.id, item.id, "Devolução Reprovada")}>Reprovar Devolução</BotaoVermelho>
+                  <BotaoVermelho id="adm-aprovarDevolucao" onClick={() => handleSolicitarDevolucao(pedidoSelecionado.id, item.id, "Devolução Concluída", livro.precoVenda)}>Aprovar Devolução</BotaoVermelho>
+                  <BotaoVermelho id="adm-reprovarDevolucao" onClick={() => handleSolicitarDevolucao(pedidoSelecionado.id, item.id, "Devolução Reprovada")}>Reprovar Devolução</BotaoVermelho>
 
                 </>
               )}
               {(item.status === "Pendente" && (
                 <>
-                  <BotaoVermelho onClick={() => handleSolicitarDevolucao(pedidoSelecionado.id, item.id, "Aprovação Concluída")}>Aprovar Pedido</BotaoVermelho>
-                  <BotaoVermelho onClick={() => handleSolicitarDevolucao(pedidoSelecionado.id, item.id, "Pedido Reprovado")}>Reprovar Pedido</BotaoVermelho>
+                  <BotaoVermelho id="adm-aprovarPedido" onClick={() => handleSolicitarDevolucao(pedidoSelecionado.id, item.id, "Aprovação Concluída")}>Aprovar Pedido</BotaoVermelho>
+                  <BotaoVermelho id="adm-reprovarPedido" onClick={() => handleSolicitarDevolucao(pedidoSelecionado.id, item.id, "Pedido Reprovado")}>Reprovar Pedido</BotaoVermelho>
 
                 </>
               ))}

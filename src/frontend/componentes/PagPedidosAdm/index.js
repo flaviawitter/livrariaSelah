@@ -77,6 +77,7 @@ function PagPedidosAdm() {
       <FilterSection>
         <label>Filtrar por ID:</label>
         <input
+          id="adm-pedidoFiltro"
           type="number"
           placeholder="ID do Pedido"
           value={filtroId}

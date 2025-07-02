@@ -133,7 +133,7 @@ const TextoPequeno = styled.p`
                         <BotaoVerde id="login-botaoEntrar" type="button" onClick={handleLogin}>
                             Entrar
                         </BotaoVerde>
-                        <Link to="/adm" style={{ textDecoration: "none" }}>
+                        <Link id="login-adm" to="/adm" style={{ textDecoration: "none" }}>
                             <TextoPequeno>Entrar como administrador</TextoPequeno>
                         </Link>
                     </InputContainer>

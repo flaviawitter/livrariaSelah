@@ -109,12 +109,12 @@ function CardDetalhes() {
             <OrderInfo>Status do Item: {item.status}</OrderInfo>
             <ButtonGroup>
               {item.status === "Pendente" && (
-                <BotaoVermelho onClick={() => handlePedido(pedidoSelecionado.id, item.id, "Cancelado")}>Cancelar Pedido</BotaoVermelho>
+                <BotaoVermelho id="pedido-solicitarCancelamento" onClick={() => handlePedido(pedidoSelecionado.id, item.id, "Cancelado")}>Cancelar Pedido</BotaoVermelho>
               )}
               {item.status === "Entregue" && (
                 <>
-                  <BotaoVerde onClick={() => handleSolicitarTroca(pedidoSelecionado.id, item.id)}>Solicitar Troca</BotaoVerde>
-                  <BotaoVermelho onClick={() => handleSolicitarDevolucao(pedidoSelecionado.id, item.id)}>Solicitar Devolução</BotaoVermelho>
+                  <BotaoVerde id="pedido-solicitarTroca" onClick={() => handleSolicitarTroca(pedidoSelecionado.id, item.id)}>Solicitar Troca</BotaoVerde>
+                  <BotaoVermelho id="pedido-solicitarDevolucao" onClick={() => handleSolicitarDevolucao(pedidoSelecionado.id, item.id)}>Solicitar Devolução</BotaoVermelho>
                 </>
               )}
             </ButtonGroup>

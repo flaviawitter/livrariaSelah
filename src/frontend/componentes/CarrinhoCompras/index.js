@@ -262,13 +262,13 @@ useEffect(() => {
             <DadosLivro livros={[livro]} />
 
             <ControleQuantidade>
-              <BotaoQuantidade onClick={() => diminuirQuantidade(index)}>-</BotaoQuantidade>
+              <BotaoQuantidade id="carrinho-diminuiQuantidade" onClick={() => diminuirQuantidade(index)}>-</BotaoQuantidade>
               <ContadorQuantidade>{livro.quantidade}</ContadorQuantidade>
-              <BotaoQuantidade onClick={() => aumentarQuantidade(index)}>+</BotaoQuantidade>
+              <BotaoQuantidade id="carrinho-aumentarQuantidade" onClick={() => aumentarQuantidade(index)}>+</BotaoQuantidade>
             </ControleQuantidade>
 
             {livro.quantidade === 1 && (
-              <BotaoSimples onClick={() => removerDoCarrinho(index)}>
+              <BotaoSimples id="carrinho-remover" onClick={() => removerDoCarrinho(index)}>
                 Remover do Carrinho
               </BotaoSimples>
             )}
@@ -297,7 +297,7 @@ useEffect(() => {
         <TextoResumo>Sub-total: R${subTotal.toFixed(2)}</TextoResumo>
         <TextoResumo>Frete: R${frete.toFixed(2)}</TextoResumo>
         <TextoResumo><strong>Total: R${total.toFixed(2)}</strong></TextoResumo>
-        <BotaoVermelho onClick={handleFinalizarPedido}>Ir para entrega</BotaoVermelho>
+        <BotaoVermelho id="carrinho-irEntrega" onClick={handleFinalizarPedido}>Ir para entrega</BotaoVermelho>
 
       </ResumoPedido>
     </ContainerCarrinho>

@@ -162,7 +162,7 @@ function Chatbot() {
       <ChatContainer open={isOpen}>
         <ChatHeader>
           Selah
-          <CloseButton onClick={() => setIsOpen(false)}>
+          <CloseButton id="chat-fechar" onClick={() => setIsOpen(false)}>
             <FaTimes />
           </CloseButton>
         </ChatHeader>

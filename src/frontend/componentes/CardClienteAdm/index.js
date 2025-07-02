@@ -60,6 +60,7 @@ function CardClienteAdm({ user, filtroCPF }) {
         if (!filtroCPF) return true; // mostra todos se não houver filtro
         return cliente.cpf.toString().includes(filtroCPF); 
       })
+      .sort((a, b) => b.id - a.id)
       .map((cliente) => (
         <OrderCard key={cliente.id}>
           <OrderInfo><strong>{cliente.nome}</strong></OrderInfo>
@@ -69,7 +70,7 @@ function CardClienteAdm({ user, filtroCPF }) {
           <OrderInfo>Status: {cliente.statusAtivo ? "Ativo" : "Inativo"}</OrderInfo>
 
           <ButtonGroup>
-            <BotaoCinza onClick={() => handleCliente(cliente.id, !cliente.statusAtivo)}>
+            <BotaoCinza id="botao-ativar" onClick={() => handleCliente(cliente.id, !cliente.statusAtivo)}>
               {cliente.statusAtivo ? "Desativar cliente" : "Ativar cliente"}
             </BotaoCinza>
           </ButtonGroup>

@@ -95,6 +95,7 @@ function CardPedido({filtroId  }) {
           if (!filtroId) return true; // mostra todos se não houver filtro
           return pedido.id.toString().includes(filtroId);
         })
+      .sort((a, b) => b.id - a.id)
       .map((pedido) => (
         <OrderCard key={pedido.id}>
           <OrderInfo><strong>Pedido # {pedido.id}</strong></OrderInfo>
@@ -106,16 +107,16 @@ function CardPedido({filtroId  }) {
           </OrderInfo>
 
           <ButtonGroup>
-            <BotaoSimples onClick={() => handleLivroClick(pedido)}>+ Detalhes</BotaoSimples>
+            <BotaoSimples id="pedidos-detalhes" onClick={() => handleLivroClick(pedido)}>+ Detalhes</BotaoSimples>
           </ButtonGroup>
           <ButtonGroup>
             {pedidos.status === "Pendente" && (
-              <BotaoVermelho>Cancelar Pedido</BotaoVermelho>
+              <BotaoVermelho id="pedidos-cancelar">Cancelar Pedido</BotaoVermelho>
             )}
             {pedido.status === "Entregue" && (
               <>
-                <BotaoVerde onClick={() => handleSolicitarTroca(pedido.id)}> Solicitar Troca</BotaoVerde>
-                <BotaoVermelho onClick={() => handleSolicitarDevolucao(pedido.id)}>Solicitar Devolução</BotaoVermelho>
+                <BotaoVerde id="pedidos-solicitarTroca" onClick={() => handleSolicitarTroca(pedido.id)}> Solicitar Troca</BotaoVerde>
+                <BotaoVermelho id="pedidos-solicitarDevolucao" onClick={() => handleSolicitarDevolucao(pedido.id)}>Solicitar Devolução</BotaoVermelho>
               </>
             )}
           </ButtonGroup>

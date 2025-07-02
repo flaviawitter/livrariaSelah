@@ -196,6 +196,7 @@ function CardPedidoAdm({ user, filtroId }) {
           if (!filtroId) return true; // mostra todos se não houver filtro
           return pedido.id.toString().includes(filtroId);
         })
+        .sort((a, b) => b.id - a.id)
         .map((pedido) => (
           <OrderCard key={pedido.id}>
             <OrderInfo><strong>Pedido #{pedido.id}</strong></OrderInfo>
@@ -207,25 +208,25 @@ function CardPedidoAdm({ user, filtroId }) {
               Cupom: {pedido.cupom.length > 0 ? pedido.cupom[0]?.descricao : "Esse pedido não possuí cupom"}
             </OrderInfo>
             <ButtonGroup>
-              <BotaoSimples onClick={() => handleLivroClick(pedido)}>+ Detalhes</BotaoSimples>
+              <BotaoSimples id="adm-pedidoDetalhes" onClick={() => handleLivroClick(pedido)}>+ Detalhes</BotaoSimples>
             </ButtonGroup>
             <ButtonGroup>
               {pedido.status === "Troca Solicitada" && pedido.itens.length == 1 && (
                 <>
-                  <BotaoVerde onClick={async () => { handlePedido(pedido.id, "Troca Aprovada"); agendarTrocaConcluida(pedido.id); }}>Aprovar Troca</BotaoVerde>
-                  <BotaoVermelho onClick={() => handlePedido(pedido.id, "Troca Reprovada")}>Recusar Troca</BotaoVermelho>
+                  <BotaoVerde id="adm-aprovarTroca" onClick={async () => { handlePedido(pedido.id, "Troca Aprovada"); agendarTrocaConcluida(pedido.id); }}>Aprovar Troca</BotaoVerde>
+                  <BotaoVermelho id="adm-reprovarTroca" onClick={() => handlePedido(pedido.id, "Troca Reprovada")}>Recusar Troca</BotaoVermelho>
                 </>
               )}
               {pedido.status === "Devolução Solicitada" && pedido.itens.length == 1 && (
                 <>
-                  <BotaoVerde onClick={async () => { handleSolicitarDevolucao(pedido.id, "Devolução Aprovada", pedido.clienteId); agendarDevolucaoConcluida(pedido.id) }}>Aprovar Devolução</BotaoVerde>
-                  <BotaoVermelho onClick={() => handlePedido(pedido.id, "Devolução Reprovada")}>Recusar Devolução</BotaoVermelho>
+                  <BotaoVerde id="adm-aprovarDevolucao" onClick={async () => { handleSolicitarDevolucao(pedido.id, "Devolução Aprovada", pedido.clienteId); agendarDevolucaoConcluida(pedido.id) }}>Aprovar Devolução</BotaoVerde>
+                  <BotaoVermelho id="adm-reprovarDevolucao" onClick={() => handlePedido(pedido.id, "Devolução Reprovada")}>Recusar Devolução</BotaoVermelho>
                 </>
               )}
               {pedido.status === "Pendente" && (
                 <>
-                  <BotaoVerde onClick={async () => { handlePedido(pedido.id, "Em transporte"); agendarEntrega(pedido.id); }}>Aprovar Pedido</BotaoVerde>
-                  <BotaoVermelho onClick={() => handlePedido(pedido.id, "Pedido Reprovado")}>Recusar Pedido</BotaoVermelho>
+                  <BotaoVerde id="adm-aprovarPedido" onClick={async () => { handlePedido(pedido.id, "Em transporte"); agendarEntrega(pedido.id); }}>Aprovar Pedido</BotaoVerde>
+                  <BotaoVermelho id="adm-reprovarPedido" onClick={() => handlePedido(pedido.id, "Pedido Reprovado")}>Recusar Pedido</BotaoVermelho>
                 </>
               )}
             </ButtonGroup>

@@ -86,15 +86,15 @@ function HomeAdm() {
       <Sections>
         <Card>
           <Description>Aqui você encontra a lista de todos os clientes cadastrados.</Description>
-          <BotaoVerde onClick={() => navigate('/clientesadm')}>Clientes</BotaoVerde>
+          <BotaoVerde id="adm-clientes" onClick={() => navigate('/clientesadm')}>Clientes</BotaoVerde>
         </Card>
         <Card>
           <Description>Aqui você encontra a lista de todos os pedidos.</Description>
-          <BotaoVermelho onClick={() => navigate('/pedidosadm')}>Pedidos</BotaoVermelho>
+          <BotaoVermelho id="adm-pedidos" onClick={() => navigate('/pedidosadm')}>Pedidos</BotaoVermelho>
         </Card>
         <Card>
           <Description>Aqui você pode gerar um novo relatório de vendas geral.</Description>
-          <BotaoCinza onClick={() => navigate('/relatorio')}>Gerar Relatório</BotaoCinza>
+          <BotaoCinza id="adm-relatorio" onClick={() => navigate('/relatorio')}>Gerar Relatório</BotaoCinza>
         </Card>
       </Sections>
     </Container>

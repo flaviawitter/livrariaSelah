@@ -244,6 +244,7 @@ const ResumoPedido = () => {
                     .map((endereco, index) => (
                         <OpcaoItem key={index}>
                             <input
+                                id="carrinho-endereco"
                                 type="radio"
                                 name="endereco"
                                 value={endereco.id}
@@ -271,6 +272,7 @@ const ResumoPedido = () => {
                         <OpcaoItem key={index}>
                         <CartaoContainer>
                             <input
+                                id="carrinho-cartao"
                                 type="checkbox"
                                 value={cartao.id}
                                 checked={pagamentosCartoes[cartao.id] !== undefined}
@@ -297,7 +299,7 @@ const ResumoPedido = () => {
                                 <ValorInputContainer>
                                     <label> Valor a ser cobrado no cartão: </label>
                                     <Input
-                                        type="number"
+                                        id="carrinho-valorCartao"                                        type="number"
                                         min="10"
                                         value={pagamentosCartoes[cartao.id]}
                                         onChange={(e) => handleValorCartaoChange(cartao.id, parseFloat(e.target.value))}
@@ -321,6 +323,7 @@ const ResumoPedido = () => {
                         {cuponsDisponiveis.map(cupom => (
                             <OpcaoItem key={cupom.id}>
                                 <input
+                                    id="carrinho-cupom"
                                     type="checkbox"
                                     checked={cuponsSelecionados.some(c => c.id === cupom.id)}
                                     onChange={(e) => {
@@ -350,7 +353,7 @@ const ResumoPedido = () => {
                 </Secao>
             </Secao>
 
-            <BotaoVermelho onClick={handleFinalizarPedido}>Finalizar Pedido</BotaoVermelho>
+            <BotaoVermelho id="carrinho-finalizar" onClick={handleFinalizarPedido}>Finalizar Pedido</BotaoVermelho>
 
             <ModalEndereco
                 showModal={showModalEndereco}

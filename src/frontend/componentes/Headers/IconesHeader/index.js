@@ -59,7 +59,7 @@ function IconesHeader() {
       {icones.map((icone, index) => (
         <Link key={index} to={icone.rota} style={{ textDecoration: "none" }}>
           <Icone>
-            <img src={icone.imagem} alt="" />
+            <img id="header-img" src={icone.imagem} alt="" />
           </Icone>
         </Link>
       ))}
@@ -69,7 +69,7 @@ function IconesHeader() {
         style={{ textDecoration: "none" }}
       >
         <Icone>
-          <img src={perfil} alt="Perfil" />
+          <img id="header-perfil" src={perfil} alt="Perfil" />
         </Icone>
       </Link>
 
